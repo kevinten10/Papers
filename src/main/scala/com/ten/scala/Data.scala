@@ -1,6 +1,6 @@
 package com.ten.scala
 
-class Data {
+object Data {
   def main(args: Array[String]): Unit = {
     print("hello")
   }
