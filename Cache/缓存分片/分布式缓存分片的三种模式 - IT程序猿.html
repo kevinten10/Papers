@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<!-- saved from url=(0046)https://www.itcodemonkey.com/article/4348.html -->
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+		<title>分布式缓存分片的三种模式 - IT程序猿 </title>
+		<meta name="keywords" content="">
+		<meta name="description" content="在互联网行业里，我们做的都是用户端的产品，有调查称中国有6亿互联网用户，这么多的用户会给互联网应用带来了海量的请求，这也需要存储海量的�">
+					
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    
+    <!-- Set render engine for 360 browser -->
+    <meta name="renderer" content="webkit">
+
+   	<!-- No Baidu Siteapp-->
+    <meta http-equiv="Cache-Control" content="no-siteapp">
+
+    <!-- HTML5 shim for IE8 support of HTML5 elements -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <![endif]-->
+	<link rel="icon" href="https://www.itcodemonkey.com/themes/simplebootx/Public/assets/images/favicon.ico" type="image/x-icon">
+	<link rel="shortcut icon" href="https://www.itcodemonkey.com/themes/simplebootx/Public/assets/images/favicon.ico" type="image/x-icon">
+    <link href="./分布式缓存分片的三种模式 - IT程序猿_files/theme.min.css" rel="stylesheet">
+    <link href="./分布式缓存分片的三种模式 - IT程序猿_files/bootstrap-responsive.min.css" rel="stylesheet">
+    <link href="./分布式缓存分片的三种模式 - IT程序猿_files/font-awesome.min.css" rel="stylesheet" type="text/css">
+	<!--[if IE 7]>
+	<link rel="stylesheet" href="/themes/simplebootx/Public/assets/simpleboot/font-awesome/4.4.0/css/font-awesome-ie7.min.css">
+	<![endif]-->
+	<link href="./分布式缓存分片的三种模式 - IT程序猿_files/style.css" rel="stylesheet">
+	<style>
+		/*html{filter:progid:DXImageTransform.Microsoft.BasicImage(grayscale=1);-webkit-filter: grayscale(1);}*/
+		#backtotop{position: fixed;bottom: 50px;right:20px;display: none;cursor: pointer;font-size: 50px;z-index: 9999;}
+		#backtotop:hover{color:#333}
+		#main-menu-user li.user{display: none}
+	</style>
+	
+		<script src="./分布式缓存分片的三种模式 - IT程序猿_files/hm.js.下载"></script><script type="text/javascript" src="./分布式缓存分片的三种模式 - IT程序猿_files/shCore.js.下载"></script>
+		<script type="text/javascript" src="./分布式缓存分片的三种模式 - IT程序猿_files/html2canvas.js.下载"></script>
+		<link rel="stylesheet" href="./分布式缓存分片的三种模式 - IT程序猿_files/shCoreDefault.css">
+		<style>
+			#article_content img{height:auto !important}
+			#article_content {word-wrap: break-word;}
+    		.btn {margin-top: 33px;}
+    		h1,h2,h3,h4,h5,h6,h7 {
+				font-weight: bold;
+			}
+			.ad-box{
+				margin: 20px 0;
+				width: 100%;
+				overflow: hidden;
+			}
+		</style>
+		<script type="text/javascript">
+			SyntaxHighlighter.config.bloggerMode = true;
+			SyntaxHighlighter.all();
+		</script> 
+	</head>
+<body class="vsc-initialized" style="">
+<div class="navbar navbar-fixed-top">
+   <div class="navbar-inner">
+     <div class="container">
+       <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+         <span class="icon-bar"></span>
+         <span class="icon-bar"></span>
+         <span class="icon-bar"></span>
+       </a>
+       <a class="brand" href="https://www.itcodemonkey.com/"><img src="./分布式缓存分片的三种模式 - IT程序猿_files/logo.jpg"></a>
+       <div class="nav-collapse collapse" id="main-menu">
+       	<ul id="main-menu" class="nav"><li class="li-class" id="menu-item-1"><a href="https://www.itcodemonkey.com/" target="">首页</a></li><li class="li-class" id="menu-item-11"><a href="https://www.itcodemonkey.com/humor/" target="">幽默</a></li><li class="li-class" id="menu-item-3"><a href="https://www.itcodemonkey.com/category/imkuqin/" target="">程序猿</a></li><li class="li-class" id="menu-item-8"><a href="https://www.itcodemonkey.com/category/LovePython" target="">Python</a></li><li class="li-class" id="menu-item-7"><a href="https://www.itcodemonkey.com/category/TheBigData1024" target="">大数据</a></li><li class="li-class" id="menu-item-6"><a href="https://www.itcodemonkey.com/category/JavaCoder1024/" target="">Java</a></li><li class="li-class" id="menu-item-5"><a href="https://www.itcodemonkey.com/category/qianduan1024/" target="">前端</a></li><li class="li-class" id="menu-item-10"><a href="https://www.itcodemonkey.com/category/HackerCoder" target="">黑客</a></li><li class="li-class" id="menu-item-9"><a href="https://www.itcodemonkey.com/category/LoveLinux1024" target="">Linux</a></li></ul>		
+		<ul class="nav pull-right" id="main-menu-user">
+			<!-- <li class="user login" style="margin-left: 5px;">
+	            <a class="dropdown-toggle user notifactions" href="/user/notification/index">
+	            <i class="fa fa-envelope"></i>
+	            <span class="count">0</span>
+	            </a>
+          	</li> -->
+			<!-- <li class="dropdown user login">
+	            <a class="dropdown-toggle user" data-toggle="dropdown" href="#">
+	            <img src="/themes/simplebootx/Public/assets/images/headicon.png" class="headicon"/>
+	            <span class="user-nicename"></span><b class="caret"></b></a>
+	            <ul class="dropdown-menu pull-right">
+	               <li><a href="/user/center/index"><i class="fa fa-user"></i> &nbsp;个人中心</a></li>
+	               <li class="divider"></li>
+	               <li><a href="/user/index/logout"><i class="fa fa-sign-out"></i> &nbsp;退出</a></li>
+	            </ul>
+          	</li>
+          	<li class="dropdown user offline">
+	            <a class="dropdown-toggle user" data-toggle="dropdown" href="#">
+	           		<img src="/themes/simplebootx/Public/assets/images/headicon.png" class="headicon"/>登录<b class="caret"></b>
+	            </a>
+	            <ul class="dropdown-menu pull-right">
+	               <li><a href="/api/oauth/login/type/sina"><i class="fa fa-weibo"></i> &nbsp;微博登录</a></li>
+	               <li><a href="/api/oauth/login/type/qq"><i class="fa fa-qq"></i> &nbsp;QQ登录</a></li>
+	               <li><a href="/user/login/index"><i class="fa fa-sign-in"></i> &nbsp;登录</a></li>
+	               <li class="divider"></li>
+	               <li><a href="/user/register/index"><i class="fa fa-user"></i> &nbsp;注册</a></li>
+	            </ul>
+          	</li> -->
+		</ul>
+		<div class="pull-right">
+        	<form method="post" class="form-inline" action="https://www.itcodemonkey.com/portal/search/index" style="margin:18px 0;">
+				 <input type="text" class="" placeholder="Search" name="keyword" value="">
+				 <input type="submit" class="btn btn-info" value="Go" style="margin:0">
+			</form>
+		</div>
+       </div>
+     </div>
+   </div>
+ </div>
+<div class="container tc-main">
+	<div class="row">
+		<div class="span9">
+			<div class="tc-box first-box article-box">
+		    	<h2>分布式缓存分片的三种模式</h2>
+		    	<div class="article-infobox">
+		    		<!-- <span>2018-06-13 11:22:49 by 腾云李艳鹏</span> -->
+		    		<span> 2018-06-13 11:22:49 分类：<a href="https://www.itcodemonkey.com/category/WebDev1024/" target="_blank">Web开发</a> 
+			    							</span>
+		    		<!-- <span>
+		    			<a href="javascript:;"><i class="fa fa-eye"></i><span>266</span></a>
+						<a href="/article/do_like/id/4348" class="js-count-btn"><i class="fa fa-thumbs-up"></i><span class="count">0</span></a>
+						<a href="/user/favorite/do_favorite/id/4348" class="js-favorite-btn" data-title="分布式缓存分片的三种模式" data-url="/article/index/id/4348/cid/13" data-key="1629zdRsOHb/Fp60lT5r2OnnfqQkJMJQsmp//Bcf4/YGO00kd+13eTWPU/kSyB2KSanN92ghN0wIXA">
+							<i class="fa fa-star-o"></i>
+						</a>
+					</span> -->
+		    	</div>
+		    	<div class="ad-box">
+							    	</div>
+		    	<!--版权声明-->
+		    	<div class="kq__article-power">
+						<p>来自：<a href="https://mp.weixin.qq.com/s/dDp9-LxEqFzeGrhM4-ywzg" target="_blank">云时代架构</a>（微信号：cloudate），本文节选自即将出版的《可伸缩服务架构：框架与中间件》一书，作者：李艳鹏、杨彪、李海亮、贾博岩、刘淏。</p>			    	</div>		    	<div id="article_content">
+		    		<p style="padding: 0px; max-width: 100%; clear: both; min-height: 1em; color: rgb(51, 51, 51); font-family: -apple-system-font, BlinkMacSystemFont, &quot;Helvetica Neue&quot;, &quot;PingFang SC&quot;, &quot;Hiragino Sans GB&quot;, &quot;Microsoft YaHei UI&quot;, &quot;Microsoft YaHei&quot;, Arial, sans-serif; font-size: 17px; letter-spacing: 0.544px; text-align: justify; text-indent: 0em; white-space: normal; box-sizing: border-box !important; word-wrap: break-word !important;"><span style="margin: 0px; padding: 0px; max-width: 100%; box-sizing: border-box !important; word-wrap: break-word !important; font-size: 15px;"><span style="margin: 0px; padding: 0px; max-width: 100%; font-family: 宋体; box-sizing: border-box !important; word-wrap: break-word !important;">在互联网行业里，我们做的都是用户端的产品，有调查称中国有</span>6<span style="margin: 0px; padding: 0px; max-width: 100%; font-family: 宋体; box-sizing: border-box !important; word-wrap: break-word !important;">亿互联网用户，这么多的用户会给互联网应用带来了海量的请求，这也需要存储海量的数据，因此，单机的缓存满足不了对海量数据缓存的需求。我们通常通过多个缓存节点来缓存大量的临时数据，来加速缓存的存取速度，例如，可以把微博的粉丝关系存储在缓存中，在获取某个用户有权限看见的微博时，我们就可以使用这些粉丝关系，粉丝关系的数据量非常大，一个大</span>V<span style="margin: 0px; padding: 0px; max-width: 100%; font-family: 宋体; box-sizing: border-box !important; word-wrap: break-word !important;">用户可能有几千万或者上亿的关注量，可想而知，我们需要多大的内存才能够存储这么多的粉丝关系。</span></span></p><p style="padding: 0px; max-width: 100%; clear: both; min-height: 1em; color: rgb(51, 51, 51); font-family: -apple-system-font, BlinkMacSystemFont, &quot;Helvetica Neue&quot;, &quot;PingFang SC&quot;, &quot;Hiragino Sans GB&quot;, &quot;Microsoft YaHei UI&quot;, &quot;Microsoft YaHei&quot;, Arial, sans-serif; font-size: 17px; letter-spacing: 0.544px; text-align: justify; text-indent: 0em; white-space: normal; box-sizing: border-box !important; word-wrap: break-word !important;"><span style="margin: 0px; padding: 0px; max-width: 100%; box-sizing: border-box !important; word-wrap: break-word !important; font-family: 宋体; font-size: 15px;"><br style="margin: 0px; padding: 0px; max-width: 100%; box-sizing: border-box !important; word-wrap: break-word !important;"></span></p><p style="padding: 0px; max-width: 100%; clear: both; min-height: 1em; color: rgb(51, 51, 51); font-family: -apple-system-font, BlinkMacSystemFont, &quot;Helvetica Neue&quot;, &quot;PingFang SC&quot;, &quot;Hiragino Sans GB&quot;, &quot;Microsoft YaHei UI&quot;, &quot;Microsoft YaHei&quot;, Arial, sans-serif; font-size: 17px; letter-spacing: 0.544px; text-align: justify; text-indent: 0em; white-space: normal; box-sizing: border-box !important; word-wrap: break-word !important;"><span style="margin: 0px; padding: 0px; max-width: 100%; box-sizing: border-box !important; word-wrap: break-word !important; font-family: 宋体; font-size: 15px;">在通用的解决方案中，我们会对这些大数据量进行切片，数据被分成大小相等的分片，一个缓存节点负责存储其中的多个分片。分片通常有三种实现方式，包括客户端分片、代理分片和集群分片。</span></p><p></p><section class="" data-mpa-template-id="1128161" data-mpa-color="#ffffff" data-mpa-category="title" style="margin: 0px; padding: 0px; max-width: 100%; color: rgb(51, 51, 51); font-family: -apple-system-font, BlinkMacSystemFont, &quot;Helvetica Neue&quot;, &quot;PingFang SC&quot;, &quot;Hiragino Sans GB&quot;, &quot;Microsoft YaHei UI&quot;, &quot;Microsoft YaHei&quot;, Arial, sans-serif; font-size: 17px; letter-spacing: 0.544px; text-align: justify; white-space: normal; box-sizing: border-box !important; word-wrap: break-word !important;"><p style="margin-top: 0px; margin-bottom: 0px; padding: 0px; max-width: 100%; clear: both; min-height: 1em; box-sizing: border-box !important; word-wrap: break-word !important;"><br style="margin: 0px; padding: 0px; max-width: 100%; box-sizing: border-box !important; word-wrap: break-word !important;"></p><section class="" data-tools="135编辑器" data-id="92517" style="margin: 0px; padding: 0px; max-width: 100%; box-sizing: border-box !important; word-wrap: break-word !important; color: rgb(62, 62, 62); font-size: 16px; line-height: 25.6px; widows: 1; border-width: 0px; border-style: none; border-color: initial;"><section data-id="us1423237" class="" style="margin: 0px; padding: 0px; max-width: 100%; box-sizing: border-box !important; word-wrap: break-word !important; border-width: 0px; border-style: none; border-color: initial;"><section data-width="100%" style="margin: 0px; padding: 0px; max-width: 100%; box-sizing: border-box !important; word-wrap: break-word !important; width: 558px; display: -webkit-flex; justify-content: center;"><section style="margin: 0px; padding: 0px; max-width: 100%; box-sizing: border-box !important; word-wrap: break-word !important;"><section style="margin: 0px; padding: 0px; max-width: 100%; box-sizing: border-box !important; word-wrap: break-word !important; display: -webkit-flex; justify-content: flex-start;"><section style="margin: 0px -9px 0px 0px; padding: 0px; max-width: 100%; box-sizing: border-box !important; word-wrap: break-word !important; width: 18px;"><img class="" data-ratio="2.236842105263158" data-src="/data/upload/portal/20180613/1528860193781922.png" data-type="png" data-w="38" data-width="100%" width="18px" _width="18px" src="./分布式缓存分片的三种模式 - IT程序猿_files/1528860193781922.png" data-fail="0" style="margin: 0px; padding: 0px; height: auto !important; max-width: 100%; box-sizing: border-box !important; word-wrap: break-word !important; visibility: visible !important; width: 18px !important;"></section><section style="margin: 0px 0px 7px; padding: 0px; max-width: 100%; box-sizing: border-box !important; word-wrap: break-word !important; width: 15px; border-bottom: 1px solid rgb(31, 26, 23);"></section><section style="margin: 0px; padding: 0px; max-width: 100%; box-sizing: border-box !important; word-wrap: break-word !important; height: 40px; width: auto; border-top: 1px solid rgb(255, 209, 0); border-right: 1px solid rgb(229, 192, 22);"><section style="margin: 0px; padding: 0px 12px; max-width: 100%; box-sizing: border-box !important; word-wrap: break-word !important; text-align: center; line-height: 40px;"><p style="margin-top: 0px; margin-bottom: 0px; padding: 0px; max-width: 100%; clear: both; min-height: 1em; box-sizing: border-box !important; word-wrap: break-word !important;"><strong mpa-from-tpl="t" style="margin: 0px; padding: 0px; max-width: 100%; box-sizing: border-box !important; word-wrap: break-word !important;"><span style="margin: 0px; padding: 0px; max-width: 100%; box-sizing: border-box !important; word-wrap: break-word !important; color: rgb(255, 169, 0);">客户端分片</span></strong></p></section><section data-width="95%" style="margin: -2px 0px 0px; padding: 0px; max-width: 100%; box-sizing: border-box !important; word-wrap: break-word !important; width: 205.188px; border-bottom: 1px solid rgb(31, 26, 23);"></section></section></section></section></section></section></section><p style="margin-top: 0px; margin-bottom: 0px; padding: 0px; max-width: 100%; clear: both; min-height: 1em; color: rgb(62, 62, 62); font-size: 16px; widows: 1; text-indent: 2em; line-height: 2em; box-sizing: border-box !important; word-wrap: break-word !important;"><br style="margin: 0px; padding: 0px; max-width: 100%; box-sizing: border-box !important; word-wrap: break-word !important;"></p></section><p></p><p style="padding: 0px; max-width: 100%; clear: both; min-height: 1em; color: rgb(51, 51, 51); font-family: -apple-system-font, BlinkMacSystemFont, &quot;Helvetica Neue&quot;, &quot;PingFang SC&quot;, &quot;Hiragino Sans GB&quot;, &quot;Microsoft YaHei UI&quot;, &quot;Microsoft YaHei&quot;, Arial, sans-serif; font-size: 17px; letter-spacing: 0.544px; text-align: justify; text-indent: 0em; white-space: normal; box-sizing: border-box !important; word-wrap: break-word !important;"><span style="margin: 0px; padding: 0px; max-width: 100%; box-sizing: border-box !important; word-wrap: break-word !important; font-family: 宋体; font-size: 15px;">对缓存进行客户端分片的方案如图所示：</span></p><p style="margin-top: 0px; margin-bottom: 0px; padding: 0px; max-width: 100%; clear: both; min-height: 1em; color: rgb(51, 51, 51); font-family: -apple-system-font, BlinkMacSystemFont, &quot;Helvetica Neue&quot;, &quot;PingFang SC&quot;, &quot;Hiragino Sans GB&quot;, &quot;Microsoft YaHei UI&quot;, &quot;Microsoft YaHei&quot;, Arial, sans-serif; font-size: 17px; letter-spacing: 0.544px; white-space: normal; text-align: center; box-sizing: border-box !important; word-wrap: break-word !important;"><img class="" data-ratio="0.5251509054325956" data-s="300,640" data-src="/data/upload/portal/20180613/1528860193394109.jpg" data-type="png" data-w="497" src="./分布式缓存分片的三种模式 - IT程序猿_files/1528860193394109.jpg" data-fail="0" style="margin: 0px; padding: 0px; height: auto !important; max-width: 100%; box-sizing: border-box !important; word-wrap: break-word !important; width: auto !important; visibility: visible !important;"></p><p style="margin-top: 6px; padding: 0px; max-width: 100%; clear: both; min-height: 1em; color: rgb(51, 51, 51); font-family: -apple-system-font, BlinkMacSystemFont, &quot;Helvetica Neue&quot;, &quot;PingFang SC&quot;, &quot;Hiragino Sans GB&quot;, &quot;Microsoft YaHei UI&quot;, &quot;Microsoft YaHei&quot;, Arial, sans-serif; font-size: 17px; letter-spacing: 0.544px; text-align: justify; white-space: normal; text-indent: 27px; box-sizing: border-box !important; word-wrap: break-word !important;"><br style="margin: 0px; padding: 0px; max-width: 100%; box-sizing: border-box !important; word-wrap: break-word !important;"></p><p style="padding: 0px; max-width: 100%; clear: both; min-height: 1em; color: rgb(51, 51, 51); font-family: -apple-system-font, BlinkMacSystemFont, &quot;Helvetica Neue&quot;, &quot;PingFang SC&quot;, &quot;Hiragino Sans GB&quot;, &quot;Microsoft YaHei UI&quot;, &quot;Microsoft YaHei&quot;, Arial, sans-serif; font-size: 17px; letter-spacing: 0.544px; text-align: justify; text-indent: 0em; white-space: normal; box-sizing: border-box !important; word-wrap: break-word !important;"><span style="margin: 0px; padding: 0px; max-width: 100%; box-sizing: border-box !important; word-wrap: break-word !important; font-family: 宋体; font-size: 15px;">客户<span style="margin: 0px; padding: 0px; max-width: 100%; letter-spacing: 0.1px; box-sizing: border-box !important; word-wrap: break-word !important;">端分片通过应用层直接操作分片逻辑，分片规则需要在同一个应用的多个节点</span></span><span style="margin: 0px; padding: 0px; max-width: 100%; box-sizing: border-box !important; word-wrap: break-word !important; font-size: 15px;"><span style="margin: 0px; padding: 0px; max-width: 100%; box-sizing: border-box !important; word-wrap: break-word !important; font-family: 宋体; letter-spacing: 0.1px;">间保存，每个应用层都嵌入一个操作切片的逻辑实现，一般通过依赖</span><span style="margin: 0px; padding: 0px; max-width: 100%; box-sizing: border-box !important; word-wrap: break-word !important; letter-spacing: 0.1px;">Jar</span><span style="margin: 0px; padding: 0px; max-width: 100%; box-sizing: border-box !important; word-wrap: break-word !important; font-family: 宋体; letter-spacing: 0.1px;">包来实现。笔者曾工作过的几家大的互联网公司都有内部的缓存分片的实现，多数是采用在应用层直接实现的方式，应</span><span style="margin: 0px; padding: 0px; max-width: 100%; box-sizing: border-box !important; word-wrap: break-word !important; font-family: 宋体;">用层分片的性能更好，实现简单，有问题时容易定位和修复，</span>4.6&nbsp;<span style="margin: 0px; padding: 0px; max-width: 100%; box-sizing: border-box !important; word-wrap: break-word !important; font-family: 宋体;">节介绍的开源项目redic<span style="margin: 0px; padding: 0px; max-width: 100%; box-sizing: border-box !important; word-wrap: break-word !important;">（</span>https://gitee.com/robertleepeak/redic<span style="margin: 0px; padding: 0px; max-width: 100%; box-sizing: border-box !important; word-wrap: break-word !important;">）</span>也是采用这种方案实现的。</span></span></p><p style="padding: 0px; max-width: 100%; clear: both; min-height: 1em; color: rgb(51, 51, 51); font-family: -apple-system-font, BlinkMacSystemFont, &quot;Helvetica Neue&quot;, &quot;PingFang SC&quot;, &quot;Hiragino Sans GB&quot;, &quot;Microsoft YaHei UI&quot;, &quot;Microsoft YaHei&quot;, Arial, sans-serif; font-size: 17px; letter-spacing: 0.544px; text-align: justify; white-space: normal; text-indent: 27px; box-sizing: border-box !important; word-wrap: break-word !important;"><span style="margin: 0px; padding: 0px; max-width: 100%; box-sizing: border-box !important; word-wrap: break-word !important; font-family: 宋体; font-size: 15px;"><br style="margin: 0px; padding: 0px; max-width: 100%; box-sizing: border-box !important; word-wrap: break-word !important;"></span></p><p style="padding: 0px; max-width: 100%; clear: both; min-height: 1em; color: rgb(51, 51, 51); font-family: -apple-system-font, BlinkMacSystemFont, &quot;Helvetica Neue&quot;, &quot;PingFang SC&quot;, &quot;Hiragino Sans GB&quot;, &quot;Microsoft YaHei UI&quot;, &quot;Microsoft YaHei&quot;, Arial, sans-serif; font-size: 17px; letter-spacing: 0.544px; text-align: justify; text-indent: 0em; white-space: normal; box-sizing: border-box !important; word-wrap: break-word !important;"><span style="margin: 0px; padding: 0px; max-width: 100%; box-sizing: border-box !important; word-wrap: break-word !important; font-size: 15px;"><span style="margin: 0px; padding: 0px; max-width: 100%; font-family: 宋体; box-sizing: border-box !important; word-wrap: break-word !important;">这种解决方案的性能很好，实现起来比较简单，适合快速上线，而且切分逻辑是自己开发的，如果在生产上出了问题，则都比较容易解决；但是它侵入了业务逻辑的实现，会让缓存服务器保持的应用程序连接比较多，这要看应用服务器池的节点数量，需要提前进行容量评估，请参考《分布式服务架构：原理、设计与实战》第</span>3<span style="margin: 0px; padding: 0px; max-width: 100%; font-family: 宋体; box-sizing: border-box !important; word-wrap: break-word !important;">章的内容。</span></span></p><p></p><section class="" data-mpa-template-id="1128161" data-mpa-color="#ffffff" data-mpa-category="title" style="margin: 0px; padding: 0px; max-width: 100%; color: rgb(51, 51, 51); font-family: -apple-system-font, BlinkMacSystemFont, &quot;Helvetica Neue&quot;, &quot;PingFang SC&quot;, &quot;Hiragino Sans GB&quot;, &quot;Microsoft YaHei UI&quot;, &quot;Microsoft YaHei&quot;, Arial, sans-serif; font-size: 17px; letter-spacing: 0.544px; text-align: justify; white-space: normal; box-sizing: border-box !important; word-wrap: break-word !important;"><p style="margin-top: 0px; margin-bottom: 0px; padding: 0px; max-width: 100%; clear: both; min-height: 1em; box-sizing: border-box !important; word-wrap: break-word !important;"><br style="margin: 0px; padding: 0px; max-width: 100%; box-sizing: border-box !important; word-wrap: break-word !important;"></p><section class="" data-tools="135编辑器" data-id="92517" style="margin: 0px; padding: 0px; max-width: 100%; box-sizing: border-box !important; word-wrap: break-word !important; color: rgb(62, 62, 62); font-size: 16px; line-height: 25.6px; widows: 1; border-width: 0px; border-style: none; border-color: initial;"><section data-id="us1423237" class="" style="margin: 0px; padding: 0px; max-width: 100%; box-sizing: border-box !important; word-wrap: break-word !important; border-width: 0px; border-style: none; border-color: initial;"><section data-width="100%" style="margin: 0px; padding: 0px; max-width: 100%; box-sizing: border-box !important; word-wrap: break-word !important; width: 558px; display: -webkit-flex; justify-content: center;"><section style="margin: 0px; padding: 0px; max-width: 100%; box-sizing: border-box !important; word-wrap: break-word !important;"><section style="margin: 0px; padding: 0px; max-width: 100%; box-sizing: border-box !important; word-wrap: break-word !important; display: -webkit-flex; justify-content: flex-start;"><section style="margin: 0px -9px 0px 0px; padding: 0px; max-width: 100%; box-sizing: border-box !important; word-wrap: break-word !important; width: 18px;"><img class="" data-ratio="2.236842105263158" data-src="/data/upload/portal/20180613/1528860193781922.png" data-type="png" data-w="38" data-width="100%" width="18px" _width="18px" src="./分布式缓存分片的三种模式 - IT程序猿_files/1528860193781922.png" data-fail="0" style="margin: 0px; padding: 0px; height: auto !important; max-width: 100%; box-sizing: border-box !important; word-wrap: break-word !important; visibility: visible !important; width: 18px !important;"></section><section style="margin: 0px 0px 7px; padding: 0px; max-width: 100%; box-sizing: border-box !important; word-wrap: break-word !important; width: 15px; border-bottom: 1px solid rgb(31, 26, 23);"></section><section style="margin: 0px; padding: 0px; max-width: 100%; box-sizing: border-box !important; word-wrap: break-word !important; height: 40px; width: auto; border-top: 1px solid rgb(255, 209, 0); border-right: 1px solid rgb(229, 192, 22);"><section style="margin: 0px; padding: 0px 12px; max-width: 100%; box-sizing: border-box !important; word-wrap: break-word !important; text-align: center; line-height: 40px;"><p style="margin-top: 0px; margin-bottom: 0px; padding: 0px; max-width: 100%; clear: both; min-height: 1em; box-sizing: border-box !important; word-wrap: break-word !important;"><strong mpa-from-tpl="t" style="margin: 0px; padding: 0px; max-width: 100%; box-sizing: border-box !important; word-wrap: break-word !important;"><span style="margin: 0px; padding: 0px; max-width: 100%; box-sizing: border-box !important; word-wrap: break-word !important; color: rgb(255, 169, 0);">代理分片</span></strong></p></section><section data-width="95%" style="margin: -2px 0px 0px; padding: 0px; max-width: 100%; box-sizing: border-box !important; word-wrap: break-word !important; width: 205.188px; border-bottom: 1px solid rgb(31, 26, 23);"></section></section></section></section></section></section></section><p style="margin-top: 0px; margin-bottom: 0px; padding: 0px; max-width: 100%; clear: both; min-height: 1em; color: rgb(62, 62, 62); font-size: 16px; widows: 1; text-indent: 2em; line-height: 2em; box-sizing: border-box !important; word-wrap: break-word !important;"><br style="margin: 0px; padding: 0px; max-width: 100%; box-sizing: border-box !important; word-wrap: break-word !important;"></p></section><p></p><p style="padding: 0px; max-width: 100%; clear: both; min-height: 1em; color: rgb(51, 51, 51); font-family: -apple-system-font, BlinkMacSystemFont, &quot;Helvetica Neue&quot;, &quot;PingFang SC&quot;, &quot;Hiragino Sans GB&quot;, &quot;Microsoft YaHei UI&quot;, &quot;Microsoft YaHei&quot;, Arial, sans-serif; font-size: 17px; letter-spacing: 0.544px; text-align: justify; text-indent: 0em; white-space: normal; box-sizing: border-box !important; word-wrap: break-word !important;"><span style="margin: 0px; padding: 0px; max-width: 100%; box-sizing: border-box !important; word-wrap: break-word !important; font-size: 15px;"><span style="margin: 0px; padding: 0px; max-width: 100%; box-sizing: border-box !important; word-wrap: break-word !important; font-family: 宋体;">对缓存进行代理分片的方案如图</span><span style="margin: 0px; padding: 0px; max-width: 100%; box-sizing: border-box !important; word-wrap: break-word !important; font-family: 宋体; text-indent: 0em;">所示：</span></span></p><p style="padding: 0px; max-width: 100%; clear: both; min-height: 1em; color: rgb(51, 51, 51); font-family: -apple-system-font, BlinkMacSystemFont, &quot;Helvetica Neue&quot;, &quot;PingFang SC&quot;, &quot;Hiragino Sans GB&quot;, &quot;Microsoft YaHei UI&quot;, &quot;Microsoft YaHei&quot;, Arial, sans-serif; font-size: 17px; letter-spacing: 0.544px; text-align: justify; text-indent: 0em; white-space: normal; box-sizing: border-box !important; word-wrap: break-word !important;"><span style="margin: 0px; padding: 0px; max-width: 100%; box-sizing: border-box !important; word-wrap: break-word !important; font-family: 宋体; text-indent: 0em;"></span></p><p style="margin-top: 0px; margin-bottom: 0px; padding: 0px; max-width: 100%; clear: both; min-height: 1em; color: rgb(51, 51, 51); font-family: -apple-system-font, BlinkMacSystemFont, &quot;Helvetica Neue&quot;, &quot;PingFang SC&quot;, &quot;Hiragino Sans GB&quot;, &quot;Microsoft YaHei UI&quot;, &quot;Microsoft YaHei&quot;, Arial, sans-serif; font-size: 17px; letter-spacing: 0.544px; white-space: normal; text-align: center; box-sizing: border-box !important; word-wrap: break-word !important;"><img class="" data-ratio="0.6236786469344608" data-s="300,640" data-src="/data/upload/portal/20180613/1528860193205843.jpg" data-type="png" data-w="473" src="./分布式缓存分片的三种模式 - IT程序猿_files/1528860193205843.jpg" data-fail="0" style="margin: 0px; padding: 0px; height: auto !important; max-width: 100%; box-sizing: border-box !important; word-wrap: break-word !important; width: auto !important; visibility: visible !important;"></p><p style="padding: 0px; max-width: 100%; clear: both; min-height: 1em; color: rgb(51, 51, 51); font-family: -apple-system-font, BlinkMacSystemFont, &quot;Helvetica Neue&quot;, &quot;PingFang SC&quot;, &quot;Hiragino Sans GB&quot;, &quot;Microsoft YaHei UI&quot;, &quot;Microsoft YaHei&quot;, Arial, sans-serif; font-size: 17px; letter-spacing: 0.544px; text-align: justify; text-indent: 0em; white-space: normal; box-sizing: border-box !important; word-wrap: break-word !important;"><span style="margin: 0px; padding: 0px; max-width: 100%; box-sizing: border-box !important; word-wrap: break-word !important; font-family: 宋体; text-indent: 0em;"></span><br style="margin: 0px; padding: 0px; max-width: 100%; box-sizing: border-box !important; word-wrap: break-word !important;"></p><p style="padding: 0px; max-width: 100%; clear: both; min-height: 1em; color: rgb(51, 51, 51); font-family: -apple-system-font, BlinkMacSystemFont, &quot;Helvetica Neue&quot;, &quot;PingFang SC&quot;, &quot;Hiragino Sans GB&quot;, &quot;Microsoft YaHei UI&quot;, &quot;Microsoft YaHei&quot;, Arial, sans-serif; font-size: 17px; letter-spacing: 0.544px; text-indent: 0em; white-space: normal; box-sizing: border-box !important; word-wrap: break-word !important;"><span style="margin: 0px; padding: 0px; max-width: 100%; box-sizing: border-box !important; word-wrap: break-word !important; font-family: 宋体; font-size: 15px;">代理分片就是在应用层和缓存服务器中间增加一个代理层，把分片的路由规则配置在代理层，代理层对外提供与缓存服务器兼容的接口给应用层，应用层的开发人员不用关心分片规则，只需关心业务逻辑的实现，待业务逻辑实现以后，在代理层配置路由规则即可。</span></p><p style="padding: 0px; max-width: 100%; clear: both; min-height: 1em; color: rgb(51, 51, 51); font-family: -apple-system-font, BlinkMacSystemFont, &quot;Helvetica Neue&quot;, &quot;PingFang SC&quot;, &quot;Hiragino Sans GB&quot;, &quot;Microsoft YaHei UI&quot;, &quot;Microsoft YaHei&quot;, Arial, sans-serif; font-size: 17px; letter-spacing: 0.544px; text-indent: 0em; white-space: normal; box-sizing: border-box !important; word-wrap: break-word !important;"><span style="margin: 0px; padding: 0px; max-width: 100%; box-sizing: border-box !important; word-wrap: break-word !important; font-family: 宋体; font-size: 15px;"><br style="margin: 0px; padding: 0px; max-width: 100%; box-sizing: border-box !important; word-wrap: break-word !important;"></span></p><p style="padding: 0px; max-width: 100%; clear: both; min-height: 1em; color: rgb(51, 51, 51); font-family: -apple-system-font, BlinkMacSystemFont, &quot;Helvetica Neue&quot;, &quot;PingFang SC&quot;, &quot;Hiragino Sans GB&quot;, &quot;Microsoft YaHei UI&quot;, &quot;Microsoft YaHei&quot;, Arial, sans-serif; font-size: 17px; letter-spacing: 0.544px; text-align: justify; text-indent: 0em; white-space: normal; box-sizing: border-box !important; word-wrap: break-word !important;"><span style="margin: 0px; padding: 0px; max-width: 100%; box-sizing: border-box !important; word-wrap: break-word !important; font-size: 15px;"><span style="margin: 0px; padding: 0px; max-width: 100%; font-family: 宋体; box-sizing: border-box !important; word-wrap: break-word !important;">这种方案的好处是让应用层开发人员专注于业务逻辑的实现，把缓存分片的配置留给代理层做，具体可以由运维人员来实施；缺点是增加了代理层。尽管代理层是轻量级的转发协议，但是毕竟要实现缓存协议的解析，并通过分片的路由规则来路由请求，对每个缓存操作都增加了一层代理网络传输，对性能是有影响的，对增加的代理层也需要进行维护，也有硬件成本，还要有能够解决</span>Bug<span style="margin: 0px; padding: 0px; max-width: 100%; font-family: 宋体; box-sizing: border-box !important; word-wrap: break-word !important;">的技术专家，成本很高。</span></span></p><p style="padding: 0px; max-width: 100%; clear: both; min-height: 1em; color: rgb(51, 51, 51); font-family: -apple-system-font, BlinkMacSystemFont, &quot;Helvetica Neue&quot;, &quot;PingFang SC&quot;, &quot;Hiragino Sans GB&quot;, &quot;Microsoft YaHei UI&quot;, &quot;Microsoft YaHei&quot;, Arial, sans-serif; font-size: 17px; letter-spacing: 0.544px; text-align: justify; text-indent: 0em; white-space: normal; box-sizing: border-box !important; word-wrap: break-word !important;"><span style="margin: 0px; padding: 0px; max-width: 100%; box-sizing: border-box !important; word-wrap: break-word !important; font-family: 宋体; font-size: 15px;"><br style="margin: 0px; padding: 0px; max-width: 100%; box-sizing: border-box !important; word-wrap: break-word !important;"></span></p><p style="padding: 0px; max-width: 100%; clear: both; min-height: 1em; color: rgb(51, 51, 51); font-family: -apple-system-font, BlinkMacSystemFont, &quot;Helvetica Neue&quot;, &quot;PingFang SC&quot;, &quot;Hiragino Sans GB&quot;, &quot;Microsoft YaHei UI&quot;, &quot;Microsoft YaHei&quot;, Arial, sans-serif; font-size: 17px; letter-spacing: 0.544px; text-align: justify; text-indent: 0em; white-space: normal; box-sizing: border-box !important; word-wrap: break-word !important;"><span style="margin: 0px; padding: 0px; max-width: 100%; box-sizing: border-box !important; word-wrap: break-word !important; font-size: 15px;"><span style="margin: 0px; padding: 0px; max-width: 100%; font-family: 宋体; box-sizing: border-box !important; word-wrap: break-word !important;">流行的</span>Codis<span style="margin: 0px; padding: 0px; max-width: 100%; font-family: 宋体; box-sizing: border-box !important; word-wrap: break-word !important;">框架就是代理分片的典型实现。</span></span></p><p></p><section class="" data-mpa-template-id="1128161" data-mpa-color="#ffffff" data-mpa-category="title" style="margin: 0px; padding: 0px; max-width: 100%; color: rgb(51, 51, 51); font-family: -apple-system-font, BlinkMacSystemFont, &quot;Helvetica Neue&quot;, &quot;PingFang SC&quot;, &quot;Hiragino Sans GB&quot;, &quot;Microsoft YaHei UI&quot;, &quot;Microsoft YaHei&quot;, Arial, sans-serif; font-size: 17px; letter-spacing: 0.544px; text-align: justify; white-space: normal; box-sizing: border-box !important; word-wrap: break-word !important;"><p style="margin-top: 0px; margin-bottom: 0px; padding: 0px; max-width: 100%; clear: both; min-height: 1em; box-sizing: border-box !important; word-wrap: break-word !important;"><br style="margin: 0px; padding: 0px; max-width: 100%; box-sizing: border-box !important; word-wrap: break-word !important;"></p><section class="" data-tools="135编辑器" data-id="92517" style="margin: 0px; padding: 0px; max-width: 100%; box-sizing: border-box !important; word-wrap: break-word !important; color: rgb(62, 62, 62); font-size: 16px; line-height: 25.6px; widows: 1; border-width: 0px; border-style: none; border-color: initial;"><section data-id="us1423237" class="" style="margin: 0px; padding: 0px; max-width: 100%; box-sizing: border-box !important; word-wrap: break-word !important; border-width: 0px; border-style: none; border-color: initial;"><section data-width="100%" style="margin: 0px; padding: 0px; max-width: 100%; box-sizing: border-box !important; word-wrap: break-word !important; width: 558px; display: -webkit-flex; justify-content: center;"><section style="margin: 0px; padding: 0px; max-width: 100%; box-sizing: border-box !important; word-wrap: break-word !important;"><section style="margin: 0px; padding: 0px; max-width: 100%; box-sizing: border-box !important; word-wrap: break-word !important; display: -webkit-flex; justify-content: flex-start;"><section style="margin: 0px -9px 0px 0px; padding: 0px; max-width: 100%; box-sizing: border-box !important; word-wrap: break-word !important; width: 18px;"><img class="" data-ratio="2.236842105263158" data-src="/data/upload/portal/20180613/1528860193781922.png" data-type="png" data-w="38" data-width="100%" width="18px" _width="18px" src="./分布式缓存分片的三种模式 - IT程序猿_files/1528860193781922.png" data-fail="0" style="margin: 0px; padding: 0px; height: auto !important; max-width: 100%; box-sizing: border-box !important; word-wrap: break-word !important; visibility: visible !important; width: 18px !important;"></section><section style="margin: 0px 0px 7px; padding: 0px; max-width: 100%; box-sizing: border-box !important; word-wrap: break-word !important; width: 15px; border-bottom: 1px solid rgb(31, 26, 23);"></section><section style="margin: 0px; padding: 0px; max-width: 100%; box-sizing: border-box !important; word-wrap: break-word !important; height: 40px; width: auto; border-top: 1px solid rgb(255, 209, 0); border-right: 1px solid rgb(229, 192, 22);"><section style="margin: 0px; padding: 0px 12px; max-width: 100%; box-sizing: border-box !important; word-wrap: break-word !important; text-align: center; line-height: 40px;"><p style="margin-top: 0px; margin-bottom: 0px; padding: 0px; max-width: 100%; clear: both; min-height: 1em; box-sizing: border-box !important; word-wrap: break-word !important;"><strong mpa-from-tpl="t" style="margin: 0px; padding: 0px; max-width: 100%; box-sizing: border-box !important; word-wrap: break-word !important;"><span style="margin: 0px; padding: 0px; max-width: 100%; box-sizing: border-box !important; word-wrap: break-word !important; color: rgb(255, 169, 0);">集群分片</span></strong></p></section><section data-width="95%" style="margin: -2px 0px 0px; padding: 0px; max-width: 100%; box-sizing: border-box !important; word-wrap: break-word !important; width: 205.188px; border-bottom: 1px solid rgb(31, 26, 23);"></section></section></section></section></section></section></section><p style="margin-top: 0px; margin-bottom: 0px; padding: 0px; max-width: 100%; clear: both; min-height: 1em; color: rgb(62, 62, 62); font-size: 16px; widows: 1; text-indent: 2em; line-height: 2em; box-sizing: border-box !important; word-wrap: break-word !important;"><br style="margin: 0px; padding: 0px; max-width: 100%; box-sizing: border-box !important; word-wrap: break-word !important;"></p></section><p></p><p style="padding: 0px; max-width: 100%; clear: both; min-height: 1em; color: rgb(51, 51, 51); font-family: -apple-system-font, BlinkMacSystemFont, &quot;Helvetica Neue&quot;, &quot;PingFang SC&quot;, &quot;Hiragino Sans GB&quot;, &quot;Microsoft YaHei UI&quot;, &quot;Microsoft YaHei&quot;, Arial, sans-serif; font-size: 17px; letter-spacing: 0.544px; text-align: justify; text-indent: 0em; white-space: normal; box-sizing: border-box !important; word-wrap: break-word !important;"><span style="margin: 0px; padding: 0px; max-width: 100%; box-sizing: border-box !important; word-wrap: break-word !important; font-size: 15px; font-family: 宋体;">缓存自身提供的集群分片方案如图所示：</span></p><p style="margin-top: 0px; margin-bottom: 0px; padding: 0px; max-width: 100%; clear: both; min-height: 1em; color: rgb(51, 51, 51); font-family: -apple-system-font, BlinkMacSystemFont, &quot;Helvetica Neue&quot;, &quot;PingFang SC&quot;, &quot;Hiragino Sans GB&quot;, &quot;Microsoft YaHei UI&quot;, &quot;Microsoft YaHei&quot;, Arial, sans-serif; font-size: 17px; letter-spacing: 0.544px; white-space: normal; text-align: center; box-sizing: border-box !important; word-wrap: break-word !important;"><img class="" data-ratio="0.531390134529148" data-s="300,640" data-src="/data/upload/portal/20180613/1528860193877388.png" data-type="png" data-w="446" src="./分布式缓存分片的三种模式 - IT程序猿_files/1528860193877388.png" data-fail="0" style="margin: 0px; padding: 0px; height: auto !important; max-width: 100%; box-sizing: border-box !important; word-wrap: break-word !important; width: auto !important; visibility: visible !important;"></p><p style="padding: 0px; max-width: 100%; clear: both; min-height: 1em; color: rgb(51, 51, 51); font-family: -apple-system-font, BlinkMacSystemFont, &quot;Helvetica Neue&quot;, &quot;PingFang SC&quot;, &quot;Hiragino Sans GB&quot;, &quot;Microsoft YaHei UI&quot;, &quot;Microsoft YaHei&quot;, Arial, sans-serif; font-size: 17px; letter-spacing: 0.544px; text-align: justify; text-indent: 0em; white-space: normal; box-sizing: border-box !important; word-wrap: break-word !important;"><span style="margin: 0px; padding: 0px; max-width: 100%; box-sizing: border-box !important; word-wrap: break-word !important; font-family: 宋体;"></span><br style="margin: 0px; padding: 0px; max-width: 100%; box-sizing: border-box !important; word-wrap: break-word !important;"></p><p style="padding: 0px; max-width: 100%; min-height: 1em; color: rgb(51, 51, 51); font-family: -apple-system-font, BlinkMacSystemFont, &quot;Helvetica Neue&quot;, &quot;PingFang SC&quot;, &quot;Hiragino Sans GB&quot;, &quot;Microsoft YaHei UI&quot;, &quot;Microsoft YaHei&quot;, Arial, sans-serif; font-size: 17px; letter-spacing: 0.544px; text-align: justify; text-indent: 0em; white-space: normal; box-sizing: border-box !important; word-wrap: break-word !important;"><span style="margin: 0px; padding: 0px; max-width: 100%; box-sizing: border-box !important; word-wrap: break-word !important; font-size: 15px;"><span style="margin: 0px; padding: 0px; max-width: 100%; box-sizing: border-box !important; word-wrap: break-word !important; font-family: 宋体;">有的缓存自身提供了集群功能，集群可以实现分片和高可用特性，我们只需要把它们当成一个由多个缓存服务器节点组成的大缓存机器来使用即可，分片和高可用等对应用层是透明的，由运维人员配置即可使用，典型的就是</span>Redis 3.0<span style="margin: 0px; padding: 0px; max-width: 100%; box-sizing: border-box !important; word-wrap: break-word !important; font-family: 宋体;">提供的</span>Cluster<span style="margin: 0px; padding: 0px; max-width: 100%; box-sizing: border-box !important; word-wrap: break-word !important; font-family: 宋体;">。我们已经在</span>4.3.2<span style="margin: 0px; padding: 0px; max-width: 100%; box-sizing: border-box !important; word-wrap: break-word !important; font-family: 宋体;">节介绍了</span>Redis<span style="margin: 0px; padding: 0px; max-width: 100%; box-sizing: border-box !important; word-wrap: break-word !important; font-family: 宋体;">集群。</span></span></p>		    	</div>
+		    			    	<div class="kq__article-qrcode">
+						<div class="kq__article-qrcode-title">
+							推荐↓↓↓
+						</div>
+						<div class="kq__article-qrcode-img">
+							<img src="./分布式缓存分片的三种模式 - IT程序猿_files/59fc90f04cf57.jpg">
+							<span>Web开发</span>
+						</div>
+					</div>		    	<div class="ad-box">
+							    	</div>
+		    	<div>
+					<a href="https://www.itcodemonkey.com/article/4339.html" class="btn btn-primary pull-left">上一篇：WebAssembly：系统编程语言的逆袭</a>					<a href="https://www.itcodemonkey.com/article/4358.html" class="btn btn-warning pull-right">下一篇：Https单向认证和双向认证</a>    	            <script type="text/javascript" src="./分布式缓存分片的三种模式 - IT程序猿_files/qrcode.min.js.下载"></script>
+                    <div id="qrcode" style="width: 100px;margin:0 auto"></div>
+    					<!-- <script type="text/javascript">
+                        var qrcode = new QRCode(document.getElementById("qrcode"), {
+                        width : 100,
+                        height : 100
+                        });
+                        function makeCode () {		
+                        qrcode.makeCode("http://www.itcodemonkey.com/article/4348.html");
+                        }
+                        makeCode();
+                        </script> -->
+					<div class="clearfix"></div>
+				</div>
+		    	
+		    	
+		    			    </div>
+		    
+		    					    
+		</div>
+		<div class="span3">
+			<!-- <div class="tc-box first-box">
+				<div class="headtitle">
+	          		<h2>分享</h2>
+	          	</div>
+	          	<div class="bdsharebuttonbox"><a href="#" class="bds_more" data-cmd="more"></a><a href="#" class="bds_weixin" data-cmd="weixin" title="分享到微信"></a><a href="#" class="bds_tsina" data-cmd="tsina" title="分享到新浪微博"></a><a href="#" class="bds_qzone" data-cmd="qzone" title="分享到QQ空间"></a><a href="#" class="bds_tqq" data-cmd="tqq" title="分享到腾讯微博"></a><a href="#" class="bds_renren" data-cmd="renren" title="分享到人人网"></a></div>
+<script>window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMiniList":false,"bdPic":"","bdStyle":"2","bdSize":"32"},"share":{},"image":{"viewList":["weixin","tsina","qzone","tqq","renren"],"viewText":"分享到：","viewSize":"32"},"selectShare":{"bdContainerClass":null,"bdSelectMiniList":["weixin","tsina","qzone","tqq","renren"]}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];</script>
+        	</div> -->
+        	
+        	<div class="tc-box first-box">
+	        	<div class="headtitle">
+	        		<h2>最新文章</h2>
+	        	</div>
+	        	<div class="ranking">
+	        				        	<ul class="unstyled">
+		        									<li class="top3"><i>1</i><a title="拿到阿里offer的朋友，列出了面试复习大纲" href="https://www.itcodemonkey.com/article/12953.html">拿到阿里offer的朋友，列出了面试复习大纲</a></li>							<li class="top3"><i>2</i><a title="Redis的n种妙用，不仅仅是缓存" href="https://www.itcodemonkey.com/article/12951.html">Redis的n种妙用，不仅仅是缓存</a></li>							<li class="top3"><i>3</i><a title="动画：什么是鸡尾酒排序和地精排序？" href="https://www.itcodemonkey.com/article/12948.html">动画：什么是鸡尾酒排序和地精排序？</a></li>							<li class=""><i>4</i><a title="从生日请客到hdfs工作原理解析" href="https://www.itcodemonkey.com/article/12945.html">从生日请客到hdfs工作原理解析</a></li>							<li class=""><i>5</i><a title="为啥用ip不可以访问知乎，而百度却可以？" href="https://www.itcodemonkey.com/article/12944.html">为啥用ip不可以访问知乎，而百度却可以？</a></li>					</ul>
+				</div>
+			</div>
+			
+			<div class="ad-box">
+					    	</div>
+			<!-- <div class="tc-box">
+	        	<div class="headtitle">
+	        		<h2>最新评论</h2>
+	        	</div>
+	        	<div class="comment-ranking">
+	        			        		                </div>
+			</div> -->
+        	
+		</div>
+		
+	</div>
+
+<!-- Footer ================================================== -->
+<hr>
+<div id="footer">
+			<p>
+		© 2017-2018  IT程序猿 闽ICP备08108865号-1
+	</p>
+</div>
+<div id="backtotop" style="display: block;">
+	<i class="fa fa-arrow-circle-up"></i>
+</div>
+<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "https://hm.baidu.com/hm.js?0ca5e459775fdec8b59d3fdf31f7c229";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+</div>
+
+<script type="text/javascript">
+//全局变量
+var GV = {
+    ROOT: "/",
+    WEB_ROOT: "/",
+    JS_ROOT: "public/js/"
+};
+</script>
+   <!-- Placed at the end of the document so the pages load faster -->
+   <script src="./分布式缓存分片的三种模式 - IT程序猿_files/jquery.js.下载"></script>
+   <script src="./分布式缓存分片的三种模式 - IT程序猿_files/wind.js.下载"></script>
+   <script src="./分布式缓存分片的三种模式 - IT程序猿_files/bootstrap.min.js.下载"></script>
+   <script src="./分布式缓存分片的三种模式 - IT程序猿_files/frontend.js.下载"></script>
+<script>
+$(function(){
+	$('body').on('touchstart.dropdown', '.dropdown-menu', function (e) { e.stopPropagation(); });
+	
+	$("#main-menu li.dropdown").hover(function(){
+		$(this).addClass("open");
+	},function(){
+		$(this).removeClass("open");
+	});
+	
+	$.post("/user/index/is_login",{},function(data){
+		if(data.status==1){
+			if(data.user.avatar){
+				$("#main-menu-user .headicon").attr("src",data.user.avatar.indexOf("http")==0?data.user.avatar:"https://www.itcodemonkey.com/data/upload/[AVATAR]".replace('[AVATAR]',data.user.avatar));
+			}
+			
+			$("#main-menu-user .user-nicename").text(data.user.user_nicename!=""?data.user.user_nicename:data.user.user_login);
+			$("#main-menu-user li.login").show();
+			
+		}
+		if(data.status==0){
+			$("#main-menu-user li.offline").show();
+		}
+		
+		/* $.post("/user/notification/getLastNotifications",{},function(data){
+			$(".nav .notifactions .count").text(data.list.length);
+		}); */
+		
+	});	
+	;(function($){
+		$.fn.totop=function(opt){
+			var scrolling=false;
+			return this.each(function(){
+				var $this=$(this);
+				$(window).scroll(function(){
+					if(!scrolling){
+						var sd=$(window).scrollTop();
+						if(sd>100){
+							$this.fadeIn();
+						}else{
+							$this.fadeOut();
+						}
+					}
+				});
+				
+				$this.click(function(){
+					scrolling=true;
+					$('html, body').animate({
+						scrollTop : 0
+					}, 500,function(){
+						scrolling=false;
+						$this.fadeOut();
+					});
+				});
+			});
+		};
+	})(jQuery); 
+	
+	$("#backtotop").totop();
+	
+	
+});
+</script>
+
+
+
+<div id="yhqhadin" style="display:none;"></div></body></html>
