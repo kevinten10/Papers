@@ -1,0 +1,507 @@
+<!DOCTYPE html>
+<!-- saved from url=(0097)https://www.ibm.com/developerworks/cn/analytics/library/ba-1512-elkstack-logprocessing/index.html -->
+<html lang="zh-CN" style="" class="applicationcache geolocation history postmessage svg websockets localstorage sessionstorage websqldatabase webworkers hashchange pointerevents canvas audio canvastext video webgl cssgradients multiplebgs opacity rgba inlinesvg hsla supports svgclippaths smil no-touchevents fontface generatedcontent textshadow cssanimations backgroundsize borderimage borderradius boxshadow csscolumns csscolumns-width csscolumns-span csscolumns-fill csscolumns-gap csscolumns-rule csscolumns-rulecolor csscolumns-rulestyle csscolumns-rulewidth csscolumns-breakbefore csscolumns-breakafter csscolumns-breakinside flexbox flexboxlegacy cssreflections csstransforms csstransforms3d csstransitions indexeddb indexeddb-deletedatabase js ibm-v18 ibm-cxtype-4g no-hires win chrome chrome7 webkit webkit5 ibm-grid-xlarge greater-china-imt"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	
+<meta name="viewport" content="width=device-width, initial-scale=1">      
+<link rel="icon" href="https://www.ibm.com/favicon.ico">
+<link rel="canonical" href="http://www.ibm.com/developerworks/cn/analytics/library/ba-1512-elkstack-logprocessing/index.html">
+<meta name="geo.country" content="CN">
+<meta name="dcterms.rights" content="© Copyright IBM Corporation 2015">
+<meta name="dcterms.date" content="2015-12-07">
+<meta name="description" content="本文通过对 ELK Stack、Kafka、Spark Streaming 整合方案的介绍描述了系统平台日志处理流程，希望对系统运维工程师、数据库工程师在实现数据平台集中式运维工作中有所帮助，读者还可以参考文章末尾给出的互联网公司在系统运维、日志处理工作中的实践经验，结合自身情况设计自己的方案。">	
+<meta name="keywords" content="ELK, Kafka, Spark,DB2, 日志处理, 系统运维, tttbalca, ddddmca">
+<meta name="robots" content="index,follow">
+<title>基于 ELK Stack 和 Spark Streaming 的日志处理平台设计与实现</title>
+    
+<script id="loadedViaBxAnalytics-HU3dbkAG5wE0F1IkRf9S1RexlAqo3jby" src="./基于 ELK Stack 和 Spark Streaming 的日志处理平台设计与实现_files/analytics.min.js.下载" type="text/javascript" async=""></script><script type="text/javascript" async="" charset="utf-8" id="utag_19" src="./基于 ELK Stack 和 Spark Streaming 的日志处理平台设计与实现_files/hotjar-42920.js.下载"></script><script type="text/javascript" async="" charset="utf-8" id="utag_53" src="https://pixel.mathtag.com/event/js?mt_pp=1"></script><script type="text/javascript" async="" charset="utf-8" id="tealium_cormetrics2" src="./基于 ELK Stack 和 Spark Streaming 的日志处理平台设计与实现_files/eluminate.js.下载"></script><script src="./基于 ELK Stack 和 Spark Streaming 的日志处理平台设计与实现_files/bluemix-analytics.min.js.下载" type="application/javascript" async=""></script><script type="text/javascript" async="" charset="utf-8" id="dle_api_9fd23c946b359efe7bc12cacac44556206753edbc7a563e37c0069a0a0ca72b6" src="./基于 ELK Stack 和 Spark Streaming 的日志处理平台设计与实现_files/p_9fd23c946b359efe7bc12cacac44556206753edbc7a563e37c0069a0a0ca72b6.js.下载"></script><script src="./基于 ELK Stack 和 Spark Streaming 的日志处理平台设计与实现_files/p_devwrks.js.下载" type="application/javascript" async=""></script><script src="./基于 ELK Stack 和 Spark Streaming 的日志处理平台设计与实现_files/utag.js.下载" type="application/javascript" async=""></script><script src="./基于 ELK Stack 和 Spark Streaming 的日志处理平台设计与实现_files/notice-prefs" type="application/javascript" async=""></script><script src="./基于 ELK Stack 和 Spark Streaming 的日志处理平台设计与实现_files/p_9fd23c946b359efe7bc12cacac44556206753edbc7a563e37c0069a0a0ca72b6.js.下载" type="application/javascript" async=""></script><script> 
+    digitalData = {
+        "page":{
+            "category":{
+                "primaryCategory":"SOFDCBZACN"
+            },
+            "pageInfo":{
+                "effectiveDate":"2015-12-07",
+                "language":"zh-CN",
+                "publishDate":"2015-12-07",
+                "publisher":"IBM Corporation",
+                "version":"v18",
+                "ibm":{ 
+                    "contentDelivery":"IBM developerWorks template",
+                    "contentProducer":"IBM developerWorks",
+                    "country":"CN",
+                    "owner":"developerWorks/China/IBM",
+                    "siteID":"DEVWRKS",
+                    "subject":"SWQ00",
+                    "type":"CT316",
+                    "topic":"应用开发,最佳实践",
+                    "topicId":"263,487",
+                    "contentArea":"analytics,data",
+                    "contentAreaId":"53,18",
+                    "contentType":"article",
+                    "contentId":"1023468",
+                },
+                "keywords":"ELK, Kafka, Spark,DB2, 日志处理, 系统运维, tttbalca, ddddmca",
+                "description":"本文通过对 ELK Stack、Kafka、Spark Streaming 整合方案的介绍描述了系统平台日志处理流程，希望对系统运维工程师、数据库工程师在实现数据平台集中式运维工作中有所帮助，读者还可以参考文章末尾给出的互联网公司在系统运维、日志处理工作中的实践经验，结合自身情况设计自己的方案。"
+            }
+        }
+    };
+    window._analytics = {
+        "coremetrics": false,
+        "optimizely": false,
+        "googleAddServices": false,
+        "addRoll": false,
+        "intercom": false,
+        "fullStory": false,
+        "hotjar": false,
+        "tealeaf": false,
+        "nps": false,
+        "segment_key": 'HU3dbkAG5wE0F1IkRf9S1RexlAqo3jby'
+    };
+</script>
+	
+    <meta name="twitter:card" content="summary">
+<meta name="twitter:site" content="@developerworks">
+<meta property="og:title" content="基于 ELK Stack 和 Spark Streaming 的日志处理平台设计与实现">
+<meta property="og:description" content="本文通过对 ELK Stack、Kafka、Spark Streaming 整合方案的介绍描述了系统平台日志处理流程，希望对系统运维工程师、数据库工程师在实现数据平台集中式运维工作中有所帮助，读者还可以参考文章末尾给出的互联网公司在系统运维、日志处理工作中的实践经验，结合自身情况设计自己的方案。">
+    <meta property="og:image" content="http://www.ibm.com/developerworks/i/dw-social-201508.png">
+<!-- Segment meta tag -->
+<meta name="segment" property="developerWorks (developerWorks)" producttitle="developerWorks" value="Data and Analytics Chinese (developerWorks)">      
+<!-- SITE MON : START (DO NOT DELETE) -->
+<!-- developerWorks monitoring token -->
+<!-- SITE MON : END (DO NOT DELETE) -->
+
+<!-- HEADER_SCRIPTS_AND_CSS_INCLUDE -->
+<!-- <script src="//cdn.optimizely.com/js/5399420604.js"></script> -->
+<!-- BEGIN: Use this section to set page specific variables for the Page Tag -->
+<script language="JavaScript">var NTPT_PGEXTRA="ibmSkillLevel=-&ibmCmaId=1023468&ibmContentAreas=analytics,data";</script>
+<!--END -->
+<script src="./基于 ELK Stack 和 Spark Streaming 的日志处理平台设计与实现_files/ida_stats.js.下载"></script><meta property="og:type" content="website"><meta property="og:url" content="http://www.ibm.com/developerworks/cn/analytics/library/ba-1512-elkstack-logprocessing/index.html"><meta property="og:locale" content="zh_CN"><meta property="og:published_time" content="2015-12-07"><meta property="article:published_time" content="2015-12-07">
+<link href="./基于 ELK Stack 和 Spark Streaming 的日志处理平台设计与实现_files/www.css" rel="stylesheet">
+<link href="./基于 ELK Stack 和 Spark Streaming 的日志处理平台设计与实现_files/syntaxhighlighter.css" rel="stylesheet">
+<script src="./基于 ELK Stack 和 Spark Streaming 的日志处理平台设计与实现_files/www.js.下载"></script><style></style>
+<script src="./基于 ELK Stack 和 Spark Streaming 的日志处理平台设计与实现_files/syntaxhighlighter.js.下载"></script>    
+<link href="./基于 ELK Stack 和 Spark Streaming 的日志处理平台设计与实现_files/tables.css" rel="stylesheet">
+<script src="./基于 ELK Stack 和 Spark Streaming 的日志处理平台设计与实现_files/tables.js.下载"></script>   
+<!--  Masthead/footer  -->
+<link href="./基于 ELK Stack 和 Spark Streaming 的日志处理平台设计与实现_files/dw-mf-v18.css" rel="stylesheet">
+<!-- <link href="//dw1.s81c.com/developerworks/css/dw-mf/v18/alt-signedin-ux.css" rel="stylesheet" /> -->   
+<!--[if lt IE 9]>
+    <link href="//dw1.s81c.com/developerworks/css/dw-mf/v18/dw-mf-ie8fix.css?v=022216" rel="stylesheet" />
+<![endif]-->
+<link href="./基于 ELK Stack 和 Spark Streaming 的日志处理平台设计与实现_files/dw-article.css" rel="stylesheet">
+<script src="./基于 ELK Stack 和 Spark Streaming 的日志处理平台设计与实现_files/dw-auth-properties.js.下载"></script>
+<script src="./基于 ELK Stack 和 Spark Streaming 的日志处理平台设计与实现_files/dw-auth.js.下载"></script>
+<script src="./基于 ELK Stack 和 Spark Streaming 的日志处理平台设计与实现_files/dw-mf.js.下载"></script>
+<script src="./基于 ELK Stack 和 Spark Streaming 的日志处理平台设计与实现_files/dw-include.js.下载"></script>     
+<script src="./基于 ELK Stack 和 Spark Streaming 的日志处理平台设计与实现_files/dw-article.js.下载"></script>
+<script src="./基于 ELK Stack 和 Spark Streaming 的日志处理平台设计与实现_files/dw-auto-links.js.下载"></script>     
+<script src="./基于 ELK Stack 和 Spark Streaming 的日志处理平台设计与实现_files/tactic.js.下载"></script>
+<script src="./基于 ELK Stack 和 Spark Streaming 的日志处理平台设计与实现_files/tacticbindlinks.js.下载"></script>
+
+<!-- 
+<PageMap>
+    <DataObject type="document">
+        <Attribute name="topic">应用开发,最佳实践</Attribute>
+        <Attribute name="topicId">263,487</Attribute>
+        <Attribute name="contentArea">analytics,data</Attribute>
+        <Attribute name="contentAreaId">53,18</Attribute>
+        <Attribute name="abstract">本文通过对 ELK Stack、Kafka、Spark Streaming 整合方案的介绍描述了系统平台日志处理流程，希望对系统运维工程师、数据库工程师在实现数据平台集中式运维工作中有所帮助，读者还可以参考文章末尾给出的互联网公司在系统运维、日志处理工作中的实践经验，结合自身情况设计自己的方案。</Attribute>
+        <Attribute name="pub.date">2015-12-07</Attribute>
+        <Attribute name="contentType">article</Attribute>
+    </DataObject>
+</PageMap>
+-->        
+
+<style id="ibm-masthead-hidelinks">@media screen and (max-width: 457px) { .ibm-masthead-categories,#ibm-megamenu-sections{display:none} }@media screen and (max-width: 457px) { .ibm-mh-marketplace-link{display:none} }</style><style type="text/css" class="jquery-comments-css">.jquery-comments ul.navigation li.active:after {background: #2793e6 !important;</style><style type="text/css" class="jquery-comments-css">.jquery-comments ul.navigation ul.dropdown li.active {background: #2793e6 !important;</style><style type="text/css" class="jquery-comments-css">.jquery-comments .highlight-background {background: #2793e6 !important;</style><style type="text/css" class="jquery-comments-css">.jquery-comments .highlight-font {color: #2793e6 !important;}</style><style type="text/css" class="jquery-comments-css">.jquery-comments .highlight-font-bold {color: #2793e6 !important;font-weight: bold;}</style><style id="ibm-sitenav-menu-hidelinks">@media screen and (max-width: 437.75px) {.ibm-sitenav-menu-container .ibm-sitenav-menu-list > ul > li {display:none}}@media screen and (min-width: 438.75px) {.ibm-mobilemenu-sitenavmenu > ul > li {display:none}}</style><script type="text/javascript" async="" charset="utf-8" id="utag_ibm.web_53" src="./基于 ELK Stack 和 Spark Streaming 的日志处理平台设计与实现_files/utag.53.js.下载"></script><script type="text/javascript" async="" charset="utf-8" id="utag_ibm.web_45" src="./基于 ELK Stack 和 Spark Streaming 的日志处理平台设计与实现_files/utag.45.js.下载"></script><script type="text/javascript" async="" charset="utf-8" id="utag_ibm.web_19" src="./基于 ELK Stack 和 Spark Streaming 的日志处理平台设计与实现_files/utag.19.js.下载"></script><style type="text/css">@media only screen and (max-width:480px){.truste_box_overlay{width: 100%!important;margin: 0px!important;max-width: 100%!important;box-shadow: rgb(0,0,0,0.2) 0px 0px 16px 2px!important;}}@media only screen and (min-width:481px){.truste_box_overlay{width: 80%!important;margin: 20px auto!important;max-width: 800px!important;box-shadow: rgb(0,0,0,0.2) 0px 0px 16px 2px!important;}}</style><script language="javascript" type="text/javascript" src="./基于 ELK Stack 和 Spark Streaming 的日志处理平台设计与实现_files/50200000.js.下载"></script><script language="javascript" type="text/javascript" src="./基于 ELK Stack 和 Spark Streaming 的日志处理平台设计与实现_files/rules_50200000.js.下载"></script><script language="javascript" type="text/javascript" src="./基于 ELK Stack 和 Spark Streaming 的日志处理平台设计与实现_files/dispatcher-v3.js.下载"></script><script src="./基于 ELK Stack 和 Spark Streaming 的日志处理平台设计与实现_files/yahoo-min.js.下载" type="text/javascript"></script><script src="./基于 ELK Stack 和 Spark Streaming 的日志处理平台设计与实现_files/cp-v3.js.下载" type="text/javascript"></script><script src="./基于 ELK Stack 和 Spark Streaming 的日志处理平台设计与实现_files/json-min.js.下载" type="text/javascript"></script><script async="" src="./基于 ELK Stack 和 Spark Streaming 的日志处理平台设计与实现_files/modules-79263abf7d750edcf2ac9b3f61c10e5a.js.下载"></script><style type="text/css">iframe#_hjRemoteVarsFrame {display: none !important; width: 1px !important; height: 1px !important; opacity: 0 !important; pointer-events: none !important;}</style><script type="text/javascript" async="" charset="utf-8" id="tealium_visitor_service_45main" src="./基于 ELK Stack 和 Spark Streaming 的日志处理平台设计与实现_files/01687f376c5200037780eba8a3af0306d004506500bd0"></script><style type="text/css">.truste_cookie_prefs,#teconsent{display:none !important}</style></head>
+<body id="ibm-com" class="ibm-type ibm-sitenav-menu ibm-sitenav-menu-sticky vsc-initialized" style="">
+	
+<div id="ibm-top" class="ibm-landing-page">
+
+<!-- MASTHEAD_BEGIN -->
+<div id="ibm-masthead" role="banner" aria-label="IBM" class="ibm-mhtype-minimal">
+    <div id="ibm-universal-nav" class="">    
+  
+        <nav role="navigation" aria-label="IBM">
+            <div id="ibm-home"><a href="https://www.ibm.com/cn/zh/?lnk=m">IBM®</a></div>
+            <ul id="ibm-menu-links" role="toolbar" aria-label="站点地图" class="ibm-hide">
+                <li><a href="https://www.ibm.com/sitemap/cn/zh/">站点地图</a></li>
+            </ul><div class="ibm-masthead-rightside"><div id="ibm-search-module" role="search" aria-labelledby="ibm-masthead" class="ibm-has-scope">
+            <div class="ibm-masthead-search-close"><p class="ibm-ind-link ibm-icononly ibm-padding-bottom-0"><a href="https://www.ibm.com/developerworks/cn/analytics/library/ba-1512-elkstack-logprocessing/index.html#" class="ibm-close-link ibm-nospacing">关闭</a></p></div><form id="ibm-search-form" action="https://www.ibm.com/Search/" method="get" aria-labelledby="ibm-masthead">
+                <p>
+                    <label for="q">IBM</label>
+                    <input type="text" maxlength="100" value="" placeholder="搜索" name="q" id="q" aria-label="搜索 IBM Developer" autocomplete="off" role="combobox" aria-autocomplete="list" aria-expanded="false" aria-owns="ibm-search-typeahead-container"><input name="lnk" type="hidden" value="mhsrch">
+                    <input type="hidden" value="utf" name="en">
+                    <input type="hidden" value="zh" name="lang">
+                    <input type="hidden" value="cn" name="cc">
+                    <input type="hidden" value="20" name="nr">
+                    <input type="hidden" value="For developers" name="tabType[0]">
+                    <span class="ibm-search-scope"><input class="ibm-styled-checkbox" data-init="false" type="checkbox" name="sn" value="" id="ibm-mh-scopeoption"> <label for="ibm-mh-scopeoption">In Marketplace</label></span><button role="button" type="submit" id="ibm-search" class="ibm-search-link" value="提交"><span class="ibm-access">提交</span></button>
+                </p>
+            </form><form class="ibm-hide" id="ibm-default-scope-form" action="https://www.ibm.com/search" method="get"><input name="lang" type="hidden" value="zh"><input name="cc" type="hidden" value="cn"><input name="tabType[0]" type="hidden" value="Products"><input name="q" type="text" value=""><input name="lnk" type="hidden" value="mhmpsrch"></form>
+        </div><div id="ibm-search-typeahead-container" aria-expanded="false" class="ibm-search-typeahead-container"></div><ul aria-label="Tools" role="menubar" class="ibm-masthead-iconsonly"><li role="presentation" class="ibm-masthead-item-signin"><button role="button" aria-haspopup="true" aria-owns="ibm-signin-minimenu-container" class="ibm-profile-link">我的 IBM</button><ul id="ibm-signin-minimenu-container" role="menu" aria-label="Profile" class="ibm-dropdown-menu">    <li class="ibm-dropdown-menu-primary" role="presentation" data-linktype="notifications">       <a class="" href="https://myibm.ibm.com/dashboard/?lnk=mmi" tabindex="0">我的 IBM</a>     </li>    <li class="ibm-dropdown-menu-primary menu-heading" role="presentation">       <span tabindex="0">IBM Developer</span>     </li>   <li class="ibm-dropdown-menu-primary ibm-signin-alt" role="presentation">     <a href="https://www.ibm.com/developerworks/dwwi/jsp/ssologin.jsp?d=https%3A%2F%2Fwww.ibm.com%2Fdeveloperworks%2Fcn%2Fanalytics%2Flibrary%2Fba-1512-elkstack-logprocessing%2Findex.html&amp;lang=zh&amp;a=dwmav" role="menuitem">登录</a>   </li>   <li class="ibm-dropdown-menu-primary dw-register-alt" role="presentation">     <a href="https://www.ibm.com/developerworks/dwwi/jsp/ssoregister.jsp?d=https%3A%2F%2Fwww.ibm.com%2Fdeveloperworks%2Fcn%2Fanalytics%2Flibrary%2Fba-1512-elkstack-logprocessing%2Findex.html&amp;lang=zh&amp;a=dwmav" role="menuitem">注册</a>   </li></ul></li><li role="presentation" class="ibm-masthead-item-menu"><button role="button" aria-haspopup="true" aria-owns="ibm-burger-menu-container" class="ibm-menu-link">站点导航</button></li></ul></div> 
+        </nav>
+  
+        
+       
+    </div>
+</div><div class="ibm-mobilemenu ibm-hide" id="ibm-burger-menu-container" aria-labelledby="ibm-burgermenu-a11y" role="dialog" tabindex="0"><p class="ibm-hide" id="ibm-burgermenu-a11y">站点导航</p><div class="ibm-mobilemenu-close"><p class="ibm-icononly ibm-fright ibm-ind-link ibm-nospacing"><a class="ibm-close-link" href="https://www.ibm.com/developerworks/cn/analytics/library/ba-1512-elkstack-logprocessing/index.html?lnk=hm#">关闭</a></p></div><div class="ibm-mobilemenu-section ibm-mobilemenu-sitenavmenu"><ul role="menubar"><li class="ibm-mobile-section-heading ibm-mobile-sitename">
+        <a href="https://www.ibm.com/developerworks/cn/?lnk=hm">IBM Developer</a>
+    </li>
+            <li role="presentation">
+                <a href="https://www.ibm.com/developerworks/cn/topics/?lnk=hm" role="menuitem" tabindex="0">学习</a>
+            </li>
+            <li role="presentation">       
+                <a href="https://www.ibm.com/developerworks/cn/downloads/?lnk=hm" role="menuitem" tabindex="-1">开发</a>
+            </li>
+            <li role="presentation">       
+                <a href="https://www.ibm.com/developerworks/cn/community/?lnk=hm" role="menuitem" tabindex="-1">社区</a>
+            </li>
+            <li class="ibm-sitenav-menu-item-right">
+                <a href="https://www.ibm.com/ibm/cn/partners/start/?lnk=hm" role="menuitem" tabindex="-1">合作</a>
+            </li>
+        </ul></div><div class="ibm-mobilemenu-section"><ul class="ibm-mobilemenu-mhlinks" aria-label="发现 IBM"><li><div data-widget="showhide" data-type="panel" class="ibm-show-hide ibm-widget-processed"><h2><a href="javascript:void();">产品</a></h2><div class="ibm-container-body" style="display: none;"><ul><li><a href="https://www.ibm.com/cn-zh/products/?lnk=hmhmmpr"><span>产品</span></a></li><li><a href="https://www.ibm.com/software/cn/info/trials/?lnk=hm"><span>立即免费试用</span></a></li><li><a href="https://www.ibm.com/analytics/cn/zh/?lnk=hmmpr_bua_cnzh&amp;lnk2=learn"><span>大数据与分析</span></a></li><li><a href="https://www.ibm.com/cloud-computing/cn/zh?lnk=hmmpr_bucl_cnzh&amp;lnk2=learn"><span>云计算</span></a></li><li><a href="https://www.ibm.com/ibm/cn/cognitive/outthink/?lnk=hmmpr_buce_cnzh&amp;lnk2=learn"><span>认知</span></a></li><li><a href="https://www.ibm.com/internet-of-things/cn-zh/?lnk=hmmpr_iot_cnzh&amp;lnk2=learn"><span>物联网</span></a></li><li><a href="https://www.ibm.com/solutions/cn/zh/index.html?lnk=hm"><span>行业解决方案</span></a></li><li><a href="https://www.ibm.com/cn-zh/it-infrastructure?lnk=hmmpr_systems_cnzh&amp;lnk2=learnpanel"><span>IT 基础架构</span></a></li><li><a href="https://www.ibm.com/mobilefirst/cn/zh/?lnk=hmmpr_bumf_cnzh&amp;lnk2=learn"><span>移动</span></a></li><li><a href="https://www.ibm.com/cn-zh/security?lnk=hmmpr_buse_cnzh&amp;lnk2=learnquick"><span>IBM 安全</span></a></li><li><a href="https://www.ibm.com/cn-zh/collaboration?lnk=hm"><span>社交协作与人才管理</span></a></li><li><a href="https://www.ibm.com/services/cn/zh/watson/explorer.html?lnk=hm"><span>Watson</span></a></li></ul></div></div></li><li><div data-widget="showhide" data-type="panel" class="ibm-show-hide ibm-widget-processed"><h2><a href="javascript:void();">服务</a></h2><div class="ibm-container-body" style="display: none;"><ul><li><a href="https://www.ibm.com/services/cn-zh/digital-reinvention/case/index.html?lnk=hm"><span>企业咨询服务</span></a></li><li><a href="https://www.ibm.com/technologyservices/cn/zh/?lnk=hmmse_ts_cnzh&amp;lnk2=learn#technology-outsourcing"><span>技术服务</span></a></li><li><a href="https://www.ibm.com/financing/cn/zh/index.html?lnk=hmmse_fin_cnzh&amp;lnk2=learn"><span>融资</span></a></li><li><a href="https://www.ibm.com/solutions/cn/zh/index.html?lnk=hm"><span>行业解决方案</span></a></li><li><a href="https://www.ibm.com/training/?lnk=hm"><span>培训与技能 (英文)</span></a></li></ul></div></div></li><li><a href="https://www.ibm.com/solutions/cn/zh/?lnk=hmmin">行业</a></li><li><div data-widget="showhide" data-type="panel" class="ibm-show-hide ibm-widget-processed"><h2><a href="javascript:void();">开发者</a></h2><div class="ibm-container-body" style="display: none;"><ul><li><a href="https://developer.ibm.com/cn/?lnk=hm"><span>IBM 开发者</span></a></li><li><a href="https://www.ibm.com/developerworks/cn/cognitive/?lnk=hm"><span>AI</span></a></li><li><a href="https://www.ibm.com/developerworks/cn/analytics/?lnk=hm"><span>大数据与分析</span></a></li><li><a href="https://developer.ibm.com/cn/blockchain/?lnk=hm"><span>区块链</span></a></li><li><a href="https://www.ibm.com/developerworks/cn/cloud/?lnk=hm"><span>云计算</span></a></li><li><a href="https://www.ibm.com/developerworks/cn/opensource/?lnk=hm"><span>开源技术</span></a></li><li><a href="https://www.ibm.com/ibm/cn/partners/start/?masthead=&amp;lnk=hm"><span>云/AI 合作伙伴</span></a></li><li><a href="https://www.ibm.com/partnerworld/?lnk=hmmdev_pw_cnzh&amp;lnk2=learn"><span>PartnerWorld (英文)</span></a></li></ul></div></div></li><li><a href="https://www.ibm.com/support/cn/zh/?lnk=hmmsu_cnzh">支持</a></li><li><a href="https://www.ibm.com/employment/cn/?lnk=hmmca_cnzh">工作机会</a></li></ul></div></div><div class="ibm-hide ibm-mhplaceholder"></div><!-- MASTHEAD_END -->
+	    
+<!-- LAYOUT -->
+<div id="ibm-content-wrapper">
+    <!-- LEADSPACE_BEGIN -->
+    <header role="banner" aria-labelledby="ibm-pagetitle-h1">
+        
+        <!-- MASTHEAD_SITENAV_BEGIN -->
+        <div class="ibm-sitenav-menu-container" data-widgetprocessed="true">
+    <div class="ibm-sitenav-menu-name">
+        <a href="https://www.ibm.com/developerworks/cn/">IBM Developer</a>
+    </div>
+    <div class="ibm-sitenav-menu-list">
+        <ul role="menubar">
+            <li role="presentation">
+                <a href="https://www.ibm.com/developerworks/cn/topics/" role="menuitem" tabindex="0">学习</a>
+            </li>
+            <li role="presentation">       
+                <a href="https://www.ibm.com/developerworks/cn/downloads/" role="menuitem" tabindex="-1">开发</a>
+            </li>
+            <li role="presentation">       
+                <a href="https://www.ibm.com/developerworks/cn/community/" role="menuitem" tabindex="-1">社区</a>
+            </li>
+            <li class="ibm-sitenav-menu-item-right">
+                <a href="https://www.ibm.com/ibm/cn/partners/start/" role="menuitem" tabindex="-1">合作</a>
+            </li>
+        </ul>
+    </div>
+</div>
+<!-- BEGIN IBM DEVELOPER BANNER -->
+<style>
+    #dw-mast-banner {
+        background-color: #000;
+        /* min-height: 75px; */
+    }  
+    #dw-mast-banner.ibm-band { padding: 0; }
+    #dw-mast-banner .ibm-columns { padding: 0; min-height: 100px; }
+    #dw-mast-banner .dw-mast-banner-txt { padding: 10px 0 0; margin-left: 2rem; color: #4ca7a5; display: inline; } 
+    #dw-mast-banner .dw-mast-banner-cta { padding: 14px 0 0 20px; margin-right: 2rem; color: #4ca7a5; display: inline; }
+    #dw-mast-banner .dw-mast-banner-txt p.ibm-h4 { font-size: 1.125rem; }
+    #dw-mast-banner .dw-mast-banner-txt span { white-space: nowrap; }
+    #dw-mast-banner .ibm-btn-pri {
+        background-color: #000;
+        border: 1px solid #4ca7a5;
+        color: #4ca7a5;
+    }
+    #dw-mast-banner .ibm-btn-pri:hover {
+        background-color: #4ca7a5;
+        color: #fff;
+    }
+    @media only screen and (max-width:1100px) {
+        #dw-mast-banner .dw-mast-banner-cta { padding: 10px 0 0 20px; }
+        #dw-mast-banner .dw-mast-banner-txt p.ibm-h4 { font-size: 1.0rem; }
+    }
+    @media only screen and (max-width:999px) {
+        #dw-mast-banner .dw-mast-banner-txt { margin-left: 0.5rem; } 
+        #dw-mast-banner .dw-mast-banner-cta { margin-right: 0.5rem; }
+    }
+    @media only screen and (max-width:959px) {
+        #dw-mast-banner .dw-mast-banner-txt { margin-left: 2rem; } 
+        #dw-mast-banner .dw-mast-banner-cta { margin-right: 2rem; }
+        #dw-mast-banner .ibm-btn-pri { white-space: nowrap; font-size: .875rem; }
+        #dw-mast-banner .dw-mast-banner-txt p.ibm-h4 {
+            font-size: .9375rem;
+            text-align: center;
+            font-weight: 400;
+        }
+    }
+    @media only screen and (max-width:600px) {
+        #dw-mast-banner .dw-mast-banner-txt { margin-left: 1rem; } 
+        #dw-mast-banner .dw-mast-banner-cta { margin-right: 1rem; }
+    }
+    @media only screen and (max-width:579px) {
+        #dw-mast-banner .dw-mast-banner-txt, #dw-mast-banner .dw-mast-banner-cta { display: block; }
+        #dw-mast-banner .dw-mast-banner-txt { margin-left: 1rem; margin-right: 1rem; } 
+        #dw-mast-banner .dw-mast-banner-cta { margin-right: 0; text-align: center; }
+        #dw-mast-banner .dw-mast-banner-txt p.ibm-h4 { padding: 0; }
+        #dw-mast-banner .dw-mast-banner-cta { padding: 10px 0 0 0; }
+    } 
+</style>
+<div id="dw-mast-banner" class="ibm-band">
+    <div class="ibm-vertical-center">
+        <div class="ibm-center-block ibm-vertical-center">
+            <div class="dw-mast-banner-txt ibm-plex-sans-regular">                
+                <p class="ibm-h4">developerWorks 中国 正在向 IBM Developer 过渡。 我们将为您呈现一个全新的界面和更新的主题领域，并一如既往地提供您希望获得的精彩内容。</p>             
+            </div>
+        </div>
+    </div>
+</div>        <!-- MASTHEAD_SITENAV_END -->
+        
+        <!-- NAVIGATION_TRAIL_BEGIN -->
+        <div id="ibm-leadspace-head" class="ibm-alternate">
+            <div id="ibm-leadspace-body">
+                <nav aria-label="Breadcrumb" role="navigation">                     
+                                <ul id="dw-navigation-trail" itemscope="" itemtype="http://schema.org/BreadcrumbList"><li itemprop="itemListElement" itemscope="" itemtype="http://schema.org/ListItem"><a itemprop="item" href="http://www.ibm.com/developerworks/cn/topics/"><span itemprop="name">学习</span></a><meta itemprop="position" content="1"></li><li itemprop="itemListElement" itemscope="" itemtype="http://schema.org/ListItem"><a itemprop="item" href="http://www.ibm.com/developerworks/cn/analytics/"><span itemprop="name">Big data and analytics</span></a><meta itemprop="position" content="2"></li></ul>
+                </nav>
+            </div>
+        </div>
+        <!-- NAVIGATION_TRAIL_END -->
+        
+    </header>
+    <!-- LEADSPACE_END -->
+    
+    <!-- MAIN_CONTENT_BEGIN -->
+    <main role="main" aria-label=""> 
+        <div id="ibm-pcon">
+            <!-- BEGIN_IBM-CONTENT -->
+            <div id="ibm-content">
+                <!-- BEGIN_IBM-CONTENT-BODY -->
+                <div id="ibm-content-body">
+                    <!-- BEGIN_IBM-CONTENT-MAIN -->
+                    <div id="ibm-content-main" class="dw-article">                        
+                        <!-- BEGIN_INTERIOR-COLUMNS -->
+                                <div class="ibm-columns dw-article-toc">
+                                    <!-- LEFT_6_2_CONTENT_COLUMN_BEGIN -->  
+                                    <div id="dw-article-toc-container" class="ibm-col-6-2">
+                                        <div id="dw-article-toc-body" data-widget="scrollable" data-height="826" style="width: 460px; height: 826px;" class="nano has-scrollbar ibm-widget-processed"><div class="nano-content" tabindex="-1" style="right: -17px;">
+                                            <h2>内容</h2><div class="ibm-alternate-rule"><hr></div><ul role="directory" aria-label="内容" class="ibm-plain-list"><li><a onclick="tocLink(&#39;#ibm-pagetitle-h1&#39;)" role="link" tabindex="0">概览</a></li><li><a onclick="tocLink(&#39;#2概述outline&#39;)" role="link" tabindex="0">概述</a></li><li><a onclick="tocLink(&#39;#3日志outline&#39;)" role="link" tabindex="0">日志</a></li><li><a onclick="tocLink(&#39;#4ELKStackoutline&#39;)" role="link" tabindex="0">ELK Stack</a></li><li><a onclick="tocLink(&#39;#5三、Kafkaoutline&#39;)" role="link" tabindex="0">Kafka</a></li><li><a onclick="tocLink(&#39;#6四、SparkStreamingoutline&#39;)" role="link" tabindex="0">Spark Streaming</a></li><li><a onclick="tocLink(&#39;#7五、互联网行业日志处理方案举例介绍与应用outline&#39;)" role="link" tabindex="0">互联网行业日志处理方案举例介绍与应用</a></li><li class="dw-highlight"><a onclick="tocLink(&#39;#N10143&#39;)" role="link" tabindex="0">结束语</a></li><li><a onclick="tocLink(&#39;#artrelatedtopics&#39;)" role="link" tabindex="0">相关主题</a></li><li><a onclick="tocLink(&#39;#icomments&#39;)" role="link" tabindex="0">评论</a></li></ul>
+                                        </div><div class="nano-pane" style="display: none; opacity: 1; visibility: visible;"><div class="nano-slider" style="height: 809px; transform: translate(0px, 0px);"></div></div></div>
+                                    </div>
+                                    <!-- LEFT_6_2_CONTENT_COLUMN_END -->
+                                    
+                                    <!-- CENTER_6_4_CONTENT_COLUMN_BEGIN -->
+                                    <div class="ibm-col-6-4">
+                                        <h1 id="ibm-pagetitle-h1" class="ibm-h1">基于 ELK Stack 和 Spark Streaming 的日志处理平台设计与实现</h1>
+                                        <!-- Article Top Bar -->
+                                                <div class="ibm-columns dw-article-topbar">
+                                                    <!-- Author and article info. -->
+                                                    <div class="ibm-col-6-2 ibm-col-medium-6-4 dw-article-metadata">
+                                                        <div class="dw-article-authordate">张 波, 张 毅, 和 李 栋<br><span class="dw-article-pubdate">2015 年 12 月 07 日发布</span></div>
+                                                    </div>
+                                                    <!-- Social -->
+                                                    <div class="ibm-col-6-2 ibm-col-medium-6-4 ibm-col-small-6-2 dw-article-social">
+                                                        <!-- Sharing links -->
+                                                        <div id="dw-article-share-inline">
+                                                            <div class="dw-article-sharelink-inline">
+                                                                <div class="ibm-sharethispage"><h4 class="ibm-bold">分享此页面</h4><p class="ibm-icononly"><a class="ibm-weibo-encircled-link" href="http://service.weibo.com/share/share.php?url=http%3A%2F%2Fwww.ibm.com%2Fdeveloperworks%2Fcn%2Fanalytics%2Flibrary%2Fba-1512-elkstack-logprocessing%2Findex.html%&amp;title=%E5%9F%BA%E4%BA%8E%20ELK%20Stack%20%E5%92%8C%20Spark%20Streaming%20%E7%9A%84%E6%97%A5%E5%BF%97%E5%A4%84%E7%90%86%E5%B9%B3%E5%8F%B0%E8%AE%BE%E8%AE%A1%E4%B8%8E%E5%AE%9E%E7%8E%B0&amp;language=zh_cn" data-id="weibo" onclick="return IBMCore.common.module.sharethispage.gotoUrl(window.open(), this);">Weibo</a><a class="ibm-googleplus-encircled-link" href="https://plus.google.com/share?url=http%3A%2F%2Fwww.ibm.com%2Fdeveloperworks%2Fcn%2Fanalytics%2Flibrary%2Fba-1512-elkstack-logprocessing%2Findex.html&amp;t=%E5%9F%BA%E4%BA%8E%20ELK%20Stack%20%E5%92%8C%20Spark%20Streaming%20%E7%9A%84%E6%97%A5%E5%BF%97%E5%A4%84%E7%90%86%E5%B9%B3%E5%8F%B0%E8%AE%BE%E8%AE%A1%E4%B8%8E%E5%AE%9E%E7%8E%B0" data-id="googleplus" onclick="return IBMCore.common.module.sharethispage.gotoUrl(window.open(), this);">Google+</a><a class="ibm-email-encircled-link" href="mailto:?subject=%E5%9F%BA%E4%BA%8E%20ELK%20Stack%20%E5%92%8C%20Spark%20Streaming%20%E7%9A%84%E6%97%A5%E5%BF%97%E5%A4%84%E7%90%86%E5%B9%B3%E5%8F%B0%E8%AE%BE%E8%AE%A1%E4%B8%8E%E5%AE%9E%E7%8E%B0&amp;body=http%3A%2F%2Fwww.ibm.com%2Fdeveloperworks%2Fcn%2Fanalytics%2Flibrary%2Fba-1512-elkstack-logprocessing%2Findex.html" data-id="email" onclick="">用电子邮件发送本页面</a></p></div>
+                                                            </div>
+                                                        </div>
+                                                        <!-- Number of comments and link to comments -->
+                                                        <div id="dw-article-cmts">
+                                                            <div class="dw-article-cmtslink">
+                                                                <a onclick="tocLink(&#39;#icomments&#39;)" href="https://www.ibm.com/developerworks/cn/analytics/library/ba-1512-elkstack-logprocessing/index.html#icomments" role="link" tabindex="0" aria-label="Comments">
+                                                                    <img src="./基于 ELK Stack 和 Spark Streaming 的日志处理平台设计与实现_files/dw-article-cmt-icon.png" width="29" height="29" alt="Comments">
+                                                                </a>
+                                                            </div>
+                                                            <div class="dw-article-cmtslink">
+                                                                <a onclick="tocLink(&#39;#icomments&#39;)" href="https://www.ibm.com/developerworks/cn/analytics/library/ba-1512-elkstack-logprocessing/index.html#icomments" role="link" tabindex="0">
+                                                                    <div id="nCmts">1</div>
+                                                                </a>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                        <!-- Article Body -->
+                                        
+                                        <h2 id="2概述outline" class="ibm-h2">概述</h2><p>大数据时代，随着数据量不断增长，存储与计算集群的规模也逐渐扩大，几百上千台的云计算环境已不鲜见。现在的集群所需要解决的问题不仅仅是高性能、高可靠性、高可扩展性，还需要面对易维护性以及数据平台内部的数据共享性等诸多挑战。优秀的系统运维平台既能实现数据平台各组件的集中式管理、方便系统运维人员日常监测、提升运维效率，又能反馈系统运行状态给系统开发人员。例如采集数据仓库的日志可以按照时间序列查看各数据库实例各种级别的日志数量与占比，采集 DB2 表空间数据分析可得到数据库集群健康状态，分析应用服务器的日志可以查看出错最多的模块、下载最多的文件、使用最多的功能等。大数据时代的业务与运维将紧密的结合在一起。</p><h2 id="3日志outline" class="ibm-h2">日志</h2><h3 id="N10063" class="ibm-h3">1. 什么是日志</h3><p>日志是带时间戳的基于时间序列的机器数据，包括 IT 系统信息（服务器、网络设备、操作系统、应用软件）、物联网各种传感器信息。日志可以反映用户实际行为，是真实的数据。</p><h3 id="N1006A" class="ibm-h3">2. 日志处理方案演进</h3><h5 id="N10070" class="ibm-h5">图 1. 日志处理方案经历的版本迭代</h5><img src="./基于 ELK Stack 和 Spark Streaming 的日志处理平台设计与实现_files/image001.jpg" class="ibm-downsize" alt="图 1. 日志处理方案经历的版本迭代" height="81" width="562"><p class="ibm-ind-link ibm-hide"><a class="ibm-popup-link" onclick="IBMCore.common.widget.overlay.show(&#39;N10074&#39;);return false;" href="https://www.ibm.com/developerworks/cn/analytics/library/ba-1512-elkstack-logprocessing/index.html#N10074">点击查看大图</a></p><ul class="ibm-bullet-list"><li>
+          日志处理 v1.0：日志没有集中式处理；只做事后追查，黑客入侵后删除日志无法察觉；使用数据库存储日志，无法胜任复杂事务处理。</li></ul><ul class="ibm-bullet-list"><li>
+          日志处理 v2.0：使用 Hadoop 平台实现日志离线批处理，缺点是实时性差；使用 Storm 流处理框架、Spark 内存计算框架处理日志，但 Hadoop/Storm/Spark 都是编程框架，并不是拿来即用的平台。</li></ul><ul class="ibm-bullet-list"><li>
+          日志处理 v3.0：使用日志实时搜索引擎分析日志，特点：第一是快，日志从产生到搜索分析出结果只有数秒延时；第二是大，每天处理 TB 日志量；第三是灵活，可搜索分析任何日志。作为代表的解决方案有 Splunk、ELK、SILK。</li></ul><h5 id="N10083" class="ibm-h5">图 2. 深度整合 ELK、Spark、Hadoop 构建日志分析系统</h5><img src="./基于 ELK Stack 和 Spark Streaming 的日志处理平台设计与实现_files/image002.jpg" class="ibm-downsize" alt="图 2. 深度整合 ELK、Spark、Hadoop 构建日志分析系统" height="321" width="581"><p class="ibm-ind-link ibm-hide"><a class="ibm-popup-link" onclick="IBMCore.common.widget.overlay.show(&#39;N10087&#39;);return false;" href="https://www.ibm.com/developerworks/cn/analytics/library/ba-1512-elkstack-logprocessing/index.html#N10087">点击查看大图</a></p><h2 id="4ELKStackoutline" class="ibm-h2">ELK Stack</h2><p>ELK Stack 是开源日志处理平台解决方案，背后的商业公司是 Elastic(https://www.elastic.co/)。它由日志采集解析工具 Logstash、基于 Lucene 的全文搜索引擎 Elasticsearch、分析可视化平台 Kibana 组成。目前 ELK 的用户有 Adobe、Microsoft、Mozilla、Facebook、Stackoverflow、Cisco、ebay、Uber 等诸多知名厂商。</p><h3 id="N10093" class="ibm-h3">1. Logstash</h3><p>Logstash 是一种功能强大的信息采集工具，类似于 Hadoop 生态圈里的 Flume。通常在其配置文件规定 Logstash 如何处理各种类型的事件流，一般包含 input、filter、output 三个部分。Logstash 为各个部分提供相应的插件，因而有 input、filter、output 三类插件完成各种处理和转换；另外 codec 类的插件可以放在 input 和 output 部分通过简单编码来简化处理过程。下面以 DB2 的一条日志为例。</p><h5 id="N1009B" class="ibm-h5">图 3.DB2 数据库产生的半结构化日志样例</h5><img src="./基于 ELK Stack 和 Spark Streaming 的日志处理平台设计与实现_files/image003.jpg" class="ibm-downsize" alt="图 3.DB2 数据库产生的半结构化日志样例" height="97" width="570"><p class="ibm-ind-link ibm-hide"><a class="ibm-popup-link" onclick="IBMCore.common.widget.overlay.show(&#39;N1009F&#39;);return false;" href="https://www.ibm.com/developerworks/cn/analytics/library/ba-1512-elkstack-logprocessing/index.html#N1009F">点击查看大图</a></p><p>这是一种多行的日志，每一条日志以：“2014-10-19-12.19.46.033037-300”格式的时间戳为起始标志。可以在 input 部分引入 codec 插件 multiline，来将一条日志的多行文本封装到一条消息（message）中。</p><span class="dw-code-nohighlight"><div class="ibm-syntax-container"><div><div id="highlighter_224372" class="syntaxhighlighter  htmlscript"><table border="0" cellpadding="0" cellspacing="0" role="none"><tbody><tr><td class="gutter"><div class="line number1 index0 alt2">1</div><div class="line number2 index1 alt1">2</div><div class="line number3 index2 alt2">3</div><div class="line number4 index3 alt1">4</div><div class="line number5 index4 alt2">5</div><div class="line number6 index5 alt1">6</div><div class="line number7 index6 alt2">7</div><div class="line number8 index7 alt1">8</div><div class="line number9 index8 alt2">9</div><div class="line number10 index9 alt1">10</div></td><td class="code"><div class="container"><div class="line number1 index0 alt2"><code class="htmlscript plain">input {</code></div><div class="line number2 index1 alt1"><code class="htmlscript spaces">&nbsp;</code><code class="htmlscript plain">file {</code></div><div class="line number3 index2 alt2"><code class="htmlscript spaces">&nbsp;</code><code class="htmlscript plain">path =&gt; "path/to/filename"</code></div><div class="line number4 index3 alt1"><code class="htmlscript spaces">&nbsp;</code><code class="htmlscript plain">codec =&gt; multiline {</code></div><div class="line number5 index4 alt2"><code class="htmlscript spaces">&nbsp;</code><code class="htmlscript plain">pattern =&gt; "^\d{4}-\d{2}-\d{2}-\d{2}\.\d{2}\.\d{2}\.\d{6}[\+-]\d{3}"</code></div><div class="line number6 index5 alt1"><code class="htmlscript spaces">&nbsp;</code><code class="htmlscript plain">negate =&gt; true</code></div><div class="line number7 index6 alt2"><code class="htmlscript spaces">&nbsp;</code><code class="htmlscript plain">what =&gt; previous</code></div><div class="line number8 index7 alt1"><code class="htmlscript spaces">&nbsp;</code><code class="htmlscript plain">}</code></div><div class="line number9 index8 alt2"><code class="htmlscript spaces">&nbsp;</code><code class="htmlscript plain">}</code></div><div class="line number10 index9 alt1"><code class="htmlscript plain">}</code></div></div></td></tr></tbody></table></div></div></div></span><p>使用 file 插件导入文件形式的日志，而嵌入的 codec 插件 multiline 的参数 pattern 就规定了分割日志条目的时间戳格式。在 DataStage 多行日志的实际应用中，有时一条日志会超过 500 行，这超出了 multiline 组件默认的事件封装的最大行数，这需要我们在 multiline 中设置 max_lines 属性。</p><p>经过 input 部分读入预处理后的数据流入 filter 部分，其使用 grok、mutate 等插件来过滤文本和匹配字段，并且我们自己可以为事件流添加额外的字段信息：</p><span class="dw-code-nohighlight"><div class="ibm-syntax-container"><div><div id="highlighter_905149" class="syntaxhighlighter  htmlscript"><table border="0" cellpadding="0" cellspacing="0" role="none"><tbody><tr><td class="gutter"><div class="line number1 index0 alt2">1</div><div class="line number2 index1 alt1">2</div><div class="line number3 index2 alt2">3</div><div class="line number4 index3 alt1">4</div><div class="line number5 index4 alt2">5</div><div class="line number6 index5 alt1">6</div><div class="line number7 index6 alt2">7</div><div class="line number8 index7 alt1">8</div><div class="line number9 index8 alt2">9</div><div class="line number10 index9 alt1">10</div><div class="line number11 index10 alt2">11</div><div class="line number12 index11 alt1">12</div><div class="line number13 index12 alt2">13</div></td><td class="code"><div class="container"><div class="line number1 index0 alt2"><code class="htmlscript plain">filter {</code></div><div class="line number2 index1 alt1"><code class="htmlscript spaces">&nbsp;</code><code class="htmlscript plain">mutate{</code></div><div class="line number3 index2 alt2"><code class="htmlscript spaces">&nbsp;</code><code class="htmlscript plain">gsub =&gt; ['message', "\n", " "]</code></div><div class="line number4 index3 alt1"><code class="htmlscript spaces">&nbsp;</code><code class="htmlscript plain">}</code></div><div class="line number5 index4 alt2"><code class="htmlscript spaces">&nbsp;</code><code class="htmlscript plain">grok {</code></div><div class="line number6 index5 alt1"><code class="htmlscript spaces">&nbsp;</code><code class="htmlscript plain">match =&gt; { "message" =&gt; </code></div><div class="line number7 index6 alt2"><code class="htmlscript spaces">&nbsp;</code><code class="htmlscript plain">"(?&lt;</code><code class="htmlscript plain">timestamp</code><code class="htmlscript plain">&gt;%{YEAR}-%{MONTHNUM}-%{MONTHDAY}-%{HOUR}\.%{MINUTE}\.%{SECOND})%{INT:timezone}(?:%{SPACE}%{WORD:recordid}%{SPACE})(?:LEVEL%{SPACE}:%{SPACE}%{DATA:level}%{SPACE})(?:PID%{SPACE}:%{SPACE}%{INT:processid}%{SPACE})(?:TID%{SPACE}:%{SPACE}%{INT:threadid}%{SPACE})(?:PROC%{SPACE}:%{SPACE}%{DATA:process}%{SPACE})?(?:INSTANCE%{SPACE}:%{SPACE}%{WORD:instance}%{SPACE})?(?:NODE%{SPACE}:%{SPACE}%{WORD:node}%{SPACE})?(?:DB%{SPACE}:%{SPACE}%{WORD:dbname}%{SPACE})?(?:APPHDL%{SPACE}:%{SPACE}%{NOTSPACE:apphdl}%{SPACE})?(?:APPID%{SPACE}:%{SPACE}%{NOTSPACE:appid}%{SPACE})?(?:AUTHID%{SPACE}:%{SPACE}%{WORD:authid}%{SPACE})?(?:HOSTNAME%{SPACE}:%{SPACE}%{HOSTNAME:hostname}%{SPACE})?(?:EDUID%{SPACE}:%{SPACE}%{INT:eduid}%{SPACE})?(?:EDUNAME%{SPACE}:%{SPACE}%{DATA:eduname}%{SPACE})?(?:FUNCTION%{SPACE}:%{SPACE}%{DATA:function}%{SPACE})(?:probe:%{SPACE}%{INT:probe}%{SPACE})%{GREEDYDATA:functionlog}"</code></div><div class="line number8 index7 alt1"><code class="htmlscript spaces">&nbsp;</code><code class="htmlscript plain">}</code></div><div class="line number9 index8 alt2"><code class="htmlscript spaces">&nbsp;</code><code class="htmlscript plain">}</code></div><div class="line number10 index9 alt1"><code class="htmlscript spaces">&nbsp;</code><code class="htmlscript plain">date {</code></div><div class="line number11 index10 alt2"><code class="htmlscript spaces">&nbsp;</code><code class="htmlscript plain">match =&gt; [ "timestamp", "YYYY-MM-dd-HH.mm.ss.SSSSSS" ]</code></div><div class="line number12 index11 alt1"><code class="htmlscript spaces">&nbsp;</code><code class="htmlscript plain">}</code></div><div class="line number13 index12 alt2"><code class="htmlscript spaces">&nbsp;</code><code class="htmlscript plain">}</code></div></div></td></tr></tbody></table></div></div></div></span><p>前面 input 部分的 multiline 插件将一条多行日志项转化为一行，并以“\n”替代实际的换行符。为了便于后面处理，这里的 mutate 插件就是将这些“\n”替换为空格。而 grok 插件用于匹配提取日志项中有意义的字段信息。最后的 date 插件则是按格式“YYYY-MM-dd-HH.mm.ss.SSSSSS”解析提取的时间戳字段，并赋给系统默认的时间戳字段“@timestamp”。Output 插件用于指定事件流的去向，可以是消息队列、全文搜索引擎、TCP Socket、Email 等几十种目标端。</p><h3 id="N100B4" class="ibm-h3">2. Elasticsearch</h3><p>Elasticsearch 是基于 Lucene 的近实时搜索平台，它能在一秒内返回你要查找的且已经在 Elasticsearch 做了索引的文档。它默认基于 Gossip 路由算法的自动发现机制构建配置有相同 cluster name 的集群，但是有的时候这种机制并不可靠，会发生脑裂现象。鉴于主动发现机制的不稳定性，用户可以选择在每一个节点上配置集群其他节点的主机名，在启动集群时进行被动发现。</p><p>Elasticsearch 中的 Index 是一组具有相似特征的文档集合，类似于关系数据库模型中的数据库实例，Index 中可以指定 Type 区分不同的文档，类似于数据库实例中的关系表，Document 是存储的基本单位，都是 JSON 格式，类似于关系表中行级对象。我们处理后的 JSON 文档格式的日志都要在 Elasticsearch 中做索引，相应的 Logstash 有 Elasticsearch output 插件，对于用户是透明的。</p><p>Hadoop 生态圈为大规模数据集的处理提供多种分析功能，但实时搜索一直是 Hadoop 的软肋。如今，Elasticsearch for Apache Hadoop（ES-Hadoop）弥补了这一缺陷，为用户整合了 Hadoop 的大数据分析能力以及 Elasticsearch 的实时搜索能力.</p><h5 id="N100C0" class="ibm-h5">图 4. 应用 es-hadoop 整合 Hadoop Ecosystem 与 Elasticsearch 架构图（https://www.elastic.co/products/hadoop）</h5><img src="./基于 ELK Stack 和 Spark Streaming 的日志处理平台设计与实现_files/image004.jpg" class="ibm-downsize" alt="图 4. 应用 es-hadoop 整合 Hadoop Ecosystem 与 Elasticsearch 架构图（https://www.elastic.co/products/hadoop）" height="193" width="576"><p class="ibm-ind-link ibm-hide"><a class="ibm-popup-link" onclick="IBMCore.common.widget.overlay.show(&#39;N100C4&#39;);return false;" href="https://www.ibm.com/developerworks/cn/analytics/library/ba-1512-elkstack-logprocessing/index.html#N100C4">点击查看大图</a></p><h3 id="N100C9" class="ibm-h3">3. Kibana</h3><p>Kibana 是专门设计用来与 Elasticsearch 协作的，可以自定义多种表格、柱状图、饼状图、折线图对存储在 Elasticsearch 中的数据进行深入挖掘分析与可视化。下图定制的仪表盘可以动态监测数据库集群中每个数据库实例产生的各种级别的日志。</p><h5 id="N100D1" class="ibm-h5">图 5. 实时监测 DB2 实例运行状态的动态仪表盘</h5><img src="./基于 ELK Stack 和 Spark Streaming 的日志处理平台设计与实现_files/image005.jpg" class="ibm-downsize" alt="图 5. 实时监测 DB2 实例运行状态的动态仪表盘" height="276" width="570"><p class="ibm-ind-link ibm-hide"><a class="ibm-popup-link" onclick="IBMCore.common.widget.overlay.show(&#39;N100D5&#39;);return false;" href="https://www.ibm.com/developerworks/cn/analytics/library/ba-1512-elkstack-logprocessing/index.html#N100D5">点击查看大图</a></p><h2 id="5三、Kafkaoutline" class="ibm-h2">Kafka</h2><p>Kafka 是 LinkedIn 开源的分布式消息队列，它采用了独特的消费者-生产者架构实现数据平台各组件间的数据共享。集群概念中的 server 在 Kafka 中称之为 broker，它使用主题管理不同类别的数据，比如 DB2 日志归为一个主题，tomcat 日志归为一个主题。我们使用 Logstash 作为 Kafka 消息的生产者时，output 插件就需要配置好 Kafka broker 的列表，也就是 Kafka 集群主机的列表；相应的，用作 Kafka 消费者角色的 Logstash 的 input 插件就要配置好需要订阅的 Kafka 中的主题名称和 ZooKeeper 主机列表。Kafka 通过将数据持久化到硬盘的 Write Ahead Log（WAL）保证数据可靠性与顺序性，但这并不会影响实时数据的传输速度，实时数据仍是通过内存传输的。Kafka 是依赖于 ZooKeeper 的，它将每组消费者消费的相应 topic 的偏移量保存在 ZooKeeper 中。据称 LinkedIn 内部的 Kafka 集群每天已能处理超过 1 万亿条消息。</p><h5 id="N100E2" class="ibm-h5">图 6. 基于消息订阅机制的 Kafka 架构</h5><img src="./基于 ELK Stack 和 Spark Streaming 的日志处理平台设计与实现_files/image006.jpg" class="ibm-downsize" alt="图 6. 基于消息订阅机制的 Kafka 架构" height="175" width="253"><p>除了可靠性和独特的 push&amp;pull 架构外，相较于其他消息队列，Kafka 还拥有更大的吞吐量：</p><h5 id="N100EE" class="ibm-h5">图 7. 基于消息持久化机制的消息队列吞吐量比较</h5><img src="./基于 ELK Stack 和 Spark Streaming 的日志处理平台设计与实现_files/image007.jpg" class="ibm-downsize" alt="图 7. 基于消息持久化机制的消息队列吞吐量比较" height="288" width="570"><p class="ibm-ind-link ibm-hide"><a class="ibm-popup-link" onclick="IBMCore.common.widget.overlay.show(&#39;N100F2&#39;);return false;" href="https://www.ibm.com/developerworks/cn/analytics/library/ba-1512-elkstack-logprocessing/index.html#N100F2">点击查看大图</a></p><h2 id="6四、SparkStreamingoutline" class="ibm-h2">Spark Streaming</h2><p>Spark 由加州大学伯克利分校 AMP 实验室 (Algorithms, Machines, and People Lab) 开发，可用来构建大型的、低延迟的数据分析应用程序。它将批处理、流处理、即席查询融为一体。Spark 社区也是相当火爆，平均每三个月迭代一次版本更是体现了它在大数据处理领域的地位。</p><p>Spark Streaming 不同于 Storm，Storm 是基于事件级别的流处理，Spark Streaming 是 mini-batch 形式的近似流处理的微型批处理。Spark Streaming 提供了两种从 Kafka 中获取消息的方式：</p><p>第一种是利用 Kafka 消费者高级 API 在 Spark 的工作节点上创建消费者线程，订阅 Kafka 中的消息，数据会传输到 Spark 工作节点的执行器中，但是默认配置下这种方法在 Spark Job 出错时会导致数据丢失，如果要保证数据可靠性，需要在 Spark Streaming 中开启<em>Write Ahead Logs（WAL）</em>，也就是上文提到的 Kafka 用来保证数据可靠性和一致性的数据保存方式。可以选择让 Spark 程序把 WAL 保存在分布式文件系统（比如 HDFS）中。</p><p>第二种方式不需要建立消费者线程，使用 createDirectStream 接口直接去读取 Kafka 的 WAL，将 Kafka 分区与 RDD 分区做一对一映射，相较于第一种方法，不需再维护一份 WAL 数据，提高了性能。读取数据的偏移量由 Spark Streaming 程序通过检查点机制自身处理，避免在程序出错的情况下重现第一种方法重复读取数据的情况，消除了 Spark Streaming 与 ZooKeeper/Kafka 数据不一致的风险。保证每条消息只会被 Spark Streaming 处理一次。以下代码片通过第二种方式读取 Kafka 中的数据：</p><span class="dw-code-nohighlight"><div class="ibm-syntax-container"><div><div id="highlighter_937997" class="syntaxhighlighter  htmlscript"><table border="0" cellpadding="0" cellspacing="0" role="none"><tbody><tr><td class="gutter"><div class="line number1 index0 alt2">1</div><div class="line number2 index1 alt1">2</div><div class="line number3 index2 alt2">3</div><div class="line number4 index3 alt1">4</div><div class="line number5 index4 alt2">5</div><div class="line number6 index5 alt1">6</div><div class="line number7 index6 alt2">7</div><div class="line number8 index7 alt1">8</div><div class="line number9 index8 alt2">9</div><div class="line number10 index9 alt1">10</div><div class="line number11 index10 alt2">11</div><div class="line number12 index11 alt1">12</div><div class="line number13 index12 alt2">13</div><div class="line number14 index13 alt1">14</div><div class="line number15 index14 alt2">15</div><div class="line number16 index15 alt1">16</div><div class="line number17 index16 alt2">17</div></td><td class="code"><div class="container"><div class="line number1 index0 alt2"><code class="htmlscript plain">// Create direct kafka stream with brokers and topics</code></div><div class="line number2 index1 alt1"><code class="htmlscript plain">JavaPairInputDStream&lt;</code><code class="htmlscript plain">String</code><code class="htmlscript plain">, String&gt; messages = KafkaUtils.createDirectStream(</code></div><div class="line number3 index2 alt2"><code class="htmlscript spaces">&nbsp;</code><code class="htmlscript plain">jssc,</code></div><div class="line number4 index3 alt1"><code class="htmlscript spaces">&nbsp;</code><code class="htmlscript plain">String.class,</code></div><div class="line number5 index4 alt2"><code class="htmlscript spaces">&nbsp;</code><code class="htmlscript plain">String.class,</code></div><div class="line number6 index5 alt1"><code class="htmlscript spaces">&nbsp;</code><code class="htmlscript plain">StringDecoder.class,</code></div><div class="line number7 index6 alt2"><code class="htmlscript spaces">&nbsp;</code><code class="htmlscript plain">StringDecoder.class,</code></div><div class="line number8 index7 alt1"><code class="htmlscript spaces">&nbsp;</code><code class="htmlscript plain">kafkaParams,</code></div><div class="line number9 index8 alt2"><code class="htmlscript spaces">&nbsp;</code><code class="htmlscript plain">topicsSet);</code></div><div class="line number10 index9 alt1"><code class="htmlscript plain">messages.foreachRDD(new Function&lt;</code><code class="htmlscript plain">JavaPairRDD</code><code class="htmlscript plain">&lt;String,String&gt;,Void&gt;(){</code></div><div class="line number11 index10 alt2"><code class="htmlscript spaces">&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="htmlscript plain">public Void call(JavaPairRDD&lt;</code><code class="htmlscript plain">String</code><code class="htmlscript plain">, String&gt; v1)</code></div><div class="line number12 index11 alt1"><code class="htmlscript spaces">&nbsp;</code><code class="htmlscript plain">throws Exception {</code></div><div class="line number13 index12 alt2"><code class="htmlscript spaces">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="htmlscript plain">v1.foreach(new VoidFunction&lt;</code><code class="htmlscript plain">Tuple2</code><code class="htmlscript plain">&lt;String, String&gt;&gt;(){</code></div><div class="line number14 index13 alt1"><code class="htmlscript spaces">&nbsp;</code><code class="htmlscript plain">public void call(Tuple2&lt;</code><code class="htmlscript plain">String</code><code class="htmlscript plain">, String&gt; tuple2) {</code></div><div class="line number15 index14 alt2"><code class="htmlscript spaces">&nbsp;</code><code class="htmlscript plain">try{</code></div><div class="line number16 index15 alt1"><code class="htmlscript spaces">&nbsp;</code><code class="htmlscript plain">JSONObject a = new JSONObject(tuple2._2);</code></div><div class="line number17 index16 alt2"><code class="htmlscript spaces">&nbsp;</code><code class="htmlscript plain">...</code></div></div></td></tr></tbody></table></div></div></div></span><p>Spark Streaming 获取到消息后便可以通过 Tuple 对象自定义操作消息，如下图是针对 DB2 数据库日志的邮件告警，生成告警邮件发送到 Notes 邮箱：</p><h5 id="N1010E" class="ibm-h5">图 8. 基于 Spark Streaming 对 DB2 异常日志实现 Notes 邮件告警</h5><img src="./基于 ELK Stack 和 Spark Streaming 的日志处理平台设计与实现_files/image008.jpg" class="ibm-downsize" alt="图 8. 基于 Spark Streaming 对 DB2 异常日志实现 Notes 邮件告警" height="86" width="570"><p class="ibm-ind-link ibm-hide"><a class="ibm-popup-link" onclick="IBMCore.common.widget.overlay.show(&#39;N10112&#39;);return false;" href="https://www.ibm.com/developerworks/cn/analytics/library/ba-1512-elkstack-logprocessing/index.html#N10112">点击查看大图</a></p><h2 id="7五、互联网行业日志处理方案举例介绍与应用outline" class="ibm-h2">互联网行业日志处理方案举例介绍与应用</h2><h3 id="N1011C" class="ibm-h3">1. 新浪</h3><p>新浪采用的技术架构是常见的 Kafka 整合 ELK Stack 方案。Kafka 作为消息队列用来缓存用户日志；使用 Logstash 做日志解析，统一成 JSON 格式输出给 Elasticsearch；使用 Elasticsearch 提供实时日志分析与强大的搜索和统计服务；Kibana 用作数据可视化组件。该技术架构目前服务的用户包括微博、微盘、云存储、弹性计算平台等十多个部门的多个产品的日志搜索分析业务，每天处理约 32 亿条（2TB）日志。</p><p>新浪的日志处理平台团队对 Elasticsearch 做了大量优化（比如调整 max open files 等），并且开发了一个独立的 Elasticsearch Index 管理系统，负责索引日常维护任务（比如索引的创建、优化、删除、与分布式文件系统的数据交换等）的调度及执行。为 Elasticsearch 安装了国内中文分词插件 elasticsearch-analysis-ik，满足微盘搜索对中文分词的需求。（见参考资源 2）</p><h3 id="N10125" class="ibm-h3">2. 腾讯</h3><p>腾讯蓝鲸数据平台告警系统的技术架构同样基于分布式消息队列和全文搜索引擎。但腾讯的告警平台不仅限于此，它的复杂的指标数据统计任务通过使用 Storm 自定义流式计算任务的方法实现，异常检测的实现利用了曲线的时间周期性和相关曲线之间的相关性去定义动态的阈值，并且基于机器学习算法实现了复杂的日志自动分类（比如 summo logic）。</p><p>告警平台把拨测（定时 curl 一下某个 url，有问题就告警）、日志集中检索、日志告警（5 分钟 Error 大于 X 次告警）、指标告警（cpu 使用率大于 X 告警）整合进同一个数据管线，简化了整体的架构。（见参考资源 3）</p><h3 id="N1012E" class="ibm-h3">3. 七牛</h3><p>七牛采用的技术架构为 Flume＋Kafka＋Spark，混部在 8 台高配机器。根据七牛技术博客提供的数据，该日志处理平台每天处理 500 亿条数据，峰值 80 万 TPS。&nbsp;</p><p>Flume 相较于 Logstash 有更大的吞吐量，而且与 HDFS 整合的性能比 Logstash 强很多。七牛技术架构选型显然考虑了这一点，七牛云平台的日志数据到 Kafka 后，一路同步到 HDFS，用于离线统计，另一路用于使用 Spark Streaming 进行实时计算，计算结果保存在 Mongodb 集群中。（见参考资源 4）</p><p>任何解决方案都不是十全十美的，具体采用哪些技术要深入了解自己的应用场景。就目前日志处理领域的开源组件来说，在以下几个方面还比较欠缺：</p><ul class="ibm-bullet-list"><li>
+          Logstash 的内部状态获取不到，目前没有好的成熟的监控方案。</li><li>
+          Elasticsearch 具有海量存储海量聚合的能力，但是同 Mongodb 一样，并不适合于写入数据非常多（1 万 TPS 以上）的场景。</li><li>
+          缺乏真正实用的异常检测方法；实时统计方面缺乏成熟的解决方案，Storm 就是一个底层的执行引擎，而 Spark 还缺少时间窗口等抽象。</li><li>
+          对于日志自动分类，还没有开源工具可以做到 summo logic 那样的效果。</li></ul><h2 id="N10143" class="ibm-h2">结束语</h2><p>大数据时代的运维管理意义重大，好的日志处理平台可以事半功倍的提升开发人员和运维人员的效率。本文通过简单用例介绍了 ELK Stack、Kafka 和 Spark Streaming 在日志处理平台中各自在系统架构中的功能。现实中应用场景繁多复杂、数据形式多种多样，日志处理工作不是一蹴而就的，分析处理过程还需要在实践中不断挖掘和优化，笔者也将致力于 DB2 数据库运行状态更细节数据的收集和更全面细致的监控。</p><!--CMA ID: 1023468--><!--Site ID: 10--><!--XSLT stylesheet used to transform this file: dw-document-html-8.0.xsl-->
+                                        <!-- Article Quiz -->
+                                        
+                                        <!-- Article Resources -->
+                                        <div class="ibm-alternate-rule"><hr></div><h4 id="artrelatedtopics" class="ibm-h4">相关主题</h4><ul><li>
+        1. 参考“<a href="http://engineering.linkedin.com/distributed-systems/log-what-every-software-engineer-should-know-about-real-time-datas-unifying">日志: 每个软件工程师都应该知晓的实时数据集成提取的那点事</a>”，详细了解日志处理。</li><li>
+        2. 查看文章“<a href="http://mp.weixin.qq.com/s?__biz=MzA5OTAyNzQ2OA==&amp;mid=207036526&amp;idx=1&amp;sn=b0de410e0d1026cd100ac2658e093160&amp;scene=2&amp;from=timeline&amp;isappinstalled=0#rd">新浪是如何分析处理 32 亿条实时日志的？</a>”，了解新浪的日志处理方案设计。</li><li>
+        3. 查看文章“<a href="http://mp.weixin.qq.com/s?__biz=MzA5OTAyNzQ2OA==&amp;mid=207255171&amp;idx=1&amp;sn=733c8348c624d81a98a6aa9ec566497b&amp;scene=2&amp;from=timeline&amp;isappinstalled=0#rd">腾讯蓝鲸数据平台之告警系统</a>”，了解腾讯在大型系统运维工程上的实践。</li><li>
+        4. 查看文章“<a href="http://www.csdn.net/article/2015-07-30/2825342?reload">七牛是如何搞定每天 500 亿条日志的</a>”，了解七牛海量日志处理解决方案。</li><li>
+        5. 查看文章“<a href="http://dockone.io/article/675">Mesos 在去哪儿网的应用</a>”，了解去哪儿网利用日志在集群管理中的实践。</li><li>
+        6. 参考网站“<a href="https://softwaremill.com/mqperf/">https://softwaremill.com/mqperf/</a>”，了解基于消息持久化的各消息队列各种负载下的性能分析。</li><li>在 <a href="http://www.ibm.com/developerworks/cn/bigdata/">developerWorks 大数据和分析专区</a>，了解关于大数据的更多信息，获取技术文档、how-to 文章、培训、下载、产品信息以及其他资源。
+      </li></ul>
+                                        <!-- Commenting -->
+<!-- INLINE_COMMENTS_BEGIN: -->
+<div class="ibm-alternate-rule"><hr></div>
+<div id="dw-article-cmts-top" class="ibm-columns">
+    <div class="ibm-col-6-2">
+        <h4 id="icomments" class="ibm-h4">评论</h4>
+        <div id="dw-article-cmts-login">
+            <p>添加或订阅评论，请先<a onclick="window.location=userLinks[0].url;" tabindex="0" role="link">登录</a>或<a onclick="window.location=userLinks[1].url;" tabindex="0" role="link">注册</a>。</p>
+        </div>
+    </div>    
+    <div class="ibm-col-6-2" id="dw-notify"> 
+        <input type="checkbox" value="1" name="comment_notification" id="comment_notification" disabled="">
+        <label for="comment_notification" style="color: rgb(204, 204, 204);">有新评论时提醒我</label>	   
+    </div>
+</div>
+
+<div class="dw-article-cmts-container">       
+    <div class="ibm-no-print jquery-comments read-only" id="dw-icomments-container"><div class="commenting-field main"><img src="./基于 ELK Stack 和 Spark Streaming 的日志处理平台设计与实现_files/user-icon.png" alt="" class="profile-picture round by-current-user"><div class="textarea-wrapper"><span class="close" style="display: none;"><span class="left"></span><span class="right"></span></span><div class="textarea" data-placeholder="添加评论" contenteditable="true" style="height: 3.65em;"></div><div class="control-row" style="display: none;"><span class="send save highlight-background">提交</span></div></div></div><ul class="navigation"><div class="navigation-wrapper"><li data-sort-key="newest" data-container-name="comments" class="active">最新的</li><li data-sort-key="oldest" data-container-name="comments">历史</li><li data-sort-key="popularity" data-container-name="comments">热门</li></div><div class="navigation-wrapper responsive"><li class="title active"><header>最新的</header></li><ul class="dropdown"><li data-sort-key="newest" data-container-name="comments" class="active">最新的</li><li data-sort-key="oldest" data-container-name="comments">历史</li><li data-sort-key="popularity" data-container-name="comments">热门</li></ul></div></ul><div class="data-container" data-container="comments"><ul id="comment-list" class="main"><li data-id="24260" class="comment"><div class="comment-wrapper"><img src="./基于 ELK Stack 和 Spark Streaming 的日志处理平台设计与实现_files/user-icon.png" alt="" class="profile-picture round"><time data-original="1452479810064">2016 年 01 月 11 日</time><div class="name"><a href="https://www.ibm.com/developerworks/community/profiles/user/Raxxar">Raxxar</a></div><div class="wrapper"><div class="content">很有帮助！</div><span class="actions"><button class="action reply" type="button">回复</button><span class="separator">·</span><button class="action upvote"><span class="upvote-count">0</span><i class="fa fa-thumbs-up"></i></button><span class="separator">·</span><a class="action reply" href="https://www.ibm.com/developerworks/community/report?lang=cn&amp;referingURL=https%3A%2F%2Fwww.ibm.com%2Fdeveloperworks%2Fcn%2Fanalytics%2Flibrary%2Fba-1512-elkstack-logprocessing%2Findex.html&amp;mymessage=%E8%AF%84%E8%AE%BA%3A%20%E5%BE%88%E6%9C%89%E5%B8%AE%E5%8A%A9%EF%BC%81%0D%E7%94%B1%20Raxxar%20%20%E4%BA%8E%202016%20%E5%B9%B4%2001%20%E6%9C%88%2011%20%E6%97%A5%20%0D%0D---%20%E5%9C%A8%E4%B8%8B%E6%96%B9%E6%B7%BB%E5%8A%A0%E8%AF%84%E8%AE%BA%20---" target="_blank">报告滥用<i class="fa image" style="background-image: url(&quot;/developerworks/maverick/image/report-abuse.png&quot;);"></i></a></span></div></div><ul class="child-comments"></ul></li></ul><div class="no-comments no-data"><i class="fa fa-comments fa-2x"></i><br>第一个评论</div></div></div>
+</div>
+<!-- INLINE_COMMENTS_END -->                                        <!-- CENTER_6_4_CONTENT_COLUMN_END -->
+                                    </div>   
+                                </div>
+                        <!--Rating_Meta_BEGIN--><div class="metavalue">static.content.url=http://www.ibm.com/developerworks/js/artrating/</div><div class="metavalue">SITE_ID=10</div><div class="metavalue">Zone=Big data and analytics, Information Management</div><div class="metavalue">ArticleID=1023468</div><div class="metavalue">ArticleTitle=基于 ELK Stack 和 Spark Streaming 的日志处理平台设计与实现</div><div class="metavalue">publish-date=12072015</div><script language="javascript" type="text/javascript">document.write('<div class="metavalue">url='+location.href.replace(/</g,  '%3C')+'</div>');</script><div class="metavalue">url=https://www.ibm.com/developerworks/cn/analytics/library/ba-1512-elkstack-logprocessing/index.html</div><!--Rating_Meta_END-->
+                    </div>
+                    <!-- END_IBM-CONTENT-MAIN -->
+                </div>
+                <!-- END_IBM-CONTENT-BODY -->
+            </div>
+            <!-- END_IBM-CONTENT -->
+        </div>
+        <!-- END_IBM-PCON -->
+    </main>
+    <!-- MAIN_CONTENT_END -->
+    
+    <!-- END_CONTENT-WRAPPER -->	
+</div>
+<!-- FOOTER_BEGIN -->
+<footer role="contentinfo" aria-label="IBM Developer">
+    <div id="dw-footer-module" class="dw-footer-home ibmdeveloper">
+        <section aria-label="参考资料" role="contentinfo">
+            <div class="ibm-columns">
+                <div class="ibm-col-6-1 dw-footer-col-1">
+                    <ul>
+                        <li class="dw-footer-heading" aria-label="IBM Developer"><a href="https://www.ibm.com/developerworks/cn/">IBM <b>Developer</b></a></li>
+                        <li><a href="https://www.ibm.com/developerworks/secure/feedback.jsp?domain=dwchina">站点反馈</a></li>
+                        <li class="dw-footer-newline"><a href="https://www.ibm.com/developerworks/secure/myideas2.jsp?domain=dwchina">我要投稿</a></li>
+                        <li class="dw-footer-newline"><a href="https://www.ibm.com/developerworks/community/report?lang=zh">报告滥用</a></li>
+                        <li class="dw-footer-newline"><a href="https://www.ibm.com/developerworks/cn/community/terms/thirdparty/">第三方提示</a></li>
+                    </ul>
+                    <ul>
+                        <li class="dw-footer-newline"><a href="https://weibo.com/ibmdw/">关注微博</a></li>
+                    </ul>
+                </div>
+                <div class="ibm-col-6-1 dw-footer-col-2">
+                    <ul>
+                        <li class="dw-footer-heading"><a href="https://www-31.ibm.com/ibm/cn/ur/">大学合作</a></li>
+                    </ul>
+                    <ul class="dw-footer-lang" aria-label="选择语言">
+                        <li class="dw-footer-heading">选择语言</li>
+                        <li><a href="https://developer.ibm.com/">English</a></li>
+                        <li><a href="https://www.ibm.com/developerworks/cn/" lang="zh">中文</a></li>
+                        <li><a href="https://www.ibm.com/developerworks/jp/" lang="ja">日本語</a></li>
+                        <li><a href="https://www.ibm.com/developerworks/ru/" lang="ru">Русский</a></li>
+                        <li class="dw-footer-newline"><a href="https://www.ibm.com/developerworks/br/" lang="pt">Português (Brasil)</a></li>
+                        <li><a href="https://www.ibm.com/developerworks/ssa/" lang="es">Español</a></li>
+                        <li><a href="https://developer.ibm.com/kr/" lang="kr">한글</a></li>
+                    </ul>
+                </div>
+                <div class="ibm-col-6-1 dw-footer-col-3"> </div>
+                <div class="ibm-col-6-1 dw-footer-col-4"> </div>
+                <div class="ibm-col-6-1 dw-footer-col-5">
+                    <ul class="dw-footer-categories">
+                        <li class="dw-footer-category">
+                            <a href="https://developer.ibm.com/cn/journey/">Code patterns</a>  
+                        </li>
+                        <li class="dw-footer-category">
+                            <a href="https://www.ibm.com/developerworks/cn/views/global/libraryview.jsp">技术文档库</a>
+                        </li>
+                        <li class="dw-footer-category">
+                            <a href="https://www.ibm.com/developerworks/cn/downloads/">软件下载</a>  
+                        </li>
+                        <li class="dw-footer-category">
+                            <a href="https://developer.ibm.com/cn/">开发者中心</a>  
+                        </li>
+                        <li class="dw-footer-category">
+                            <a href="https://www.ibm.com/developerworks/cn/rss/">订阅源</a>  
+                        </li>
+
+                    </ul>
+                </div>
+                <div class="ibm-col-6-1 dw-footer-col-6">
+                    <ul class="dw-footer-categories">
+                        <li class="dw-footer-category">
+                            <a href="https://www.pages03.net/ibmdeveloperworks/developerWorksChina-NewsletterSubscriptionPage-secure18rev1/">时事通讯</a>  
+                        </li>
+                        <li class="dw-footer-category">
+                            <a href="https://developer.ibm.com/cn/tv/">视频</a>  
+                        </li>
+                        <li class="dw-footer-category">
+                            <a href="https://developer.ibm.com/cn/dwblog/">博客</a>  
+                        </li>
+                        <li class="dw-footer-category">
+                            <a href="https://developer.ibm.com/cn/events/">活动</a>  
+                        </li>                        
+                        <li class="dw-footer-category">
+                            <a href="https://www.ibm.com/developerworks/cn/community/">社区</a>  
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+    </div>
+    <div id="dw-footer" class="ibm-padding-normal ibm-alternate">
+        <div class="ibm-columns">
+            <div class="ibm-col-1-1">
+                <div class="dw-footer-corporate-links">
+                <ul>
+                    <li><a href="https://www.ibm.com/contact/cn/zh/">联系 IBM</a></li>
+                    <li><a href="https://www.ibm.com/privacy/cn/zh/">隐私条约</a></li>
+                    <li><a href="https://www.ibm.com/developerworks/cn/community/terms/use/">使用条款</a></li>
+                    <li><a href="https://www.ibm.com/accessibility/cn/zh/">信息无障碍选项</a></li>
+                    <li class="ibm-feedbacklink"><a href="https://www.ibm.com/developerworks/cn/analytics/library/ba-1512-elkstack-logprocessing/index.html#">反馈</a></li>
+                    <li id="ibm-truste-cp"><a onclick="truste.eu.clickListener();return false;" href="https://www.ibm.com/developerworks/cn/analytics/library/ba-1512-elkstack-logprocessing/index.html#">Cookie 首选项</a></li>
+                </ul>                 
+                </div>    
+            </div>
+        </div>
+    </div>        
+</footer> <!-- FOOTER_END -->
+
+<!-- END_IBM-TOP -->
+</div>
+
+<!-- SCRIPTS_INCLUDE_BEGIN -->
+<!-- Styles -->
+<link rel="stylesheet" type="text/css" href="./基于 ELK Stack 和 Spark Streaming 的日志处理平台设计与实现_files/jquery-comments.css">
+<link rel="stylesheet" href="./基于 ELK Stack 和 Spark Streaming 的日志处理平台设计与实现_files/font-awesome.min.css">
+
+<!-- Libraries -->
+<script type="text/javascript" src="./基于 ELK Stack 和 Spark Streaming 的日志处理平台设计与实现_files/jquery-comments.min.js.下载"></script>
+<script type="text/javascript" src="./基于 ELK Stack 和 Spark Streaming 的日志处理平台设计与实现_files/moment-with-locales.js.下载"></script>
+<script type="text/javascript" src="./基于 ELK Stack 和 Spark Streaming 的日志处理平台设计与实现_files/ContentComments.js.下载"></script>
+<script type="text/javascript" src="./基于 ELK Stack 和 Spark Streaming 的日志处理平台设计与实现_files/ContentCommentsFormatter.js.下载"></script>
+<script type="text/javascript" language="JavaScript">
+
+	IBMCore.common.module.masthead.subscribe("ready", "customjs", setupCommentsPlugin).runAsap(setupCommentsPlugin);
+
+	function setupCommentsPlugin(){
+		//debugger;
+			//alert(userLinks);
+			var commentsInitInfo = {
+				contentId : $("div[class=metavalue]:contains('ArticleID=')").text().split("=")[1],
+				siteId :  $("div[class=metavalue]:contains('SITE_ID=')").text().split("=")[1],
+				pluginDivId : '#dw-icomments-container',
+				notifyElementId : "#comment_notification",
+				loginMessageDivId : "#dw-article-cmts-login",
+				totalCommentsDivId : "#nCmts",
+						isIdea:false
+
+			};				
+								
+			ContentComments.Setup(commentsInitInfo);
+	}
+</script>
+
+<!-- SCRIPTS_INCLUDE_END -->
+
+
+
+<div id="ibm-overlay-backdrop"></div><div class="ibm-common-overlay ibm-overlay-alt-three" id="ibm-overlaywidget-N10074" role="dialog" aria-describedby="ibm-overlaywidget-N10074-content" aria-label="Overlay content" data-widget="overlay container" data-name=""><div class="ibm-overlay-heading-con"><p class="ibm-icononly"><a href="javascript:void(0);" class="ibm-close-link" role="button">关闭</a></p></div><div id="ibm-overlaywidget-N10074-content" class="content"><div class="ibm-widget-processed" data-widget="overlay" id="N10074"><img alt="图 1. 日志处理方案经历的版本迭代" src="./基于 ELK Stack 和 Spark Streaming 的日志处理平台设计与实现_files/image001.jpg" width="562"></div></div></div><div class="ibm-common-overlay ibm-overlay-alt-three" id="ibm-overlaywidget-N10087" role="dialog" aria-describedby="ibm-overlaywidget-N10087-content" aria-label="Overlay content" data-widget="overlay container" data-name=""><div class="ibm-overlay-heading-con"><p class="ibm-icononly"><a href="javascript:void(0);" class="ibm-close-link" role="button">关闭</a></p></div><div id="ibm-overlaywidget-N10087-content" class="content"><div class="ibm-widget-processed" data-widget="overlay" id="N10087"><img alt="图 2. 深度整合 ELK、Spark、Hadoop 构建日志分析系统" src="./基于 ELK Stack 和 Spark Streaming 的日志处理平台设计与实现_files/image002.jpg" width="581"></div></div></div><div class="ibm-common-overlay ibm-overlay-alt-three" id="ibm-overlaywidget-N1009F" role="dialog" aria-describedby="ibm-overlaywidget-N1009F-content" aria-label="Overlay content" data-widget="overlay container" data-name=""><div class="ibm-overlay-heading-con"><p class="ibm-icononly"><a href="javascript:void(0);" class="ibm-close-link" role="button">关闭</a></p></div><div id="ibm-overlaywidget-N1009F-content" class="content"><div class="ibm-widget-processed" data-widget="overlay" id="N1009F"><img alt="图 3.DB2 数据库产生的半结构化日志样例" src="./基于 ELK Stack 和 Spark Streaming 的日志处理平台设计与实现_files/image003.jpg" width="570"></div></div></div><div class="ibm-common-overlay ibm-overlay-alt-three" id="ibm-overlaywidget-N100C4" role="dialog" aria-describedby="ibm-overlaywidget-N100C4-content" aria-label="Overlay content" data-widget="overlay container" data-name=""><div class="ibm-overlay-heading-con"><p class="ibm-icononly"><a href="javascript:void(0);" class="ibm-close-link" role="button">关闭</a></p></div><div id="ibm-overlaywidget-N100C4-content" class="content"><div class="ibm-widget-processed" data-widget="overlay" id="N100C4"><img alt="图 4. 应用 es-hadoop 整合 Hadoop Ecosystem 与 Elasticsearch 架构图（https://www.elastic.co/products/hadoop）" src="./基于 ELK Stack 和 Spark Streaming 的日志处理平台设计与实现_files/image004.jpg" width="576"></div></div></div><div class="ibm-common-overlay ibm-overlay-alt-three" id="ibm-overlaywidget-N100D5" role="dialog" aria-describedby="ibm-overlaywidget-N100D5-content" aria-label="Overlay content" data-widget="overlay container" data-name=""><div class="ibm-overlay-heading-con"><p class="ibm-icononly"><a href="javascript:void(0);" class="ibm-close-link" role="button">关闭</a></p></div><div id="ibm-overlaywidget-N100D5-content" class="content"><div class="ibm-widget-processed" data-widget="overlay" id="N100D5"><img alt="图 5. 实时监测 DB2 实例运行状态的动态仪表盘" src="./基于 ELK Stack 和 Spark Streaming 的日志处理平台设计与实现_files/image005.jpg" width="570"></div></div></div><div class="ibm-common-overlay ibm-overlay-alt-three" id="ibm-overlaywidget-N100F2" role="dialog" aria-describedby="ibm-overlaywidget-N100F2-content" aria-label="Overlay content" data-widget="overlay container" data-name=""><div class="ibm-overlay-heading-con"><p class="ibm-icononly"><a href="javascript:void(0);" class="ibm-close-link" role="button">关闭</a></p></div><div id="ibm-overlaywidget-N100F2-content" class="content"><div class="ibm-widget-processed" data-widget="overlay" id="N100F2"><img alt="图 7. 基于消息持久化机制的消息队列吞吐量比较" src="./基于 ELK Stack 和 Spark Streaming 的日志处理平台设计与实现_files/image007.jpg" width="570"></div></div></div><div class="ibm-common-overlay ibm-overlay-alt-three" id="ibm-overlaywidget-N10112" role="dialog" aria-describedby="ibm-overlaywidget-N10112-content" aria-label="Overlay content" data-widget="overlay container" data-name=""><div class="ibm-overlay-heading-con"><p class="ibm-icononly"><a href="javascript:void(0);" class="ibm-close-link" role="button">关闭</a></p></div><div id="ibm-overlaywidget-N10112-content" class="content"><div class="ibm-widget-processed" data-widget="overlay" id="N10112"><img alt="图 8. 基于 Spark Streaming 对 DB2 异常日志实现 Notes 邮件告警" src="./基于 ELK Stack 和 Spark Streaming 的日志处理平台设计与实现_files/image008.jpg" width="570"></div></div></div><div id="ibm-mobilemenu-screen"></div><div id="teconsent" class="truste_cookie_prefs" style="position: fixed; display: none; height: 40px; background-color: #ffffff; z-index: 9999999999; bottom: 0; right: 0; margin: 0; padding: 0 16px; line-height: 40px; vertical-align: middle; box-shadow:0 0 10px 3px rgba(0,0,0,.1)" consent="undefined"><script type="text/javascript" src="./基于 ELK Stack 和 Spark Streaming 的日志处理平台设计与实现_files/notice" id="truste_0.11903005840945102"></script><script async="async" type="text/javascript" crossorigin="" src="./基于 ELK Stack 和 Spark Streaming 的日志处理平台设计与实现_files/v1.7-152"></script><a id="icon-id06183650432870378" tabindex="0" role="button" lang="zh" style="cursor: pointer; font-family: ibm-plex-sans; font-size: 12pt; color: #3d3d3d; text-decoration: none">Cookie 喜好设置</a></div><div id="yhqhadin" style="display:none;"></div><iframe name="_hjRemoteVarsFrame" title="_hjRemoteVarsFrame" id="_hjRemoteVarsFrame" src="./基于 ELK Stack 和 Spark Streaming 的日志处理平台设计与实现_files/rcj-da10bd4908deb9e19dfde013ec3fe4ff.html" style="display: none !important; width: 1px !important; height: 1px !important; opacity: 0 !important; pointer-events: none !important;"></iframe><div id="ads"></div></body></html>

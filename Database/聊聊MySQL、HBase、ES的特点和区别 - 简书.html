@@ -1,0 +1,2347 @@
+<!DOCTYPE html>
+<!-- saved from url=(0038)https://www.jianshu.com/p/4e412f48e820 -->
+<html><!--<![endif]--><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0,user-scalable=no">
+
+  <!-- Start of Baidu Transcode -->
+  <meta http-equiv="Cache-Control" content="no-siteapp">
+  <meta http-equiv="Cache-Control" content="no-transform">
+  <meta name="applicable-device" content="pc,mobile">
+  <meta name="MobileOptimized" content="width">
+  <meta name="HandheldFriendly" content="true">
+  <meta name="mobile-agent" content="format=html5;url=https://www.jianshu.com/p/4e412f48e820">
+  <!-- End of Baidu Transcode -->
+
+    <meta name="description" content="很少写技术博客，一是觉得自己技术有限，怕误人子弟；二是文笔较差，比较排斥写作之类的工作。话说不锻炼，哪会有进步呢，因为陌生而抵触，往往会陷入恶性循环，生活中其他事又何尝不是这样呢（突然就感慨人生了...）。明日复明日，明日何其多，时间不等人，有想法就要立马行动。有句话说的好：种一棵树最好的时间是十年前，其次是现在……共勉 互联网时代各种存储框架层出不穷，眼花缭乱，比如传统的关系型数据库：Or...">
+
+  <meta name="360-site-verification" content="604a14b53c6b871206001285921e81d8">
+  <meta property="wb:webmaster" content="294ec9de89e7fadb">
+  <meta property="qc:admins" content="104102651453316562112116375">
+  <meta property="qc:admins" content="11635613706305617">
+  <meta property="qc:admins" content="1163561616621163056375">
+  <meta name="google-site-verification" content="cV4-qkUJZR6gmFeajx_UyPe47GW9vY6cnCrYtCHYNh4">
+  <meta name="google-site-verification" content="HF7lfF8YEGs1qtCE-kPml8Z469e2RHhGajy6JPVy5XI">
+  <meta http-equiv="mobile-agent" content="format=html5; url=https://www.jianshu.com/p/4e412f48e820">
+
+  <!-- Apple -->
+  <meta name="apple-mobile-web-app-title" content="简书">
+
+    <!--  Meta for Smart App Banner -->
+  <meta name="apple-itunes-app" content="app-id=888237539, app-argument=jianshu://notes/13510262">
+  <!-- End -->
+
+  <!--  Meta for Twitter Card -->
+  <meta content="summary" property="twitter:card">
+  <meta content="@jianshucom" property="twitter:site">
+  <meta content="聊聊MySQL、HBase、ES的特点和区别" property="twitter:title">
+  <meta content="很少写技术博客，一是觉得自己技术有限，怕误人子弟；二是文笔较差，比较排斥写作之类的工作。话说不锻炼，哪会有进步呢，因为陌生而抵触，往往会陷入恶性循环，生活中其他事又何尝不是这..." property="twitter:description">
+  <meta content="https://www.jianshu.com/p/4e412f48e820" property="twitter:url">
+  <!-- End -->
+
+  <!--  Meta for OpenGraph -->
+  <meta property="fb:app_id" content="865829053512461">
+  <meta property="og:site_name" content="简书">
+  <meta property="og:title" content="聊聊MySQL、HBase、ES的特点和区别">
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://www.jianshu.com/p/4e412f48e820">
+  <meta property="og:description" content="很少写技术博客，一是觉得自己技术有限，怕误人子弟；二是文笔较差，比较排斥写作之类的工作。话说不锻炼，哪会有进步呢，因为陌生而抵触，往往会陷入恶性循环，生活中其他事又何尝不是这样呢（突然就感慨人生...">
+  <!-- End -->
+
+  <!--  Meta for Facebook Applinks -->
+  <meta property="al:ios:url" content="jianshu://notes/13510262">
+  <meta property="al:ios:app_store_id" content="888237539">
+  <meta property="al:ios:app_name" content="简书">
+
+  <meta property="al:android:url" content="jianshu://notes/13510262">
+  <meta property="al:android:package" content="com.jianshu.haruki">
+  <meta property="al:android:app_name" content="简书">
+  <!-- End -->
+
+
+    <title>聊聊MySQL、HBase、ES的特点和区别 - 简书</title>
+
+  <meta name="csrf-param" content="authenticity_token">
+<meta name="csrf-token" content="FrVW7wfqr4jy+gKATFiO07+g6Yalb3yb/aXzErebMsUYqgmn8RD/fZmZg7Y/56+dLCkioNymx7V0NzYMoh9FOA==">
+
+  <link rel="stylesheet" media="all" href="./聊聊MySQL、HBase、ES的特点和区别 - 简书_files/web-7aa33b92940cc2f7886b.css">
+  
+  <link rel="stylesheet" media="all" href="./聊聊MySQL、HBase、ES的特点和区别 - 简书_files/entry-aa75deb505b1b600256a.css">
+
+  <link href="https://cdn2.jianshu.io/assets/favicons/favicon-e743bfb1821442341c3ab15bdbe804f7ad97676bd07a770ccc9483473aa76f06.ico" rel="shortcut icon" type="image/x-icon">
+      <link rel="apple-touch-icon-precomposed" href="https://cdn2.jianshu.io/assets/apple-touch-icons/57-a6f1f1ee62ace44f6dc2f6a08575abd3c3b163288881c78dd8d75247682a4b27.png" sizes="57x57">
+      <link rel="apple-touch-icon-precomposed" href="https://cdn2.jianshu.io/assets/apple-touch-icons/72-fb9834bcfce738fd7b9c5e31363e79443e09a81a8e931170b58bc815387c1562.png" sizes="72x72">
+      <link rel="apple-touch-icon-precomposed" href="https://cdn2.jianshu.io/assets/apple-touch-icons/76-49d88e539ff2489475d603994988d871219141ecaa0b1a7a9a1914f4fe3182d6.png" sizes="76x76">
+      <link rel="apple-touch-icon-precomposed" href="https://cdn2.jianshu.io/assets/apple-touch-icons/114-24252fe693524ed3a9d0905e49bff3cbd0228f25a320aa09053c2ebb4955de97.png" sizes="114x114">
+      <link rel="apple-touch-icon-precomposed" href="https://cdn2.jianshu.io/assets/apple-touch-icons/120-1bb7371f5e87f93ce780a5f1a05ff1b176828ee0d1d130e768575918a2e05834.png" sizes="120x120">
+      <link rel="apple-touch-icon-precomposed" href="https://cdn2.jianshu.io/assets/apple-touch-icons/152-bf209460fc1c17bfd3e2b84c8e758bc11ca3e570fd411c3bbd84149b97453b99.png" sizes="152x152">
+
+  <!-- Start of 访问统计 -->
+    <script src="./聊聊MySQL、HBase、ES的特点和区别 - 简书_files/push.js.下载"></script><script src="./聊聊MySQL、HBase、ES的特点和区别 - 简书_files/hm.js.下载"></script><script>
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?0c0e9d9b1e7d617b3e6842e85b9fb068";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+  <!-- End of 访问统计 -->
+<style type="text/css">@charset "UTF-8";.image-package .image-container{position:relative;z-index:2;background-color:#eee;-webkit-transition:background-color .1s linear;-o-transition:background-color .1s linear;transition:background-color .1s linear;margin:0 auto}body.reader-night-mode .image-package .image-container{background-color:#545454}.image-package .image-container-fill{z-index:1}.image-package .image-container .image-view{position:absolute;top:0;left:0;width:100%;height:100%;overflow:hidden}.image-package .image-container .image-view-error:after{content:"图片获取失败，请点击重试";position:absolute;top:50%;left:50%;width:100%;-webkit-transform:translate(-50%,-50%);-ms-transform:translate(-50%,-50%);transform:translate(-50%,-50%);color:#888;font-size:14px}.image-package .image-container .image-view img.image-loading{opacity:.3}.image-package .image-container .image-view img{-webkit-transition:all .15s linear;-o-transition:all .15s linear;transition:all .15s linear;z-index:2;opacity:1}</style><style type="text/css">fieldset[disabled] .multiselect {
+  pointer-events: none;
+}
+
+.multiselect__spinner {
+  position: absolute;
+  right: 1px;
+  top: 1px;
+  width: 48px;
+  height: 35px;
+  background: #fff;
+  display: block;
+}
+
+.multiselect__spinner:after,
+.multiselect__spinner:before {
+  position: absolute;
+  content: "";
+  top: 50%;
+  left: 50%;
+  margin: -8px 0 0 -8px;
+  width: 16px;
+  height: 16px;
+  border-radius: 100%;
+  border-color: #41b883 transparent transparent;
+  border-style: solid;
+  border-width: 2px;
+  box-shadow: 0 0 0 1px transparent;
+}
+
+.multiselect__spinner:before {
+  animation: a 2.4s cubic-bezier(.41,.26,.2,.62);
+  animation-iteration-count: infinite;
+}
+
+.multiselect__spinner:after {
+  animation: a 2.4s cubic-bezier(.51,.09,.21,.8);
+  animation-iteration-count: infinite;
+}
+
+.multiselect__loading-enter-active,
+.multiselect__loading-leave-active {
+  transition: opacity .4s ease-in-out;
+  opacity: 1;
+}
+
+.multiselect__loading-enter,
+.multiselect__loading-leave-active {
+  opacity: 0;
+}
+
+.multiselect,
+.multiselect__input,
+.multiselect__single {
+  font-family: inherit;
+  font-size: 14px;
+  -ms-touch-action: manipulation;
+  touch-action: manipulation;
+}
+
+.multiselect {
+  box-sizing: content-box;
+  display: block;
+  position: relative;
+  width: 100%;
+  min-height: 40px;
+  text-align: left;
+  color: #35495e;
+}
+
+.multiselect * {
+  box-sizing: border-box;
+}
+
+.multiselect:focus {
+  outline: none;
+}
+
+.multiselect--disabled {
+  opacity: .6;
+}
+
+.multiselect--active {
+  z-index: 1;
+}
+
+.multiselect--active:not(.multiselect--above) .multiselect__current,
+.multiselect--active:not(.multiselect--above) .multiselect__input,
+.multiselect--active:not(.multiselect--above) .multiselect__tags {
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
+}
+
+.multiselect--active .multiselect__select {
+  transform: rotate(180deg);
+}
+
+.multiselect--above.multiselect--active .multiselect__current,
+.multiselect--above.multiselect--active .multiselect__input,
+.multiselect--above.multiselect--active .multiselect__tags {
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
+}
+
+.multiselect__input,
+.multiselect__single {
+  position: relative;
+  display: inline-block;
+  min-height: 20px;
+  line-height: 20px;
+  border: none;
+  border-radius: 5px;
+  background: #fff;
+  padding: 0 0 0 5px;
+  width: 100%;
+  transition: border .1s ease;
+  box-sizing: border-box;
+  margin-bottom: 8px;
+  vertical-align: top;
+}
+
+.multiselect__tag~.multiselect__input,
+.multiselect__tag~.multiselect__single {
+  width: auto;
+}
+
+.multiselect__input:hover,
+.multiselect__single:hover {
+  border-color: #cfcfcf;
+}
+
+.multiselect__input:focus,
+.multiselect__single:focus {
+  border-color: #a8a8a8;
+  outline: none;
+}
+
+.multiselect__single {
+  padding-left: 6px;
+  margin-bottom: 8px;
+}
+
+.multiselect__tags-wrap {
+  display: inline;
+}
+
+.multiselect__tags {
+  min-height: 40px;
+  display: block;
+  padding: 8px 40px 0 8px;
+  border-radius: 5px;
+  border: 1px solid #e8e8e8;
+  background: #fff;
+}
+
+.multiselect__tag {
+  position: relative;
+  display: inline-block;
+  padding: 4px 26px 4px 10px;
+  border-radius: 5px;
+  margin-right: 10px;
+  color: #fff;
+  line-height: 1;
+  background: #41b883;
+  margin-bottom: 5px;
+  white-space: nowrap;
+  overflow: hidden;
+  max-width: 100%;
+  text-overflow: ellipsis;
+}
+
+.multiselect__tag-icon {
+  cursor: pointer;
+  margin-left: 7px;
+  position: absolute;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  font-weight: 700;
+  font-style: normal;
+  width: 22px;
+  text-align: center;
+  line-height: 22px;
+  transition: all .2s ease;
+  border-radius: 5px;
+}
+
+.multiselect__tag-icon:after {
+  content: "\D7";
+  color: #266d4d;
+  font-size: 14px;
+}
+
+.multiselect__tag-icon:focus,
+.multiselect__tag-icon:hover {
+  background: #369a6e;
+}
+
+.multiselect__tag-icon:focus:after,
+.multiselect__tag-icon:hover:after {
+  color: #fff;
+}
+
+.multiselect__current {
+  min-height: 40px;
+  overflow: hidden;
+  padding: 8px 12px 0;
+  padding-right: 30px;
+  white-space: nowrap;
+  border-radius: 5px;
+  border: 1px solid #e8e8e8;
+}
+
+.multiselect__current,
+.multiselect__select {
+  line-height: 16px;
+  box-sizing: border-box;
+  display: block;
+  margin: 0;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.multiselect__select {
+  position: absolute;
+  width: 40px;
+  height: 38px;
+  right: 1px;
+  top: 1px;
+  padding: 4px 8px;
+  text-align: center;
+  transition: transform .2s ease;
+}
+
+.multiselect__select:before {
+  position: relative;
+  right: 0;
+  top: 65%;
+  color: #999;
+  margin-top: 4px;
+  border-style: solid;
+  border-width: 5px 5px 0;
+  border-color: #999 transparent transparent;
+  content: "";
+}
+
+.multiselect__placeholder {
+  color: #adadad;
+  display: inline-block;
+  margin-bottom: 10px;
+  padding-top: 2px;
+}
+
+.multiselect--active .multiselect__placeholder {
+  display: none;
+}
+
+.multiselect__content-wrapper {
+  position: absolute;
+  display: block;
+  background: #fff;
+  width: 100%;
+  max-height: 240px;
+  overflow: auto;
+  border: 1px solid #e8e8e8;
+  border-top: none;
+  border-bottom-left-radius: 5px;
+  border-bottom-right-radius: 5px;
+  z-index: 1;
+  -webkit-overflow-scrolling: touch;
+}
+
+.multiselect__content {
+  list-style: none;
+  display: inline-block;
+  padding: 0;
+  margin: 0;
+  min-width: 100%;
+  vertical-align: top;
+}
+
+.multiselect--above .multiselect__content-wrapper {
+  bottom: 100%;
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
+  border-top-left-radius: 5px;
+  border-top-right-radius: 5px;
+  border-bottom: none;
+  border-top: 1px solid #e8e8e8;
+}
+
+.multiselect__content::webkit-scrollbar {
+  display: none;
+}
+
+.multiselect__element {
+  display: block;
+}
+
+.multiselect__option {
+  display: block;
+  padding: 12px;
+  min-height: 40px;
+  line-height: 16px;
+  text-decoration: none;
+  text-transform: none;
+  vertical-align: middle;
+  position: relative;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.multiselect__option:after {
+  top: 0;
+  right: 0;
+  position: absolute;
+  line-height: 40px;
+  padding-right: 12px;
+  padding-left: 20px;
+}
+
+.multiselect__option--highlight {
+  background: #41b883;
+  outline: none;
+  color: #fff;
+}
+
+.multiselect__option--highlight:after {
+  content: attr(data-select);
+  background: #41b883;
+  color: #fff;
+}
+
+.multiselect__option--selected {
+  background: #f3f3f3;
+  color: #35495e;
+  font-weight: 700;
+}
+
+.multiselect__option--selected:after {
+  content: attr(data-selected);
+  color: silver;
+}
+
+.multiselect__option--selected.multiselect__option--highlight {
+  background: #ff6a6a;
+  color: #fff;
+}
+
+.multiselect__option--selected.multiselect__option--highlight:after {
+  background: #ff6a6a;
+  content: attr(data-deselect);
+  color: #fff;
+}
+
+.multiselect--disabled {
+  background: #ededed;
+  pointer-events: none;
+}
+
+.multiselect--disabled .multiselect__current,
+.multiselect--disabled .multiselect__select,
+.multiselect__option--disabled {
+  background: #ededed;
+  color: #a6a6a6;
+}
+
+.multiselect__option--disabled {
+  cursor: text;
+  pointer-events: none;
+}
+
+.multiselect__option--disabled.multiselect__option--highlight {
+  background: #dedede!important;
+}
+
+.multiselect-enter-active,
+.multiselect-leave-active {
+  transition: all .15s ease;
+}
+
+.multiselect-enter,
+.multiselect-leave-active {
+  opacity: 0;
+}
+
+.multiselect__strong {
+  margin-bottom: 8px;
+  line-height: 20px;
+  display: inline-block;
+  vertical-align: top;
+}
+
+[dir=rtl] .multiselect {
+  text-align: right;
+}
+
+[dir=rtl] .multiselect__select {
+  right: auto;
+  left: 1px;
+}
+
+[dir=rtl] .multiselect__tags {
+  padding: 8px 8px 0 40px;
+}
+
+[dir=rtl] .multiselect__content {
+  text-align: right;
+}
+
+[dir=rtl] .multiselect__option:after {
+  right: auto;
+  left: 0;
+}
+
+[dir=rtl] .multiselect__clear {
+  right: auto;
+  left: 12px;
+}
+
+[dir=rtl] .multiselect__spinner {
+  right: auto;
+  left: 1px;
+}
+
+@keyframes a {
+  0% {
+    transform: rotate(0);
+  }
+
+  to {
+    transform: rotate(2turn);
+  }
+}</style><style type="text/css">
+#free-reward-panel .reward-users-modal main {
+  padding: 0;
+}
+</style><style type="text/css">
+@charset "UTF-8";
+/*
+ * 变量
+*/
+.reward-note-modal .v-modal {
+  width: 620px;
+  text-align: center;
+}
+.reward-note-modal .v-modal form {
+    margin: 0 auto 25px auto;
+    padding: 0 40px;
+}
+.reward-note-modal .v-modal .reward-intro {
+    margin-top: 20px;
+    margin-bottom: 20px;
+    font-size: 16px;
+}
+.reward-note-modal .v-modal .reward-intro .avatar {
+      cursor: default !important;
+      width: 36px;
+      height: 36px;
+      margin-right: 10px;
+      display: inline-block;
+}
+.reward-note-modal .v-modal .reward-intro .intro {
+      margin-right: 5px;
+      font-weight: bold;
+      vertical-align: middle;
+}
+.reward-note-modal .v-modal .reward-intro i {
+      color: #EA6F5A;
+      vertical-align: middle;
+}
+.reward-note-modal .v-modal .main-inputs {
+    margin: 25px 0;
+}
+.reward-note-modal .v-modal .main-inputs .amount-group {
+      margin: 0 -5px;
+}
+.reward-note-modal .v-modal .main-inputs .amount-group input {
+        display: none;
+}
+.reward-note-modal .v-modal .main-inputs .amount-group input:checked + .option {
+        color: #EA6F5A;
+        border-color: #EA6F5A;
+}
+.reward-note-modal .v-modal .main-inputs .amount-group .custom-amount:checked + .option .custom-text {
+        opacity: 0;
+}
+.reward-note-modal .v-modal .main-inputs .amount-group .custom-amount:checked + .option .custom-amount-input {
+        opacity: 1;
+}
+.reward-note-modal .v-modal .main-inputs .amount-group .option {
+        position: relative;
+        margin: 0 5px 15px;
+        width: 156px;
+        height: 56px;
+        line-height: 54px;
+        border: 1px solid #E6E6E6;
+        border-radius: 4px;
+        font-weight: normal;
+        color: #999999;
+        cursor: pointer;
+}
+.reward-note-modal .v-modal .main-inputs .amount-group .option i {
+          font-size: 16px;
+          vertical-align: middle;
+}
+.reward-note-modal .v-modal .main-inputs .amount-group .option .amount {
+          font-size: 28px;
+          vertical-align: middle;
+}
+.reward-note-modal .v-modal .main-inputs .amount-group .option .piece {
+          font-size: 13px;
+          vertical-align: sub;
+}
+.reward-note-modal .v-modal .main-inputs .amount-group .option .custom-amount-input {
+          position: absolute;
+          top: 0;
+          z-index: -1;
+          width: 100%;
+          opacity: 0;
+}
+.reward-note-modal .v-modal .main-inputs .amount-group .option .custom-amount-input i {
+            position: absolute;
+            top: 0;
+            left: 10px;
+}
+.reward-note-modal .v-modal .main-inputs .amount-group .option .custom-amount-input .piece {
+            position: absolute;
+            top: 4px;
+            right: 10px;
+}
+.reward-note-modal .v-modal .main-inputs .amount-group .option .custom-amount-input input {
+            display: block;
+            margin: 0 auto;
+            width: 80px;
+            height: 54px;
+            line-height: 54px;
+            border: none;
+            font-size: 28px;
+            text-align: center;
+            background: transparent;
+            -moz-appearance: textfield;
+}
+.reward-note-modal .v-modal .main-inputs .amount-group .option .custom-amount-input input::-webkit-outer-spin-button, .reward-note-modal .v-modal .main-inputs .amount-group .option .custom-amount-input input::-webkit-inner-spin-button {
+              -webkit-appearance: none !important;
+}
+.reward-note-modal .v-modal .main-inputs .message {
+      padding: 15px 20px;
+      margin-bottom: 0;
+      font-size: 14px;
+      border: 1px solid #E6E6E6;
+      color: #333333;
+      border-radius: 4px;
+      background-color: rgba(180, 180, 180, 0.1);
+}
+.reward-note-modal .v-modal .main-inputs .message textarea {
+        width: 100%;
+        height: 44px;
+        padding: 0;
+        margin: 0;
+        resize: none;
+        background: none !important;
+        border: none !important;
+        -webkit-box-sizing: border-box;
+                box-sizing: border-box;
+        -webkit-box-shadow: none;
+                box-shadow: none;
+}
+.reward-note-modal .v-modal .main-inputs .message textarea:focus {
+          outline: none;
+}
+.reward-note-modal .v-modal .reward-info .amount {
+    font-size: 28px;
+    font-weight: bold;
+    color: #EA6F5A;
+}
+.reward-note-modal .v-modal .reward-info .pay-method {
+    font-size: 14px;
+}
+.reward-note-modal .v-modal .reward-info .pay-method a {
+      color: #3194D0;
+}
+.reward-note-modal .v-modal .choose-pay {
+    margin: 0 -5px;
+}
+.reward-note-modal .v-modal .choose-pay input {
+      display: none;
+}
+.reward-note-modal .v-modal .choose-pay input:checked + .option {
+      color: #EA6F5A;
+      border-color: #EA6F5A;
+}
+.reward-note-modal .v-modal .choose-pay .option {
+      margin: 20px 5px 10px;
+      width: 156px;
+      height: 56px;
+      line-height: 54px;
+      text-align: center;
+      border: 1px solid #E6E6E6;
+      border-radius: 4px;
+      cursor: pointer;
+}
+.reward-note-modal .v-modal .choose-pay .option img {
+        height: 30px;
+}
+.reward-note-modal .v-modal .choose-pay .option img.day.alipay, .reward-note-modal .v-modal .choose-pay .option img.night.alipay {
+        min-width: 85px;
+}
+.reward-note-modal .v-modal .choose-pay .option img.day.wechat, .reward-note-modal .v-modal .choose-pay .option img.night.wechat {
+        min-width: 112px;
+}
+.reward-note-modal .v-modal .choose-pay .option img.night {
+        display: none;
+}
+.reward-note-modal .v-modal .choose-pay .tooltip {
+      width: 230px;
+}
+.reward-note-modal .v-modal .modal-footer {
+    padding: 0 15px 20px;
+    border: none;
+    background-color: transparent;
+    text-align: center;
+}
+.reward-note-modal .v-modal .modal-footer .btn {
+      padding: 8px 45px;
+      font-size: 24px;
+}
+.reward-note-modal .v-modal .btn-pay {
+    padding: 8px 25px;
+    font-size: 16px;
+    color: #ffffff;
+    background-color: #F5A623;
+}
+.weixin-pay, .success-pay {
+  text-align: center;
+}
+.weixin-pay .v-modal, .success-pay .v-modal {
+    width: 350px;
+}
+.weixin-pay .ic-successed, .success-pay .ic-successed {
+    font-size: 60px;
+    color: #3db922;
+}
+.weixin-pay h2, .weixin-pay h3, .success-pay h2, .success-pay h3 {
+    margin-bottom: 20px;
+    color: #333333;
+}
+.weixin-pay h2, .success-pay h2 {
+    margin: 0 0 40px 0;
+    font-size: 24px;
+}
+.weixin-pay .bind-text, .success-pay .bind-text {
+    position: relative;
+    margin-bottom: 30px;
+    font-size: 14px;
+    color: #999999;
+}
+.weixin-pay .bind-text:before, .weixin-pay .bind-text:after, .success-pay .bind-text:before, .success-pay .bind-text:after {
+      content: "";
+      border-top: 1px solid #999;
+      display: block;
+      position: absolute;
+      width: 40px;
+      top: 8px;
+}
+.weixin-pay .bind-text:before, .success-pay .bind-text:before {
+      left: 30px;
+}
+.weixin-pay .bind-text:after, .success-pay .bind-text:after {
+      right: 30px;
+}
+.weixin-pay .share-bind, .success-pay .share-bind {
+    display: block;
+    margin-bottom: 30px;
+}
+.weixin-pay .share-bind i, .success-pay .share-bind i {
+      margin-right: 4px;
+      font-size: 22px;
+      vertical-align: middle;
+}
+.weixin-pay .share-bind.wechat i, .success-pay .share-bind.wechat i {
+      color: #00BB29;
+}
+.weixin-pay .share-bind.weibo i, .success-pay .share-bind.weibo i {
+      color: #E05244;
+}
+.weixin-pay .wx-qr-code, .success-pay .wx-qr-code {
+    display: inline-block;
+}
+.weixin-pay .wx-qr-code img, .success-pay .wx-qr-code img {
+      margin: 0 auto;
+      padding: 10px;
+      width: 200px;
+      background-color: #ffffff;
+}
+.weixin-pay .pay-amount, .success-pay .pay-amount {
+    margin: 20px 0;
+    color: #787878;
+}
+.weixin-pay .pay-amount span, .success-pay .pay-amount span {
+      color: #F5A623;
+}
+</style><style type="text/css">
+@charset "UTF-8";
+/*
+ * 变量
+*/
+.v-modal-wrap {
+  position: fixed;
+  left: 0;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 9999;
+  background-color: transparent;
+}
+.v-modal-wrap.modal-leave-active {
+    -webkit-transition: opacity 0.3s;
+    -o-transition: opacity 0.3s;
+    transition: opacity 0.3s;
+}
+.v-modal-wrap.modal-enter-active .v-modal-mask, .v-modal-wrap.modal-leave-active .v-modal-mask {
+    opacity: 0;
+}
+.v-modal-wrap.modal-enter-active .v-modal, .v-modal-wrap.modal-leave-active .v-modal {
+    -webkit-transform: translate(-50%, -70%);
+        -ms-transform: translate(-50%, -70%);
+            transform: translate(-50%, -70%);
+    opacity: 0;
+}
+.v-modal-wrap .v-modal-mask {
+    background-color: rgba(255, 255, 255, 0.7);
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    -webkit-transition: opacity 0.3s;
+    -o-transition: opacity 0.3s;
+    transition: opacity 0.3s;
+    opacity: 1;
+}
+.v-modal-wrap .v-modal {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    -webkit-transform: translate(-50%, -50%);
+        -ms-transform: translate(-50%, -50%);
+            transform: translate(-50%, -50%);
+    border-radius: 6px;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    background-color: #fff;
+    -webkit-box-shadow: 0 5px 25px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 5px 25px rgba(0, 0, 0, 0.1);
+    -webkit-transition: opacity 0.3s, -webkit-transform 0.3s;
+    transition: opacity 0.3s, -webkit-transform 0.3s;
+    -o-transition: opacity 0.3s, transform 0.3s;
+    transition: opacity 0.3s, transform 0.3s;
+    transition: opacity 0.3s, transform 0.3s, -webkit-transform 0.3s;
+    opacity: 1;
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+    -webkit-flex-direction: column;
+        -ms-flex-direction: column;
+            flex-direction: column;
+    overflow: hidden;
+}
+.v-modal-wrap .v-modal > header:before, .v-modal-wrap .v-modal > header:after, .v-modal-wrap .v-modal > main:before, .v-modal-wrap .v-modal > main:after, .v-modal-wrap .v-modal > footer:before, .v-modal-wrap .v-modal > footer:after {
+      content: '';
+      clear: both;
+      display: table;
+}
+.v-modal-wrap .v-modal > header {
+      padding: 20px;
+      border-bottom: 1px solid #F0F0F0;
+}
+.v-modal-wrap .v-modal > header h4 {
+        margin: 0;
+        color: #333;
+        text-align: left;
+}
+.v-modal-wrap .v-modal .close {
+      position: absolute;
+      right: 16px;
+      top: 20px;
+      font-size: 26px;
+      line-height: 20px;
+      color: rgba(0, 0, 0, 0.8);
+}
+.v-modal-wrap .v-modal .close:hover {
+        color: #000000;
+}
+.v-modal-wrap .v-modal > main {
+      padding: 20px 20px 20px 20px;
+      font-size: 15px;
+      color: #333;
+      -webkit-box-flex: 1;
+      -webkit-flex-grow: 1;
+          -ms-flex-positive: 1;
+              flex-grow: 1;
+      overflow-x: hidden;
+      overflow-y: auto;
+}
+.v-modal-wrap .v-modal > footer {
+      padding: 20px;
+      background-color: #fff;
+}
+.v-modal-wrap .v-modal > footer button {
+        padding: 0;
+        margin: 0;
+        background-color: transparent;
+        border: 0;
+        float: right;
+}
+.v-modal-wrap .v-modal > footer button:focus {
+          outline: 0;
+}
+.v-modal-wrap .v-modal > footer .submit {
+        padding: 4px 12px;
+        border: 1px solid;
+        border-radius: 20px;
+}
+.v-modal-wrap .v-modal > footer .cancel {
+        margin-top: 5px;
+}
+.v-modal-wrap .v-modal > footer .cancel:hover {
+          color: #333333;
+}
+.reader-night-mode .v-modal-wrap .v-modal-mask {
+  background-color: rgba(63, 63, 63, 0.7);
+}
+.reader-night-mode .v-modal-wrap .v-modal {
+  background-color: #3f3f3f;
+}
+.reader-night-mode .v-modal-wrap .v-modal header {
+    border-color: #2F2F2F;
+}
+.reader-night-mode .v-modal-wrap .v-modal header h4 {
+      color: #C8C8C8;
+}
+.reader-night-mode .v-modal-wrap .v-modal .close {
+    color: #C8C8C8;
+}
+.reader-night-mode .v-modal-wrap .v-modal .close:hover {
+      color: #ffffff;
+}
+.reader-night-mode .v-modal-wrap .v-modal main {
+    color: #C8C8C8;
+}
+.reader-night-mode .v-modal-wrap .v-modal footer {
+    background-color: #3f3f3f;
+}
+.reader-night-mode .v-modal-wrap .v-modal footer .cancel:hover {
+      color: #C8C8C8;
+}
+</style><style type="text/css">
+@charset "UTF-8";
+/*
+ * 变量
+*/
+.youdao-fixed-ad {
+  display: block;
+  position: relative;
+  width: 180px;
+  height: 180px;
+}
+.youdao-fixed-ad .img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+}
+.youdao-fixed-ad .ad-badge {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    display: block;
+    font-size: 12px;
+    padding: 2px 5px 0 6px;
+    background-color: rgba(0, 0, 0, 0.5);
+    color: #fff;
+    cursor: pointer;
+}
+</style><style type="text/css">
+.yuxi-fixed-ad {
+  position: relative;
+  width: 180px;
+  height: 180px;
+}
+.yuxi-fixed-ad .img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+    background-image: url(//cdn2.jianshu.io/assets/web/yuxi-ads-d73b364baf42dfeca32d518c819a0136.jpg);
+}
+.yuxi-fixed-ad .ad-badge {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    display: block;
+    font-size: 12px;
+    padding: 2px 5px 0 6px;
+    background-color: rgba(0, 0, 0, 0.5);
+    color: #fff;
+    cursor: pointer;
+}
+</style><style type="text/css">
+@charset "UTF-8";
+/*
+ * 变量
+*/
+.like[data-v-6ddd02c6] {
+  display: inline-block;
+}
+.like .like-group[data-v-6ddd02c6] {
+    position: relative;
+    padding: 13px 0 15px 0;
+    font-size: 0;
+    border: 1px solid #EA6F5A;
+    border-radius: 40px;
+}
+.like .like-group[data-v-6ddd02c6]:hover {
+      background-color: rgba(236, 97, 73, 0.05);
+}
+.like .like-group .btn-like[data-v-6ddd02c6] {
+      display: inline-block;
+      font-size: 19px;
+}
+.like .like-group .btn-like[data-v-6ddd02c6]:before {
+        content: '';
+        position: absolute;
+        left: 12px;
+        top: 2px;
+        width: 50px;
+        height: 50px;
+        background-image: url(//cdn2.jianshu.io/assets/web/like_animation_steps-62a00a7b52377d3069927cdb8e61fd34.png);
+        background-position: left;
+        background-repeat: no-repeat;
+        background-size: 1000px 50px;
+}
+.like .like-group .btn-like a[data-v-6ddd02c6] {
+        position: relative;
+        padding: 18px 30px 18px 55px;
+        color: #EA6F5A;
+}
+.like .like-group .modal-wrap[data-v-6ddd02c6] {
+      font-size: 18px;
+      border-left: 1px solid rgba(236, 97, 73, 0.4);
+      display: inline-block;
+      margin-left: -15px;
+}
+.like .like-group .modal-wrap a[data-v-6ddd02c6] {
+        color: #EA6F5A;
+        padding: 18px 26px 18px 18px;
+}
+.like .like-group.like-animation[data-v-6ddd02c6], .like .like-group.active[data-v-6ddd02c6] {
+      background-color: #EA6F5A;
+}
+.like .like-group.like-animation .btn-like a[data-v-6ddd02c6], .like .like-group.active .btn-like a[data-v-6ddd02c6] {
+        color: white;
+}
+.like .like-group.like-animation .modal-wrap[data-v-6ddd02c6], .like .like-group.active .modal-wrap[data-v-6ddd02c6] {
+        border-left: 1px solid white;
+}
+.like .like-group.like-animation .modal-wrap a[data-v-6ddd02c6], .like .like-group.active .modal-wrap a[data-v-6ddd02c6] {
+          color: white;
+}
+.like .like-group.like-animation .btn-like[data-v-6ddd02c6]:before {
+      -webkit-animation: likeBlast-data-v-6ddd02c6 0.6s 1 steps(19);
+              animation: likeBlast-data-v-6ddd02c6 0.6s 1 steps(19);
+      background-position: right;
+}
+@-webkit-keyframes likeBlast {
+0% {
+    background-position: left;
+}
+100% {
+    background-position: right;
+}
+}
+@keyframes likeBlast-data-v-6ddd02c6 {
+0% {
+    background-position: left;
+}
+100% {
+    background-position: right;
+}
+}
+.like .like-group.active .btn-like[data-v-6ddd02c6]:before {
+      background-position: right;
+}
+</style><style type="text/css">
+@charset "UTF-8";
+/*
+ * 变量
+*/
+.main {
+  position: relative;
+  margin: 0 auto;
+  padding: 0 0 30px 0;
+  width: 620px;
+}
+.main .title {
+    padding-left: 8px;
+    border-left: 3px solid #EA6F5A;
+    line-height: 1;
+    font-size: 15px;
+}
+.main .collection-settings {
+    position: absolute;
+    top: 2px;
+    right: 0;
+    font-size: 13px;
+    color: #A0A0A0;
+}
+.main .collection-settings span {
+      padding-left: 4px;
+}
+.main .include-collection {
+    width: 100%;
+    padding-top: 20px;
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-orient: horizontal;
+    -webkit-box-direction: normal;
+    -webkit-flex-direction: row;
+        -ms-flex-direction: row;
+            flex-direction: row;
+    -webkit-box-pack: start;
+    -webkit-justify-content: flex-start;
+        -ms-flex-pack: start;
+            justify-content: flex-start;
+    -webkit-box-align: center;
+    -webkit-align-items: center;
+        -ms-flex-align: center;
+            align-items: center;
+    -webkit-flex-wrap: wrap;
+        -ms-flex-wrap: wrap;
+            flex-wrap: wrap;
+}
+.main .include-collection .item {
+      display: inline-block;
+      margin: 0 12px 12px 0;
+      min-height: 32px;
+      background-color: white;
+      border: 1px solid #DCDCDC;
+      border-radius: 4px;
+      vertical-align: top;
+      overflow: hidden;
+}
+.main .include-collection .item img {
+        width: 32px;
+        height: 32px;
+}
+.main .include-collection .item .name {
+        display: inline-block;
+        padding: 0 10px;
+        font-size: 14px;
+}
+.main .include-collection .add-collection-wrap {
+      margin: 0 12px 12px 0;
+}
+.main .include-collection .add-collection {
+      padding: 8px 12px;
+      font-size: 14px;
+      border: 1px solid #DCDCDC;
+      border-radius: 4px;
+}
+.main .include-collection .add-collection i {
+        margin-right: 4px;
+        color: #969696;
+}
+.main .recommend-note a {
+    position: relative;
+    margin: 20px 2px 0 0;
+    width: 200px;
+    height: 160px;
+    display: inline-block;
+}
+.main .recommend-note a:after {
+      content: "";
+      position: absolute;
+      width: 200px;
+      height: 160px;
+      border-radius: 0 0 4px 4px;
+      -webkit-box-shadow: inset 0px -80px 50px -22px rgba(0, 0, 0, 0.6);
+              box-shadow: inset 0px -80px 50px -22px rgba(0, 0, 0, 0.6);
+      top: 0;
+      left: 0;
+      z-index: 1;
+}
+.main .recommend-note .name {
+    position: absolute;
+    bottom: 40px;
+    left: 10px;
+    right: 10px;
+    font-size: 17px;
+    font-weight: bold;
+    color: #ffffff;
+    z-index: 2;
+}
+.main .recommend-note .author {
+    position: absolute;
+    bottom: 10px;
+    left: 10px;
+    right: 10px;
+    z-index: 2;
+}
+.main .recommend-note .avatar {
+    width: 20px;
+    height: 20px;
+    display: inline-block;
+}
+.main .recommend-note .avatar img {
+      border-radius: 50%;
+}
+.main .recommend-note .author-name {
+    font-size: 12px;
+    color: #ffffff;
+    display: inline-block;
+    vertical-align: -1px;
+}
+.main .show-more {
+    margin: 0 12px 12px 0;
+    font-size: 14px;
+    color: #A0A0A0;
+}
+</style><style type="text/css">
+#featured-comment-list {
+  margin-top: 30px;
+  margin-bottom: -15px;
+}
+</style><style type="text/css">
+@charset "UTF-8";
+/*
+ * 变量
+*/
+.pc-bind-phone-modal .modal-content, .pc-bind-phone-modal .modal-body {
+  overflow: visible;
+}
+.pc-bind-phone-modal .modal-body {
+  padding-top: 14px;
+}
+.pc-bind-phone-modal .dropdown-menu {
+  max-height: 300px;
+  overflow: auto;
+}
+.pc-bind-phone-modal .dropdown-menu .tag {
+    background-color: #efefef;
+    color: #4A4A4A;
+    height: 28px;
+    line-height: 28px;
+    padding-left: 25px;
+    font-size: 12px;
+}
+.pc-bind-phone-modal .tips {
+  color: #999999;
+  font-size: 13px;
+  font-weight: 500;
+  line-height: 18px;
+  margin-bottom: 14px;
+}
+.pc-bind-phone-modal .tips a {
+    color: #3194D0;
+}
+.reader-night-mode .pc-bind-phone-modal .dropdown-menu .tag {
+  background-color: #2F2F2F;
+  color: #999999;
+}
+</style><style type="text/css">
+@charset "UTF-8";
+/*
+ * 变量
+*/
+.comment-images {
+  display: block;
+  width: 338px;
+  margin-top: 15px;
+  margin-bottom: 15px;
+  position: relative;
+  font-size: 0;
+}
+.comment-images .preview-img {
+    display: block;
+}
+.comment-images .image {
+    position: relative;
+    border-radius: 4px;
+    background-position: center;
+    background-repeat: no-repeat;
+    overflow: hidden;
+    border: 1px solid #f0f0f0;
+}
+body.reader-night-mode .comment-images .image {
+      border-color: #2f2f2f;
+}
+.comment-images .image:not(:nth-child(3n)) {
+      margin-right: 4px;
+}
+.comment-images .image:nth-child(n + 4) {
+      margin-top: 4px;
+}
+.comment-images .image.is-long:after {
+      content: '\957F\56FE';
+      position: absolute;
+      bottom: 0;
+      margin-left: -32px;
+      width: 32px;
+      height: 28px;
+      font-size: 12px;
+      text-align: center;
+      line-height: 28px;
+      background-color: #2f2f2f;
+      opacity: 0.5;
+      color: #fff;
+}
+.comment-images .one-image.is-long {
+    width: 110px;
+    height: 220px;
+    background-position: top left;
+    background-size: 110px auto;
+}
+.comment-images .one-image.is-long:after {
+      left: 100%;
+}
+.comment-images .one-image.is-normal {
+    height: 110px;
+    width: 100%;
+    background-size: contain;
+    background-position: center left;
+}
+.comment-images .many-image {
+    background-size: cover;
+    display: inline-block !important;
+    height: 110px;
+    width: 110px;
+}
+.comment-images .many-image:after {
+      left: 100%;
+}
+.comment-images .sub-image {
+    width: 105px;
+    height: 105px;
+}
+.comment-images .collapsed-btn {
+    display: block;
+    color: #3194d0;
+    font-size: 15px;
+    margin-top: 15px;
+    margin-bottom: 15px;
+}
+.comment-images .mask {
+    position: absolute;
+    right: 0;
+    top: 0;
+    height: 100%;
+    width: 32%;
+    border-radius: 2px;
+    background-color: rgba(47, 47, 47, 0.6);
+    overflow: hidden;
+    pointer-events: none;
+}
+.comment-images .mask span {
+      font-size: 15px;
+      color: #fff;
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      -webkit-transform: translate(-50%, -50%);
+          -ms-transform: translate(-50%, -50%);
+              transform: translate(-50%, -50%);
+      width: 100%;
+      text-align: center;
+}
+</style><style type="text/css">
+@charset "UTF-8";
+/*
+ * 变量
+*/
+.tips-card-loading[data-v-f3bf5228], .tips-card[data-v-f3bf5228] {
+  width: 460px;
+  position: relative;
+  left: 0;
+  top: 0;
+  border-radius: 6px;
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+  background-color: #ffffff;
+  -webkit-box-shadow: 0 5px 25px rgba(0, 0, 0, 0.1);
+          box-shadow: 0 5px 25px rgba(0, 0, 0, 0.1);
+  border: 1px solid #d9d9d9;
+}
+.tips-card-loading[data-v-f3bf5228] {
+  height: 200px;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+  -webkit-flex-direction: row;
+      -ms-flex-direction: row;
+          flex-direction: row;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+  -webkit-align-items: center;
+      -ms-flex-align: center;
+          align-items: center;
+  position: relative;
+}
+.tips-card-loading div[data-v-f3bf5228] {
+    background-color: #EAEAEA;
+}
+.tips-card-loading .avatar[data-v-f3bf5228] {
+    width: 72px !important;
+    height: 72px !important;
+    border-radius: 50%;
+    position: absolute;
+    left: 20px;
+    top: 20px;
+}
+.tips-card-loading .name[data-v-f3bf5228] {
+    width: 120px;
+    height: 20px;
+    position: absolute;
+    left: 110px;
+    top: 31px;
+}
+.tips-card-loading .content[data-v-f3bf5228] {
+    position: absolute;
+    left: 110px;
+    top: 62px;
+    width: 238px;
+    height: 39.2px;
+    background-color: transparent;
+}
+.tips-card-loading .content .text[data-v-f3bf5228], .tips-card-loading .content .text-delay[data-v-f3bf5228] {
+      height: 14px;
+      position: absolute;
+      left: 0;
+      width: 100%;
+}
+.tips-card-loading .content .text[data-v-f3bf5228] {
+      top: 2px;
+      -webkit-animation: loading-data-v-f3bf5228 1s ease-in-out infinite;
+      animation: loading-data-v-f3bf5228 1s ease-in-out infinite;
+}
+.tips-card-loading .content .text-delay[data-v-f3bf5228] {
+      bottom: 3px;
+      -webkit-animation: loading-data-v-f3bf5228 1s ease-in-out -0.5s infinite;
+      animation: loading-data-v-f3bf5228 1s ease-in-out -0.5s infinite;
+}
+@keyframes loading-data-v-f3bf5228 {
+0% {
+    width: 60%;
+}
+50% {
+    width: 100%;
+}
+100% {
+    width: 60%;
+}
+}
+@-webkit-keyframes loading {
+0% {
+    width: 60%;
+}
+50% {
+    width: 100%;
+}
+100% {
+    width: 60%;
+}
+}
+.tips-card-loading .meta[data-v-f3bf5228] {
+    width: 30px;
+    height: 42px;
+    position: absolute;
+    bottom: 20px;
+    background-color: transparent;
+}
+.tips-card-loading .meta.meta-1[data-v-f3bf5228] {
+      left: 30px;
+}
+.tips-card-loading .meta.meta-2[data-v-f3bf5228] {
+      left: 90px;
+}
+.tips-card-loading .meta.meta-3[data-v-f3bf5228] {
+      left: 150px;
+}
+.tips-card-loading .meta .count[data-v-f3bf5228], .tips-card-loading .meta .type[data-v-f3bf5228] {
+      position: absolute;
+}
+.tips-card-loading .meta .count[data-v-f3bf5228] {
+      left: -5px;
+      top: 6px;
+      height: 18px;
+      width: 40px;
+}
+.tips-card-loading .meta .type[data-v-f3bf5228] {
+      left: 1px;
+      bottom: 2px;
+      height: 13px;
+      width: 28px;
+}
+.tips-card-loading .button[data-v-f3bf5228] {
+    position: absolute;
+    bottom: 17px;
+    width: 90px;
+    height: 40px;
+    border-radius: 40px;
+}
+.tips-card-loading .message[data-v-f3bf5228] {
+    right: 120px;
+}
+.tips-card-loading .follow[data-v-f3bf5228] {
+    right: 17px;
+}
+.tips-card[data-v-f3bf5228] {
+  z-index: 10;
+}
+.tips-card .card-content[data-v-f3bf5228] {
+    padding: 20px 20px 0 20px;
+}
+.tips-card .card-content .summary[data-v-f3bf5228] {
+      padding: 8px 0 20px 90px;
+      min-height: 92px;
+      position: relative;
+}
+.tips-card .card-content .summary .avatar[data-v-f3bf5228] {
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 72px;
+        height: 72px;
+        cursor: pointer;
+        border-radius: 50%;
+        background-color: #EAEAEA;
+        background-position: center;
+        background-repeat: no-repeat;
+        background-size: cover;
+}
+.tips-card .card-content .summary .name[data-v-f3bf5228] {
+        height: 26px;
+        margin-right: 3px;
+        margin-bottom: 8px;
+        display: -webkit-box;
+        display: -webkit-flex;
+        display: -ms-flexbox;
+        display: flex;
+        -webkit-box-orient: horizontal;
+        -webkit-box-direction: normal;
+        -webkit-flex-direction: row;
+            -ms-flex-direction: row;
+                flex-direction: row;
+        -webkit-box-pack: start;
+        -webkit-justify-content: flex-start;
+            -ms-flex-pack: start;
+                justify-content: flex-start;
+        -webkit-box-align: center;
+        -webkit-align-items: center;
+            -ms-flex-align: center;
+                align-items: center;
+}
+.tips-card .card-content .summary .name .nickname[data-v-f3bf5228] {
+          color: #333333;
+          font-size: 19px;
+          font-weight: bold;
+          overflow: hidden;
+          -o-text-overflow: ellipsis;
+             text-overflow: ellipsis;
+          white-space: nowrap;
+          cursor: pointer;
+}
+.tips-card .card-content .summary .name .sex[data-v-f3bf5228], .tips-card .card-content .summary .name .badge[data-v-f3bf5228] {
+          -webkit-flex-shrink: 0;
+              -ms-flex-negative: 0;
+                  flex-shrink: 0;
+          display: inline-block;
+}
+.tips-card .card-content .summary .name .sex[data-v-f3bf5228] {
+          font-size: 19px;
+          width: 19px;
+          margin: 0 4px;
+}
+.tips-card .card-content .summary .intro[data-v-f3bf5228] {
+        overflow: hidden;
+        -o-text-overflow: ellipsis;
+           text-overflow: ellipsis;
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+        margin-bottom: 12px;
+        font-size: 14px;
+        line-height: 1.5;
+        color: #333333;
+}
+.tips-card .card-content .summary .intro.block[data-v-f3bf5228] {
+          color: #999999;
+}
+.tips-card .card-content .summary .list .item[data-v-f3bf5228] {
+        display: block;
+        margin-bottom: 5px;
+        font-size: 13px;
+        color: #999999;
+        cursor: pointer;
+        overflow: hidden;
+        -o-text-overflow: ellipsis;
+           text-overflow: ellipsis;
+        white-space: nowrap;
+}
+.tips-card .card-content .summary .list .item i[data-v-f3bf5228] {
+          margin-right: 2px;
+}
+.tips-card .card-footer[data-v-f3bf5228] {
+    border-top: 1px solid #F0F0F0;
+    padding: 15px;
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-orient: horizontal;
+    -webkit-box-direction: normal;
+    -webkit-flex-direction: row;
+        -ms-flex-direction: row;
+            flex-direction: row;
+    -webkit-box-pack: justify;
+    -webkit-justify-content: space-between;
+        -ms-flex-pack: justify;
+            justify-content: space-between;
+    -webkit-box-align: center;
+    -webkit-align-items: center;
+        -ms-flex-align: center;
+            align-items: center;
+    overflow: hidden;
+    _zoom: 1;
+}
+.tips-card .card-footer .profile[data-v-f3bf5228] {
+      width: 198px;
+      overflow: hidden;
+      _zoom: 1;
+      float: left;
+}
+.tips-card .card-footer .profile div[data-v-f3bf5228] {
+        float: left;
+        width: 60px;
+        height: 44px;
+        display: -webkit-box;
+        display: -webkit-flex;
+        display: -ms-flexbox;
+        display: flex;
+        -webkit-box-orient: vertical;
+        -webkit-box-direction: normal;
+        -webkit-flex-direction: column;
+            -ms-flex-direction: column;
+                flex-direction: column;
+        -webkit-box-pack: center;
+        -webkit-justify-content: center;
+            -ms-flex-pack: center;
+                justify-content: center;
+        -webkit-box-align: center;
+        -webkit-align-items: center;
+            -ms-flex-align: center;
+                align-items: center;
+}
+.tips-card .card-footer .profile div span[data-v-f3bf5228] {
+          display: block;
+          width: 100%;
+          text-align: center;
+}
+.tips-card .card-footer .profile div .type[data-v-f3bf5228] {
+          font-size: 13px;
+          color: #999999;
+}
+.tips-card .card-footer .profile div .count[data-v-f3bf5228] {
+          font-size: 18px;
+          color: #333333;
+}
+.tips-card .card-footer .social[data-v-f3bf5228] {
+      display: -webkit-box;
+      display: -webkit-flex;
+      display: -ms-flexbox;
+      display: flex;
+      -webkit-box-orient: horizontal;
+      -webkit-box-direction: normal;
+      -webkit-flex-direction: row;
+          -ms-flex-direction: row;
+              flex-direction: row;
+      -webkit-box-pack: end;
+      -webkit-justify-content: flex-end;
+          -ms-flex-pack: end;
+              justify-content: flex-end;
+      -webkit-box-align: center;
+      -webkit-align-items: center;
+          -ms-flex-align: center;
+              align-items: center;
+      float: right;
+      overflow: hidden;
+      _zoom: 1;
+}
+.tips-card .card-footer .social .message[data-v-f3bf5228] {
+        border: 1px solid rgba(59, 194, 29, 0.7);
+        color: #42C02E;
+        margin: 0 10px 0 16px;
+        font-size: 15px;
+        padding: 8px 0;
+        width: 90px;
+        border-radius: 40px;
+        text-align: center;
+        cursor: pointer;
+        float: left;
+        -webkit-box-sizing: border-box;
+                box-sizing: border-box;
+}
+.tips-card .card-footer .social .message[data-v-f3bf5228]:hover {
+          border: 1px solid #42C02E;
+          color: #42C02E;
+          background-color: rgba(59, 194, 29, 0.05);
+}
+.tips-card .card-footer .social .user-follow-button[data-v-f3bf5228] {
+        font-size: 15px;
+        padding: 8px 0;
+        width: 100px;
+}
+.arrow[data-v-f3bf5228] {
+  position: absolute;
+  width: 100%;
+  height: 10px;
+  left: 0;
+  z-index: 20;
+  pointer-events: none;
+}
+.arrow i[data-v-f3bf5228] {
+    position: absolute;
+    left: 50%;
+    margin: 0;
+    margin-left: -10px;
+    border-width: 10px;
+    border-color: transparent;
+    padding: 0;
+}
+.arrow em[data-v-f3bf5228] {
+    display: block;
+    position: absolute;
+    left: -9px;
+    border-width: 9px;
+    border-color: transparent;
+    margin: 0;
+    padding: 0;
+}
+.arrow-type-top[data-v-f3bf5228] {
+  bottom: 1px;
+}
+.arrow-type-top i[data-v-f3bf5228] {
+    border-top-color: #d9d9d9;
+    border-style: solid dashed dashed;
+    top: 0;
+}
+.arrow-type-top em[data-v-f3bf5228] {
+    border-style: solid dashed dashed;
+    border-top-color: #ffffff;
+    top: -10px;
+}
+.arrow-type-bottom[data-v-f3bf5228] {
+  top: 1px;
+}
+.arrow-type-bottom i[data-v-f3bf5228] {
+    border-bottom-color: #d9d9d9;
+    border-style: dashed dashed solid;
+    top: -10px;
+}
+.arrow-type-bottom em[data-v-f3bf5228] {
+    border-style: dashed dashed solid;
+    border-bottom-color: #ffffff;
+    top: -8px;
+}
+.reader-night-mode .tips-card-loading[data-v-f3bf5228] {
+  background-color: #3F3F3F;
+  border-color: #2F2F2F;
+}
+.reader-night-mode .tips-card-loading .avatar[data-v-f3bf5228], .reader-night-mode .tips-card-loading .name[data-v-f3bf5228], .reader-night-mode .tips-card-loading .text[data-v-f3bf5228], .reader-night-mode .tips-card-loading .text-delay[data-v-f3bf5228], .reader-night-mode .tips-card-loading .count[data-v-f3bf5228], .reader-night-mode .tips-card-loading .type[data-v-f3bf5228], .reader-night-mode .tips-card-loading .button[data-v-f3bf5228] {
+    background-color: #545454;
+}
+.reader-night-mode .tips-card[data-v-f3bf5228] {
+  background-color: #3F3F3F;
+  border-color: #2F2F2F;
+}
+.reader-night-mode .tips-card .card-content .summary .name .nickname[data-v-f3bf5228] {
+    color: #C8C8C8;
+}
+.reader-night-mode .tips-card .card-content .summary .name .nickname[data-v-f3bf5228]:hover {
+      color: #ffffff;
+}
+.reader-night-mode .tips-card .card-content .summary .intro[data-v-f3bf5228] {
+    color: #C8C8C8;
+}
+.reader-night-mode .tips-card .card-footer[data-v-f3bf5228] {
+    border-top-color: #2F2F2F;
+}
+.reader-night-mode .tips-card .card-footer .profile div .count[data-v-f3bf5228] {
+      color: #C8C8C8;
+}
+.reader-night-mode .arrow.arrow-type-top em[data-v-f3bf5228] {
+  border-top-color: #3F3F3F;
+}
+.reader-night-mode .arrow.arrow-type-top i[data-v-f3bf5228] {
+  border-top-color: #2F2F2F;
+}
+.reader-night-mode .arrow.arrow-type-bottom em[data-v-f3bf5228] {
+  border-bottom-color: #3F3F3F;
+}
+.reader-night-mode .arrow.arrow-type-bottom i[data-v-f3bf5228] {
+  border-bottom-color: #2F2F2F;
+}
+</style><style type="text/css">
+.v-tooltip-container,
+.v-tooltip-content {
+  display: inline-block;
+}
+.v-tooltip-container {
+  position: relative;
+}
+.v-tooltip-container .v-tooltip-content {
+    -webkit-user-select: none;
+       -moz-user-select: none;
+        -ms-user-select: none;
+            user-select: none;
+}
+.v-tooltip-container .v-tooltip-wrap {
+    position: absolute;
+}
+.v-tooltip-container .v-tooltip-wrap.v-tooltip-wrap-top {
+      bottom: 100%;
+      left: 50%;
+      -webkit-transform: translateX(-50%);
+          -ms-transform: translateX(-50%);
+              transform: translateX(-50%);
+      padding-bottom: 10px;
+}
+.v-tooltip-container .v-tooltip-wrap.v-tooltip-wrap-bottom {
+      top: 100%;
+      left: 50%;
+      -webkit-transform: translateX(-50%);
+          -ms-transform: translateX(-50%);
+              transform: translateX(-50%);
+      padding-top: 10px;
+}
+.v-tooltip-container .v-tooltip-wrap.v-tooltip-wrap-left {
+      top: 50%;
+      right: 100%;
+      -webkit-transform: translateY(-50%);
+          -ms-transform: translateY(-50%);
+              transform: translateY(-50%);
+      padding-right: 10px;
+}
+.v-tooltip-container .v-tooltip-wrap.v-tooltip-wrap-right {
+      top: 50%;
+      left: 100%;
+      -webkit-transform: translateY(-50%);
+          -ms-transform: translateY(-50%);
+              transform: translateY(-50%);
+      padding-left: 10px;
+}
+.v-tooltip-container .v-tooltip-wrap.v-tooltip-wrap-top-start {
+      bottom: 100%;
+      left: 0;
+      padding-bottom: 10px;
+}
+.v-tooltip-container .v-tooltip-wrap.v-tooltip-wrap-top-end {
+      bottom: 100%;
+      right: 0;
+      padding-bottom: 10px;
+}
+.v-tooltip-container .v-tooltip-wrap.v-tooltip-wrap-bottom-start {
+      top: 100%;
+      left: 0;
+      padding-top: 10px;
+}
+.v-tooltip-container .v-tooltip-wrap.v-tooltip-wrap-bottom-end {
+      top: 100%;
+      right: 0;
+      padding-top: 10px;
+}
+.v-tooltip-container .v-tooltip-wrap.v-tooltip-wrap-left-start {
+      top: 0;
+      right: 100%;
+      padding-right: 10px;
+}
+.v-tooltip-container .v-tooltip-wrap.v-tooltip-wrap-left-end {
+      bottom: 0;
+      right: 100%;
+      padding-right: 10px;
+}
+.v-tooltip-container .v-tooltip-wrap.v-tooltip-wrap-right-start {
+      top: 0;
+      left: 100%;
+      padding-left: 10px;
+}
+.v-tooltip-container .v-tooltip-wrap.v-tooltip-wrap-right-end {
+      bottom: 0;
+      left: 100%;
+      padding-left: 10px;
+}
+</style><style type="text/css">
+@charset "UTF-8";
+/*
+ * 变量
+*/
+.like-button[data-v-cdecbe24] {
+  position: relative;
+  padding-left: 23px;
+}
+.like-button[data-v-cdecbe24]:before {
+    content: '';
+    position: absolute;
+    left: -16px;
+    top: -16px;
+    width: 50px;
+    height: 50px;
+    background-image: url(//cdn2.jianshu.io/assets/web/zan_animation_steps-8d65a474b670eb6a022516f4e0b8e9a4.png);
+    background-position: left;
+    background-repeat: no-repeat;
+    background-size: 1050px 50px;
+}
+.like-button[data-v-cdecbe24]:hover:before {
+    background-position: -50px;
+}
+.like-button.zan-animation span[data-v-cdecbe24], .like-button.active span[data-v-cdecbe24] {
+    color: #333333;
+}
+body.reader-night-mode .like-button.zan-animation span[data-v-cdecbe24], body.reader-night-mode .like-button.active span[data-v-cdecbe24] {
+      color: #C8C8C8;
+}
+.like-button.zan-animation[data-v-cdecbe24]:before {
+    -webkit-animation: likeBlast-data-v-cdecbe24 0.6s 1 steps(19);
+            animation: likeBlast-data-v-cdecbe24 0.6s 1 steps(19);
+    background-position: right;
+}
+@-webkit-keyframes likeBlast {
+0% {
+    background-position: -50px;
+}
+100% {
+    background-position: right;
+}
+}
+@keyframes likeBlast-data-v-cdecbe24 {
+0% {
+    background-position: -50px;
+}
+100% {
+    background-position: right;
+}
+}
+.like-button.active[data-v-cdecbe24]:before {
+    background-position: right;
+}
+</style></head>
+
+  <!-- 只给10%的用户添加代码 -->
+  <!-- ###第四范式-智能推荐：代码直接复制 无需修改参数### -->
+  <!-- ###功能：上报内容并反馈用户行为### -->
+  <!--
+  -->
+  <body lang="zh-CN" class="reader-black-font vsc-initialized" style="">
+    <!-- 全局顶部导航栏 -->
+<nav class="navbar navbar-default navbar-fixed-top" role="navigation">
+  <div class="width-limit">
+    <!-- 左上方 Logo -->
+    <a class="logo" href="https://www.jianshu.com/"><img src="./聊聊MySQL、HBase、ES的特点和区别 - 简书_files/nav-logo-4c7bbafe27adc892f3046e6978459bac.png" alt="Nav logo"></a>
+
+    <!-- 右上角 -->
+      <!-- 未登录显示登录/注册/写文章 -->
+      <a class="btn write-btn" target="_blank" href="https://www.jianshu.com/writer#/">
+        <i class="iconfont ic-write"></i>写文章
+</a>      <a class="btn sign-up" id="sign_up" href="https://www.jianshu.com/sign_up">注册</a>
+      <a class="btn log-in" id="sign_in" href="https://www.jianshu.com/sign_in">登录</a>
+
+    <!-- 如果用户登录，显示下拉菜单 -->
+
+    <div class="style-mode"><a class="style-mode-btn"><i class="iconfont ic-navigation-mode"></i></a> <div class="popover-modal" style="left: 0px; display: none;"><div class="meta"><i class="iconfont ic-navigation-night"></i><span>夜间模式</span></div> <div class="switch day-night-group"><a class="switch-btn">开</a> <a class="switch-btn active">关</a></div> <hr> <div class="switch font-family-group"><a class="switch-btn font-song">宋体</a> <a class="switch-btn font-hei active">黑体</a></div> <div class="switch"><a class="switch-btn active">简</a> <a class="switch-btn">繁</a></div></div></div>
+    <div class="container">
+      <div class="navbar-header">
+        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#menu" aria-expanded="false">
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+      </div>
+      <div class="collapse navbar-collapse" id="menu">
+        <ul class="nav navbar-nav">
+            <li class="tab ">
+              <a href="https://www.jianshu.com/">
+                <span class="menu-text">首页</span><i class="iconfont ic-navigation-discover menu-icon"></i>
+</a>            </li>
+            <li class="tab ">
+              <a id="web-nav-app-download-btn" class="app-download-btn" href="https://www.jianshu.com/apps?utm_medium=desktop&amp;utm_source=navbar-apps"><span class="menu-text">下载App</span><i class="iconfont ic-navigation-download menu-icon"></i></a>
+            </li>
+          <li class="search">
+            <form target="_blank" action="https://www.jianshu.com/search" accept-charset="UTF-8" method="get"><input name="utf8" type="hidden" value="✓">
+              <input type="text" name="q" id="q" value="" autocomplete="off" placeholder="搜索" class="search-input">
+              <a class="search-btn" href="javascript:void(null)"><i class="iconfont ic-search"></i></a>
+</form>          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</nav>
+
+    
+<div class="note">
+  <div id="note-fixed-ad-container">
+    <div id="fixed-ad-container">
+      <div style="display: block;"><a target="_blank" href="https://www.jianshu.com/apps/redirect?utm_source=side-banner-click" id="web-note-ad-fixed"><span class="close">×</span></a></div>
+      <!---->
+      <a href="http://e.cn.miaozhen.com/r/k=2110413&amp;p=7L9Gn&amp;dx=__IPDX__&amp;rt=2&amp;ns=__IP__&amp;ni=__IESID__&amp;v=__LOC__&amp;xa=__ADPLATFORM__&amp;tr=__REQUESTID__&amp;mo=__OS__&amp;m0=__OPENUDID__&amp;m0a=__DUID__&amp;m1=__ANDROIDID1__&amp;m1a=__ANDROIDID__&amp;m2=__IMEI__&amp;m4=__AAID__&amp;m5=__IDFA__&amp;m6=__MAC1__&amp;m6a=__MAC__&amp;vo=3f2e070eb&amp;vr=2&amp;o=https%3A%2F%2Fwww.jianshu.com%2Fp%2Fee05f7eff678" target="_blank" class="yuxi-fixed-ad" style="display: none;"><div class="img"></div> <span class="ad-badge">广告</span></a>
+      <div id="_so_pdsBy_0"></div>
+    </div>
+  </div>
+  <div class="post">
+    <div class="article">
+        <h1 class="title">聊聊MySQL、HBase、ES的特点和区别</h1>
+
+        <!-- 作者区域 -->
+        <div class="author">
+          <a class="avatar" href="https://www.jianshu.com/u/a9196e920278">
+            <img src="./聊聊MySQL、HBase、ES的特点和区别 - 简书_files/116005fc-a76f-4f8f-a811-be305bd97604" alt="96">
+</a>          <div class="info">
+            <span class="name"><a href="https://www.jianshu.com/u/a9196e920278">奔跑的番茄酱</a></span>
+            <!-- 关注用户按钮 -->
+            <a class="btn btn-success follow"><i class="iconfont ic-follow"></i><span>关注</span></a>
+            <!-- 文章数据信息 -->
+            <div class="meta">
+              <!-- 如果文章更新时间大于发布时间，那么使用 tooltip 显示更新时间 -->
+                <span class="publish-time" data-toggle="tooltip" data-placement="bottom" title="" data-original-title="最后编辑于 2018.02.26 16:42">2017.07.01 17:15*</span>
+              <span class="wordage">字数 7858</span>
+            <span class="views-count">阅读 10426</span><span class="comments-count">评论 6</span><span class="likes-count">喜欢 83</span><span class="rewards-count ">赞赏 2</span></div>
+          </div>
+          <!-- 如果是当前作者，加入编辑按钮 -->
+        </div>
+
+
+        <!-- 文章内容 -->
+        <div data-note-content="" class="show-content">
+          <div class="show-content-free">
+            <p>很少写技术博客，一是觉得自己技术有限，怕误人子弟；二是文笔较差，比较排斥写作之类的工作。话说不锻炼，哪会有进步呢，因为陌生而抵触，往往会陷入恶性循环，生活中其他事又何尝不是这样呢（突然就感慨人生了...）。明日复明日，明日何其多，时间不等人，有想法就要立马行动。有句话说的好：种一棵树最好的时间是十年前，其次是现在……共勉</p><p>互联网时代各种存储框架层出不穷，眼花缭乱，比如传统的关系型数据库：Oracle、MySQL；新兴的NoSQL：HBase、Cassandra、Redis；全文检索框架：ES、Solr等。如何为自己的业务选取合适的存储方案，相信大家都思考过这个问题，本文简单聊聊我对Mysql、HBase、ES的理解，希望能和大家一起探讨进步，有不对的地方还请指出。</p><blockquote><p>MySQL：关系型数据库，主要面向OLTP，支持事务，支持二级索引，支持sql，支持主从、Group Replication架构模型（本文全部以Innodb为例，不涉及别的存储引擎）。</p></blockquote><blockquote><p>HBase：基于HDFS，支持海量数据读写（尤其是写），支持上亿行、上百万列的，面向列的分布式NoSql数据库。天然分布式，主从架构，不支持事务，不支持二级索引，不支持sql。</p></blockquote><blockquote><p>ElasticSearch：ES是一款分布式的全文检索框架，底层基于Lucene实现，虽然ES也提供存储，检索功能，但我一直不认为ES是一款数据库，但是随着ES功能越来越强大，与数据库的界限也越来越模糊。天然分布式，p2p架构，不支持事务，采用倒排索引提供全文检索。</p></blockquote><p>下面分别从数据存储方式、读写方式、索引、分布式等方面对它们进行对比。</p><p>参考链接：</p><p>ES：<a href="https://www.jianshu.com/p/e8ee319a238d" target="_blank">http://www.jianshu.com/p/e8ee319a238d</a></p><p>HBase：<a href="https://link.jianshu.com/?t=http%3A%2F%2Fwww.cnblogs.com%2Fsonglee%2Fp%2F5738027.html" target="_blank" rel="nofollow">http://www.cnblogs.com/songlee/p/5738027.html</a></p><p><br></p><p>---------------------------------------------------我是分割线---------------------------------------------------------</p><p><br></p><h2>数据存储方式</h2><hr><p>MySQL采用行存储，HBase是面向列的NoSql数据库，<a href="https://link.jianshu.com/?t=http%3A%2F%2Fwww.cnblogs.com%2Fqiaoyihang%2Fp%2F6262806.html" target="_blank" rel="nofollow">这篇文章</a>很好的解释了行、列存储的区别，至于ES，呃~我也说不清楚它是什么存储方式，暂且叫它索引存储吧。</p><div class="image-package">
+<div class="image-container" style="max-width: 220px; max-height: 145px; background-color: transparent;">
+<div class="image-container-fill" style="padding-bottom: 65.91%;"></div>
+<div class="image-view" data-width="220" data-height="145"><img data-original-src="//upload-images.jianshu.io/upload_images/6468203-e78cbb1310af36f8.png" data-original-width="220" data-original-height="145" data-original-format="image/png" data-original-filesize="46274" class="" style="cursor: zoom-in;" src="./聊聊MySQL、HBase、ES的特点和区别 - 简书_files/6468203-e78cbb1310af36f8.png"></div>
+</div>
+<div class="image-caption">栗子</div>
+</div><p>假设有这样一张人员信息表：</p><div class="image-package">
+<div class="image-container" style="max-width: 500px; max-height: 209px; background-color: transparent;">
+<div class="image-container-fill" style="padding-bottom: 41.8%;"></div>
+<div class="image-view" data-width="500" data-height="209"><img data-original-src="//upload-images.jianshu.io/upload_images/6468203-12baccdf92899fb4.png" data-original-width="500" data-original-height="209" data-original-format="image/png" data-original-filesize="28743" class="" style="cursor: zoom-in;" src="./聊聊MySQL、HBase、ES的特点和区别 - 简书_files/6468203-12baccdf92899fb4.png"></div>
+</div>
+<div class="image-caption"></div>
+</div><p>MySQL中要提前定义表结构，也就是说表共有多少列（属性）需要提前定义好，并且同时需要定义好每个列所占用的存储空间。数据以行为单位组织在一起的，假如某一行的某一列没有数据，也需要占用存储空间。</p><p>HBase则是以列为单位存储数据，每一列就是一个key-value，HBase的表列（属性）不用提前定义，而且列可以动态扩展，比如人员信息表中需要添加一个新的“address”字段，MySQL需要提前alter表，HBase的话直接插入即可。</p><p>ES比较灵活，索引中的field类型可以提前定义（定义mapping），也可以不定义，如果不定义，会有一个默认类型，不过出于可控性考虑，关键字段最好提前定义好。（Solr中必须提前定义好schema.xml文件）</p><div class="image-package">
+<div class="image-container" style="max-width: 500px; max-height: 334px; background-color: transparent;">
+<div class="image-container-fill" style="padding-bottom: 66.8%;"></div>
+<div class="image-view" data-width="500" data-height="334"><img data-original-src="//upload-images.jianshu.io/upload_images/6468203-6d9006c98c468dfd.png" data-original-width="500" data-original-height="334" data-original-format="image/png" data-original-filesize="36898" class="" style="cursor: zoom-in;" src="./聊聊MySQL、HBase、ES的特点和区别 - 简书_files/6468203-6d9006c98c468dfd.png"></div>
+</div>
+<div class="image-caption"></div>
+</div><p>上图简单的展示了数据在MySQL和HBase中存储差异（和真实的情况还有差距），可以看到即使第二条记录的sex字段为空，MySQL依然会为该字段保留空间，因为后续有可能会有update语句来更新该记录，补上sex内容。而HBase则是把每一列都看做是一条记录，row+列名作为key，data作为value，依次存放。假如某一行的某一个列没有数据，则直接跳过该列。对于稀疏矩阵的大表，HBase能节省空间。</p><p>看到这里，大家是否会有一个疑问：使用HBase存储时，假如此时需要添加第二行的sex内容，如何实现呢，数据是否连续？后面介绍读写流程会解释。</p><h4>不一样的ES</h4><p>说完MySQL、HBase，这里要重点说一下ES，ES的存储方式和上面两个都不一样，MySQL和HBase是将数据按不同的方式进行存储，好歹它们存的还是数据，而ES则存的是倒排索引。我们先来了解一下什么是倒排索引，以及为什么需要倒排索引（Inverted Index）：</p><p>我们肯定都会这样的经历：偶然看到一段很好的文字，但是却不知道出处，这时候去图书馆，一个一个翻找，无疑是大海捞针，这个时候肿么办呢，于是便有了全文检索这项技术，而它最核心的就是倒排索引。假如有如下文档：</p><div class="image-package">
+<div class="image-container" style="max-width: 500px; max-height: 220px; background-color: transparent;">
+<div class="image-container-fill" style="padding-bottom: 44.0%;"></div>
+<div class="image-view" data-width="500" data-height="220"><img data-original-src="//upload-images.jianshu.io/upload_images/6468203-513ed7fb13a4e674.png" data-original-width="500" data-original-height="220" data-original-format="image/png" data-original-filesize="38644" class="" style="cursor: zoom-in;" src="./聊聊MySQL、HBase、ES的特点和区别 - 简书_files/6468203-513ed7fb13a4e674.png"></div>
+</div>
+<div class="image-caption"></div>
+</div><p>我们想要知道有哪些文档含有you这个关键字，首先可以创建一个倒排索引，格式如下：</p><div class="image-package">
+<div class="image-container" style="max-width: 500px; max-height: 389px; background-color: transparent;">
+<div class="image-container-fill" style="padding-bottom: 77.8%;"></div>
+<div class="image-view" data-width="500" data-height="389"><img data-original-src="//upload-images.jianshu.io/upload_images/6468203-b7291dfe789481a2.png" data-original-width="500" data-original-height="389" data-original-format="image/png" data-original-filesize="52278" class="" style="cursor: zoom-in;" src="./聊聊MySQL、HBase、ES的特点和区别 - 简书_files/6468203-b7291dfe789481a2.png"></div>
+</div>
+<div class="image-caption"></div>
+</div><p>我们把前面的部分叫做dictionary（字典），里面的每个单词叫做term，后面的文档列表叫做psoting-list，list中记录了所有含有该term的文档id，两个组合起来就是一个完成的倒排索引（Inverted Index）。能够看出，假如需要查找含有“you”的文档时，根据dictionary然后找到对应的posting-list即可。</p><p>而全文检索中，创建Inverted Index是最关键也是最耗时的过程，而且真正的Inverted Index结构也远比图中展示的复杂，不仅需要对文档进行分词（ES里中文可以自定义分词器），还要计算<a href="https://link.jianshu.com/?t=http%3A%2F%2Fbaike.baidu.com%2Flink%3Furl%3DzDMrTd5vkUPh4rFxfSc92R3I6TifY5diLQYRyWitHSEbfVDJ0dZ5LFbzLf7Uzm4y6vziZXS-kalthaztnwRG8q" target="_blank" rel="nofollow">TF-IDF</a>，方便评分排序（当查找you时，评分决定哪个doc显示在前面，也就是所谓的搜索排名），压缩等操作。每接收一个document，ES就会将其信息更新在倒排索引中。</p><p>从这里我们就可以看出ES和MySQL、HBase的存储还是有很大的区别。而且ES不仅包含倒排索引，默认同时还会把文档doc存储起来，所以当我们使用ES时，也能拿到完整的文档信息，所以某种程度上，感觉就像在使用数据库一样，但是也可以配置不存储文档信息，这时只能根据查询条件得到文档id，并不能拿到完整的文档内容。</p><p><b>总结</b>：MySQL行存储的方式比较适合OLTP业务。列存储的方式比较适合OLAP业务，而HBase采用了<b>列族</b>的方式平衡了OLTP和OLAP，支持水平扩展，如果数据量比较大、对性能要求没有那么高、并且对事务没有要求的话，HBase也是个不错的考虑。ES默认对所有字段都建了索引，所以比较适合复杂的检索或全文检索。</p><p><br></p><p>---------------------------------------------------我是分割线---------------------------------------------------------</p><p><br></p><h2>读写方式</h2><hr><p>存储方式和读写方式很大程度上决定了系统的吞吐，本节主要介绍MySQL、HBase、ES各自是如何读写数据的。</p><h3>Mysql</h3><hr><p>先说说MySQL，MySQL的Innodb中的数据是按主键的顺序依次存放，主键即为聚簇索引（对聚簇索引和非聚簇索引不了解同学可以看看<a href="https://link.jianshu.com/?t=http%3A%2F%2Fwww.cnblogs.com%2Fzhenyulu%2Farticles%2F25794.html" target="_blank" rel="nofollow">这篇文章</a>），索引采用B+树结构进行组织。</p><div class="image-package">
+<div class="image-container" style="max-width: 500px; max-height: 381px; background-color: transparent;">
+<div class="image-container-fill" style="padding-bottom: 76.2%;"></div>
+<div class="image-view" data-width="500" data-height="381"><img data-original-src="//upload-images.jianshu.io/upload_images/6468203-4149ac6862edfb92.png" data-original-width="500" data-original-height="381" data-original-format="image/png" data-original-filesize="123124" class="" style="cursor: zoom-in;" src="./聊聊MySQL、HBase、ES的特点和区别 - 简书_files/6468203-4149ac6862edfb92.png"></div>
+</div>
+<div class="image-caption"></div>
+</div><p>从图中可以看出，数据是按聚簇索引顺序依次存放，假设下面一些场景：</p><h4>1.查询</h4><p>Innodb中主键即为聚簇索引，假如根据主键查询，聚簇索引的叶子节点存放就是真正的数据，可以直接查到相应的记录。</p><p>假如是二级索引查询，那么需要先通过二级索引找到该记录的主键，然后根据主键通过聚簇索引找到对应的记录，这里多了一个索引查找的过程。</p><h4>2.插入</h4><p>顺序插入：因为Innodb的数据是按聚簇索引的顺序依次存放的，如果是根据主键索引的顺序插入，即插入的数据的主键是连续的，因为是顺序io，所以插入效率会较高。</p><p>随机插入：假如每次插入的数据主键是不连续的，MySQL需要取出每条记录对应的物理block，会引起大量的随机io，随机io操作和顺序io的性能差距很大，尤其是机械盘。</p><p><i>（Kafka官网提到一个机械盘的顺序写能达到600M/s，而随机写可能只有100k/s。As a result the performance of linear writes on a<a href="https://link.jianshu.com/?t=http%3A%2F%2Fen.wikipedia.org%2Fwiki%2FNon-RAID_drive_architectures" target="_blank" rel="nofollow">JBOD</a>configuration with six 7200rpm SATA RAID-5 array is about 600MB/sec but the performance of random writes is only about 100k/sec—a difference of over 6000X.这也是为什么HBase、ES将所有的insert、update、delete操作都统一看成顺序写操作，避免随机io）</i></p><p><i>note：这也是为什么MySQL的主键通常定义为自增id，不涉及业务逻辑，这样新数据插入时能保证是顺序io。另外MySQL为了提高随机io的性能，提供了insert buffer的功能。</i></p><h4>3.更新 &amp; 删除</h4><p>update和delete如果不是顺序的话，也会包含大量的随机io，当然MySQL都针对随机io都进行了一些优化，尽量减少随机io带来的性能损失。</p><h3>HBase</h3><hr><p>HBase不支持二级索引，它只有一个主键索引，采用LSM树（LSM可以参考<a href="https://link.jianshu.com/?t=https%3A%2F%2Fwuchanming.gitbooks.io%2Fhbase%2Fcontent%2Flsm%25E6%25A0%2591%25EF%25BC%2588log-structured-merge-tree%25EF%25BC%2589%25E5%25AD%2598%25E5%2582%25A8%25E5%25BC%2595%25E6%2593%258E.html" target="_blank" rel="nofollow">这篇博客</a>）。</p><div class="image-package">
+<div class="image-container" style="max-width: 500px; max-height: 347px; background-color: transparent;">
+<div class="image-container-fill" style="padding-bottom: 69.39999999999999%;"></div>
+<div class="image-view" data-width="500" data-height="347"><img data-original-src="//upload-images.jianshu.io/upload_images/6468203-579b22a85edaaf1f.png" data-original-width="500" data-original-height="347" data-original-format="image/png" data-original-filesize="39916" class="" style="cursor: zoom-in;" src="./聊聊MySQL、HBase、ES的特点和区别 - 简书_files/6468203-579b22a85edaaf1f.png"></div>
+</div>
+<div class="image-caption"></div>
+</div><p>HBase是一个分布式系统，这点跟MySQL不同，它的数据是分散不同的server上，每个table由一个或多个region组成，region分散在集群中的server上，一个server可以负责多个region。</p><p>这里有一点需要特别注意：table中各个region的存放数据的rowkey（主键）范围是不会重叠的，可以认为region上数据基于rowkey全局有序，每个region负责它自己的那一部分的数据。</p><h4>1.查询</h4><p>假如我们要查询rowkey=150的这条记录，首先从zk中获取hbase:meta表（存放region和key的对应关系的元数据表）的位置，通过查询meta表得知rowkey=150的数据在哪个server的哪个region上。</p><h4>2.插入</h4><div class="image-package">
+<div class="image-container" style="max-width: 500px; max-height: 471px; background-color: transparent;">
+<div class="image-container-fill" style="padding-bottom: 94.19999999999999%;"></div>
+<div class="image-view" data-width="500" data-height="471"><img data-original-src="//upload-images.jianshu.io/upload_images/6468203-b083774fc5231e3f.png" data-original-width="500" data-original-height="471" data-original-format="image/png" data-original-filesize="50276" class="" style="cursor: zoom-in;" src="./聊聊MySQL、HBase、ES的特点和区别 - 简书_files/6468203-b083774fc5231e3f.png"></div>
+</div>
+<div class="image-caption"></div>
+</div><p>上图粗略的展示了HBase的region的结构，region不单单是一个文件，它是由一个memstore和多个storeFile组成（storeFile上的上限可以配置）。插入数据时首先将数据写入memstore，当memstore大小达到一定阈值，将memstore flush到硬盘，变成一个新的storeFile。flush的时候会对memstore中的数据进行排序，压缩等操作。可以看到单个storeFile中的数据是有序的，但是region中的storeFile间的数据不是全局有序的。</p><p><b>这样有的好处就是</b>：不管主键是否连续，所有的插入一律变成顺序写，大大提高了写入性能。</p><p>看到这里大家可能会有一个疑问：这种写入方式导致了一条记录如果不是一次性插入，很可能分散在不同的storeFile中，那在该region上面查询一条记录时，怎么知道去找哪个storeFile呢？答案就是：全部查询。HBase会采用多路归并的方式，对该region上的所有storeFile进行查询，直到找到符合条件的记录。所以HBase的拥有很好的写入性能，但是读性能较差。</p><p>当然HBase也做了很多优化，比如每个storeFile都有自己的index、用于过滤的bloom filter、compaction：按可配置的方式将多个storeFile合并成一个，减少检索时打开的文件数。</p><h4>3.更新 &amp; 删除</h4><p>HBase将更新和删除也全部看做插入操作，用timestamp和delete marker来区分该记录是否是最新记录、是否需要删除。也正是因为这样，除了查询，其他的操作统一转换成了顺序写，保证了HBase高效的写性能。</p><h3>ES</h3><hr><p>ES的也是一个分布式系统，与ES类似的还有一个叫Solr的项目，都是基于Lucene的全文检索分布式框架，有兴趣的可以去Lucene<a href="https://link.jianshu.com/?t=https%3A%2F%2Flucene.apache.org%2F" target="_blank" rel="nofollow">官网</a>了解，这里就不做对比了。</p><div class="image-package">
+<div class="image-container" style="max-width: 700px; max-height: 330px; background-color: transparent;">
+<div class="image-container-fill" style="padding-bottom: 24.3%;"></div>
+<div class="image-view" data-width="1358" data-height="330"><img data-original-src="//upload-images.jianshu.io/upload_images/6468203-ee58c708956eaf72.png" data-original-width="1358" data-original-height="330" data-original-format="image/png" data-original-filesize="38013" class="" style="cursor: zoom-in;" src="./聊聊MySQL、HBase、ES的特点和区别 - 简书_files/6468203-ee58c708956eaf72.png"></div>
+</div>
+<div class="image-caption"></div>
+</div><p>上如展示了ES和传统数据库的概念对比。下面的介绍中，统一使用index对应DB中table，doc对应table中的记录，field对应row中的一列。</p><p>ES集群由一个或多个node组成，一个node即为一个ES服务进程。一个index由多个分片shard组成，shard分散在各个node上面，每个shard都采用Lucene来创建倒排索引，维护各自的索引数据。</p><div class="image-package">
+<div class="image-container" style="max-width: 700px; max-height: 412px; background-color: transparent;">
+<div class="image-container-fill" style="padding-bottom: 27.47%;"></div>
+<div class="image-view" data-width="1500" data-height="412"><img data-original-src="//upload-images.jianshu.io/upload_images/6468203-2009a9edf5748f88.png" data-original-width="1500" data-original-height="412" data-original-format="image/png" data-original-filesize="84873" class="" style="cursor: zoom-in;" src="./聊聊MySQL、HBase、ES的特点和区别 - 简书_files/6468203-2009a9edf5748f88.png"></div>
+</div>
+<div class="image-caption"></div>
+</div><p>图中的一个小方框即为一个shard，出于容灾考虑，每个shard都会有多副本，副本个数可以配置，默认为2，绿色的即为primary shard，灰色的即为replica shard。</p><h4>1.插入</h4><p>先来说说写入吧，由于有多个shard，请求过来时，如何判断写入到哪个shard呢，ES中每个doc都会有一个唯一id，默认会对id取hash值，根据shard的个数mode到对应的shard上，默认情况下shard中的数据id不是全局有序的，这点和Mysql、HBase有很大区别。</p><p>ES的写入和HBase有些类似，也是将所有的写操作变成顺序写，也是先将数据写入内存，然后一段时间后会将内存数据flush到磁盘，磁盘的索引文件会定时进行merge，保证索引文件不会过多而影响检索性能。</p><p><b>另外提一点,数据存入ES后并不是立马就能检索到</b>，这点跟MySQL和HBase，或者说跟数据库系统是完全不一样的。主要是因为由于Inverted Index结构的复杂，需要一个专门的indexReader来查询数据，但是indexReader是以snapshot的方式打开的索引，也就是说indexReader看不到之后的新数据。所以ES提供了一个refresh功能，refresh会重新打开indexReader，使其能够读到最新的数据。默认refresh的间隔是1s，所以ES自称是近实时检索功能。</p><p>说到顺序写,这时候大家可能会想：那ES的写入速度和HBase差不多喽？那，其实不是的，不止不如而且差的还不是一点点，因为ES多了两个最关键的步骤：build index和refresh index！这两个过程是很耗时的: build index时需要分词、计算权重等复杂的操作（对inverted index创建，检索感兴趣的，可以参考《信息检索导论》）。而refresh会重新打开index,这两个过程加起来导致ES接收文档的速率并不高（可以通过bulk方式来加快数据导入）。但也正是因为这些过程才使ES有强大的检索功能。（虽然我insert慢，但是我花样多呀^ ^）</p><h4>2.读取</h4><p>每个node都可以接收读request，然后该node会把request分发到含有该index的shard的节点上，对应的节点会查询、并计算出符合条件的文档，排序后结果汇聚到分发request的node（所以查询请求默认会轮循的将发送到各个节点上，防止请求全部打到一个节点），由该node将数据返回给client。（ES也支持指定shard查询，默认是根据文档id进行路由，相当于主键查询，但是假如不能确定数据在哪个shard上时，还是需要查询所有shard）</p><p>这里要强调一下，由于ES支持全文检索，根据Inverted Index的特性，大部分情况下，一个关键字对应了很多的doc，如果全部返回，数据量较大，会对集群造成较大压力，所以ES默认只返回权重最高的前20条记录（可配置），也可以通过scroll功能获取全部数据。类似的场景跟我们平时使用baidu、google是一样的，我们使用搜索引擎时，往往是希望得到关联性最强的top N文档，并不关心全部文档有多少个，这也是为什么要计算权重的原因。</p><p>现在的ES的功能越来越丰富，不仅仅包含全文检索的功能，而且还有统计分析等功能，说它是全文检索框架吧，它比全文检索功能要丰富，说它是数据库吧，但是它不支持事务，只能说现在各个框架之间的界限越来越模糊了。</p><h4>3.更新 &amp;删除</h4><p>ES的更新和删除和HBase类似，也是全部看做是插入操作，通过timestamp和delete marker来区分。</p><p><b>又到了问题环节 :D </b>：既然这种将更新删除统一变成顺序写的方式能够提高写性能，那它难道没有什么坏处吗？</p><p>答案是肯定有的呀，这种方式能够有效的提升写性能，但是存在一个很大的问题就是后台经常会需要merge，而merge是一个非常耗资源的过程，对于某些稳定性要求较高的业务来说，这是不能接受的，但是不merge的话，又会降低查询性能（过多的小文件影响查询性能）。目前通用的做法是尽量选择业务低峰期进行merge操作。</p><p><br></p><p>---------------------------------------------------我是分割线---------------------------------------------------------</p><p><br></p><h2>容灾</h2><hr><p>数据库系统，数据的完整性和一致性是非常重要的问题，数据库进程挂了，可以恢复，但是数据丢了，就再也找不回来了。下面说说各个系统的容灾方式。</p><h4>MySQL</h4><hr><p><b>单节点：</b></p><p>现在的数据库普遍采用write ahead log策略来避免数据丢失，wal机制简单的解释就是：在提交CUD操作，数据写入内存的同时，也要写一份到log文件中，而且要保证log数据落盘成功后才能向client返回操作成功，假如此时数据库宕机，已经提交到内存的数据还没来得及刷回磁盘，重启数据库后可以通过回放log文件来恢复内存中的数据。</p><p>问题又来了：写log的话，对性能影响会不会很大？其实多少还是有点影响的，不过log文件是顺序写入，相对来说为了保证数据完整性，这点性能损失还是可以接受的。</p><p>单机情况下，MySQL的innodb通过redo log和checkpoint机制来保证数据的完整性。因为怕log越写越大，占用过多磁盘，而且当log特别大的时候，恢复起来也比较耗时。而checkpoint的出现就是为了解决这些问题。</p><p>checkpoint机制保证了之前的log数据一定已经刷回磁盘，当数据库宕机时，只需要将checkpoint之后的log回放即可，数据库会定时做checkpoint，这样就保证了数据库恢复的效率。</p><p>但是考虑到如果硬件故障时机器无法启动，或者磁盘故障时数据无法恢复，checkpoint+redo log方案也就不起作用了，为了防止这种故障，MySQL还提供了master-slave和group replication 集群级别的容灾方案。&nbsp;</p><p>Master-Slave架构主要思路是：master负责业务的读写请求，然后通过binlog复制到slave节点，这样如果主库因为不可抗拒因素无法恢复时，从库可以提供服务，<b>这里我们用了“复制“这个词，而不是”同步“，因为基于binlog复制的方案并不能做到主从数据强一致，这种主从同步方式会导致主库挂掉之后从库有可能丢失少量的数据。</b></p><p>正是因为主从架构存在数据不一致的问题，所以MySQL5.7出现了Mysql Group Replication方案，mgr采用paxos协议实现了数据节点的强同步，保证了所有节点都可以写数据，并且所有节点读到的也是最新的数据。（原谅本人水平有限，说不清楚主从架构为什么会丢数据，也讲不清楚mgr是怎么实现的，但是这里强烈推荐一本前司同事的书：<b>《MySQL运维内参》</b>，里面详细解释了Master-Slave和Group Replication 的架构，是深入理解Mysql的不二之选，据说本书的出现拉低了DBA的门槛，没有任何打广告的嫌疑^ ^）</p><h4>HBase：</h4><hr><p>HBase的容灾和MySQL的单机容灾有些类似，但具体实现上还是很有自己的特点。在介绍HBase容灾前，我们先来了解一下HBase和HDFS的关系：HBase中的数据都是存放在HDFS上，可以简单理解HBase分为两层：一层为NoSql service（即提供分布式检索服务），一层是分布式文件系统（数据真正存放的位置，目前采用HDFS）。HBase中region分布在不同的regionserver上，client端通过meta表来定位数据在在哪个regionserver的region上，然后获取数据，但是数据有可能并不一定在该regionserver本地保存，每个region都知道自己对应的数据在HDFS的哪些数据块上，最后通过访问HDFS来获取数据，尤其当HBase和HDFS部署在不同的集群上时，数据的读写完全是通过RPC来实现，为了减少RPC的开销，保证服务稳定，往往会将HBase和HDFS部署在同一个集群。<b>同理，当一个regionserver挂了，region可以快速切换到别的regionserver上，因为只涉及到回放Log，并不会移动已经落盘的数据，而且HBase也会控制log的大小，来减少恢复时间</b>。</p><p>HBase也是采用写log的方式防止数据丢失，数据写内存的同时，同时也会写入HLog，HLog也是存储在HDFS上，写入HLog后才会认为数据写成功，某个regionserver挂掉之后，master将故障机器上的regions调度到别的regionserver上，regionserver通过回放HLog来恢复region的数据，恢复成功后，region重新上线，由于log是直接写在HDFS上，所以不用担心单个节点挂掉log数据丢失的问题。</p><p>这里引出一个问题：回放HLog的时候，正在被恢复的region会短时间不可用，直到HLog回放成功。HBase1.0版本中加入了region replicas功能，也就是提供一个slave region，当主region挂掉的时候，依然可以通过slave replicas来读数据，但是slave不提供write，而且slave replicas和primary region并不是强同步的，并不一定总能读到最新的数据，所以开启该功能时，也要考虑自己业务是否必须要求强一致。</p><p>HBase也提供了cluster replication，目的是为了做机房级的容灾，boss说现在cluster replication功能还有些bug，目前也在积极优化改进，相信以后会cluster replication会越来越完善。</p><h4>ES：</h4><hr><p>ES的容灾也是采用写log的方式，与HBase不同的是，ES的节点保存各自的log，这点跟MySQL类似，log是存放在本地的，这也就存在和MySQL一样的问题，假如机器宕机或硬盘故障，log数据也会丢失，所以index每个shard也有主备，默认配置是一个primary shard，一个replica shard，当然也可以配置多个replica。</p><p>默认情况下：primary shard首先接收client端发送过来的数据，然后将数据同步到replica shard中，当replica shard也写入成功后，才会告知client数据已正确写入，这样就防止数据还没写入replica shard时，primary挂掉导致的数据丢失。</p><p>又到了提问环节，如果有一个replica节点出了问题，比如网络故障无法写入，那岂不是数据一直写入不成功了？所以ES的master维护了一个in-sync set，里面保存了目前存活、且与primary同步的replica集合，只要set中的replica同步完成即认为数据写入成功。考虑到一种情况：所有的replica因为网络故障都下线了，in-sync set此时为空，数据只在primary中保留一份，很有可能因primary故障而导致丢数据，所以ES新增了wait_for_active_shards参数，只有当存活的replica数大于该参数时，才能正常写入，若不满足，则停止写服务。</p><p><i>（这是5.X版本的实现，由于ES版本更新过快，这和2.X之前的版本有些差异，5.X中in-sync set的方式和Kafka的容灾模式非常类似，但和Kafka有一点区别：ES的primary负责写服务，但是primary和replica都可以提供读服务，而Kafka只有primary partition提供读写服务，replica只是同步primary上的数据，并不提供读。<b>具体为什么Kafka不用replica提供读服务</b>，大家可以思考一下哈。而ES 2.X之前版本的容灾更像ZK，采用quorum的方式，如果不对请指正）</i></p><h2>使用场景</h2><hr><p>说了这么多，其实还是希望对MySQL，HBase，ES各自的实现做下对比，方便我们根据业务特点选择最合适的存储、检索方案。下面说一下笔者在工作中使用的经验：</p><div class="image-package">
+<div class="image-container" style="max-width: 700px; max-height: 672px; background-color: transparent;">
+<div class="image-container-fill" style="padding-bottom: 54.72%;"></div>
+<div class="image-view" data-width="1228" data-height="672"><img data-original-src="//upload-images.jianshu.io/upload_images/6468203-aafc8beae4638971.png" data-original-width="1228" data-original-height="672" data-original-format="image/png" data-original-filesize="116894" class="" style="cursor: zoom-in;" src="./聊聊MySQL、HBase、ES的特点和区别 - 简书_files/6468203-aafc8beae4638971.png"></div>
+</div>
+<div class="image-caption"></div>
+</div><p>MySQL在三款中最为成熟，而且支持事务，支持二级索引，容灾备份方案也最为成熟，所以线上核心业务Mysql是不二之选（当然如果不差钱，Oracle也挺不错，而且出问题自己解决不了的话，打电话就可以了，手动斜眼）。</p><p>HBase因为其强大的写入能力和水平扩展能力，比较适合存储日志，用户行为等数据量比较大的数据，这种数据一般不涉及事务级别的读写，对二级索引的需求也不是很高。而且HBase的主键不像Mysql，往往是涉及到业务逻辑的，如果查询条件单一的话，可以把直接把需要查询的字段作为主键的一部分，类似MySQL的联合索引，来提供检索功能。</p><p>ES现在不仅提供全文检索，还提供统计功能，并且提供的Restful接口非常好用，配上Kibana还可以进行图形化展示，第三方插件也很丰富。虽然ES可以水平扩展，但是考虑到ES的大部分检索都会检索该index的所有shard，如果单个index数据过大，性能多少也会受到影响，所以单个index的大小最好控制在一定的范围，比如存储用户行为日志的index，可以每隔一段时间归一次档，创建新的index，做到冷热分离。而且ES也可以作为MySQL或HBase的索引来使用，虽然Mysql也有索引功能，但是过多的索引往往会拖累MySQL的性能，并且线上MySQL数据库一般也不允许执行统计类的sql，这时可以用ES辅助实现统计，HBase因为只有主键检索，所以更需要二级索引的功能。</p><p>举一个笔者前司组合使用的场景：trace系统的log数据以HBase作为主要存储，同时最近三个月的数据也在ES里面保留一份，ES主要用来完成各种复杂检索、统计。但数据同步需要业务自己实现，当然trace业务对一致性要求不那么高，也可以忽略这个问题。</p><p><i>tip：将数据库的数据向ES中同步的时候，因为网络延迟等问题，到达的顺序可能会乱序，这时老数据有可能会覆盖新的数据，ES提供了一个version功能，可以将数据的timestamp作为version值，防止旧version的数据覆盖新version的数据。</i></p><h2>展望</h2><p>传统的关系型数据库有着强大的事物处理能力，满足了大部分线上业务需求，但是水平扩展性一直是一个头疼的问题，NoSql数据库虽然解决了水平扩展问题，但是功能太单一，现在越来越多的公司开始着手研究新一代NewSQL数据库，结合了关系型数据库的优点外还拥有水平扩展能力，比如淘宝的Oceanbase，PingCAP的TiDB，国外的CockroachDB，让我们做好拥抱NewSQL的准备吧。</p><p>下一篇聊一聊实时计算^ ^。</p>
+          </div>
+        </div>
+    </div>
+
+    <!-- 如果是付费文章，未购买，则显示购买按钮 -->
+
+    <!-- 连载目录项 -->
+
+    <!-- 如果是付费文章 -->
+      <!-- 如果是付费连载，已购买，且作者允许赞赏，则显示付费信息和赞赏 -->
+        <div id="free-reward-panel" class="support-author"><p>小礼物走一走，来简书关注我</p> <div class="btn btn-pay">赞赏支持</div> <div class="supporter"><ul class="support-list"><li><a target="_blank" href="https://www.jianshu.com/u/10b5e4dee811" class="avatar"><img src="./聊聊MySQL、HBase、ES的特点和区别 - 简书_files/9-cceda3cf5072bcdd77e8ca4f21c40998.jpg"></a></li><li><a target="_blank" href="https://www.jianshu.com/u/32b8c6f20796" class="avatar"><img src="./聊聊MySQL、HBase、ES的特点和区别 - 简书_files/647d7ef8-ec70-4a5a-9f85-fa91f82d1f57"></a></li></ul> <!----></div> <!----> <!----></div>
+
+      <div class="show-foot">
+        <a class="notebook" href="https://www.jianshu.com/nb/13468637">
+          <i class="iconfont ic-search-notebook"></i>
+          <span>日记本</span>
+</a>        <div class="copyright" data-toggle="tooltip" data-html="true" data-original-title="转载请联系作者获得授权，并标注“简书作者”。">
+          © 著作权归作者所有
+        </div>
+        <div class="modal-wrap" data-report-note="">
+          <a id="report-modal">举报文章</a>
+        </div>
+      </div>
+
+      <!-- 文章底部作者信息 -->
+        <div class="follow-detail">
+          <div class="info">
+            <a class="avatar" href="https://www.jianshu.com/u/a9196e920278">
+              <img src="./聊聊MySQL、HBase、ES的特点和区别 - 简书_files/116005fc-a76f-4f8f-a811-be305bd97604" alt="96">
+</a>            <a class="btn btn-success follow"><i class="iconfont ic-follow"></i><span>关注</span></a>
+            <a class="title" href="https://www.jianshu.com/u/a9196e920278">奔跑的番茄酱</a>
+          <p>写了 41228 字，被 150 人关注，获得了 153 个喜欢</p></div>
+            <div class="signature">如果你简单，这个世界就对你简单”。简单生活才能幸福生活，人要自足常乐，宽容大度，什么事情都不能想繁杂，心灵的负荷重了，就会怨天忧人。要定期的对记忆进行一次删除，把不愉快的人和事从记忆中摈弃，人生苦短，财富地位都是附加的，生不带来死不带去，简简单单的生活就是快快乐乐的生活。</div>
+        </div>
+
+    <div class="meta-bottom">
+      <div data-v-6ddd02c6="" class="like"><div data-v-6ddd02c6="" class="btn like-group"><div data-v-6ddd02c6="" class="btn-like"><a data-v-6ddd02c6="">喜欢</a></div> <div data-v-6ddd02c6="" class="modal-wrap"><a data-v-6ddd02c6="">83</a></div></div> <!----></div>
+      <div class="share-group">
+        <a class="share-circle" data-action="weixin-share" data-toggle="tooltip" data-original-title="分享到微信">
+          <i class="iconfont ic-wechat"></i>
+        </a>
+        <a class="share-circle" data-action="weibo-share" data-toggle="tooltip" href="javascript:void((function(s,d,e,r,l,p,t,z,c){var%20f=&#39;http://v.t.sina.com.cn/share/share.php?appkey=1881139527&#39;,u=z||d.location,p=[&#39;&amp;url=&#39;,e(u),&#39;&amp;title=&#39;,e(t||d.title),&#39;&amp;source=&#39;,e(r),&#39;&amp;sourceUrl=&#39;,e(l),&#39;&amp;content=&#39;,c||&#39;gb2312&#39;,&#39;&amp;pic=&#39;,e(p||&#39;&#39;)].join(&#39;&#39;);function%20a(){if(!window.open([f,p].join(&#39;&#39;),&#39;mb&#39;,[&#39;toolbar=0,status=0,resizable=1,width=440,height=430,left=&#39;,(s.width-440)/2,&#39;,top=&#39;,(s.height-430)/2].join(&#39;&#39;)))u.href=[f,p].join(&#39;&#39;);};if(/Firefox/.test(navigator.userAgent))setTimeout(a,0);else%20a();})(screen,document,encodeURIComponent,&#39;&#39;,&#39;&#39;,&#39;&#39;, &#39;推荐 奔跑的番茄酱 的文章《聊聊MySQL、HBase、ES的特点和区别》（ 分享自 @简书 ）&#39;,&#39;https://www.jianshu.com/p/4e412f48e820?utm_campaign=maleskine&amp;utm_content=note&amp;utm_medium=reader_share&amp;utm_source=weibo&#39;,&#39;页面编码gb2312|utf-8默认gb2312&#39;));" data-original-title="分享到微博">
+          <i class="iconfont ic-weibo"></i>
+        </a>
+        <a class="share-circle" data-toggle="tooltip" id="longshare" target="_blank" data-original-title="" title="">
+            <div class="qrcode" id="qrcode">
+             <img src="./聊聊MySQL、HBase、ES的特点和区别 - 简书_files/download-index-side-qrcode-cb13fc9106a478795f8d10f9f632fccf.png" alt="Download index side qrcode">
+             <p>下载app生成长微博图片</p>
+             </div>
+          <i class="iconfont ic-picture"></i>
+        </a>
+        <a class="share-circle more-share" tabindex="0" data-toggle="popover" data-placement="top" data-html="true" data-trigger="focus" href="javascript:void(0);" data-content="
+          &lt;ul class=&quot;share-list&quot;&gt;
+            &lt;li&gt;&lt;a href=&quot;javascript:void(function(){var d=document,e=encodeURIComponent,r=&#39;http://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=&#39;+e(&#39;https://www.jianshu.com/p/4e412f48e820?utm_campaign=maleskine&amp;utm_content=note&amp;utm_medium=reader_share&amp;utm_source=qzone&#39;)+&#39;&amp;title=&#39;+e(&#39;推荐 奔跑的番茄酱 的文章《聊聊MySQL、HBase、ES的特点和区别》&#39;),x=function(){if(!window.open(r,&#39;qzone&#39;,&#39;toolbar=0,resizable=1,scrollbars=yes,status=1,width=600,height=600&#39;))location.href=r};if(/Firefox/.test(navigator.userAgent)){setTimeout(x,0)}else{x()}})();&quot;&gt;&lt;i class=&quot;social-icon-sprite social-icon-zone&quot;&gt;&lt;/i&gt;&lt;span&gt;分享到QQ空间&lt;/span&gt;&lt;/a&gt;&lt;/li&gt;
+            &lt;li&gt;&lt;a href=&quot;javascript:void(function(){var d=document,e=encodeURIComponent,r=&#39;https://twitter.com/share?url=&#39;+e(&#39;https://www.jianshu.com/p/4e412f48e820?utm_campaign=maleskine&amp;utm_content=note&amp;utm_medium=reader_share&amp;utm_source=twitter&#39;)+&#39;&amp;text=&#39;+e(&#39;推荐 奔跑的番茄酱 的文章《聊聊MySQL、HBase、ES的特点和区别》（ 分享自 @jianshucom ）&#39;)+&#39;&amp;related=&#39;+e(&#39;jianshucom&#39;),x=function(){if(!window.open(r,&#39;twitter&#39;,&#39;toolbar=0,resizable=1,scrollbars=yes,status=1,width=600,height=600&#39;))location.href=r};if(/Firefox/.test(navigator.userAgent)){setTimeout(x,0)}else{x()}})();&quot;&gt;&lt;i class=&quot;social-icon-sprite social-icon-twitter&quot;&gt;&lt;/i&gt;&lt;span&gt;分享到Twitter&lt;/span&gt;&lt;/a&gt;&lt;/li&gt;
+            &lt;li&gt;&lt;a href=&quot;javascript:void(function(){var d=document,e=encodeURIComponent,r=&#39;https://www.facebook.com/dialog/share?app_id=483126645039390&amp;display=popup&amp;href=https://www.jianshu.com/p/4e412f48e820?utm_campaign=maleskine&amp;utm_content=note&amp;utm_medium=reader_share&amp;utm_source=facebook&#39;,x=function(){if(!window.open(r,&#39;facebook&#39;,&#39;toolbar=0,resizable=1,scrollbars=yes,status=1,width=450,height=330&#39;))location.href=r};if(/Firefox/.test(navigator.userAgent)){setTimeout(x,0)}else{x()}})();&quot;&gt;&lt;i class=&quot;social-icon-sprite social-icon-facebook&quot;&gt;&lt;/i&gt;&lt;span&gt;分享到Facebook&lt;/span&gt;&lt;/a&gt;&lt;/li&gt;
+            &lt;li&gt;&lt;a href=&quot;javascript:void(function(){var d=document,e=encodeURIComponent,r=&#39;https://plus.google.com/share?url=&#39;+e(&#39;https://www.jianshu.com/p/4e412f48e820?utm_campaign=maleskine&amp;utm_content=note&amp;utm_medium=reader_share&amp;utm_source=google_plus&#39;),x=function(){if(!window.open(r,&#39;google_plus&#39;,&#39;toolbar=0,resizable=1,scrollbars=yes,status=1,width=450,height=330&#39;))location.href=r};if(/Firefox/.test(navigator.userAgent)){setTimeout(x,0)}else{x()}})();&quot;&gt;&lt;i class=&quot;social-icon-sprite social-icon-google&quot;&gt;&lt;/i&gt;&lt;span&gt;分享到Google+&lt;/span&gt;&lt;/a&gt;&lt;/li&gt;
+            &lt;li&gt;&lt;a href=&quot;javascript:void(function(){var d=document,e=encodeURIComponent,s1=window.getSelection,s2=d.getSelection,s3=d.selection,s=s1?s1():s2?s2():s3?s3.createRange().text:&#39;&#39;,r=&#39;http://www.douban.com/recommend/?url=&#39;+e(&#39;https://www.jianshu.com/p/4e412f48e820?utm_campaign=maleskine&amp;utm_content=note&amp;utm_medium=reader_share&amp;utm_source=douban&#39;)+&#39;&amp;title=&#39;+e(&#39;聊聊MySQL、HBase、ES的特点和区别&#39;)+&#39;&amp;sel=&#39;+e(s)+&#39;&amp;v=1&#39;,x=function(){if(!window.open(r,&#39;douban&#39;,&#39;toolbar=0,resizable=1,scrollbars=yes,status=1,width=450,height=330&#39;))location.href=r+&#39;&amp;r=1&#39;};if(/Firefox/.test(navigator.userAgent)){setTimeout(x,0)}else{x()}})()&quot;&gt;&lt;i class=&quot;social-icon-sprite social-icon-douban&quot;&gt;&lt;/i&gt;&lt;span&gt;分享到豆瓣&lt;/span&gt;&lt;/a&gt;&lt;/li&gt;
+          &lt;/ul&gt;
+        " data-original-title="" title="">更多分享</a>
+      </div>
+    </div>
+
+      <a id="web-note-ad-2" target="_blank" href="https://www.jianshu.com/p/428251ede1aa"><img src="./聊聊MySQL、HBase、ES的特点和区别 - 简书_files/gupao-b953be49108805c4198258448895344a.jpg" alt="Gupao"></a>
+
+    <!--
+    <div id="note-comment-above-ad-container">
+      <span id="youdao-comment-ad" class="ad-badge">广告</span>
+    </div>
+    -->
+    <div><div id="comment-list" class="comment-list"><div><form class="new-comment"><a class="avatar"><img src="./聊聊MySQL、HBase、ES的特点和区别 - 简书_files/avatar_default-78d4d1f68984cd6d4379508dd94b4210.png"></a> <div class="sign-container"><a href="https://www.jianshu.com/sign_in?utm_source=desktop&amp;utm_medium=not-signed-in-comment-form" class="btn btn-sign">登录</a> <span>后发表评论</span></div></form> <!----></div> <!----> <div class="comments-placeholder" style="display: none;"><div class="author"><div class="avatar"></div> <div class="info"><div class="name"></div> <div class="meta"></div></div></div> <div class="text"></div> <div class="text animation-delay"></div> <div class="tool-group"><i class="iconfont ic-zan-active"></i><div class="zan"></div> <i class="iconfont ic-list-comments"></i><div class="zan"></div></div></div> <div id="normal-comment-list" class="normal-comment-list"><div><div><div class="top-title"><span>6条评论</span> <a class="author-only">只看作者</a> <a class="close-btn" style="display: none;">关闭评论</a> <div class="pull-right"><a class="active">按时间倒序</a><a class="">按时间正序</a></div></div></div> <!----> <!----> <div class="comments-placeholder" style="display: none;"><div class="author"><div class="avatar"></div> <div class="info"><div class="name"></div> <div class="meta"></div></div></div> <div class="text"></div> <div class="text animation-delay"></div> <div class="tool-group"><i class="iconfont ic-zan-active"></i><div class="zan"></div> <i class="iconfont ic-list-comments"></i><div class="zan"></div></div></div> <div id="comment-33365199" class="comment"><div><div class="author"><div data-v-f3bf5228="" class="v-tooltip-container" style="z-index: 0;"><div class="v-tooltip-content"><a href="https://www.jianshu.com/u/f87d1f212102" target="_blank" class="avatar"><img src="./聊聊MySQL、HBase、ES的特点和区别 - 简书_files/21094028-dc9a-4a21-9d0c-658190ceb110"></a>  </div> <!----></div> <div class="info"><a href="https://www.jianshu.com/u/f87d1f212102" target="_blank" class="name">怪兽兽兽</a> <!----> <!----> <div class="meta"><span>5楼 · 2019.01.04 22:03</span></div></div></div> <div class="comment-wrap"><p>你好, hbase支持二级索引的, 不知道您和我理解的是否相同, 我参考了一个文章<br><a href="https://www.cnblogs.com/mthoutai/p/7323316.html" rel="nofollow" target="_blank">https://www.cnblogs.com/mthoutai/p/7323316.html</a></p> <!----> <div class="tool-group"><a data-v-cdecbe24="" id="like-button-33365199" class="like-button"><span data-v-cdecbe24="">赞</span></a> <a class=""><i class="iconfont ic-comment"></i> <span>回复</span></a> <!----> <!----></div></div></div> <div class="sub-comment-list"><div id="comment-33613034" class="sub-comment"><p><div data-v-f3bf5228="" class="v-tooltip-container" style="z-index: 0;"><div class="v-tooltip-content"><a href="https://www.jianshu.com/u/a9196e920278" target="_blank">奔跑的番茄酱</a>：
+            </div> <!----></div> <span>原生的是不支持的，博客里面的都是基于第三方插件，或者利用Coprocessor自己研发</span> <!----></p> <div class="sub-tool-group"><span>2019.01.09 11:42</span> <a class=""><i class="iconfont ic-comment"></i> <span>回复</span></a> <!----> <!----></div></div> <div class="sub-comment more-comment"><a class="add-comment-btn"><i class="iconfont ic-subcomment"></i> <span>添加新评论</span></a> <!----> <!----> <!----></div> <!----></div></div><div id="comment-28545548" class="comment"><div><div class="author"><div data-v-f3bf5228="" class="v-tooltip-container" style="z-index: 0;"><div class="v-tooltip-content"><a href="https://www.jianshu.com/u/f36934faf398" target="_blank" class="avatar"><img src="./聊聊MySQL、HBase、ES的特点和区别 - 简书_files/0aca027f-18b0-4d9c-ad98-8cc07b211fbd.jpg"></a>  </div> <!----></div> <div class="info"><a href="https://www.jianshu.com/u/f36934faf398" target="_blank" class="name">saviola1127</a> <!----> <!----> <div class="meta"><span>4楼 · 2018.09.12 19:25</span></div></div></div> <div class="comment-wrap"><p>受益匪浅！</p> <!----> <div class="tool-group"><a data-v-cdecbe24="" id="like-button-28545548" class="like-button"><span data-v-cdecbe24="">赞</span></a> <a class=""><i class="iconfont ic-comment"></i> <span>回复</span></a> <!----> <!----></div></div></div> <div class="sub-comment-list hide"><!----> <!----></div></div><div id="comment-27812614" class="comment"><div><div class="author"><div data-v-f3bf5228="" class="v-tooltip-container" style="z-index: 0;"><div class="v-tooltip-content"><a href="https://www.jianshu.com/u/3d4ae5dfe891" target="_blank" class="avatar"><img src="./聊聊MySQL、HBase、ES的特点和区别 - 简书_files/7-0993d41a595d6ab6ef17b19496eb2f21.jpg"></a>  </div> <!----></div> <div class="info"><a href="https://www.jianshu.com/u/3d4ae5dfe891" target="_blank" class="name">黑米包子</a> <!----> <!----> <div class="meta"><span>3楼 · 2018.08.23 12:34</span></div></div></div> <div class="comment-wrap"><p>总结的不错，暂一个</p> <!----> <div class="tool-group"><a data-v-cdecbe24="" id="like-button-27812614" class="like-button"><span data-v-cdecbe24="">赞</span></a> <a class=""><i class="iconfont ic-comment"></i> <span>回复</span></a> <!----> <!----></div></div></div> <div class="sub-comment-list hide"><!----> <!----></div></div><div id="comment-20933635" class="comment"><div><div class="author"><div data-v-f3bf5228="" class="v-tooltip-container" style="z-index: 0;"><div class="v-tooltip-content"><a href="https://www.jianshu.com/u/39de5923964d" target="_blank" class="avatar"><img src="./聊聊MySQL、HBase、ES的特点和区别 - 简书_files/11-4d7c6ca89f439111aff57b23be1c73ba.jpg"></a>  </div> <!----></div> <div class="info"><a href="https://www.jianshu.com/u/39de5923964d" target="_blank" class="name">一直在摸索</a> <!----> <!----> <div class="meta"><span>2楼 · 2018.02.24 11:46</span></div></div></div> <div class="comment-wrap"><p>这里有点冲突. <br><br>在你的文章里:<br>HBase：基于HDFS，支持海量数据读写（尤其是写），支持上亿列、上百万行的<br><br>在<a href="http://www.cnblogs.com/qiaoyihang/p/6262806.html" rel="nofollow" target="_blank">http://www.cnblogs.com/qiaoyihang/p/6262806.html</a>里是<br>hbase 表的特点<br>1、大： 可存储数十亿行，百万列</p> <!----> <div class="tool-group"><a data-v-cdecbe24="" id="like-button-20933635" class="like-button"><span data-v-cdecbe24="">1人赞</span></a> <a class=""><i class="iconfont ic-comment"></i> <span>回复</span></a> <!----> <!----></div></div></div> <div class="sub-comment-list"><div id="comment-21016754" class="sub-comment"><p><div data-v-f3bf5228="" class="v-tooltip-container" style="z-index: 0;"><div class="v-tooltip-content"><a href="https://www.jianshu.com/u/a9196e920278" target="_blank">奔跑的番茄酱</a>：
+            </div> <!----></div> <span>感谢提醒,已修改</span> <!----></p> <div class="sub-tool-group"><span>2018.02.26 16:42</span> <a class=""><i class="iconfont ic-comment"></i> <span>回复</span></a> <!----> <!----></div></div> <div class="sub-comment more-comment"><a class="add-comment-btn"><i class="iconfont ic-subcomment"></i> <span>添加新评论</span></a> <!----> <!----> <!----></div> <!----></div></div></div></div> <!----> <div><!----></div></div></div>
+  </div>
+
+  <div class="side-tool"><ul><li data-placement="left" data-toggle="tooltip" data-container="body" data-original-title="回到顶部" style=""><a class="function-button"><i class="iconfont ic-backtop"></i></a></li> <!----> <!----> <!----> <!----> <li data-placement="left" data-toggle="tooltip" data-container="body" data-original-title="分享文章" id="share"><a tabindex="0" role="button" data-toggle="popover" data-placement="left" data-html="true" data-trigger="focus" href="javascript:void(0);" data-content="&lt;ul class=&#39;share-list&#39; style=&quot;width:220px&quot;&gt;
+                  &lt;li&gt;&lt;a class=&quot;weixin-share&quot;&gt;&lt;i class=&quot;social-icon-sprite social-icon-weixin&quot;&gt;&lt;/i&gt;&lt;span&gt;分享到微信&lt;/span&gt;&lt;/a&gt;&lt;/li&gt;
+                  &lt;li&gt;&lt;a href=&quot;javascript:void((function(s,d,e,r,l,p,t,z,c){var%20f=&#39;http://v.t.sina.com.cn/share/share.php?appkey=1881139527&#39;,u=z||d.location,p=[&#39;&amp;url=&#39;,e(u),&#39;&amp;title=&#39;,e(t||d.title),&#39;&amp;source=&#39;,e(r),&#39;&amp;sourceUrl=&#39;,e(l),&#39;&amp;content=&#39;,c||&#39;gb2312&#39;,&#39;&amp;pic=&#39;,e(p||&#39;&#39;)].join(&#39;&#39;);function%20a(){if(!window.open([f,p].join(&#39;&#39;),&#39;mb&#39;,[&#39;toolbar=0,status=0,resizable=1,width=440,height=430,left=&#39;,(s.width-440)/2,&#39;,top=&#39;,(s.height-430)/2].join(&#39;&#39;)))u.href=[f,p].join(&#39;&#39;);};if(/Firefox/.test(navigator.userAgent))setTimeout(a,0);else%20a();})(screen,document,encodeURIComponent,&#39;&#39;,&#39;&#39;,&#39;&#39;, &#39;推荐 奔跑的番茄酱 的文章《聊聊MySQL、HBase、ES的特点和区别》（ 分享自 @简书 ）&#39;,&#39;https://www.jianshu.com/p/4e412f48e820?utm_campaign=maleskine&amp;utm_content=note&amp;utm_medium=reader_share&amp;utm_source=weibo&#39;,&#39;页面编码gb2312|utf-8默认gb2312&#39;));&quot;&gt;&lt;i class=&#39;social-icon-sprite social-icon-weibo&#39;&gt;&lt;/i&gt;&lt;span&gt;分享到微博&lt;/span&gt;&lt;/a&gt;&lt;/li&gt;
+                  
+                  &lt;li&gt;&lt;a href=&quot;javascript:void(function(){var d=document,e=encodeURIComponent,r=&#39;http://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=&#39;+e(&#39;https://www.jianshu.com/p/4e412f48e820?utm_campaign=maleskine&amp;utm_content=note&amp;utm_medium=reader_share&amp;utm_source=qzone&#39;)+&#39;&amp;title=&#39;+e(&#39;推荐 奔跑的番茄酱 的文章《聊聊MySQL、HBase、ES的特点和区别》&#39;),x=function(){if(!window.open(r,&#39;qzone&#39;,&#39;toolbar=0,resizable=1,scrollbars=yes,status=1,width=600,height=600&#39;))location.href=r};if(/Firefox/.test(navigator.userAgent)){setTimeout(x,0)}else{x()}})();&quot;&gt;&lt;i class=&#39;social-icon-sprite social-icon-zone&#39;&gt;&lt;/i&gt;&lt;span&gt;分享到QQ空间&lt;/span&gt;&lt;/a&gt;&lt;/li&gt;
+                  &lt;li&gt;&lt;a href=&quot;javascript:void(function(){var d=document,e=encodeURIComponent,r=&#39;https://twitter.com/share?url=&#39;+e(&#39;https://www.jianshu.com/p/4e412f48e820?utm_campaign=maleskine&amp;utm_content=note&amp;utm_medium=reader_share&amp;utm_source=twitter&#39;)+&#39;&amp;text=&#39;+e(&#39;推荐 奔跑的番茄酱 的文章《聊聊MySQL、HBase、ES的特点和区别》（ 分享自 @jianshucom ）&#39;)+&#39;&amp;related=&#39;+e(&#39;jianshucom&#39;),x=function(){if(!window.open(r,&#39;twitter&#39;,&#39;toolbar=0,resizable=1,scrollbars=yes,status=1,width=600,height=600&#39;))location.href=r};if(/Firefox/.test(navigator.userAgent)){setTimeout(x,0)}else{x()}})();&quot;&gt;&lt;i class=&#39;social-icon-sprite social-icon-twitter&#39;&gt;&lt;/i&gt;&lt;span&gt;分享到Twitter&lt;/span&gt;&lt;/a&gt;&lt;/li&gt;
+                  &lt;li&gt;&lt;a href=&quot;javascript:void(function(){var d=document,e=encodeURIComponent,r=&#39;https://www.facebook.com/dialog/share?app_id=483126645039390&amp;display=popup&amp;href=https://www.jianshu.com/p/4e412f48e820?utm_campaign=maleskine&amp;utm_content=note&amp;utm_medium=reader_share&amp;utm_source=facebook&#39;,x=function(){if(!window.open(r,&#39;facebook&#39;,&#39;toolbar=0,resizable=1,scrollbars=yes,status=1,width=450,height=330&#39;))location.href=r};if(/Firefox/.test(navigator.userAgent)){setTimeout(x,0)}else{x()}})();&quot;&gt;&lt;i class=&#39;social-icon-sprite social-icon-facebook&#39;&gt;&lt;/i&gt;&lt;span&gt;分享到Facebook&lt;/span&gt;&lt;/a&gt;&lt;/li&gt;
+                  &lt;li&gt;&lt;a href=&quot;javascript:void(function(){var d=document,e=encodeURIComponent,r=&#39;https://plus.google.com/share?url=&#39;+e(&#39;https://www.jianshu.com/p/4e412f48e820?utm_campaign=maleskine&amp;utm_content=note&amp;utm_medium=reader_share&amp;utm_source=google_plus&#39;),x=function(){if(!window.open(r,&#39;google_plus&#39;,&#39;toolbar=0,resizable=1,scrollbars=yes,status=1,width=450,height=330&#39;))location.href=r};if(/Firefox/.test(navigator.userAgent)){setTimeout(x,0)}else{x()}})();&quot;&gt;&lt;i class=&#39;social-icon-sprite social-icon-google&#39;&gt;&lt;/i&gt;&lt;span&gt;分享到Google+&lt;/span&gt;&lt;/a&gt;&lt;/li&gt;
+                  &lt;li&gt;&lt;a href=&quot;javascript:void(function(){var d=document,e=encodeURIComponent,s1=window.getSelection,s2=d.getSelection,s3=d.selection,s=s1?s1():s2?s2():s3?s3.createRange().text:&#39;&#39;,r=&#39;http://www.douban.com/recommend/?url=&#39;+e(&#39;https://www.jianshu.com/p/4e412f48e820?utm_campaign=maleskine&amp;utm_content=note&amp;utm_medium=reader_share&amp;utm_source=douban&#39;)+&#39;&amp;title=&#39;+e(&#39;聊聊MySQL、HBase、ES的特点和区别&#39;)+&#39;&amp;sel=&#39;+e(s)+&#39;&amp;v=1&#39;,x=function(){if(!window.open(r,&#39;douban&#39;,&#39;toolbar=0,resizable=1,scrollbars=yes,status=1,width=450,height=330&#39;))location.href=r+&#39;&amp;r=1&#39;};if(/Firefox/.test(navigator.userAgent)){setTimeout(x,0)}else{x()}})()&quot;&gt;&lt;i class=&#39;social-icon-sprite social-icon-douban&#39;&gt;&lt;/i&gt;&lt;span&gt;分享到豆瓣&lt;/span&gt;&lt;/a&gt;&lt;/li&gt;
+                &lt;/ul&gt;" data-original-title="" title="" class="function-button"><i class="iconfont ic-share"></i></a> <!----></li> <!----></ul></div>
+</div>
+<div class="note-bottom">
+  <div><div class="main"><div class="title">被以下专题收入，发现更多相似内容</div> <!----> <div class="include-collection"><!----> <a href="https://www.jianshu.com/c/b3d002510354?utm_source=desktop&amp;utm_medium=notes-included-collection" target="_blank" class="item"><img src="./聊聊MySQL、HBase、ES的特点和区别 - 简书_files/728da9773912b31b4fbdf0508418367adbb4e1f2.jpg"><div class="name">geneseeq</div></a><a href="https://www.jianshu.com/c/d83d00973774?utm_source=desktop&amp;utm_medium=notes-included-collection" target="_blank" class="item"><img src="./聊聊MySQL、HBase、ES的特点和区别 - 简书_files/1508986978.jpg"><div class="name">Java技术升华</div></a><a href="https://www.jianshu.com/c/7847442e0728?utm_source=desktop&amp;utm_medium=notes-included-collection" target="_blank" class="item"><img src="./聊聊MySQL、HBase、ES的特点和区别 - 简书_files/CodeHeader-1920x1200.jpg"><div class="name">我爱编程</div></a> <!----></div></div> <!----> <!----></div>
+  <div data-vcomp="recommended-notes" data-note-id="13510262"></div>
+  <!-- 相关文章 -->
+    <!-- 未登录用户 -->
+    <div class="seo-recommended-notes">
+
+          <div class="note have-img">
+            <a class="cover" target="_blank" href="https://www.jianshu.com/p/09a29507fd4e?utm_campaign=maleskine&amp;utm_content=note&amp;utm_medium=seo_notes&amp;utm_source=recommendation">
+              <img src="./聊聊MySQL、HBase、ES的特点和区别 - 简书_files/1796855-d3fe7695895f7e3d" alt="240">
+</a>            <a class="title" target="_blank" href="https://www.jianshu.com/p/09a29507fd4e?utm_campaign=maleskine&amp;utm_content=note&amp;utm_medium=seo_notes&amp;utm_source=recommendation">构建高并发高可用的电商平台架构实践</a>
+            <p class="description">问题导读： 1.如何构建高并发电商平台架构 2.哈希、B树、倒排、bitmap的作用是什么？ 3.作为软件工程师，该如何实现读写？ 4.如何实现负载均衡、反向代理？ 5.电商业务是什么？ 6.基础中间件该如何设计？ 7.对于平台各个系统之间的异步交互，可以通过什么实现? 8...</p>
+            <a class="author" target="_blank" href="https://www.jianshu.com/u/e83ce3312e83?utm_campaign=maleskine&amp;utm_content=user&amp;utm_medium=seo_notes&amp;utm_source=recommendation">
+              <div class="avatar">
+                <img src="./聊聊MySQL、HBase、ES的特点和区别 - 简书_files/ad96fb2eb6d4.jpg" alt="48">
+              </div>
+              <span class="name">MaLiang</span>
+</a>          </div>
+
+          <div class="note have-img">
+            <a class="cover" target="_blank" href="https://www.jianshu.com/p/f65886eb269f?utm_campaign=maleskine&amp;utm_content=note&amp;utm_medium=seo_notes&amp;utm_source=recommendation">
+              <img src="./聊聊MySQL、HBase、ES的特点和区别 - 简书_files/899915-96517a82daa7210c.jpg" alt="240">
+</a>            <a class="title" target="_blank" href="https://www.jianshu.com/p/f65886eb269f?utm_campaign=maleskine&amp;utm_content=note&amp;utm_medium=seo_notes&amp;utm_source=recommendation">构建高并发高可用的电商平台架构实践</a>
+            <p class="description">原文出处： 杨步涛的博客 一、 设计理念 1. 空间换时间1) 多级缓存，静态化客户端页面缓存（http header中包含Expires/Cache of Control，last modified(304，server不返回body，客户端可以继续用cache，减少流量...</p>
+            <a class="author" target="_blank" href="https://www.jianshu.com/u/0b6d3c2f4836?utm_campaign=maleskine&amp;utm_content=user&amp;utm_medium=seo_notes&amp;utm_source=recommendation">
+              <div class="avatar">
+                <img src="./聊聊MySQL、HBase、ES的特点和区别 - 简书_files/821a48a4251e.jpg" alt="48">
+              </div>
+              <span class="name">CookieziSui</span>
+</a>          </div>
+
+          <div class="note ">
+                        <a class="title" target="_blank" href="https://www.jianshu.com/p/1c4de945e829?utm_campaign=maleskine&amp;utm_content=note&amp;utm_medium=seo_notes&amp;utm_source=recommendation">高并发架构</a>
+            <p class="description">高并发平台架构 设计理念 1. 空间换时间 多级缓存，静态化前端页面缓存（HTTP Header中包含Expires/Cache of Control，Last Modified(304，Server不返回Body，客户端可以继续用Cache，减少流量)，ETag）反向代理...</p>
+            <a class="author" target="_blank" href="https://www.jianshu.com/u/2dd5b9531cfc?utm_campaign=maleskine&amp;utm_content=user&amp;utm_medium=seo_notes&amp;utm_source=recommendation">
+              <div class="avatar">
+                <img src="./聊聊MySQL、HBase、ES的特点和区别 - 简书_files/74785a2e-f0d9-4bf4-a229-a237a9a19d1e.jpg" alt="48">
+              </div>
+              <span class="name">AkaTBS</span>
+</a>          </div>
+
+          <div class="note have-img">
+            <a class="cover" target="_blank" href="https://www.jianshu.com/p/b596411c5a48?utm_campaign=maleskine&amp;utm_content=note&amp;utm_medium=seo_notes&amp;utm_source=recommendation">
+              <img src="./聊聊MySQL、HBase、ES的特点和区别 - 简书_files/476922-310e0077c08c398f.png" alt="240">
+</a>            <a class="title" target="_blank" href="https://www.jianshu.com/p/b596411c5a48?utm_campaign=maleskine&amp;utm_content=note&amp;utm_medium=seo_notes&amp;utm_source=recommendation">Hbase</a>
+            <p class="description">HBase存储架构图 HBase Master 为Region server分配region 负责Region server的负载均衡 发现失效的Region server并重新分配其上的region HDFS上的垃圾文件回收（删除表后的遗留文件） 处理schema更新请求...</p>
+            <a class="author" target="_blank" href="https://www.jianshu.com/u/f2e325c25a44?utm_campaign=maleskine&amp;utm_content=user&amp;utm_medium=seo_notes&amp;utm_source=recommendation">
+              <div class="avatar">
+                <img src="./聊聊MySQL、HBase、ES的特点和区别 - 简书_files/5-33d2da32c552b8be9a0548c7a4576607.jpg" alt="48">
+              </div>
+              <span class="name">kimibob</span>
+</a>          </div>
+
+          <div class="note have-img">
+            <a class="cover" target="_blank" href="https://www.jianshu.com/p/79956a35be68?utm_campaign=maleskine&amp;utm_content=note&amp;utm_medium=seo_notes&amp;utm_source=recommendation">
+              <img src="./聊聊MySQL、HBase、ES的特点和区别 - 简书_files/7186556-9a0fa9f4ed5a61c7" alt="240">
+</a>            <a class="title" target="_blank" href="https://www.jianshu.com/p/79956a35be68?utm_campaign=maleskine&amp;utm_content=note&amp;utm_medium=seo_notes&amp;utm_source=recommendation">转：构建高并发高可用的电商平台架构实践</a>
+            <p class="description">从各个角度总结了电商平台中的架构实践，由于时间仓促，定了个初稿，待补充完善，欢迎大家一起交流。 转载请声明出处：http://blog.csdn.net/yangbutao/article/details/12242441 作者：杨步涛 关注分布式架构、大数据、搜索、开源技...</p>
+            <a class="author" target="_blank" href="https://www.jianshu.com/u/5471c8e6aa70?utm_campaign=maleskine&amp;utm_content=user&amp;utm_medium=seo_notes&amp;utm_source=recommendation">
+              <div class="avatar">
+                <img src="./聊聊MySQL、HBase、ES的特点和区别 - 简书_files/8a8257b2-eae0-48b5-a863-cc1156da6a70.jpg" alt="48">
+              </div>
+              <span class="name">Maggie编程去</span>
+</a>          </div>
+
+          <div class="note ">
+                        <a class="title" target="_blank" href="https://www.jianshu.com/p/dee1bfeb6677?utm_campaign=maleskine&amp;utm_content=note&amp;utm_medium=seo_notes&amp;utm_source=recommendation">快速简单的定制一个时间轴布局（LinearLayout）（2）</a>
+            <p class="description">先搬运之前的文章吧。。。http://www.jcodecraeer.com/a/anzhuokaifa/androidkaifa/2016/0121/3902.htmlGit:https://github.com/razerdp/UnderLineLinearLayout...</p>
+            <a class="author" target="_blank" href="https://www.jianshu.com/u/8ff2bb37d791?utm_campaign=maleskine&amp;utm_content=user&amp;utm_medium=seo_notes&amp;utm_source=recommendation">
+              <div class="avatar">
+                <img src="./聊聊MySQL、HBase、ES的特点和区别 - 简书_files/b8ca2d97-f136-4bc5-8a4c-9f903842580a.jpg" alt="48">
+              </div>
+              <span class="name">羽翼君</span>
+</a>          </div>
+
+          <div class="note have-img">
+            <a class="cover" target="_blank" href="https://www.jianshu.com/p/e7871811b00d?utm_campaign=maleskine&amp;utm_content=note&amp;utm_medium=seo_notes&amp;utm_source=recommendation">
+              <img src="./聊聊MySQL、HBase、ES的特点和区别 - 简书_files/4567915-5ab7c105cb44cb7a.png" alt="240">
+</a>            <a class="title" target="_blank" href="https://www.jianshu.com/p/e7871811b00d?utm_campaign=maleskine&amp;utm_content=note&amp;utm_medium=seo_notes&amp;utm_source=recommendation">村里人说：我妈是个荡妇</a>
+            <p class="description">1. “请你以后不要再到我们家来了，这里不欢迎你！”孙永辉不客气地说，他那拉长的脸寒气逼人。 “永辉，别这样跟你刘大爷说话。”赵奶奶温和地说，语气中透露着怯意。 “他是谁大爷呀！我不认识他！你还嫌丢人不够多是吗？！”孙永辉看母亲护着刘老头瞬间恼火了。母亲的温和与怯懦不但没有...</p>
+            <a class="author" target="_blank" href="https://www.jianshu.com/u/e1eb90d889ee?utm_campaign=maleskine&amp;utm_content=user&amp;utm_medium=seo_notes&amp;utm_source=recommendation">
+              <div class="avatar">
+                <img src="./聊聊MySQL、HBase、ES的特点和区别 - 简书_files/482525e9-5b84-4f80-a4ca-5b1f71f6794b.jpg" alt="48">
+              </div>
+              <span class="name">gl菲菲</span>
+</a>          </div>
+
+          <div class="note ">
+                        <a class="title" target="_blank" href="https://www.jianshu.com/p/3d7c4846a728?utm_campaign=maleskine&amp;utm_content=note&amp;utm_medium=seo_notes&amp;utm_source=recommendation">Android Studio  发布开源项目到Jcenter重要步骤记录</a>
+            <p class="description">连续在Jcenter发布了两个项目，记录下其中的主要操作步骤。 https://bintray.com 中注册账号，建议直接github登录。 创建Package 把项目分离成Module 在项目根目录的build.gradle中添加bintray插件 在local.pro...</p>
+            <a class="author" target="_blank" href="https://www.jianshu.com/u/6c4ab6c746d9?utm_campaign=maleskine&amp;utm_content=user&amp;utm_medium=seo_notes&amp;utm_source=recommendation">
+              <div class="avatar">
+                <img src="./聊聊MySQL、HBase、ES的特点和区别 - 简书_files/966ecab8-0c4b-4809-8b25-92c8afd11a50.jpg" alt="48">
+              </div>
+              <span class="name">山水相逢z</span>
+</a>          </div>
+
+          <div class="note ">
+                        <a class="title" target="_blank" href="https://www.jianshu.com/p/0806976a6d5d?utm_campaign=maleskine&amp;utm_content=note&amp;utm_medium=seo_notes&amp;utm_source=recommendation">你不懂我，我不怪你</a>
+            <p class="description">每个人都有一个死角， 自己走不出来，别人也闯不进去。 我把最深沉的秘密放在那里。 你不懂我，我不怪你。 每个人都有一道伤口， 或深或浅，盖上布，以为不存在。 我把最殷红的鲜血涂在那里。 你不懂我，我不怪你。 每个人都有一场爱恋， 用心、用情、用力，感动也感伤。 我把最炙热的...</p>
+            <a class="author" target="_blank" href="https://www.jianshu.com/u/2d0362fd7842?utm_campaign=maleskine&amp;utm_content=user&amp;utm_medium=seo_notes&amp;utm_source=recommendation">
+              <div class="avatar">
+                <img src="./聊聊MySQL、HBase、ES的特点和区别 - 简书_files/b8ae2d2f-b0c8-479e-ade0-0336c15376cb.jpg" alt="48">
+              </div>
+              <span class="name">紫鱼非雨</span>
+</a>          </div>
+
+          <div class="note ">
+                        <a class="title" target="_blank" href="https://www.jianshu.com/p/84b03571e94c?utm_campaign=maleskine&amp;utm_content=note&amp;utm_medium=seo_notes&amp;utm_source=recommendation">心灵自由写作群第十四期 —第 21篇</a>
+            <p class="description">今日主题：最近很有成就感的事情 一月见底，呼应今日主题，回顾了 2018年的第一月。带来成就感的事情也有三两件，但细想每一件都算是应为，并没有付出超乎寻常的努力，似乎并不值得为自己太长时间鼓掌。 周五召开全天的部门会议，按惯例，助理向大家邀请案例分享。虽然已经做好辞职的准备...</p>
+            <a class="author" target="_blank" href="https://www.jianshu.com/u/255d2600ae94?utm_campaign=maleskine&amp;utm_content=user&amp;utm_medium=seo_notes&amp;utm_source=recommendation">
+              <div class="avatar">
+                <img src="./聊聊MySQL、HBase、ES的特点和区别 - 简书_files/cc958f1b6d8e" alt="48">
+              </div>
+              <span class="name">林之点儿褚</span>
+</a>          </div>
+    </div>
+</div>
+
+    <script type="application/json" data-name="page-data">{"user_signed_in":false,"locale":"zh-CN","os":"windows","read_mode":"day","read_font":"font2","note_show":{"is_author":false,"is_following_author":false,"is_liked_note":false,"follow_state":0,"uuid":"d5e14e3c-2df1-4787-ba1b-fc85f0dbc057"},"note":{"id":13510262,"slug":"4e412f48e820","user_id":6468203,"notebook_id":13468637,"commentable":true,"likes_count":83,"views_count":10426,"public_wordage":7858,"comments_count":6,"featured_comments_count":0,"total_rewards_count":2,"is_author":false,"paid_type":"free","paid":false,"paid_content_accessible":false,"author":{"nickname":"奔跑的番茄酱","total_wordage":41228,"followers_count":150,"total_likes_count":153}}}</script>
+    
+    <script src="./聊聊MySQL、HBase、ES的特点和区别 - 简书_files/babel-polyfill-6cd2d6b53fe3184b71cc.js.下载" crossorigin="anonymous"></script>
+    <script src="./聊聊MySQL、HBase、ES的特点和区别 - 简书_files/web-base-4521edfcb16668d95b42.js.下载" crossorigin="anonymous"></script>
+<script src="./聊聊MySQL、HBase、ES的特点和区别 - 简书_files/web-c51933114578b1755318.js.下载" crossorigin="anonymous"></script>
+    
+    <script src="./聊聊MySQL、HBase、ES的特点和区别 - 简书_files/entry-9d461ca287ff774d7b3e.js.下载" crossorigin="anonymous"></script>
+    <script>
+  (function(){
+      var bp = document.createElement('script');
+      var curProtocol = window.location.protocol.split(':')[0];
+      if (curProtocol === 'https') {
+          bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+      }
+      else {
+          bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+      }
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(bp, s);
+  })();
+</script>
+
+  
+
+<!----><!----><div id="yhqhadin" style="display:none;"></div></body></html>

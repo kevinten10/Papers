@@ -1,0 +1,518 @@
+<!DOCTYPE html>
+<!-- saved from url=(0029)http://dockone.io/article/505 -->
+<html class=""><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,Chrome=1">
+<meta name="renderer" content="webkit">
+<title>DockOne技术分享（十二）：新浪是如何分析处理32亿条实时日志的？ - DockOne.io</title>
+<meta name="keywords" content="dockone,技术,分享,十二,新浪,分析,处理,32亿,实时,日志">
+<meta name="description" content="DockOne技术分享（十二）：新浪是如何分析处理32亿条实时日志的？ - 【编者的话】我从2014年初入职新浪后就开始接触实时日志分析相关的技术，主要是ELK（Elasticsearch、Logstash、Kibana），当时是学习+ELK优化，接一些日志，小打小闹。从2015年起，我们正式得把实时日志分析作为服务提供给公司的其...">
+<meta property="qc:admins" content="460401166337656177">
+<!--<base href="http://dockone.io/">--><base href="."><!--[if IE]></base><![endif]-->
+<link href="http://static.dockone.io/favicon.ico?t=20150328" rel="shortcut icon" type="image/x-icon">
+
+<link rel="stylesheet" type="text/css" href="./DockOne技术分享（十二）：新浪是如何分析处理32亿条实时日志的？ - DockOne.io_files/foot.css">
+
+<link rel="stylesheet" type="text/css" href="./DockOne技术分享（十二）：新浪是如何分析处理32亿条实时日志的？ - DockOne.io_files/bootstrap.css">
+<link rel="stylesheet" type="text/css" href="./DockOne技术分享（十二）：新浪是如何分析处理32亿条实时日志的？ - DockOne.io_files/icon.css">
+
+<link href="./DockOne技术分享（十二）：新浪是如何分析处理32亿条实时日志的？ - DockOne.io_files/common.css" rel="stylesheet" type="text/css">
+<link href="./DockOne技术分享（十二）：新浪是如何分析处理32亿条实时日志的？ - DockOne.io_files/link.css" rel="stylesheet" type="text/css">
+<link href="./DockOne技术分享（十二）：新浪是如何分析处理32亿条实时日志的？ - DockOne.io_files/style.css" rel="stylesheet" type="text/css">
+
+
+<script type="text/javascript">
+	var _93ACE238133A9E1716F5043A2FA7F317="";
+	var G_POST_HASH=_93ACE238133A9E1716F5043A2FA7F317;
+	var G_INDEX_SCRIPT = "";
+	var G_SITE_NAME = "DockOne.io";
+	var G_BASE_URL = "http://dockone.io";
+	var G_STATIC_URL = "http://dockone.io/static";
+	var G_UPLOAD_URL = "http://dockone.io/uploads";
+	var G_USER_ID = "";
+	var G_USER_NAME = "";
+	var G_UPLOAD_ENABLE = "N";
+	var G_UNREAD_NOTIFICATION = 0;
+	var G_NOTIFICATION_INTERVAL = 100000;
+	var G_CAN_CREATE_TOPIC = "";
+	var G_REQUEST_URL = "/article/";
+
+	</script>
+<script src="./DockOne技术分享（十二）：新浪是如何分析处理32亿条实时日志的？ - DockOne.io_files/jquery.2.js.下载" type="text/javascript"></script>
+<script src="./DockOne技术分享（十二）：新浪是如何分析处理32亿条实时日志的？ - DockOne.io_files/jquery.form.js.下载" type="text/javascript"></script>
+<script src="./DockOne技术分享（十二）：新浪是如何分析处理32亿条实时日志的？ - DockOne.io_files/plug-in_module.js.下载" type="text/javascript"></script>
+<script src="./DockOne技术分享（十二）：新浪是如何分析处理32亿条实时日志的？ - DockOne.io_files/aws.js.下载" type="text/javascript"></script>
+<script src="./DockOne技术分享（十二）：新浪是如何分析处理32亿条实时日志的？ - DockOne.io_files/aw_template.js.下载" type="text/javascript"></script>
+<script src="./DockOne技术分享（十二）：新浪是如何分析处理32亿条实时日志的？ - DockOne.io_files/app.js.下载" type="text/javascript"></script>
+<script type="text/javascript" src="./DockOne技术分享（十二）：新浪是如何分析处理32亿条实时日志的？ - DockOne.io_files/compatibility.js.下载"></script>
+<!--[if lte IE 8]>
+	<script type="text/javascript" src="http://dockone.io/static/js/respond.js"></script>
+<![endif]-->
+<style type="text/css">.fancybox-margin{margin-right:17px;}</style></head>
+<body class="vsc-initialized" style=""><noscript unselectable="on" id="noscript">
+    <div class="aw-404 aw-404-wrap container">
+        <img src="http://dockone.io/static/common/no-js.jpg">
+        <p>你的浏览器禁用了JavaScript, 请开启后刷新浏览器获得更好的体验!</p>
+    </div>
+</noscript>
+
+
+	<div class="aw-top-menu-wrap">
+		<div class="container">
+			<!-- logo -->
+			<div class="aw-logo hidden-xs">
+				<a href="http://dockone.io/"></a>
+			</div>
+			<!-- end logo -->
+			<!-- 搜索框 -->
+			<div class="aw-search-box  hidden-xs hidden-sm">
+				<form class="navbar-search" action="http://dockone.io/search/" id="global_search_form" method="post">
+					<input class="form-control search-query" type="text" placeholder="搜索问题、话题或人" autocomplete="off" name="q" id="aw-search-query">
+					<span title="搜索" id="global_search_btns" onclick="$(&#39;#global_search_form&#39;).submit();"><i class="icon icon-search"></i></span>
+					<div class="aw-dropdown">
+						<div class="mod-body">
+							<p class="title">输入关键字进行搜索</p>
+							<ul class="aw-dropdown-list hide"></ul>
+							<p class="search"><span>搜索:</span><a onclick="$(&#39;#global_search_form&#39;).submit();"></a></p>
+						</div>
+						<div class="mod-footer">
+							<a href="http://dockone.io/publish" onclick="$(&#39;#header_publish&#39;).click();" class="pull-right btn btn-mini btn-success publish">发起问题</a>
+						</div>
+					</div>
+				</form>
+			</div>
+			<!-- end 搜索框 -->
+			<!-- 导航 -->
+			<div class="aw-top-nav navbar">
+				<div class="navbar-header">
+			      <button class="navbar-toggle pull-left">
+			        <span class="icon-bar"></span>
+			        <span class="icon-bar"></span>
+			        <span class="icon-bar"></span>
+			      </button>
+			    </div>
+				<nav role="navigation" class="collapse navbar-collapse bs-navbar-collapse">
+			      <ul class="nav navbar-nav">
+			      	                    <li><a href="http://dockone.io/" class=""><i class="icon icon-ul"></i> 发现</a></li>
+
+					<!-- <li><a href="http://dockone.io/question/" class="">问题</a></li>
+
+					<li><a href="http://dockone.io/article/" class="active">文章</a></li> -->
+
+					<li><a href="http://dockone.io/topic/"><i class="icon icon-topic"></i> 话题</a></li>
+										<li><a href="http://dockone.io/help/"><i class="icon icon-bulb"></i> 帮助</a></li>			      </ul>
+			    </nav>
+			</div>
+			<!-- end 导航 -->
+			<!-- 用户栏 -->
+			<div class="aw-user-nav">
+				<!-- 登陆&注册栏 -->
+									<a class="login btn btn-normal btn-primary" href="http://dockone.io/login/">登录</a>
+					<a class="register btn btn-normal btn-success" href="http://dockone.io/account/register/">注册</a>								<!-- end 登陆&注册栏 -->
+			</div>
+			<!-- end 用户栏 -->
+			<!-- 发起 -->
+						<!-- end 发起 -->
+		</div>
+	</div>
+	
+<script type="text/javascript">
+$(document).ready(function(){
+$("#newClassImg").attr("src", "http://static.dockone.io/partner/banner.jpg?"+new Date().getTime());
+  });
+</script>
+<div class="aw-container-wrap">
+    <div class="container">
+<br>
+<a href="http://dockone.io/article/2626" target="_blank" style="display:block;margin:0 auto;margin-bottom:15px;margin-top:-40px;"><img id="newClassImg" src="./DockOne技术分享（十二）：新浪是如何分析处理32亿条实时日志的？ - DockOne.io_files/banner.jpg"></a>
+        <div class="row">
+            <div class="aw-content-wrap clearfix">
+                <div class="col-sm-12 col-md-9 aw-main-content aw-article-content">
+                    <div class="aw-mod aw-topic-bar" id="question_topic_editor" data-type="article" data-id="505">
+                        <div class="tag-bar clearfix">
+                                                                                    <span class="topic-tag" data-id="19">
+                                <a class="text" href="http://dockone.io/topic/%E6%97%A5%E5%BF%97">日志</a>
+                            </span>
+                                                        <span class="topic-tag" data-id="199">
+                                <a class="text" href="http://dockone.io/topic/%E5%BE%AE%E4%BF%A1%E5%88%86%E4%BA%AB">微信分享</a>
+                            </span>
+                                                        
+                                                    </div>
+                    </div>
+                    <div class="aw-mod aw-question-detail">
+                        <div class="mod-head">
+                            <h1>
+                                DockOne技术分享（十二）：新浪是如何分析处理32亿条实时日志的？                            </h1>
+
+                                                    </div>
+                        <div class="mod-body">
+                            <div class="content markitup-box">
+                                <br>【编者的话】我从2014年初入职新浪后就开始接触实时日志分析相关的技术，主要是ELK（Elasticsearch、Logstash、Kibana），当时是学习+ELK优化，接一些日志，小打小闹。从2015年起，我们正式得把实时日志分析作为服务提供给公司的其他部门。今天要给大家分享的是在服务化的道路上，我们的想法，方案和疑问。<br>
+<h2>服务介绍</h2>随着实时分析技术的发展及成本的降低，用户已经不仅仅满足于离线分析。目前我们服务的用户包括微博、微盘、云存储、弹性计算平台等十多个部门的多个产品的日志搜索分析业务，每天处理约32亿条（2TB）日志。<br>
+<h2>技术架构</h2>简单介绍一下服务的技术架构：<br>
+<div class="aw-upload-img-list active">
+	<a href="./DockOne技术分享（十二）：新浪是如何分析处理32亿条实时日志的？ - DockOne.io_files/26d7dde91a3f96c858a5f4157ade2bf2.png" target="_blank" data-fancybox-group="thumb" rel="lightbox"><img src="./DockOne技术分享（十二）：新浪是如何分析处理32亿条实时日志的？ - DockOne.io_files/26d7dde91a3f96c858a5f4157ade2bf2.png" class="img-polaroid" title="architecture.png" alt="architecture.png"></a>
+</div>
+<br>
+这是一个再常见不过的架构了：<br>
+（1）Kafka：接收用户日志的消息队列。<br>
+（2）Logstash：做日志解析，统一成JSON输出给Elasticsearch。<br>
+（3）Elasticsearch：实时日志分析服务的核心技术，一个schemaless，实时的数据存储服务，通过index组织数据，兼具强大的搜索和统计功能。<br>
+（4）Kibana：基于Elasticsearch的数据可视化组件，超强的数据可视化能力是众多公司选择ELK stack的重要原因。<br>
+<h2>努力提供更好的服务</h2>我这次分享的重点不是这种架构的优劣或为什么选择这样的架构，而是在如此的架构上如何更好地传递实时日志分析的价值。为用户做好服务也不是修改几个配置文件，调优几个程序运行参数就能搞定的。为了提供更好的服务，我们在下面三个方向做了努力：<br>
+<h3>一、提升服务质量</h3>我们首先做了Elasticsearch优化，Hardware Level由于我们当时拿到机器没有选择余地，只开启了超线程；System Level的优化如关闭swap，调整max open files等；App Level的优化如Java运行环境版本的选择，ES_HEAP_SIZE的设置，修改bulk index的queue size等，另外还设置了默认的index template，目的是更改默认的shard，replica数并将string改为not_analyzed，开启doc_values以应对elasticsearch进程OOM。详细的优化内容见<a href="https://github.com/garyelephant/blog/blob/master/elasticsearch_optimization_checklist.md">Elasticsearch Optimization Checklist</a>。<br>
+<br>随着用户数据的不断增长，index管理也成了大问题，我们需要基于大量不同的用户配置定期的create、optimize、close、delete、snapshot不同的index，在某个服务器上手工配置crontab已是不可能，而且cron是单点。于是我们开发了一个独立的Elasticsearch Index管理系统，负责以上任务的调度及执行。这个管理系统背后使用的技术是Celery，一个用Python开发的任务队列及执行系统，提供了类似crontab的定时任务配置语法，并且实现了分布式，可用性更高的架构。<br>
+<br>最近的服务升级，我们为Elasticsearch安装了HDFS Snapshot插件，可以定期将index备份到HDFS，这个功能目前主要用于备份Kibana的配置index，用以恢复用户查看或配置可视化界面时的错误操作。<br>
+<br>监控报警方面，System Level的监控报警（如硬盘满、损坏、服务器宕机）直接使用了在新浪内部提供了多年服务的sinawatch；App Level（如Elasticsearch JVM Heap Usage过高，Kibana能否正常访问，Kafka topic的consumer offset lag），我们开发了对应的监控报警脚本。User Level（如日志解析失败数量），主要通过elasticsearch python client执行<code class="prettyprint">query</code>去统计或搜索。常见的报警是Logstash-filter-grok，logstash-filter-json解析日志失败会输出的json中添加_grokparserfailure、_jsonparsefailure，我们执行query判断解析错误的量。<br>
+<br>要说明的是，Marvel是Elasticsearch很好的监控工具和插件，但是它们是商业软件，我们没有采用。Marvel是基于Kibana做的，里面对一些重要指标（如index bulk reject number）的展示很有价值。<br>
+<h3>二、增强易用性</h3>增强服务的易用性就是给用户更好的用户体验，减少用户的抱怨。ELK性能优化是一方面，但它是远远不够的，我们遇到的实际情况是，用户在其他方面抱怨更多，如下：<br>
+<br>1，<strong>用户最先抱怨的是IP解析成地区、ISP信息一点都不准，完全没有参考意义。</strong><br>
+<br>如对于CDN这种服务，我们解析用户IP不准，定位问题边缘节点错误，问题没法查，这是帮倒忙。原因：Logstash默认自带的IP库是国外maxmind公司的免费版本，中国的信息尤其不准。解决方案：使用我浪较新较全的IP库生成能适配maxmind geoip2 api的二进制格式IP库（maxmindDB），再开发logstash-filter-geoip2来解析IP。实测不仅IP解析准确率与公司IP库相同了，解析速度也提高了。<br>
+<br>2，<strong>然后我们与用户都发现日志接入流程复杂，沟通困难。</strong><br>
+<br>人做不到机器那样分毫不差，有啥说啥。接入用户日志的时候，例如常常因为用户对日志格式表达的不全面，模棱两可，导致日志解析失败，服务对接人多次重写配置。从用户提需求到用户可以看到数据可视化效果或搜到日志，需要几个小时到几天。一来二去，用户和我们都烦了，只能求变。为此，我们正在逐步实现用户数据接入的自动化，减少接入时间和沟通成本这个过程需要3个关键：A.用户配置日志格式的界面，尽可能简洁简单；B.根据用户配置自动生成logstash config、index管理需要的配置；C.自动部署配置（logstash config等），打通日志流。<br>
+<br>后来我们做了一个简单的用来协商日志格式的界面：<br>
+<div class="aw-upload-img-list active">
+	<a href="./DockOne技术分享（十二）：新浪是如何分析处理32亿条实时日志的？ - DockOne.io_files/f9bbda6057d2f0644a5b9ed453dd75da.png" target="_blank" data-fancybox-group="thumb" rel="lightbox"><img src="./DockOne技术分享（十二）：新浪是如何分析处理32亿条实时日志的？ - DockOne.io_files/f9bbda6057d2f0644a5b9ed453dd75da.png" class="img-polaroid" title="ui_log_format.png" alt="ui_log_format.png"></a>
+</div>
+<br>
+目前我们已完成了A的一部分：用户日志格式配置界面；B的全部：开发了自动生成logstash conf的 python api；C即将开始，并且考虑使用Docker技术为我们提供一些便利。<br>
+<br>3，<strong>部分数据可视化需求得不到满足，Kibana配置难度大。</strong><br>
+<br>我们起初采用官方Kibana v3，用户提出的类似SQL中的多个group by，画百分比，求指定区间占比等常见需求无法满足。之后通过三斗大神(微博@argv)定制版的<a href="https://github.com/chenryn/kibana-authorization">Kibana 3</a>满足了一些用户需求。Kibana 4诞生后，代码几乎是对Kibana3的重写，做了大幅改进，通过<code class="prettyprint">Elasticsearch Aggregation</code>的强大数据统计功能及灵活的配置从Kibana 3解放出来。近期我们将迁移到Kibana 4。<br>
+<h3>三、提供新功能</h3>我们为Elasticsearch安装了国内medcl大神开发的ik中文分词插件<a href="https://github.com/medcl/elasticsearch-analysis-ik">elasticsearch-analysis-ik</a>。之前被分词为『中』和『国』的中国，现在终于可以被当做一个完整的词汇，否则搜索『中国』、『美国』也会出现。微盘的一些离线搜索需求使用了我们的服务，也用到了中文分词，Elasticsearch的搜索天赋满足了他们的需求，减少了他们的痛苦。<br>
+<div class="aw-upload-img-list active">
+	<a href="./DockOne技术分享（十二）：新浪是如何分析处理32亿条实时日志的？ - DockOne.io_files/09f798083087c2c04a1047843a0cac10.png" target="_blank" data-fancybox-group="thumb" rel="lightbox"><img src="./DockOne技术分享（十二）：新浪是如何分析处理32亿条实时日志的？ - DockOne.io_files/09f798083087c2c04a1047843a0cac10.png" class="img-polaroid" title="ik_analyzer.png" alt="ik_analyzer.png"></a>
+</div>
+<br>
+<h2>我们经历过的坑和坎儿：</h2>1，<strong>elasticsearch 进程JVM Heap High Usage（ &gt; 90% ）。</strong><br>
+<br>很长一段时间，我们都在应对JVM Heap High Usage，他带了的问题是Old GC次数多，时间长，es节点频繁退出集群，整个集群几乎停止响应。现在我们的主要策略是开启doc_values；限制query执行时占用的JVM Heap size；analyzed string只允许做query，不允许facets或者aggs；定期close 用户不需要的index。<br>
+<br>2，<strong>Elasticsearch Query DSL、Facets、Aggs学习困惑。</strong><br>
+<br>有人为此开发了使用SQL执行ES Query的插件，一定程度上减轻了进入门槛。我们给出的学习他们的建议是观察Kibana的Request Body或试用Marvel的Senese插件，它有自动完成Query、Facets、Aggs的功能。另外最常用的query是<code class="prettyprint">query string query</code>，最常用的aggs是<code class="prettyprint">Terms</code>、<code class="prettyprint">Date Histogram</code>，可以应付大部分需求。<br>
+<br>3，<strong>logstash不工作。</strong><br>
+<br>非官方的问题插件，及使用logstash-filter-ruby时未考虑到的异常等，导致Logstash运行时工作线程（worker thread）异常退出，Logstash僵死。我们的建议是尽可能不要在config中使用logstash-filter-ruby，尽量使用官方插件。不过我们也遇到过复杂的日志，写过250行+的config，用尽了ruby filter。当前未发现Logstash有好的成熟的监控方案，Logstash的内部状态也获取不到。我们目前通过间接的监控Kafka topic consumer是否落后或elasticsearch indexing rate来检验logstash的工作情况。<br>
+<br>4，<strong>Kibana没有用户的概念，不同用户的数据无法隔离。</strong><br>
+<br>多个用户共享的Kibana Dashboard，误操作或误删时常影响其他用户，保存的dashboard太多，找到特定的dashboard很困难。官方到目前为止，未在这方面做过改进。有很多非官方的改进，我们也曾经用过三斗大神定制的Kibana3，也对Kibana index做了snapshot储存到HDFS里面。<br>
+<br>5，<strong>与用户沟通成本高。</strong><br>
+<br>与我们的用户协商日志格式，数据可视化配置时，由于人的不确定性容易造成多次来回确定和修改，效率低下。我们毕竟是提供日志分析服务的，不给用户做日志运维，所以近期也在探索通过日志接入自动化、推荐用户提供给我们json格式数据，定期组织用户的Kibana培训来减少沟通成本。<br>
+<h2>Q &amp; A</h2><strong>问：logstash连es出现timeout的情况有没?如何解决的?</strong><br>
+答：我们常见的是ES Jvm Heap Usage比较高的时候会timeout，如果是服务内存小换大内存。另外不要对analyzed的string做aggs、facets，开启doc_values。<br>
+<br><strong>问：关于日志中异常报警的，有哪些方式？关键字过滤？</strong><br>
+答：对于日志解析失败的情况，logstash 常见的是_grokparsefailuer和_jsonparsefailure，数据写入es后，执行query查询这两个关键词的数量即可。对于报警方案，watch是官方刚出的，其实比它早的实现方案，如Yelp的elastalert。<br>
+<br><strong>问：大数据分析平台（基于HDFS）跟kibana的展现会有很大区别吗？或者说最大的区别会在哪些方面？</strong><br>
+答：你说的区别，我理解是Hadoop与Elasticsearch的区别，一个是离线分析，以job为单位，一个是实时搜索和统计，以query为单位。这里有三个关键词：实时，搜索，统计。Hadoop是离线的，es是实时的；es本质上是一个搜引擎，可以用来做全文检索等工作，Hadoop显然于此无关。统计是Hadoop与es都能做的，我不了解Hadoop有没有像Kibana这样的数据可视化组件。<br>
+<br><strong>问：你们的ES集群数据节点和查询节点做了分离吗？logstash是直接把数据写入查询节点还是数据节点？另外你们直接用的node模式还是transport模式呢？</strong><br>
+答：（1）还没有做分离。（2）我们还在用http protocol模式。<br>
+<br><strong>PPT已经上传至<a href="http://vdisk.weibo.com/s/Fkad7p8oh2wzk">微盘</a>。</strong><br>
+<br>＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝<br>
+以上内容根据2015年7月14日晚微信群分享内容整理。分享人<strong>高英举，就职于新浪，主要负责dip实时日志分析服务技术架构与实现，为微博，微盘，视频，cdn等多个部门提供实时日志统计和搜索服务，热衷于将开源技术服务化，产品化。微博：<a href="http://weibo.com/garyelephant">@gary的影响力</a>。</strong> DockOne每周都会组织定向的技术分享，欢迎感兴趣的同学加微信：liyingjiesx，进群参与。
+                                                                <div class="aw-upload-img-list">
+                                                                                                                                                                                                                                                                </div>
+                                
+                                                                <ul class="aw-upload-file-list">
+                                                                                                                                                                                                                                                                                            </ul>
+                                                            </div>
+                            <div class="meta clearfix">
+                                <div class="aw-article-vote pull-left disabled">
+                                    <a href="javascript:;" class="agree" onclick=""><i class="icon icon-agree"></i> <b>7</b></a>
+                                                                    </div>
+
+                                <span class="pull-right  more-operate">
+                                    
+                                    
+                                    <a class="text-color-999 dropdown-toggle" data-toggle="dropdown">
+                                        <i class="icon icon-share"></i> 分享                                    </a>
+                                    <div aria-labelledby="dropdownMenu" role="menu" class="aw-dropdown shareout pull-right">
+                                        <ul class="aw-dropdown-list">
+                                            <li><a onclick="AWS.User.share_out(&#39;tsina&#39;);"><i class="icon icon-weibo"></i> 微博</a></li>
+                                            <li><a onclick="AWS.User.share_out(&#39;qzone&#39;);"><i class="icon icon-qzone"></i> QZONE</a></li>
+                                            <li><a onclick="AWS.User.share_out(&#39;weixin&#39;);"><i class="icon icon-wechat"></i> 微信</a></li>
+                                        </ul>
+                                    </div>
+
+                                    <em class="text-color-999">2015-07-15</em>
+                                </span>
+                            </div>
+                        </div>
+                        <div class="mod-footer">
+                                                        <div class="aw-article-voter">
+                                                                <a href="http://dockone.io/people/Yashonlin" class="voter" data-toggle="tooltip" data-placement="right" data-original-title="Yashonlin"><img alt="Yashonlin" src="./DockOne技术分享（十二）：新浪是如何分析处理32亿条实时日志的？ - DockOne.io_files/84_avatar_mid.jpg"></a>
+                                                                <a href="http://dockone.io/people/wangzi19870227" class="voter" data-toggle="tooltip" data-placement="right" data-original-title="wangzi19870227"><img alt="wangzi19870227" src="./DockOne技术分享（十二）：新浪是如何分析处理32亿条实时日志的？ - DockOne.io_files/05_avatar_mid.jpg"></a>
+                                                                <a href="http://dockone.io/people/Martin" class="voter" data-toggle="tooltip" data-placement="right" data-original-title="Martin"><img alt="Martin" src="./DockOne技术分享（十二）：新浪是如何分析处理32亿条实时日志的？ - DockOne.io_files/avatar-mid-img.png"></a>
+                                                                <a href="http://dockone.io/people/%E5%BE%90%E7%A3%8A" class="voter" data-toggle="tooltip" data-placement="right" data-original-title="徐磊"><img alt="徐磊" src="./DockOne技术分享（十二）：新浪是如何分析处理32亿条实时日志的？ - DockOne.io_files/avatar-mid-img.png"></a>
+                                                                <a href="http://dockone.io/people/%E6%9D%8E%E9%A2%96%E6%9D%B0" class="voter" data-toggle="tooltip" data-placement="right" data-original-title="李颖杰"><img alt="李颖杰" src="./DockOne技术分享（十二）：新浪是如何分析处理32亿条实时日志的？ - DockOne.io_files/15_avatar_mid.jpg"></a>
+                                                                <a href="http://dockone.io/people/%E6%B7%B1%E6%B5%B7%E6%B8%B8%E9%B1%BC" class="voter" data-toggle="tooltip" data-placement="right" data-original-title="深海游鱼"><img alt="深海游鱼" src="./DockOne技术分享（十二）：新浪是如何分析处理32亿条实时日志的？ - DockOne.io_files/97_avatar_mid.jpg"></a>
+                                                                <a href="http://dockone.io/people/ppcelery" class="voter" data-toggle="tooltip" data-placement="right" data-original-title="ppcelery"><img alt="ppcelery" src="./DockOne技术分享（十二）：新浪是如何分析处理32亿条实时日志的？ - DockOne.io_files/56_avatar_mid.jpg"></a>
+                                                                <!--<a class="more-voters">...</a>-->
+                            </div>
+                                                    </div>
+                    </div>
+
+                    <!-- 文章评论 -->
+                    <div class="aw-mod">
+                        <div class="mod-head common-head">
+                            <h2>4 个评论</h2>
+                        </div>
+
+                        <div class="mod-body aw-feed-list">
+                            
+                                                                <div class="aw-item" id="answer_list_656">
+                                    <div class="mod-head">
+                                        <a class="aw-user-img aw-border-radius-5" href="http://dockone.io/people/wangzi19870227">
+                                            <img src="./DockOne技术分享（十二）：新浪是如何分析处理32亿条实时日志的？ - DockOne.io_files/05_avatar_mid.jpg" alt="wangzi19870227">
+                                        </a>
+                                        <p>
+                                            <a href="http://dockone.io/people/wangzi19870227">wangzi19870227</a>                                        </p>
+                                    </div>
+                                    <div class="mod-body">
+                                        <div class="markitup-box">
+                                            好文，赞！                                        </div>
+                                    </div>
+                                    <div class="mod-footer">
+                                        <div class="meta">
+                                            <span class="pull-right text-color-999">2015-07-16 19:24</span>
+                                                                                    </div>
+                                    </div>
+                                </div>
+                                                                <div class="aw-item" id="answer_list_668">
+                                    <div class="mod-head">
+                                        <a class="aw-user-img aw-border-radius-5" href="http://dockone.io/people/Martin">
+                                            <img src="./DockOne技术分享（十二）：新浪是如何分析处理32亿条实时日志的？ - DockOne.io_files/avatar-mid-img.png" alt="Martin">
+                                        </a>
+                                        <p>
+                                            <a href="http://dockone.io/people/Martin">Martin</a>                                        </p>
+                                    </div>
+                                    <div class="mod-body">
+                                        <div class="markitup-box">
+                                            很实用，多谢了。                                        </div>
+                                    </div>
+                                    <div class="mod-footer">
+                                        <div class="meta">
+                                            <span class="pull-right text-color-999">2015-07-20 16:33</span>
+                                                                                    </div>
+                                    </div>
+                                </div>
+                                                                <div class="aw-item" id="answer_list_1222">
+                                    <div class="mod-head">
+                                        <a class="aw-user-img aw-border-radius-5" href="http://dockone.io/people/changechoice">
+                                            <img src="./DockOne技术分享（十二）：新浪是如何分析处理32亿条实时日志的？ - DockOne.io_files/76_avatar_mid.jpg" alt="changechoice">
+                                        </a>
+                                        <p>
+                                            <a href="http://dockone.io/people/changechoice">changechoice</a>                                        </p>
+                                    </div>
+                                    <div class="mod-body">
+                                        <div class="markitup-box">
+                                            好文，很实用，赞！                                        </div>
+                                    </div>
+                                    <div class="mod-footer">
+                                        <div class="meta">
+                                            <span class="pull-right text-color-999">2016-01-04 10:29</span>
+                                                                                    </div>
+                                    </div>
+                                </div>
+                                                                <div class="aw-item" id="answer_list_1344">
+                                    <div class="mod-head">
+                                        <a class="aw-user-img aw-border-radius-5" href="http://dockone.io/people/%E9%98%BF%E9%97%A8">
+                                            <img src="./DockOne技术分享（十二）：新浪是如何分析处理32亿条实时日志的？ - DockOne.io_files/42_avatar_mid.jpg" alt="阿门">
+                                        </a>
+                                        <p>
+                                            <a href="http://dockone.io/people/%E9%98%BF%E9%97%A8">阿门</a>                                        </p>
+                                    </div>
+                                    <div class="mod-body">
+                                        <div class="markitup-box">
+                                            非常实用！我们也在开始用ELK，有几个问题请教一下，1. 你们一台logstash机器上启多少个进程？ 2. 是所有的kafka topic共用一个logstash配置文件，还是每种topic用一个logstash配置文件？ 3. 新增业务时，是否需要重启logstash进程？ 重启进程时是否会触发kafka大规模的rebalance？                                        </div>
+                                    </div>
+                                    <div class="mod-footer">
+                                        <div class="meta">
+                                            <span class="pull-right text-color-999">2016-02-23 17:32</span>
+                                                                                    </div>
+                                    </div>
+                                </div>
+                                                                                    </div>
+
+                        
+                                            </div>
+                    <!-- end 文章评论 -->
+
+                    <!-- 回复编辑器 -->
+                    <div class="aw-mod aw-article-replay-box">
+                        <a name="answer_form"></a>
+                                                <p align="center">要回复文章请先<a href="http://dockone.io/login/">登录</a>或<a href="http://dockone.io/account/register/">注册</a></p>
+                                            </div>
+                    <!-- end 回复编辑器 -->
+                </div>
+                <!-- 侧边栏 -->
+                <div class="col-sm-12 col-md-3 aw-side-bar hidden-sm hidden-xs">
+                    <!-- 发起人 -->
+                                        <div class="aw-mod user-detail">
+                        <div class="mod-head">
+                            <h3>发起人</h3>
+                        </div>
+                        <div class="mod-body">
+                            <dl>
+                                <dt class="pull-left aw-border-radius-5">
+                                    <a href="http://dockone.io/people/Gary%E7%9A%84%E5%BD%B1%E5%93%8D%E5%8A%9B"><img alt="Gary的影响力" src="./DockOne技术分享（十二）：新浪是如何分析处理32亿条实时日志的？ - DockOne.io_files/41_avatar_mid.jpg"></a>
+                                </dt>
+                                <dd class="pull-left">
+                                    <a class="aw-user-name" href="http://dockone.io/people/Gary%E7%9A%84%E5%BD%B1%E5%93%8D%E5%8A%9B" data-id="2041">Gary的影响力</a>
+                                    
+                                                                        <p></p>
+                                </dd>
+                            </dl>
+                        </div>
+                        <div class="mod-footer clearfix">
+                                                        <div class="aw-topic-bar">
+                                <div class="topic-bar clearfix">
+                                    <span class="pull-left text-color-999">
+                                        擅长话题 : &nbsp;
+                                    </span>
+                                                                        <span class="topic-tag">
+                                        <a href="http://dockone.io/topic/%E5%BE%AE%E4%BF%A1%E5%88%86%E4%BA%AB" class="text" data-id="199">微信分享</a>
+                                    </span>
+                                                                        <span class="topic-tag">
+                                        <a href="http://dockone.io/topic/%E6%97%A5%E5%BF%97" class="text" data-id="19">日志</a>
+                                    </span>
+                                                                        <span class="topic-tag">
+                                        <a href="http://dockone.io/topic/Docker" class="text" data-id="7">Docker</a>
+                                    </span>
+                                                                        <span class="topic-tag">
+                                        <a href="http://dockone.io/topic/Container" class="text" data-id="181">Container</a>
+                                    </span>
+                                                                    </div>
+                            </div>
+                                                    </div>
+                    </div>
+                                        <!-- end 发起人 -->
+
+                                        <!-- 推荐内容 -->
+                    <div class="aw-mod">
+                        <div class="mod-head">
+                            <h3>推荐内容</h3>
+                        </div>
+                        <div class="mod-body">
+                            <ul>
+                                                                <li>
+                                                                        <a href="http://dockone.io/article/8485">DockOne微信分享（二零零）：龙腾出行基于Kubernetes的DevOps流水线实战</a>
+                                                                    </li>
+                                                                <li>
+                                                                        <a href="http://dockone.io/article/8472">DockOne微信分享（一九九）：如何评估Kubernetes持久化存储方案</a>
+                                                                    </li>
+                                                                <li>
+                                                                        <a href="http://dockone.io/article/8469">DockOne微信分享（一九八）：容器网络限流实践</a>
+                                                                    </li>
+                                                                <li>
+                                                                        <a href="http://dockone.io/article/8464"> DockOne微信分享（一九七）：etcd 集群运维实践</a>
+                                                                    </li>
+                                                                <li>
+                                                                        <a href="http://dockone.io/article/8442">DockOne微信分享（一九六）：聚美优品云平台实践</a>
+                                                                    </li>
+                                                                <li>
+                                                                        <a href="http://dockone.io/article/8403">DockOne微信分享（一九五）：智融集团基于OpenShift的容器化PaaS平台实践</a>
+                                                                    </li>
+                                                                <li>
+                                                                        <a href="http://dockone.io/article/8384">DockOne微信分享（一九四）：猪八戒网DevOps容器云与流水线</a>
+                                                                    </li>
+                                                                <li>
+                                                                        <a href="http://dockone.io/article/8365">DockOne微信分享（一九三）：容器化落地实践的一个案例</a>
+                                                                    </li>
+                                                                <li>
+                                                                        <a href="http://dockone.io/article/8353">DockOne微信分享（一九二）：360搜索容器云探索与实践</a>
+                                                                    </li>
+                                                                <li>
+                                                                        <a href="http://dockone.io/article/8329">DockOne微信分享（一九〇）：Spring Cloud Kubernetes容器化实践</a>
+                                                                    </li>
+                                                            </ul>
+                        </div>
+                    </div>
+                    <!-- end 推荐内容 -->
+                    
+                                        <!-- 相关问题 -->
+                    <div class="aw-mod aw-text-align-justify question-related-list">
+                        <div class="mod-head">
+                            <h3>相关问题</h3>
+                        </div>
+                        <div class="mod-body">
+                            <ul>
+                                                                <li><a href="http://dockone.io/question/267">DockOne技术沙龙上海站开始报名啦</a></li>
+                                                                <li><a href="http://dockone.io/question/54">容器里Nginx、MySQL的配置文件、日志是否应该挂载到宿主上？</a></li>
+                                                                <li><a href="http://dockone.io/question/201">DockOne技术沙龙有感：向高焕堂老师致敬</a></li>
+                                                                <li><a href="http://dockone.io/question/5">Container技术和服务器虚拟化是一样的技术吗？</a></li>
+                                                                <li><a href="http://dockone.io/question/196">成为Docker Commiter需要具备哪些技术能力？</a></li>
+                                                                <li><a href="http://dockone.io/question/854">目前关于容器冷迁移或者热迁移方面有哪些技术研究呢？</a></li>
+                                                                <li><a href="http://dockone.io/question/145">Windows中的Docker技术进展如何？</a></li>
+                                                                <li><a href="http://dockone.io/question/171">任意登陆一台linux服务器,如何检测该服务器使用的是Container技术还是VM技术</a></li>
+                                                                <li><a href="http://dockone.io/question/517">kubernetes集群在生产环境中怎么处理服务的log</a></li>
+                                                                <li><a href="http://dockone.io/question/535">Docker容器中的日志怎么轮询？</a></li>
+                                                                <li><a href="http://dockone.io/question/354">有奖征集DockOne技术沙龙·深圳站内容建议</a></li>
+                                                            </ul>
+                        </div>
+                    </div>
+                    <!-- end 相关问题 -->
+                                    </div>
+                <!-- end 侧边栏 -->
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    ANSWER_EDIT_TIME = 30;
+
+    $(document).ready(function () {
+        if ($('.aw-article-vote.disabled').length)
+        {
+            $('.aw-article-vote.disabled a').attr('onclick', '');
+        }
+
+        AWS.at_user_lists('#wmd-input');
+
+        AWS.Init.init_article_comment_box($('.aw-article-comment'));
+    });
+</script>
+
+	
+<footer class="footer">
+  <div class="subscribe-email row1 text-center">
+    <h3>DockOne.io，专业的Cloud Native技术交流平台</h3>
+    <p>关注Cloud Native相关的产品以及开源项目</p>
+      </div>
+  <div class="row1">
+    <div class="copyright">
+      <p> 2019 <strong>DockOne</strong>. All Rights Reserved.</p>
+      <p class="">DockOne，新圈子，新思路，新视野。</p>
+<p class="zz">本网站服务器由<a href="http://www.ucloud.cn/?utm_source=zanzhu&amp;utm_campaign=DokerOne&amp;utm_medium=display">UCloud云服务</a>提供。</p>
+    </div>
+
+    <div class="footer-follow">
+      <ul class="cf">
+        <li><a class="icons-weibo" href="http://weibo.com/dockerone" title="Weibo" target="_blank">Weibo</a></li>
+        <li style="position:relative"><a class="icons-twitter" onmouseover="mousemethod(&#39;block&#39;,&#39;img1&#39;)" onmouseout="mousemethod(&#39;none&#39;,&#39;img1&#39;)" title="Wechat" target="_blank" style="cursor:pointer;">Wechat</a><img src="./DockOne技术分享（十二）：新浪是如何分析处理32亿条实时日志的？ - DockOne.io_files/wechat.jpg" width="100" style="position:absolute; top:37px; left:-32px; display:none;" id="img1"></li>
+<li><a class="icons-weekly" href="http://weekly.dockone.io/" title="周报" target="_blank">周报</a></li>
+ <li><a class="icons-rss" href="http://dockone.io/feed" title="Feed" target="_blank">Feed</a></li>
+      </ul>
+    </div>
+    <script>
+	function mousemethod(op,imgid){
+	document.getElementById(imgid).style.display=op;
+	}
+</script>
+  </div>
+
+</footer>
+
+
+<a class="aw-back-top hidden-xs" href="javascript:;" onclick="$.scrollTo(1, 600, {queue:true});" style="display: block;"><i class="icon icon-up"></i></a>
+
+<script type="text/javascript">
+var _bdhmProtocol = (("https:" == document.location.protocol) ? " https://" : " http://");
+document.write(unescape("%3Cscript src='" + _bdhmProtocol + "hm.baidu.com/h.js%3F1f6d1a718ac6b6eb3902c92775fb128e' type='text/javascript'%3E%3C/script%3E"));
+</script><script src="./DockOne技术分享（十二）：新浪是如何分析处理32亿条实时日志的？ - DockOne.io_files/h.js.下载" type="text/javascript"></script>
+
+<!-- DO NOT REMOVE -->
+<div id="aw-ajax-box" class="aw-ajax-box"></div>
+<div style="display:none;" id="__crond"><img src="./DockOne技术分享（十二）：新浪是如何分析处理32亿条实时日志的？ - DockOne.io_files/1548321948" width="1" height="1"></div>
+
+<!-- Escape time: 0.086505889892578 --><!-- / DO NOT REMOVE -->
+
+
+
+<div id="yhqhadin" style="display:none;"></div><st-div id="__selection-translator__"> <st-div class="__st-box__" style="display: none; position: fixed; z-index: 99999; left: 0px; top: 0px; transform: translateX(1103px) translateY(106px);"> <st-header> <st-span class="st-icon-pin" title="固定"></st-span> <st-span class="st-icon-down-open" title="展开"></st-span> <st-span class="st-icon-cog" title="设置"></st-span> </st-header> <st-div class="__query-form__" style="display: none;"> <st-div> <textarea placeholder="输入要翻译的句子或单词"></textarea> </st-div> <st-div> <select> <option value="">自动判断</option> <option value="zh">中文</option><option value="zh-CN">中文(简体)</option><option value="zh-HK">中文(香港)</option><option value="zh-TW">中文(繁体)</option><option value="en">英语</option><option value="ja">日语</option><option value="ko">朝鲜语</option><option value="de">德语</option><option value="fr">法语</option><option value="ru">俄语</option><option value="th">泰语</option><option value="af">南非语</option><option value="ar">阿拉伯语</option><option value="az">阿塞拜疆语</option><option value="be">比利时语</option><option value="bg">保加利亚语</option><option value="ca">加泰隆语</option><option value="cs">捷克语</option><option value="cy">威尔士语</option><option value="da">丹麦语</option><option value="dv">第维埃语</option><option value="el">希腊语</option><option value="eo">世界语</option><option value="es">西班牙语</option><option value="et">爱沙尼亚语</option><option value="eu">巴士克语</option><option value="fa">法斯语</option><option value="fi">芬兰语</option><option value="fo">法罗语</option><option value="gl">加里西亚语</option><option value="gu">古吉拉特语</option><option value="he">希伯来语</option><option value="hi">印地语</option><option value="hr">克罗地亚语</option><option value="hu">匈牙利语</option><option value="hy">亚美尼亚语</option><option value="id">印度尼西亚语</option><option value="is">冰岛语</option><option value="it">意大利语</option><option value="ka">格鲁吉亚语</option><option value="kk">哈萨克语</option><option value="kn">卡纳拉语</option><option value="kok">孔卡尼语</option><option value="ky">吉尔吉斯语</option><option value="lt">立陶宛语</option><option value="lv">拉脱维亚语</option><option value="mi">毛利语</option><option value="mk">马其顿语</option><option value="mn">蒙古语</option><option value="mr">马拉地语</option><option value="ms">马来语</option><option value="mt">马耳他语</option><option value="nb">挪威语(伯克梅尔)</option><option value="nl">荷兰语</option><option value="ns">北梭托语</option><option value="pa">旁遮普语</option><option value="pl">波兰语</option><option value="pt">葡萄牙语</option><option value="qu">克丘亚语</option><option value="ro">罗马尼亚语</option><option value="sa">梵文</option><option value="se">北萨摩斯语</option><option value="sk">斯洛伐克语</option><option value="sl">斯洛文尼亚语</option><option value="sq">阿尔巴尼亚语</option><option value="sv">瑞典语</option><option value="sw">斯瓦希里语</option><option value="syr">叙利亚语</option><option value="ta">泰米尔语</option><option value="te">泰卢固语</option><option value="tl">塔加路语</option><option value="tn">茨瓦纳语</option><option value="tr">土耳其语</option><option value="ts">宗加语</option><option value="tt">鞑靼语</option><option value="uk">乌克兰语</option><option value="ur">乌都语</option><option value="uz">乌兹别克语</option><option value="vi">越南语</option><option value="xh">班图语</option><option value="zu">祖鲁语</option> </select> <st-div class="__exchange__"> <st-span class="st-icon-exchange"></st-span> </st-div> <select> <option value="">自动选择</option> <option value="zh">中文</option><option value="zh-CN">中文(简体)</option><option value="zh-HK">中文(香港)</option><option value="zh-TW">中文(繁体)</option><option value="en">英语</option><option value="ja">日语</option><option value="ko">朝鲜语</option><option value="de">德语</option><option value="fr">法语</option><option value="ru">俄语</option><option value="th">泰语</option><option value="af">南非语</option><option value="ar">阿拉伯语</option><option value="az">阿塞拜疆语</option><option value="be">比利时语</option><option value="bg">保加利亚语</option><option value="ca">加泰隆语</option><option value="cs">捷克语</option><option value="cy">威尔士语</option><option value="da">丹麦语</option><option value="dv">第维埃语</option><option value="el">希腊语</option><option value="eo">世界语</option><option value="es">西班牙语</option><option value="et">爱沙尼亚语</option><option value="eu">巴士克语</option><option value="fa">法斯语</option><option value="fi">芬兰语</option><option value="fo">法罗语</option><option value="gl">加里西亚语</option><option value="gu">古吉拉特语</option><option value="he">希伯来语</option><option value="hi">印地语</option><option value="hr">克罗地亚语</option><option value="hu">匈牙利语</option><option value="hy">亚美尼亚语</option><option value="id">印度尼西亚语</option><option value="is">冰岛语</option><option value="it">意大利语</option><option value="ka">格鲁吉亚语</option><option value="kk">哈萨克语</option><option value="kn">卡纳拉语</option><option value="kok">孔卡尼语</option><option value="ky">吉尔吉斯语</option><option value="lt">立陶宛语</option><option value="lv">拉脱维亚语</option><option value="mi">毛利语</option><option value="mk">马其顿语</option><option value="mn">蒙古语</option><option value="mr">马拉地语</option><option value="ms">马来语</option><option value="mt">马耳他语</option><option value="nb">挪威语(伯克梅尔)</option><option value="nl">荷兰语</option><option value="ns">北梭托语</option><option value="pa">旁遮普语</option><option value="pl">波兰语</option><option value="pt">葡萄牙语</option><option value="qu">克丘亚语</option><option value="ro">罗马尼亚语</option><option value="sa">梵文</option><option value="se">北萨摩斯语</option><option value="sk">斯洛伐克语</option><option value="sl">斯洛文尼亚语</option><option value="sq">阿尔巴尼亚语</option><option value="sv">瑞典语</option><option value="sw">斯瓦希里语</option><option value="syr">叙利亚语</option><option value="ta">泰米尔语</option><option value="te">泰卢固语</option><option value="tl">塔加路语</option><option value="tn">茨瓦纳语</option><option value="tr">土耳其语</option><option value="ts">宗加语</option><option value="tt">鞑靼语</option><option value="uk">乌克兰语</option><option value="ur">乌都语</option><option value="uz">乌兹别克语</option><option value="vi">越南语</option><option value="xh">班图语</option><option value="zu">祖鲁语</option> </select> </st-div> <st-div> <select> <option value="YouDao">有道翻译</option> <option value="BaiDu">百度翻译</option> <option value="Google">谷歌翻译</option> <option value="GoogleCN">谷歌翻译（国内）</option> </select> <st-div class="__action-list__"> <st-div class="__button__ __btn-translate__">翻译 <st-span class="st-icon-down-dir"></st-span> </st-div> <st-div class="__expand__"> <st-div class="__button__">朗读</st-div> <st-div class="__button__">复制</st-div> </st-div> </st-div> </st-div> </st-div> <st-div class="__translate-result__" style="display: none;">正在查询，请稍候……</st-div> <st-div class="__translate-result__"> <st-div style="display: none;"> <st-span></st-span> <st-span class="__retry__">重试</st-span> </st-div> <st-div> <st-div class="__phonetic__"> <st-span style="display: none;"></st-span> <st-span class="__copy-and-read__"> <st-span>朗读</st-span> <st-span style="display: none;">复制</st-span> </st-span> </st-div> <st-div style="display: none;"> <st-ul>  </st-ul> <st-div class="__copy-and-read__"> <st-span class="__copy-and-read__">复制</st-span> </st-div> </st-div> <st-div style="display: none;">  <st-div class="__copy-and-read__"> <st-span class="__copy-and-read__">朗读</st-span> <st-span class="__copy-and-read__">复制</st-span> </st-div> </st-div> </st-div> </st-div> <st-footer> <st-span style="">via <a target="_blank" href="http://dockone.io/">谷歌翻译（国内）</a></st-span> </st-footer> </st-div> <st-div class="__st-btn__" style="display: none; position: fixed; z-index: 99999; left: 0px; top: 0px; transform: translateX(1103px) translateY(106px);">译</st-div> </st-div></body></html>
