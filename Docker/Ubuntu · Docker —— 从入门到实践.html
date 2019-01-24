@@ -1,0 +1,2661 @@
+<!DOCTYPE html>
+<!-- saved from url=(0061)https://yeasy.gitbooks.io/docker_practice/install/ubuntu.html -->
+<html lang="zh-hans"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        
+        
+        <title>Ubuntu · Docker —— 从入门到实践</title>
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="description" content="">
+        <meta name="generator" content="GitBook 3.2.3">
+        <meta name="author" content="yeasy">
+        
+        
+    
+    <link rel="stylesheet" href="./Ubuntu · Docker —— 从入门到实践_files/style.css">
+
+    
+            
+                
+                <link rel="stylesheet" href="./Ubuntu · Docker —— 从入门到实践_files/image-captions.css">
+                
+            
+                
+                <link rel="stylesheet" href="./Ubuntu · Docker —— 从入门到实践_files/style(1).css">
+                
+            
+                
+                <link rel="stylesheet" href="./Ubuntu · Docker —— 从入门到实践_files/website.css">
+                
+            
+                
+                <link rel="stylesheet" href="./Ubuntu · Docker —— 从入门到实践_files/search.css">
+                
+            
+                
+                <link rel="stylesheet" href="./Ubuntu · Docker —— 从入门到实践_files/website(1).css">
+                
+            
+        
+
+    
+
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+
+        
+    
+    
+    <meta name="HandheldFriendly" content="true">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <link rel="apple-touch-icon-precomposed" sizes="152x152" href="https://yeasy.gitbooks.io/docker_practice/gitbook/images/apple-touch-icon-precomposed-152.png">
+    <link rel="shortcut icon" href="https://yeasy.gitbooks.io/docker_practice/gitbook/images/favicon.ico" type="image/x-icon">
+
+    
+    
+    
+    
+    
+    
+
+    <link rel="prev" href="https://yeasy.gitbooks.io/docker_practice/install/"><link rel="next" href="https://yeasy.gitbooks.io/docker_practice/install/debian.html"></head>
+    <body class="vsc-initialized" style="">
+        
+<div class="book without-animation with-summary font-size-2 font-family-1">
+    <div class="book-summary">
+        
+            
+<div id="book-search-input" role="search">
+    <input type="text" placeholder="输入并搜索">
+</div>
+
+            
+                <nav role="navigation">
+                
+
+
+<ul class="summary">
+    
+    
+    
+        
+        <li>
+            <a href="https://github.com/yeasy/docker_practice" target="_blank" class="custom-link">GitHub</a>
+        </li>
+    
+        
+        <li>
+            <a href="https://legacy.gitbook.com/book/yeasy/docker_practice" target="_blank" class="custom-link">Docker —— 从入门到实践</a>
+        </li>
+    
+    
+
+    
+    <li class="divider"></li>
+    
+
+    
+        
+        
+    
+        <li class="chapter " data-level="1.1" data-path="../">
+            
+                <a href="https://yeasy.gitbooks.io/docker_practice/">
+            
+                    
+                    前言
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2" data-path="../CHANGELOG.html">
+            
+                <a href="https://yeasy.gitbooks.io/docker_practice/CHANGELOG.html">
+            
+                    
+                    修订记录
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3" data-path="../CONTRIBUTING.html">
+            
+                <a href="https://yeasy.gitbooks.io/docker_practice/CONTRIBUTING.html">
+            
+                    
+                    如何贡献
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.4" data-path="../introduction/">
+            
+                <a href="https://yeasy.gitbooks.io/docker_practice/introduction/">
+            
+                    
+                    Docker 简介
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.4.1" data-path="../introduction/what.html">
+            
+                <a href="https://yeasy.gitbooks.io/docker_practice/introduction/what.html">
+            
+                    
+                    什么是 Docker
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.4.2" data-path="../introduction/why.html">
+            
+                <a href="https://yeasy.gitbooks.io/docker_practice/introduction/why.html">
+            
+                    
+                    为什么要用 Docker
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.5" data-path="../basic_concept/">
+            
+                <a href="https://yeasy.gitbooks.io/docker_practice/basic_concept/">
+            
+                    
+                    基本概念
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.5.1" data-path="../basic_concept/image.html">
+            
+                <a href="https://yeasy.gitbooks.io/docker_practice/basic_concept/image.html">
+            
+                    
+                    镜像
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.5.2" data-path="../basic_concept/container.html">
+            
+                <a href="https://yeasy.gitbooks.io/docker_practice/basic_concept/container.html">
+            
+                    
+                    容器
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.5.3" data-path="../basic_concept/repository.html">
+            
+                <a href="https://yeasy.gitbooks.io/docker_practice/basic_concept/repository.html">
+            
+                    
+                    仓库
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.6" data-path="./">
+            
+                <a href="https://yeasy.gitbooks.io/docker_practice/install/">
+            
+                    
+                    安装 Docker
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter active" data-level="1.6.1" data-path="ubuntu.html">
+            
+                <a href="https://yeasy.gitbooks.io/docker_practice/install/ubuntu.html">
+            
+                    
+                    Ubuntu
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.6.2" data-path="debian.html">
+            
+                <a href="https://yeasy.gitbooks.io/docker_practice/install/debian.html">
+            
+                    
+                    Debian
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.6.3" data-path="fedora.html">
+            
+                <a href="https://yeasy.gitbooks.io/docker_practice/install/fedora.html">
+            
+                    
+                    Fedora
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.6.4" data-path="centos.html">
+            
+                <a href="https://yeasy.gitbooks.io/docker_practice/install/centos.html">
+            
+                    
+                    CentOS
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.6.5" data-path="raspberry-pi.html">
+            
+                <a href="https://yeasy.gitbooks.io/docker_practice/install/raspberry-pi.html">
+            
+                    
+                    Raspberry Pi
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.6.6" data-path="mac.html">
+            
+                <a href="https://yeasy.gitbooks.io/docker_practice/install/mac.html">
+            
+                    
+                    macOS
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.6.7" data-path="windows.html">
+            
+                <a href="https://yeasy.gitbooks.io/docker_practice/install/windows.html">
+            
+                    
+                    Windows PC
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.6.8" data-path="mirror.html">
+            
+                <a href="https://yeasy.gitbooks.io/docker_practice/install/mirror.html">
+            
+                    
+                    镜像加速器
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.7" data-path="../image/">
+            
+                <a href="https://yeasy.gitbooks.io/docker_practice/image/">
+            
+                    
+                    使用镜像
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.7.1" data-path="../image/pull.html">
+            
+                <a href="https://yeasy.gitbooks.io/docker_practice/image/pull.html">
+            
+                    
+                    获取镜像
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.7.2" data-path="../image/list.html">
+            
+                <a href="https://yeasy.gitbooks.io/docker_practice/image/list.html">
+            
+                    
+                    列出镜像
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.7.3" data-path="../image/rm.html">
+            
+                <a href="https://yeasy.gitbooks.io/docker_practice/image/rm.html">
+            
+                    
+                    删除本地镜像
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.7.4" data-path="../image/commit.html">
+            
+                <a href="https://yeasy.gitbooks.io/docker_practice/image/commit.html">
+            
+                    
+                    利用 commit 理解镜像构成
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.7.5" data-path="../image/build.html">
+            
+                <a href="https://yeasy.gitbooks.io/docker_practice/image/build.html">
+            
+                    
+                    使用 Dockerfile 定制镜像
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.7.6" data-path="../image/dockerfile/">
+            
+                <a href="https://yeasy.gitbooks.io/docker_practice/image/dockerfile/">
+            
+                    
+                    Dockerfile 指令详解
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.7.6.1" data-path="../image/dockerfile/copy.html">
+            
+                <a href="https://yeasy.gitbooks.io/docker_practice/image/dockerfile/copy.html">
+            
+                    
+                    COPY 复制文件
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.7.6.2" data-path="../image/dockerfile/add.html">
+            
+                <a href="https://yeasy.gitbooks.io/docker_practice/image/dockerfile/add.html">
+            
+                    
+                    ADD 更高级的复制文件
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.7.6.3" data-path="../image/dockerfile/cmd.html">
+            
+                <a href="https://yeasy.gitbooks.io/docker_practice/image/dockerfile/cmd.html">
+            
+                    
+                    CMD 容器启动命令
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.7.6.4" data-path="../image/dockerfile/entrypoint.html">
+            
+                <a href="https://yeasy.gitbooks.io/docker_practice/image/dockerfile/entrypoint.html">
+            
+                    
+                    ENTRYPOINT 入口点
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.7.6.5" data-path="../image/dockerfile/env.html">
+            
+                <a href="https://yeasy.gitbooks.io/docker_practice/image/dockerfile/env.html">
+            
+                    
+                    ENV 设置环境变量
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.7.6.6" data-path="../image/dockerfile/arg.html">
+            
+                <a href="https://yeasy.gitbooks.io/docker_practice/image/dockerfile/arg.html">
+            
+                    
+                    ARG 构建参数
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.7.6.7" data-path="../image/dockerfile/volume.html">
+            
+                <a href="https://yeasy.gitbooks.io/docker_practice/image/dockerfile/volume.html">
+            
+                    
+                    VOLUME 定义匿名卷
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.7.6.8" data-path="../image/dockerfile/expose.html">
+            
+                <a href="https://yeasy.gitbooks.io/docker_practice/image/dockerfile/expose.html">
+            
+                    
+                    EXPOSE 暴露端口
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.7.6.9" data-path="../image/dockerfile/workdir.html">
+            
+                <a href="https://yeasy.gitbooks.io/docker_practice/image/dockerfile/workdir.html">
+            
+                    
+                    WORKDIR 指定工作目录
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.7.6.10" data-path="../image/dockerfile/user.html">
+            
+                <a href="https://yeasy.gitbooks.io/docker_practice/image/dockerfile/user.html">
+            
+                    
+                    USER 指定当前用户
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.7.6.11" data-path="../image/dockerfile/healthcheck.html">
+            
+                <a href="https://yeasy.gitbooks.io/docker_practice/image/dockerfile/healthcheck.html">
+            
+                    
+                    HEALTHCHECK 健康检查
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.7.6.12" data-path="../image/dockerfile/onbuild.html">
+            
+                <a href="https://yeasy.gitbooks.io/docker_practice/image/dockerfile/onbuild.html">
+            
+                    
+                    ONBUILD 为他人作嫁衣裳
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.7.6.13" data-path="../image/dockerfile/references.html">
+            
+                <a href="https://yeasy.gitbooks.io/docker_practice/image/dockerfile/references.html">
+            
+                    
+                    参考文档
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.7.7" data-path="../image/multistage-builds/">
+            
+                <a href="https://yeasy.gitbooks.io/docker_practice/image/multistage-builds/">
+            
+                    
+                    Dockerfile 多阶段构建
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.7.7.1" data-path="../image/multistage-builds/laravel.html">
+            
+                <a href="https://yeasy.gitbooks.io/docker_practice/image/multistage-builds/laravel.html">
+            
+                    
+                    实战多阶段构建 Laravel 镜像
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.7.8" data-path="../image/other.html">
+            
+                <a href="https://yeasy.gitbooks.io/docker_practice/image/other.html">
+            
+                    
+                    其它制作镜像的方式
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.7.9" data-path="../image/internal.html">
+            
+                <a href="https://yeasy.gitbooks.io/docker_practice/image/internal.html">
+            
+                    
+                    实现原理
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.8" data-path="../container/">
+            
+                <a href="https://yeasy.gitbooks.io/docker_practice/container/">
+            
+                    
+                    操作容器
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.8.1" data-path="../container/run.html">
+            
+                <a href="https://yeasy.gitbooks.io/docker_practice/container/run.html">
+            
+                    
+                    启动
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.8.2" data-path="../container/daemon.html">
+            
+                <a href="https://yeasy.gitbooks.io/docker_practice/container/daemon.html">
+            
+                    
+                    守护态运行
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.8.3" data-path="../container/stop.html">
+            
+                <a href="https://yeasy.gitbooks.io/docker_practice/container/stop.html">
+            
+                    
+                    终止
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.8.4" data-path="../container/attach_exec.html">
+            
+                <a href="https://yeasy.gitbooks.io/docker_practice/container/attach_exec.html">
+            
+                    
+                    进入容器
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.8.5" data-path="../container/import_export.html">
+            
+                <a href="https://yeasy.gitbooks.io/docker_practice/container/import_export.html">
+            
+                    
+                    导出和导入
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.8.6" data-path="../container/rm.html">
+            
+                <a href="https://yeasy.gitbooks.io/docker_practice/container/rm.html">
+            
+                    
+                    删除
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.9" data-path="../repository/">
+            
+                <a href="https://yeasy.gitbooks.io/docker_practice/repository/">
+            
+                    
+                    访问仓库
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.9.1" data-path="../repository/dockerhub.html">
+            
+                <a href="https://yeasy.gitbooks.io/docker_practice/repository/dockerhub.html">
+            
+                    
+                    Docker Hub
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.9.2" data-path="../repository/registry.html">
+            
+                <a href="https://yeasy.gitbooks.io/docker_practice/repository/registry.html">
+            
+                    
+                    私有仓库
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.9.3" data-path="../repository/registry_auth.html">
+            
+                <a href="https://yeasy.gitbooks.io/docker_practice/repository/registry_auth.html">
+            
+                    
+                    私有仓库高级配置
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.9.4" data-path="../repository/nexus3_registry.html">
+            
+                <a href="https://yeasy.gitbooks.io/docker_practice/repository/nexus3_registry.html">
+            
+                    
+                    Nexus 3
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.10" data-path="../data_management/">
+            
+                <a href="https://yeasy.gitbooks.io/docker_practice/data_management/">
+            
+                    
+                    数据管理
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.10.1" data-path="../data_management/volume.html">
+            
+                <a href="https://yeasy.gitbooks.io/docker_practice/data_management/volume.html">
+            
+                    
+                    数据卷
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.10.2" data-path="../data_management/bind-mounts.html">
+            
+                <a href="https://yeasy.gitbooks.io/docker_practice/data_management/bind-mounts.html">
+            
+                    
+                    挂载主机目录
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.11" data-path="../network/">
+            
+                <a href="https://yeasy.gitbooks.io/docker_practice/network/">
+            
+                    
+                    使用网络
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.11.1" data-path="../network/port_mapping.html">
+            
+                <a href="https://yeasy.gitbooks.io/docker_practice/network/port_mapping.html">
+            
+                    
+                    外部访问容器
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.11.2" data-path="../network/linking.html">
+            
+                <a href="https://yeasy.gitbooks.io/docker_practice/network/linking.html">
+            
+                    
+                    容器互联
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.11.3" data-path="../network/dns.html">
+            
+                <a href="https://yeasy.gitbooks.io/docker_practice/network/dns.html">
+            
+                    
+                    配置 DNS
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.12" data-path="../advanced_network/">
+            
+                <a href="https://yeasy.gitbooks.io/docker_practice/advanced_network/">
+            
+                    
+                    高级网络配置
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.12.1" data-path="../advanced_network/quick_guide.html">
+            
+                <a href="https://yeasy.gitbooks.io/docker_practice/advanced_network/quick_guide.html">
+            
+                    
+                    快速配置指南
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.12.2" data-path="../advanced_network/access_control.html">
+            
+                <a href="https://yeasy.gitbooks.io/docker_practice/advanced_network/access_control.html">
+            
+                    
+                    容器访问控制
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.12.3" data-path="../advanced_network/port_mapping.html">
+            
+                <a href="https://yeasy.gitbooks.io/docker_practice/advanced_network/port_mapping.html">
+            
+                    
+                    端口映射实现
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.12.4" data-path="../advanced_network/docker0.html">
+            
+                <a href="https://yeasy.gitbooks.io/docker_practice/advanced_network/docker0.html">
+            
+                    
+                    配置 docker0 网桥
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.12.5" data-path="../advanced_network/bridge.html">
+            
+                <a href="https://yeasy.gitbooks.io/docker_practice/advanced_network/bridge.html">
+            
+                    
+                    自定义网桥
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.12.6" data-path="../advanced_network/example.html">
+            
+                <a href="https://yeasy.gitbooks.io/docker_practice/advanced_network/example.html">
+            
+                    
+                    工具和示例
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.12.7" data-path="../advanced_network/config_file.html">
+            
+                <a href="https://yeasy.gitbooks.io/docker_practice/advanced_network/config_file.html">
+            
+                    
+                    编辑网络配置文件
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.12.8" data-path="../advanced_network/ptp.html">
+            
+                <a href="https://yeasy.gitbooks.io/docker_practice/advanced_network/ptp.html">
+            
+                    
+                    实例：创建一个点到点连接
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.13" data-path="../compose/">
+            
+                <a href="https://yeasy.gitbooks.io/docker_practice/compose/">
+            
+                    
+                    Docker 三剑客之 Compose 项目
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.13.1" data-path="../compose/introduction.html">
+            
+                <a href="https://yeasy.gitbooks.io/docker_practice/compose/introduction.html">
+            
+                    
+                    简介
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.13.2" data-path="../compose/install.html">
+            
+                <a href="https://yeasy.gitbooks.io/docker_practice/compose/install.html">
+            
+                    
+                    安装与卸载
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.13.3" data-path="../compose/usage.html">
+            
+                <a href="https://yeasy.gitbooks.io/docker_practice/compose/usage.html">
+            
+                    
+                    使用
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.13.4" data-path="../compose/commands.html">
+            
+                <a href="https://yeasy.gitbooks.io/docker_practice/compose/commands.html">
+            
+                    
+                    命令说明
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.13.5" data-path="../compose/compose_file.html">
+            
+                <a href="https://yeasy.gitbooks.io/docker_practice/compose/compose_file.html">
+            
+                    
+                    Compose 模板文件
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.13.6" data-path="../compose/django.html">
+            
+                <a href="https://yeasy.gitbooks.io/docker_practice/compose/django.html">
+            
+                    
+                    实战 Django
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.13.7" data-path="../compose/rails.html">
+            
+                <a href="https://yeasy.gitbooks.io/docker_practice/compose/rails.html">
+            
+                    
+                    实战 Rails
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.13.8" data-path="../compose/wordpress.html">
+            
+                <a href="https://yeasy.gitbooks.io/docker_practice/compose/wordpress.html">
+            
+                    
+                    实战 WordPress
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.14" data-path="../machine/">
+            
+                <a href="https://yeasy.gitbooks.io/docker_practice/machine/">
+            
+                    
+                    Docker 三剑客之 Machine 项目
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.14.1" data-path="../machine/install.html">
+            
+                <a href="https://yeasy.gitbooks.io/docker_practice/machine/install.html">
+            
+                    
+                    安装
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.14.2" data-path="../machine/usage.html">
+            
+                <a href="https://yeasy.gitbooks.io/docker_practice/machine/usage.html">
+            
+                    
+                    使用
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.15" data-path="../swarm/">
+            
+                <a href="https://yeasy.gitbooks.io/docker_practice/swarm/">
+            
+                    
+                    Docker 三剑客之 Docker Swarm
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.16" data-path="../swarm_mode/">
+            
+                <a href="https://yeasy.gitbooks.io/docker_practice/swarm_mode/">
+            
+                    
+                    Swarm mode
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.16.1" data-path="../swarm_mode/overview.html">
+            
+                <a href="https://yeasy.gitbooks.io/docker_practice/swarm_mode/overview.html">
+            
+                    
+                    基本概念
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.16.2" data-path="../swarm_mode/create.html">
+            
+                <a href="https://yeasy.gitbooks.io/docker_practice/swarm_mode/create.html">
+            
+                    
+                    创建 Swarm 集群
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.16.3" data-path="../swarm_mode/deploy.html">
+            
+                <a href="https://yeasy.gitbooks.io/docker_practice/swarm_mode/deploy.html">
+            
+                    
+                    部署服务
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.16.4" data-path="../swarm_mode/stack.html">
+            
+                <a href="https://yeasy.gitbooks.io/docker_practice/swarm_mode/stack.html">
+            
+                    
+                    使用 compose 文件
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.16.5" data-path="../swarm_mode/secret.html">
+            
+                <a href="https://yeasy.gitbooks.io/docker_practice/swarm_mode/secret.html">
+            
+                    
+                    管理密钥
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.16.6" data-path="../swarm_mode/config.html">
+            
+                <a href="https://yeasy.gitbooks.io/docker_practice/swarm_mode/config.html">
+            
+                    
+                    管理配置信息
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.16.7" data-path="../swarm_mode/rolling_update.html">
+            
+                <a href="https://yeasy.gitbooks.io/docker_practice/swarm_mode/rolling_update.html">
+            
+                    
+                    滚动升级
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.17" data-path="../security/">
+            
+                <a href="https://yeasy.gitbooks.io/docker_practice/security/">
+            
+                    
+                    安全
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.17.1" data-path="../security/kernel_ns.html">
+            
+                <a href="https://yeasy.gitbooks.io/docker_practice/security/kernel_ns.html">
+            
+                    
+                    内核命名空间
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.17.2" data-path="../security/control_group.html">
+            
+                <a href="https://yeasy.gitbooks.io/docker_practice/security/control_group.html">
+            
+                    
+                    控制组
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.17.3" data-path="../security/daemon_sec.html">
+            
+                <a href="https://yeasy.gitbooks.io/docker_practice/security/daemon_sec.html">
+            
+                    
+                    服务端防护
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.17.4" data-path="../security/kernel_capability.html">
+            
+                <a href="https://yeasy.gitbooks.io/docker_practice/security/kernel_capability.html">
+            
+                    
+                    内核能力机制
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.17.5" data-path="../security/other_feature.html">
+            
+                <a href="https://yeasy.gitbooks.io/docker_practice/security/other_feature.html">
+            
+                    
+                    其它安全特性
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.17.6" data-path="../security/summary.html">
+            
+                <a href="https://yeasy.gitbooks.io/docker_practice/security/summary.html">
+            
+                    
+                    总结
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.18" data-path="../underly/">
+            
+                <a href="https://yeasy.gitbooks.io/docker_practice/underly/">
+            
+                    
+                    底层实现
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.18.1" data-path="../underly/arch.html">
+            
+                <a href="https://yeasy.gitbooks.io/docker_practice/underly/arch.html">
+            
+                    
+                    基本架构
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.18.2" data-path="../underly/namespace.html">
+            
+                <a href="https://yeasy.gitbooks.io/docker_practice/underly/namespace.html">
+            
+                    
+                    命名空间
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.18.3" data-path="../underly/cgroups.html">
+            
+                <a href="https://yeasy.gitbooks.io/docker_practice/underly/cgroups.html">
+            
+                    
+                    控制组
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.18.4" data-path="../underly/ufs.html">
+            
+                <a href="https://yeasy.gitbooks.io/docker_practice/underly/ufs.html">
+            
+                    
+                    联合文件系统
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.18.5" data-path="../underly/container_format.html">
+            
+                <a href="https://yeasy.gitbooks.io/docker_practice/underly/container_format.html">
+            
+                    
+                    容器格式
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.18.6" data-path="../underly/network.html">
+            
+                <a href="https://yeasy.gitbooks.io/docker_practice/underly/network.html">
+            
+                    
+                    网络
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.19" data-path="../etcd/">
+            
+                <a href="https://yeasy.gitbooks.io/docker_practice/etcd/">
+            
+                    
+                    Etcd 项目
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.19.1" data-path="../etcd/intro.html">
+            
+                <a href="https://yeasy.gitbooks.io/docker_practice/etcd/intro.html">
+            
+                    
+                    简介
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.19.2" data-path="../etcd/install.html">
+            
+                <a href="https://yeasy.gitbooks.io/docker_practice/etcd/install.html">
+            
+                    
+                    安装
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.19.3" data-path="../etcd/cluster.html">
+            
+                <a href="https://yeasy.gitbooks.io/docker_practice/etcd/cluster.html">
+            
+                    
+                    集群
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.19.4" data-path="../etcd/etcdctl.html">
+            
+                <a href="https://yeasy.gitbooks.io/docker_practice/etcd/etcdctl.html">
+            
+                    
+                    使用 etcdctl
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.20" data-path="../coreos/">
+            
+                <a href="https://yeasy.gitbooks.io/docker_practice/coreos/">
+            
+                    
+                    CoreOS 项目
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.20.1" data-path="../coreos/intro.html">
+            
+                <a href="https://yeasy.gitbooks.io/docker_practice/coreos/intro.html">
+            
+                    
+                    简介
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.20.2" data-path="../coreos/intro_tools.html">
+            
+                <a href="https://yeasy.gitbooks.io/docker_practice/coreos/intro_tools.html">
+            
+                    
+                    工具
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.20.3" data-path="../coreos/quickstart.html">
+            
+                <a href="https://yeasy.gitbooks.io/docker_practice/coreos/quickstart.html">
+            
+                    
+                    快速搭建 CoreOS 集群
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.21" data-path="../kubernetes/">
+            
+                <a href="https://yeasy.gitbooks.io/docker_practice/kubernetes/">
+            
+                    
+                    Kubernetes 项目
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.21.1" data-path="../kubernetes/intro.html">
+            
+                <a href="https://yeasy.gitbooks.io/docker_practice/kubernetes/intro.html">
+            
+                    
+                    简介
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.21.2" data-path="../kubernetes/quickstart.html">
+            
+                <a href="https://yeasy.gitbooks.io/docker_practice/kubernetes/quickstart.html">
+            
+                    
+                    快速上手
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.21.3" data-path="../kubernetes/concepts.html">
+            
+                <a href="https://yeasy.gitbooks.io/docker_practice/kubernetes/concepts.html">
+            
+                    
+                    基本概念
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.21.4" data-path="../kubernetes/kubectl.html">
+            
+                <a href="https://yeasy.gitbooks.io/docker_practice/kubernetes/kubectl.html">
+            
+                    
+                    kubectl 使用
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.21.5" data-path="../kubernetes/design.html">
+            
+                <a href="https://yeasy.gitbooks.io/docker_practice/kubernetes/design.html">
+            
+                    
+                    架构设计
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.22" data-path="../mesos/">
+            
+                <a href="https://yeasy.gitbooks.io/docker_practice/mesos/">
+            
+                    
+                    Mesos - 优秀的集群资源调度平台
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.22.1" data-path="../mesos/intro.html">
+            
+                <a href="https://yeasy.gitbooks.io/docker_practice/mesos/intro.html">
+            
+                    
+                    Mesos 简介
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.22.2" data-path="../mesos/installation.html">
+            
+                <a href="https://yeasy.gitbooks.io/docker_practice/mesos/installation.html">
+            
+                    
+                    安装与使用
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.22.3" data-path="../mesos/architecture.html">
+            
+                <a href="https://yeasy.gitbooks.io/docker_practice/mesos/architecture.html">
+            
+                    
+                    原理与架构
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.22.4" data-path="../mesos/configuration.html">
+            
+                <a href="https://yeasy.gitbooks.io/docker_practice/mesos/configuration.html">
+            
+                    
+                    Mesos 配置项解析
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.22.5" data-path="../mesos/monitor.html">
+            
+                <a href="https://yeasy.gitbooks.io/docker_practice/mesos/monitor.html">
+            
+                    
+                    日志与监控
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.22.6" data-path="../mesos/framework.html">
+            
+                <a href="https://yeasy.gitbooks.io/docker_practice/mesos/framework.html">
+            
+                    
+                    常见应用框架
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.22.7" data-path="../mesos/summary.html">
+            
+                <a href="https://yeasy.gitbooks.io/docker_practice/mesos/summary.html">
+            
+                    
+                    本章小结
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.23" data-path="../cloud/">
+            
+                <a href="https://yeasy.gitbooks.io/docker_practice/cloud/">
+            
+                    
+                    容器与云计算
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.23.1" data-path="../cloud/intro.html">
+            
+                <a href="https://yeasy.gitbooks.io/docker_practice/cloud/intro.html">
+            
+                    
+                    简介
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.23.2" data-path="../cloud/aws.html">
+            
+                <a href="https://yeasy.gitbooks.io/docker_practice/cloud/aws.html">
+            
+                    
+                    亚马逊云
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.23.3" data-path="../cloud/qcloud.html">
+            
+                <a href="https://yeasy.gitbooks.io/docker_practice/cloud/qcloud.html">
+            
+                    
+                    腾讯云
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.23.4" data-path="../cloud/alicloud.html">
+            
+                <a href="https://yeasy.gitbooks.io/docker_practice/cloud/alicloud.html">
+            
+                    
+                    阿里云
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.23.5" data-path="../cloud/summary.html">
+            
+                <a href="https://yeasy.gitbooks.io/docker_practice/cloud/summary.html">
+            
+                    
+                    小结
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.24" data-path="../cases/os/">
+            
+                <a href="https://yeasy.gitbooks.io/docker_practice/cases/os/">
+            
+                    
+                    实战案例-操作系统
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.24.1" data-path="../cases/os/busybox.html">
+            
+                <a href="https://yeasy.gitbooks.io/docker_practice/cases/os/busybox.html">
+            
+                    
+                    Busybox
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.24.2" data-path="../cases/os/alpine.html">
+            
+                <a href="https://yeasy.gitbooks.io/docker_practice/cases/os/alpine.html">
+            
+                    
+                    Alpine
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.24.3" data-path="../cases/os/debian.html">
+            
+                <a href="https://yeasy.gitbooks.io/docker_practice/cases/os/debian.html">
+            
+                    
+                    Debian Ubuntu
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.24.4" data-path="../cases/os/centos.html">
+            
+                <a href="https://yeasy.gitbooks.io/docker_practice/cases/os/centos.html">
+            
+                    
+                    CentOS Fedora
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.24.5" data-path="../cases/os/summary.html">
+            
+                <a href="https://yeasy.gitbooks.io/docker_practice/cases/os/summary.html">
+            
+                    
+                    本章小结
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.25" data-path="../cases/ci/">
+            
+                <a href="https://yeasy.gitbooks.io/docker_practice/cases/ci/">
+            
+                    
+                    实战案例-CI/CD
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.25.1" data-path="../cases/ci/drone.html">
+            
+                <a href="https://yeasy.gitbooks.io/docker_practice/cases/ci/drone.html">
+            
+                    
+                    Drone
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.25.2" data-path="../cases/ci/travis.html">
+            
+                <a href="https://yeasy.gitbooks.io/docker_practice/cases/ci/travis.html">
+            
+                    
+                    Travis CI
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.26" data-path="../opensource/">
+            
+                <a href="https://yeasy.gitbooks.io/docker_practice/opensource/">
+            
+                    
+                    Docker 开源项目
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.26.1" data-path="../opensource/linuxkit.html">
+            
+                <a href="https://yeasy.gitbooks.io/docker_practice/opensource/linuxkit.html">
+            
+                    
+                    LinuxKit
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.27" data-path="../appendix/">
+            
+                <a href="https://yeasy.gitbooks.io/docker_practice/appendix/">
+            
+                    
+                    附录
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.27.1" data-path="../appendix/faq/">
+            
+                <a href="https://yeasy.gitbooks.io/docker_practice/appendix/faq/">
+            
+                    
+                    附录一：常见问题总结
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.27.2" data-path="../appendix/repo/">
+            
+                <a href="https://yeasy.gitbooks.io/docker_practice/appendix/repo/">
+            
+                    
+                    附录二：热门镜像介绍
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.27.2.1" data-path="../appendix/repo/ubuntu.html">
+            
+                <a href="https://yeasy.gitbooks.io/docker_practice/appendix/repo/ubuntu.html">
+            
+                    
+                    Ubuntu
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.27.2.2" data-path="../appendix/repo/centos.html">
+            
+                <a href="https://yeasy.gitbooks.io/docker_practice/appendix/repo/centos.html">
+            
+                    
+                    CentOS
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.27.2.3" data-path="../appendix/repo/nginx.html">
+            
+                <a href="https://yeasy.gitbooks.io/docker_practice/appendix/repo/nginx.html">
+            
+                    
+                    Nginx
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.27.2.4" data-path="../appendix/repo/php.html">
+            
+                <a href="https://yeasy.gitbooks.io/docker_practice/appendix/repo/php.html">
+            
+                    
+                    PHP
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.27.2.5" data-path="../appendix/repo/mysql.html">
+            
+                <a href="https://yeasy.gitbooks.io/docker_practice/appendix/repo/mysql.html">
+            
+                    
+                    MySQL
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.27.2.6" data-path="../appendix/repo/wordpress.html">
+            
+                <a href="https://yeasy.gitbooks.io/docker_practice/appendix/repo/wordpress.html">
+            
+                    
+                    WordPress
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.27.2.7" data-path="../appendix/repo/mongodb.html">
+            
+                <a href="https://yeasy.gitbooks.io/docker_practice/appendix/repo/mongodb.html">
+            
+                    
+                    MongoDB
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.27.2.8" data-path="../appendix/repo/redis.html">
+            
+                <a href="https://yeasy.gitbooks.io/docker_practice/appendix/repo/redis.html">
+            
+                    
+                    Redis
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.27.2.9" data-path="../appendix/repo/nodejs.html">
+            
+                <a href="https://yeasy.gitbooks.io/docker_practice/appendix/repo/nodejs.html">
+            
+                    
+                    Node.js
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.27.3" data-path="../appendix/command/">
+            
+                <a href="https://yeasy.gitbooks.io/docker_practice/appendix/command/">
+            
+                    
+                    附录三：Docker 命令查询
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.27.4" data-path="../appendix/best_practices.html">
+            
+                <a href="https://yeasy.gitbooks.io/docker_practice/appendix/best_practices.html">
+            
+                    
+                    附录四：Dockerfile 最佳实践
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.27.5" data-path="../appendix/debug.html">
+            
+                <a href="https://yeasy.gitbooks.io/docker_practice/appendix/debug.html">
+            
+                    
+                    附录五：如何调试 Docker
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.27.6" data-path="../appendix/resources.html">
+            
+                <a href="https://yeasy.gitbooks.io/docker_practice/appendix/resources.html">
+            
+                    
+                    附录六：资源链接
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+
+    
+
+    <li class="divider"></li>
+
+    <li>
+        <a href="https://www.gitbook.com/" target="blank" class="gitbook-link">
+            本书使用 GitBook 发布
+        </a>
+    </li>
+</ul>
+
+
+                </nav>
+            
+        
+    </div>
+
+    <div class="book-body">
+        
+            <div class="body-inner">
+                
+                    
+
+<div class="book-header" role="navigation">
+    
+
+    <!-- Title -->
+    <a class="btn pull-left js-toolbar-action" aria-label="" href="https://yeasy.gitbooks.io/docker_practice/install/ubuntu.html#"><i class="fa fa-align-justify"></i></a><a class="btn pull-right js-toolbar-action" aria-label="GitHub" href="https://yeasy.gitbooks.io/docker_practice/install/ubuntu.html#"><i class="fa fa-github"></i></a><a class="btn pull-left js-toolbar-action" aria-label="" href="https://yeasy.gitbooks.io/docker_practice/install/ubuntu.html#"><i class="fa fa-edit"></i> 编辑本页</a><div class="dropdown pull-right js-toolbar-action"><a class="btn toggle-dropdown" aria-label="Share" href="https://yeasy.gitbooks.io/docker_practice/install/ubuntu.html#"><i class="fa fa-share-alt"></i></a><div class="dropdown-menu dropdown-left"><div class="dropdown-caret"><span class="caret-outer"></span><span class="caret-inner"></span></div><div class="buttons"><button class="button size-5 ">Facebook</button><button class="button size-5 ">Google+</button><button class="button size-5 ">Twitter</button><button class="button size-5 ">Weibo</button><button class="button size-5 ">Instapaper</button></div></div></div><a class="btn pull-right js-toolbar-action" aria-label="" href="https://yeasy.gitbooks.io/docker_practice/install/ubuntu.html#"><i class="fa fa-facebook"></i></a><a class="btn pull-right js-toolbar-action" aria-label="" href="https://yeasy.gitbooks.io/docker_practice/install/ubuntu.html#"><i class="fa fa-twitter"></i></a><div class="dropdown pull-left font-settings js-toolbar-action"><a class="btn toggle-dropdown" aria-label="Font Settings" href="https://yeasy.gitbooks.io/docker_practice/install/ubuntu.html#"><i class="fa fa-font"></i></a><div class="dropdown-menu dropdown-right"><div class="dropdown-caret"><span class="caret-outer"></span><span class="caret-inner"></span></div><div class="buttons"><button class="button size-2 font-reduce">A</button><button class="button size-2 font-enlarge">A</button></div><div class="buttons"><button class="button size-2 ">Serif</button><button class="button size-2 ">Sans</button></div><div class="buttons"><button class="button size-3 ">White</button><button class="button size-3 ">Sepia</button><button class="button size-3 ">Night</button></div></div></div><h1>
+        <i class="fa fa-circle-o-notch fa-spin"></i>
+        <a href="https://yeasy.gitbooks.io/docker_practice/">Ubuntu</a>
+    </h1>
+</div>
+
+
+
+
+                    <div class="page-wrapper" tabindex="-1" role="main">
+                        <div class="page-inner">
+                            
+<div id="book-search-results">
+    <div class="search-noresults">
+    
+                                <section class="normal markdown-section">
+                                
+                                <div class="treeview__container"><div class="treeview__container-title"><span class="treeview__main-title">Treeview</span><span class="treeview__copyright">Copyright © yeasy all right reserved, powered by <a href="https://github.com/aleen42" target="_blank">aleen42</a></span></div><ul>
+<li><div><a href="https://yeasy.gitbooks.io/docker_practice/install/ubuntu.html#ubuntu-%E5%AE%89%E8%A3%85-docker-ce">Ubuntu 安装 Docker CE</a><i class="level__parent level__item level__parent--opened" state="opened" onclick="var curState = this.getAttribute(&#39;state&#39;);var nextState = curState === &#39;opened&#39; ? &#39;hidden&#39; : &#39;opened&#39;;this.setAttribute(&#39;state&#39;, nextState);this.className = this.className.split(curState).join(nextState);var list = this.parentNode.nextElementSibling;if (nextState === &#39;hidden&#39;) {    list.style.display = &#39;none&#39;;} else {    list.style.display = &#39;block&#39;;}"></i></div>
+<ul>
+<li><div><a href="https://yeasy.gitbooks.io/docker_practice/install/ubuntu.html#%E5%87%86%E5%A4%87%E5%B7%A5%E4%BD%9C">准备工作</a><i class="level__parent level__item level__parent--opened" state="opened" onclick="var curState = this.getAttribute(&#39;state&#39;);var nextState = curState === &#39;opened&#39; ? &#39;hidden&#39; : &#39;opened&#39;;this.setAttribute(&#39;state&#39;, nextState);this.className = this.className.split(curState).join(nextState);var list = this.parentNode.nextElementSibling;if (nextState === &#39;hidden&#39;) {    list.style.display = &#39;none&#39;;} else {    list.style.display = &#39;block&#39;;}"></i></div>
+<ul>
+<li><div><a href="https://yeasy.gitbooks.io/docker_practice/install/ubuntu.html#%E7%B3%BB%E7%BB%9F%E8%A6%81%E6%B1%82">系统要求</a><i></i></div></li>
+<li><div><a href="https://yeasy.gitbooks.io/docker_practice/install/ubuntu.html#%E5%8D%B8%E8%BD%BD%E6%97%A7%E7%89%88%E6%9C%AC">卸载旧版本</a><i></i></div></li>
+<li><div><a href="https://yeasy.gitbooks.io/docker_practice/install/ubuntu.html#ubuntu-1404-%E5%8F%AF%E9%80%89%E5%86%85%E6%A0%B8%E6%A8%A1%E5%9D%97">Ubuntu 14.04 可选内核模块</a><i></i></div></li>
+<li><div><a href="https://yeasy.gitbooks.io/docker_practice/install/ubuntu.html#ubuntu-1604-">Ubuntu 16.04 +</a><i></i></div></li>
+</ul></li>
+<li><div><a href="https://yeasy.gitbooks.io/docker_practice/install/ubuntu.html#%E4%BD%BF%E7%94%A8-apt-%E5%AE%89%E8%A3%85">使用 APT 安装</a><i class="level__parent level__item level__parent--opened" state="opened" onclick="var curState = this.getAttribute(&#39;state&#39;);var nextState = curState === &#39;opened&#39; ? &#39;hidden&#39; : &#39;opened&#39;;this.setAttribute(&#39;state&#39;, nextState);this.className = this.className.split(curState).join(nextState);var list = this.parentNode.nextElementSibling;if (nextState === &#39;hidden&#39;) {    list.style.display = &#39;none&#39;;} else {    list.style.display = &#39;block&#39;;}"></i></div>
+<ul>
+<li><div><a href="https://yeasy.gitbooks.io/docker_practice/install/ubuntu.html#%E5%AE%89%E8%A3%85-docker-ce">安装 Docker CE</a><i></i></div></li>
+</ul></li>
+<li><div><a href="https://yeasy.gitbooks.io/docker_practice/install/ubuntu.html#%E4%BD%BF%E7%94%A8%E8%84%9A%E6%9C%AC%E8%87%AA%E5%8A%A8%E5%AE%89%E8%A3%85">使用脚本自动安装</a><i></i></div></li>
+<li><div><a href="https://yeasy.gitbooks.io/docker_practice/install/ubuntu.html#%E5%90%AF%E5%8A%A8-docker-ce">启动 Docker CE</a><i></i></div></li>
+<li><div><a href="https://yeasy.gitbooks.io/docker_practice/install/ubuntu.html#%E5%BB%BA%E7%AB%8B-docker-%E7%94%A8%E6%88%B7%E7%BB%84">建立 docker 用户组</a><i></i></div></li>
+<li><div><a href="https://yeasy.gitbooks.io/docker_practice/install/ubuntu.html#%E6%B5%8B%E8%AF%95-docker-%E6%98%AF%E5%90%A6%E5%AE%89%E8%A3%85%E6%AD%A3%E7%A1%AE">测试 Docker 是否安装正确</a><i></i></div></li>
+<li><div><a href="https://yeasy.gitbooks.io/docker_practice/install/ubuntu.html#%E9%95%9C%E5%83%8F%E5%8A%A0%E9%80%9F">镜像加速</a><i></i></div></li>
+<li><div><a href="https://yeasy.gitbooks.io/docker_practice/install/ubuntu.html#%E5%8F%82%E8%80%83%E6%96%87%E6%A1%A3">参考文档</a><i></i></div></li>
+</ul></li>
+</ul>
+</div>
+
+<h2 id="ubuntu-安装-docker-ce">Ubuntu 安装 Docker CE</h2>
+<blockquote>
+<p>警告：切勿在没有配置 Docker APT 源的情况下直接使用 apt 命令安装 Docker.</p>
+</blockquote>
+<h3 id="准备工作">准备工作</h3>
+<h4 id="系统要求">系统要求</h4>
+<p>Docker CE 支持以下版本的 <a href="https://www.ubuntu.com/server" target="_blank">Ubuntu</a> 操作系统：</p>
+<ul>
+<li>Bionic 18.04 (LTS)</li>
+<li>Xenial 16.04 (LTS)</li>
+<li>Trusty 14.04 (LTS) (Docker CE v18.06 及以下版本)</li>
+</ul>
+<p>Docker CE 可以安装在 64 位的 x86 平台或 ARM 平台上。Ubuntu 发行版中，LTS（Long-Term-Support）长期支持版本，会获得 5 年的升级维护支持，这样的版本会更稳定，因此在生产环境中推荐使用 LTS 版本。</p>
+<h4 id="卸载旧版本">卸载旧版本</h4>
+<p>旧版本的 Docker 称为 <code>docker</code> 或者 <code>docker-engine</code>，使用以下命令卸载旧版本：</p>
+<pre><code class="lang-bash">$ sudo apt-get remove docker \
+               docker-engine \
+               docker.io
+</code></pre>
+<h4 id="ubuntu-1404-可选内核模块">Ubuntu 14.04 可选内核模块</h4>
+<p>从 Ubuntu 14.04 开始，一部分内核模块移到了可选内核模块包 (<code>linux-image-extra-*</code>) ，以减少内核软件包的体积。正常安装的系统应该会包含可选内核模块包，而一些裁剪后的系统可能会将其精简掉。<code>AUFS</code> 内核驱动属于可选内核模块的一部分，作为推荐的 Docker 存储层驱动，一般建议安装可选内核模块包以使用 <code>AUFS</code>。</p>
+<p>如果系统没有安装可选内核模块的话，可以执行下面的命令来安装可选内核模块包：</p>
+<pre><code class="lang-bash">$ sudo apt-get update
+
+$ sudo apt-get install \
+    linux-image-extra-$(uname -r) \
+    linux-image-extra-virtual
+</code></pre>
+<h4 id="ubuntu-1604-">Ubuntu 16.04 +</h4>
+<p>Ubuntu 16.04 + 上的 Docker CE 默认使用 <code>overlay2</code> 存储层驱动,无需手动配置。</p>
+<h3 id="使用-apt-安装">使用 APT 安装</h3>
+<p>由于 <code>apt</code> 源使用 HTTPS 以确保软件下载过程中不被篡改。因此，我们首先需要添加使用 HTTPS 传输的软件包以及 CA 证书。</p>
+<pre><code class="lang-bash">$ sudo apt-get update
+
+$ sudo apt-get install \
+    apt-transport-https \
+    ca-certificates \
+    curl \
+    software-properties-common
+</code></pre>
+<p>鉴于国内网络问题，强烈建议使用国内源，官方源请在注释中查看。</p>
+<p>为了确认所下载软件包的合法性，需要添加软件源的 <code>GPG</code> 密钥。</p>
+<pre><code class="lang-bash">$ curl -fsSL https://mirrors.ustc.edu.cn/docker-ce/linux/ubuntu/gpg | sudo apt-key add -
+
+
+<span class="hljs-comment"># 官方源</span>
+<span class="hljs-comment"># $ curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -</span>
+</code></pre>
+<p>然后，我们需要向 <code>source.list</code> 中添加 Docker 软件源</p>
+<pre><code class="lang-bash">$ sudo add-apt-repository \
+    <span class="hljs-string">"deb [arch=amd64] https://mirrors.ustc.edu.cn/docker-ce/linux/ubuntu \
+    <span class="hljs-variable">$(lsb_release -cs)</span> \
+    stable"</span>
+
+
+<span class="hljs-comment"># 官方源</span>
+<span class="hljs-comment"># $ sudo add-apt-repository \</span>
+<span class="hljs-comment">#    "deb [arch=amd64] https://download.docker.com/linux/ubuntu \</span>
+<span class="hljs-comment">#    $(lsb_release -cs) \</span>
+<span class="hljs-comment">#    stable"</span>
+</code></pre>
+<blockquote>
+<p>以上命令会添加稳定版本的 Docker CE APT 镜像源，如果需要测试或每日构建版本的 Docker CE 请将 stable 改为 test 或者 nightly。</p>
+</blockquote>
+<h4 id="安装-docker-ce">安装 Docker CE</h4>
+<p>更新 apt 软件包缓存，并安装 <code>docker-ce</code>：</p>
+<pre><code class="lang-bash">$ sudo apt-get update
+
+$ sudo apt-get install docker-ce
+</code></pre>
+<h3 id="使用脚本自动安装">使用脚本自动安装</h3>
+<p>在测试或开发环境中 Docker 官方为了简化安装流程，提供了一套便捷的安装脚本，Ubuntu 系统上可以使用这套脚本安装：</p>
+<pre><code class="lang-bash">$ curl -fsSL get.docker.com -o get-docker.sh
+$ sudo sh get-docker.sh --mirror Aliyun
+</code></pre>
+<p>执行这个命令后，脚本就会自动的将一切准备工作做好，并且把 Docker CE 的 Edge 版本安装在系统中。</p>
+<h3 id="启动-docker-ce">启动 Docker CE</h3>
+<pre><code class="lang-bash">$ sudo systemctl <span class="hljs-built_in">enable</span> docker
+$ sudo systemctl start docker
+</code></pre>
+<p>Ubuntu 14.04 请使用以下命令启动：</p>
+<pre><code class="lang-bash">$ sudo service docker start
+</code></pre>
+<h3 id="建立-docker-用户组">建立 docker 用户组</h3>
+<p>默认情况下，<code>docker</code> 命令会使用 <a href="https://en.wikipedia.org/wiki/Unix_domain_socket" target="_blank">Unix socket</a> 与 Docker 引擎通讯。而只有 <code>root</code> 用户和 <code>docker</code> 组的用户才可以访问 Docker 引擎的 Unix socket。出于安全考虑，一般 Linux 系统上不会直接使用 <code>root</code> 用户。因此，更好地做法是将需要使用 <code>docker</code> 的用户加入 <code>docker</code> 用户组。</p>
+<p>建立 <code>docker</code> 组：</p>
+<pre><code class="lang-bash">$ sudo groupadd docker
+</code></pre>
+<p>将当前用户加入 <code>docker</code> 组：</p>
+<pre><code class="lang-bash">$ sudo usermod <span class="hljs-_">-a</span>G docker <span class="hljs-variable">$USER</span>
+</code></pre>
+<p>退出当前终端并重新登录，进行如下测试。</p>
+<h3 id="测试-docker-是否安装正确">测试 Docker 是否安装正确</h3>
+<pre><code class="lang-bash">$ docker run hello-world
+
+Unable to find image <span class="hljs-string">'hello-world:latest'</span> locally
+latest: Pulling from library/hello-world
+d1725b59e92d: Pull complete
+Digest: sha256:0add3ace90ecb4adbf7777e9aacf18357296e799f81cabc9fde470971e499788
+Status: Downloaded newer image <span class="hljs-keyword">for</span> hello-world:latest
+
+Hello from Docker!
+This message shows that your installation appears to be working correctly.
+
+To generate this message, Docker took the following steps:
+ 1. The Docker client contacted the Docker daemon.
+ 2. The Docker daemon pulled the <span class="hljs-string">"hello-world"</span> image from the Docker Hub.
+    (amd64)
+ 3. The Docker daemon created a new container from that image <span class="hljs-built_in">which</span> runs the
+    executable that produces the output you are currently reading.
+ 4. The Docker daemon streamed that output to the Docker client, <span class="hljs-built_in">which</span> sent it
+    to your terminal.
+
+To try something more ambitious, you can run an Ubuntu container with:
+ $ docker run -it ubuntu bash
+
+Share images, automate workflows, and more with a free Docker ID:
+ https://hub.docker.com/
+
+For more examples and ideas, visit:
+ https://docs.docker.com/get-started/
+</code></pre>
+<p>若能正常输出以上信息，则说明安装成功。</p>
+<h3 id="镜像加速">镜像加速</h3>
+<p>如果在使用过程中发现拉取 Docker 镜像十分缓慢，可以配置 Docker <a href="https://yeasy.gitbooks.io/docker_practice/install/mirror.html">国内镜像加速</a>。</p>
+<h3 id="参考文档">参考文档</h3>
+<ul>
+<li><a href="https://docs.docker.com/install/linux/docker-ce/ubuntu/" target="_blank">Docker 官方 Ubuntu 安装文档</a></li>
+</ul>
+
+                                
+                                </section>
+                            
+    </div>
+    <div class="search-results">
+        <div class="has-results">
+            
+            <h1 class="search-results-title"><span class="search-results-count"></span> results matching "<span class="search-query"></span>"</h1>
+            <ul class="search-results-list"></ul>
+            
+        </div>
+        <div class="no-results">
+            
+            <h1 class="search-results-title">No results matching "<span class="search-query"></span>"</h1>
+            
+        </div>
+    </div>
+</div>
+
+                        </div>
+                    </div>
+                
+            </div>
+
+            
+                
+                <a href="https://yeasy.gitbooks.io/docker_practice/install/" class="navigation navigation-prev " aria-label="Previous page: 安装 Docker">
+                    <i class="fa fa-angle-left"></i>
+                </a>
+                
+                
+                <a href="https://yeasy.gitbooks.io/docker_practice/install/debian.html" class="navigation navigation-next " aria-label="Next page: Debian" style="margin-right: 12px;">
+                    <i class="fa fa-angle-right"></i>
+                </a>
+                
+            
+        
+    </div>
+
+    <script>
+        var gitbook = gitbook || [];
+        gitbook.push(function() {
+            gitbook.page.hasChanged({"page":{"title":"Ubuntu","level":"1.6.1","depth":2,"next":{"title":"Debian","level":"1.6.2","depth":2,"path":"install/debian.md","ref":"install/debian.md","articles":[]},"previous":{"title":"安装 Docker","level":"1.6","depth":1,"path":"install/README.md","ref":"install/README.md","articles":[{"title":"Ubuntu","level":"1.6.1","depth":2,"path":"install/ubuntu.md","ref":"install/ubuntu.md","articles":[]},{"title":"Debian","level":"1.6.2","depth":2,"path":"install/debian.md","ref":"install/debian.md","articles":[]},{"title":"Fedora","level":"1.6.3","depth":2,"path":"install/fedora.md","ref":"install/fedora.md","articles":[]},{"title":"CentOS","level":"1.6.4","depth":2,"path":"install/centos.md","ref":"install/centos.md","articles":[]},{"title":"Raspberry Pi","level":"1.6.5","depth":2,"path":"install/raspberry-pi.md","ref":"install/raspberry-pi.md","articles":[]},{"title":"macOS","level":"1.6.6","depth":2,"path":"install/mac.md","ref":"install/mac.md","articles":[]},{"title":"Windows PC","level":"1.6.7","depth":2,"path":"install/windows.md","ref":"install/windows.md","articles":[]},{"title":"镜像加速器","level":"1.6.8","depth":2,"path":"install/mirror.md","ref":"install/mirror.md","articles":[]}]},"dir":"ltr"},"config":{"plugins":["-livereload","image-captions","github","page-treeview","editlink",""],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"page-treeview":{"copyright":"Copyright &#169; yeasy","minHeaderCount":"2","minHeaderDeep":"2"},"github":{"url":"https://github.com/yeasy/docker_practice"},"editlink":{"label":"编辑本页","multilingual":false,"base":"https://github.com/yeasy/docker_practice/blob/master/"},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"fontsettings":{"theme":"white","family":"sans","size":2},"highlight":{},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false},"image-captions":{"attributes":{"width":"600"},"caption":"图 _PAGE_LEVEL_._PAGE_IMAGE_NUMBER_ - _CAPTION_","variable_name":"_pictures"}},"github":"yeasy/docker_practice","theme":"default","author":"yeasy","pdf":{"pageNumbers":true,"fontSize":16,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{"_pictures":[{"backlink":"introduction/what.html#fig1.4.1.1","level":"1.4.1","list_caption":"Figure: 传统虚拟化","alt":"传统虚拟化","nro":1,"url":"_images/virtualization.png","index":1,"caption_template":"图 _PAGE_LEVEL_._PAGE_IMAGE_NUMBER_ - _CAPTION_","label":"传统虚拟化","attributes":{"width":"600"},"skip":false,"key":"1.4.1.1"},{"backlink":"introduction/what.html#fig1.4.1.2","level":"1.4.1","list_caption":"Figure: Docker","alt":"Docker","nro":2,"url":"_images/docker.png","index":2,"caption_template":"图 _PAGE_LEVEL_._PAGE_IMAGE_NUMBER_ - _CAPTION_","label":"Docker","attributes":{"width":"600"},"skip":false,"key":"1.4.1.2"},{"backlink":"advanced_network/index.html#fig1.12.1","level":"1.12","list_caption":"Figure: Docker 网络","alt":"Docker 网络","nro":3,"url":"_images/network.png","index":1,"caption_template":"图 _PAGE_LEVEL_._PAGE_IMAGE_NUMBER_ - _CAPTION_","label":"Docker 网络","attributes":{"width":"600"},"skip":false,"key":"1.12.1"},{"backlink":"underly/arch.html#fig1.18.1.1","level":"1.18.1","list_caption":"Figure: Docker 基本架构","alt":"Docker 基本架构","nro":4,"url":"_images/docker_arch.png","index":1,"caption_template":"图 _PAGE_LEVEL_._PAGE_IMAGE_NUMBER_ - _CAPTION_","label":"Docker 基本架构","attributes":{"width":"600"},"skip":false,"key":"1.18.1.1"},{"backlink":"kubernetes/quickstart.html#fig1.21.2.1","level":"1.21.2","list_caption":"Figure: 在 Docker 中启动 Kubernetes","alt":"在 Docker 中启动 Kubernetes","nro":5,"url":"_images/k8s-singlenode-docker.png","index":1,"caption_template":"图 _PAGE_LEVEL_._PAGE_IMAGE_NUMBER_ - _CAPTION_","label":"在 Docker 中启动 Kubernetes","attributes":{"width":"600"},"skip":false,"key":"1.21.2.1"},{"backlink":"kubernetes/design.html#fig1.21.5.1","level":"1.21.5","list_caption":"Figure: Kubernetes 架构","alt":"Kubernetes 架构","nro":6,"url":"_images/k8s_architecture.png","index":1,"caption_template":"图 _PAGE_LEVEL_._PAGE_IMAGE_NUMBER_ - _CAPTION_","label":"Kubernetes 架构","attributes":{"width":"600"},"skip":false,"key":"1.21.5.1"},{"backlink":"kubernetes/design.html#fig1.21.5.2","level":"1.21.5","list_caption":"Figure: Proxy 代理对服务的请求","alt":"Proxy 代理对服务的请求","nro":7,"url":"_images/kube-proxy.png","index":2,"caption_template":"图 _PAGE_LEVEL_._PAGE_IMAGE_NUMBER_ - _CAPTION_","label":"Proxy 代理对服务的请求","attributes":{"width":"600"},"skip":false,"key":"1.21.5.2"},{"backlink":"mesos/installation.html#fig1.22.2.1","level":"1.22.2","list_caption":"Figure: mesos 界面查看加入的 slave 节点","alt":"mesos 界面查看加入的 slave 节点","nro":8,"url":"_images/mesos.png","index":1,"caption_template":"图 _PAGE_LEVEL_._PAGE_IMAGE_NUMBER_ - _CAPTION_","label":"mesos 界面查看加入的 slave 节点","attributes":{"width":"600"},"skip":false,"key":"1.22.2.1"},{"backlink":"mesos/installation.html#fig1.22.2.2","level":"1.22.2","list_caption":"Figure: marathon 图形管理界面","alt":"marathon 图形管理界面","nro":9,"url":"_images/marathon.png","index":2,"caption_template":"图 _PAGE_LEVEL_._PAGE_IMAGE_NUMBER_ - _CAPTION_","label":"marathon 图形管理界面","attributes":{"width":"600"},"skip":false,"key":"1.22.2.2"},{"backlink":"mesos/installation.html#fig1.22.2.3","level":"1.22.2","list_caption":"Figure: marathon 查看任务支持的参数","alt":"marathon 查看任务支持的参数","nro":10,"url":"_images/marathon_basic0.png","index":3,"caption_template":"图 _PAGE_LEVEL_._PAGE_IMAGE_NUMBER_ - _CAPTION_","label":"marathon 查看任务支持的参数","attributes":{"width":"600"},"skip":false,"key":"1.22.2.3"},{"backlink":"mesos/architecture.html#fig1.22.3.1","level":"1.22.3","list_caption":"Figure: mesos 的基本架构","alt":"mesos 的基本架构","nro":11,"url":"_images/mesos-architecture.png","index":1,"caption_template":"图 _PAGE_LEVEL_._PAGE_IMAGE_NUMBER_ - _CAPTION_","label":"mesos 的基本架构","attributes":{"width":"600"},"skip":false,"key":"1.22.3.1"},{"backlink":"cloud/aws.html#fig1.23.2.1","level":"1.23.2","list_caption":"Figure: AWS","alt":"AWS","nro":12,"url":"_images/aws-logo.jpg","index":1,"caption_template":"图 _PAGE_LEVEL_._PAGE_IMAGE_NUMBER_ - _CAPTION_","label":"AWS","attributes":{"width":"600"},"skip":false,"key":"1.23.2.1"},{"backlink":"cloud/aws.html#fig1.23.2.2","level":"1.23.2","list_caption":"Figure: AWS 容器服务","alt":"AWS 容器服务","nro":13,"url":"_images/ECS.jpg","index":2,"caption_template":"图 _PAGE_LEVEL_._PAGE_IMAGE_NUMBER_ - _CAPTION_","label":"AWS 容器服务","attributes":{"width":"600"},"skip":false,"key":"1.23.2.2"},{"backlink":"cloud/qcloud.html#fig1.23.3.1","level":"1.23.3","list_caption":"Figure: 腾讯云","alt":"腾讯云","nro":14,"url":"_images/qcloud-logo.jpg","index":1,"caption_template":"图 _PAGE_LEVEL_._PAGE_IMAGE_NUMBER_ - _CAPTION_","label":"腾讯云","attributes":{"width":"600"},"skip":false,"key":"1.23.3.1"},{"backlink":"cloud/alicloud.html#fig1.23.4.1","level":"1.23.4","list_caption":"Figure: 阿里云","alt":"阿里云","nro":15,"url":"_images/aliyun-logo.png","index":1,"caption_template":"图 _PAGE_LEVEL_._PAGE_IMAGE_NUMBER_ - _CAPTION_","label":"阿里云","attributes":{"width":"600"},"skip":false,"key":"1.23.4.1"},{"backlink":"cases/os/busybox.html#fig1.24.1.1","level":"1.24.1","list_caption":"Figure: Busybox - Linux 瑞士军刀","alt":"Busybox - Linux 瑞士军刀","nro":16,"url":"_images/busybox-logo.png","index":1,"caption_template":"图 _PAGE_LEVEL_._PAGE_IMAGE_NUMBER_ - _CAPTION_","label":"Busybox - Linux 瑞士军刀","attributes":{"width":"600"},"skip":false,"key":"1.24.1.1"},{"backlink":"cases/os/alpine.html#fig1.24.2.1","level":"1.24.2","list_caption":"Figure: Apline Linux 操作系统","alt":"Apline Linux 操作系统","nro":17,"url":"_images/alpinelinux-logo.png","index":1,"caption_template":"图 _PAGE_LEVEL_._PAGE_IMAGE_NUMBER_ - _CAPTION_","label":"Apline Linux 操作系统","attributes":{"width":"600"},"skip":false,"key":"1.24.2.1"},{"backlink":"cases/os/debian.html#fig1.24.3.1","level":"1.24.3","list_caption":"Figure: Debian 操作系统","alt":"Debian 操作系统","nro":18,"url":"_images/debian-logo.png","index":1,"caption_template":"图 _PAGE_LEVEL_._PAGE_IMAGE_NUMBER_ - _CAPTION_","label":"Debian 操作系统","attributes":{"width":"600"},"skip":false,"key":"1.24.3.1"},{"backlink":"cases/os/debian.html#fig1.24.3.2","level":"1.24.3","list_caption":"Figure: Ubuntu 操作系统","alt":"Ubuntu 操作系统","nro":19,"url":"_images/ubuntu-logo.jpg","index":2,"caption_template":"图 _PAGE_LEVEL_._PAGE_IMAGE_NUMBER_ - _CAPTION_","label":"Ubuntu 操作系统","attributes":{"width":"600"},"skip":false,"key":"1.24.3.2"},{"backlink":"cases/os/centos.html#fig1.24.4.1","level":"1.24.4","list_caption":"Figure: CentOS 操作系统","alt":"CentOS 操作系统","nro":20,"url":"_images/centos-logo.png","index":1,"caption_template":"图 _PAGE_LEVEL_._PAGE_IMAGE_NUMBER_ - _CAPTION_","label":"CentOS 操作系统","attributes":{"width":"600"},"skip":false,"key":"1.24.4.1"},{"backlink":"cases/os/centos.html#fig1.24.4.2","level":"1.24.4","list_caption":"Figure: Fedora 操作系统","alt":"Fedora 操作系统","nro":21,"url":"_images/fedora-logo.png","index":2,"caption_template":"图 _PAGE_LEVEL_._PAGE_IMAGE_NUMBER_ - _CAPTION_","label":"Fedora 操作系统","attributes":{"width":"600"},"skip":false,"key":"1.24.4.2"},{"backlink":"appendix/command/index.html#fig1.27.3.1","level":"1.27.3","list_caption":"Figure: Docker 命令总结","alt":"Docker 命令总结","nro":22,"url":"../_images/cmd_logic.png","index":1,"caption_template":"图 _PAGE_LEVEL_._PAGE_IMAGE_NUMBER_ - _CAPTION_","label":"Docker 命令总结","attributes":{"width":"600"},"skip":false,"key":"1.27.3.1"}]},"title":"Docker —— 从入门到实践","language":"zh-hans","links":{"sidebar":{"GitHub":"https://github.com/yeasy/docker_practice","Docker —— 从入门到实践":"https://legacy.gitbook.com/book/yeasy/docker_practice"},"gitbook":true},"gitbook":"*","description":"Help you understand and use docker, with practical cases."},"file":{"path":"install/ubuntu.md","mtime":"2019-01-06T02:15:13.000Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2019-01-06T02:15:49.088Z"},"basePath":"..","book":{"language":""}});
+        });
+    </script>
+</div>
+
+        
+    <script src="./Ubuntu · Docker —— 从入门到实践_files/gitbook.js.下载"></script>
+    <script src="./Ubuntu · Docker —— 从入门到实践_files/theme.js.下载"></script>
+    
+        
+        <script src="./Ubuntu · Docker —— 从入门到实践_files/plugin.js.下载"></script>
+        
+    
+        
+        <script src="./Ubuntu · Docker —— 从入门到实践_files/plugin.js(1).下载"></script>
+        
+    
+        
+        <script src="./Ubuntu · Docker —— 从入门到实践_files/search-engine.js.下载"></script>
+        
+    
+        
+        <script src="./Ubuntu · Docker —— 从入门到实践_files/search.js.下载"></script>
+        
+    
+        
+        <script src="./Ubuntu · Docker —— 从入门到实践_files/lunr.min.js.下载"></script>
+        
+    
+        
+        <script src="./Ubuntu · Docker —— 从入门到实践_files/search-lunr.js.下载"></script>
+        
+    
+        
+        <script src="./Ubuntu · Docker —— 从入门到实践_files/buttons.js.下载"></script>
+        
+    
+        
+        <script src="./Ubuntu · Docker —— 从入门到实践_files/fontsettings.js.下载"></script>
+        
+    
+
+    
+
+
+<div id="yhqhadin" style="display:none;"></div><st-div id="__selection-translator__"> <st-div class="__st-box__" style="display: none; position: fixed; z-index: 99999; left: 0px; top: 0px; transform: translateX(654px) translateY(316px);"> <st-header> <st-span class="st-icon-pin" title="固定"></st-span> <st-span class="st-icon-down-open" title="展开"></st-span> <st-span class="st-icon-cog" title="设置"></st-span> </st-header> <st-div class="__query-form__" style="display: none;"> <st-div> <textarea placeholder="输入要翻译的句子或单词"></textarea> </st-div> <st-div> <select> <option value="">自动判断</option> <option value="zh">中文</option><option value="zh-CN">中文(简体)</option><option value="zh-HK">中文(香港)</option><option value="zh-TW">中文(繁体)</option><option value="en">英语</option><option value="ja">日语</option><option value="ko">朝鲜语</option><option value="de">德语</option><option value="fr">法语</option><option value="ru">俄语</option><option value="th">泰语</option><option value="af">南非语</option><option value="ar">阿拉伯语</option><option value="az">阿塞拜疆语</option><option value="be">比利时语</option><option value="bg">保加利亚语</option><option value="ca">加泰隆语</option><option value="cs">捷克语</option><option value="cy">威尔士语</option><option value="da">丹麦语</option><option value="dv">第维埃语</option><option value="el">希腊语</option><option value="eo">世界语</option><option value="es">西班牙语</option><option value="et">爱沙尼亚语</option><option value="eu">巴士克语</option><option value="fa">法斯语</option><option value="fi">芬兰语</option><option value="fo">法罗语</option><option value="gl">加里西亚语</option><option value="gu">古吉拉特语</option><option value="he">希伯来语</option><option value="hi">印地语</option><option value="hr">克罗地亚语</option><option value="hu">匈牙利语</option><option value="hy">亚美尼亚语</option><option value="id">印度尼西亚语</option><option value="is">冰岛语</option><option value="it">意大利语</option><option value="ka">格鲁吉亚语</option><option value="kk">哈萨克语</option><option value="kn">卡纳拉语</option><option value="kok">孔卡尼语</option><option value="ky">吉尔吉斯语</option><option value="lt">立陶宛语</option><option value="lv">拉脱维亚语</option><option value="mi">毛利语</option><option value="mk">马其顿语</option><option value="mn">蒙古语</option><option value="mr">马拉地语</option><option value="ms">马来语</option><option value="mt">马耳他语</option><option value="nb">挪威语(伯克梅尔)</option><option value="nl">荷兰语</option><option value="ns">北梭托语</option><option value="pa">旁遮普语</option><option value="pl">波兰语</option><option value="pt">葡萄牙语</option><option value="qu">克丘亚语</option><option value="ro">罗马尼亚语</option><option value="sa">梵文</option><option value="se">北萨摩斯语</option><option value="sk">斯洛伐克语</option><option value="sl">斯洛文尼亚语</option><option value="sq">阿尔巴尼亚语</option><option value="sv">瑞典语</option><option value="sw">斯瓦希里语</option><option value="syr">叙利亚语</option><option value="ta">泰米尔语</option><option value="te">泰卢固语</option><option value="tl">塔加路语</option><option value="tn">茨瓦纳语</option><option value="tr">土耳其语</option><option value="ts">宗加语</option><option value="tt">鞑靼语</option><option value="uk">乌克兰语</option><option value="ur">乌都语</option><option value="uz">乌兹别克语</option><option value="vi">越南语</option><option value="xh">班图语</option><option value="zu">祖鲁语</option> </select> <st-div class="__exchange__"> <st-span class="st-icon-exchange"></st-span> </st-div> <select> <option value="">自动选择</option> <option value="zh">中文</option><option value="zh-CN">中文(简体)</option><option value="zh-HK">中文(香港)</option><option value="zh-TW">中文(繁体)</option><option value="en">英语</option><option value="ja">日语</option><option value="ko">朝鲜语</option><option value="de">德语</option><option value="fr">法语</option><option value="ru">俄语</option><option value="th">泰语</option><option value="af">南非语</option><option value="ar">阿拉伯语</option><option value="az">阿塞拜疆语</option><option value="be">比利时语</option><option value="bg">保加利亚语</option><option value="ca">加泰隆语</option><option value="cs">捷克语</option><option value="cy">威尔士语</option><option value="da">丹麦语</option><option value="dv">第维埃语</option><option value="el">希腊语</option><option value="eo">世界语</option><option value="es">西班牙语</option><option value="et">爱沙尼亚语</option><option value="eu">巴士克语</option><option value="fa">法斯语</option><option value="fi">芬兰语</option><option value="fo">法罗语</option><option value="gl">加里西亚语</option><option value="gu">古吉拉特语</option><option value="he">希伯来语</option><option value="hi">印地语</option><option value="hr">克罗地亚语</option><option value="hu">匈牙利语</option><option value="hy">亚美尼亚语</option><option value="id">印度尼西亚语</option><option value="is">冰岛语</option><option value="it">意大利语</option><option value="ka">格鲁吉亚语</option><option value="kk">哈萨克语</option><option value="kn">卡纳拉语</option><option value="kok">孔卡尼语</option><option value="ky">吉尔吉斯语</option><option value="lt">立陶宛语</option><option value="lv">拉脱维亚语</option><option value="mi">毛利语</option><option value="mk">马其顿语</option><option value="mn">蒙古语</option><option value="mr">马拉地语</option><option value="ms">马来语</option><option value="mt">马耳他语</option><option value="nb">挪威语(伯克梅尔)</option><option value="nl">荷兰语</option><option value="ns">北梭托语</option><option value="pa">旁遮普语</option><option value="pl">波兰语</option><option value="pt">葡萄牙语</option><option value="qu">克丘亚语</option><option value="ro">罗马尼亚语</option><option value="sa">梵文</option><option value="se">北萨摩斯语</option><option value="sk">斯洛伐克语</option><option value="sl">斯洛文尼亚语</option><option value="sq">阿尔巴尼亚语</option><option value="sv">瑞典语</option><option value="sw">斯瓦希里语</option><option value="syr">叙利亚语</option><option value="ta">泰米尔语</option><option value="te">泰卢固语</option><option value="tl">塔加路语</option><option value="tn">茨瓦纳语</option><option value="tr">土耳其语</option><option value="ts">宗加语</option><option value="tt">鞑靼语</option><option value="uk">乌克兰语</option><option value="ur">乌都语</option><option value="uz">乌兹别克语</option><option value="vi">越南语</option><option value="xh">班图语</option><option value="zu">祖鲁语</option> </select> </st-div> <st-div> <select> <option value="YouDao">有道翻译</option> <option value="BaiDu">百度翻译</option> <option value="Google">谷歌翻译</option> <option value="GoogleCN">谷歌翻译（国内）</option> </select> <st-div class="__action-list__"> <st-div class="__button__ __btn-translate__">翻译 <st-span class="st-icon-down-dir"></st-span> </st-div> <st-div class="__expand__"> <st-div class="__button__">朗读</st-div> <st-div class="__button__">复制</st-div> </st-div> </st-div> </st-div> </st-div> <st-div class="__translate-result__" style="display: none;">正在查询，请稍候……</st-div> <st-div class="__translate-result__"> <st-div style="display: none;"> <st-span></st-span> <st-span class="__retry__">重试</st-span> </st-div> <st-div> <st-div class="__phonetic__"> <st-span style="display: none;"></st-span> <st-span class="__copy-and-read__"> <st-span>朗读</st-span> <st-span style="display: none;">复制</st-span> </st-span> </st-div> <st-div style="display: none;"> <st-ul>  </st-ul> <st-div class="__copy-and-read__"> <st-span class="__copy-and-read__">复制</st-span> </st-div> </st-div> <st-div style="display: none;">  <st-div class="__copy-and-read__"> <st-span class="__copy-and-read__">朗读</st-span> <st-span class="__copy-and-read__">复制</st-span> </st-div> </st-div> </st-div> </st-div> <st-footer> <st-span style="">via <a target="_blank" href="https://yeasy.gitbooks.io/docker_practice/install/ubuntu.html">谷歌翻译（国内）</a></st-span> </st-footer> </st-div> <st-div class="__st-btn__" style="display: none; position: fixed; z-index: 99999; left: 0px; top: 0px; transform: translateX(654px) translateY(316px);">译</st-div> </st-div></body></html>
