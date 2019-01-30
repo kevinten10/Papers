@@ -1,0 +1,56 @@
+_satellite.pushAsyncScript(function(event, target, $variables){
+  var pageTitle,
+    entityId = _satellite.getVar('entity.id'),
+    categoryId = _satellite.getVar('entity.categoryId'),
+    country = _satellite.getVar('entity.environment'),
+    pageURL = _satellite.getVar('entity.pageURL'),
+    thumbnailURL, description = "",
+    imgAlt;
+     
+$(window).load(function() {
+  
+  if(jQuery('[aria-label="Page title"]')) {
+    pageTitle = jQuery('[aria-label="Page title"]').text().trim();
+  } else {
+    pageTitle = $('title')[0].innerHTML;
+  }
+  if($('.n-hero__content-title').length > 0) {
+    pageTitle = $('.n-hero__content-title').html();
+  } 
+  if(pageTitle.indexOf("NetApp ") >= 0) {
+    pageTitle = pageTitle.split("NetApp ")[1];
+  }
+ 
+ /* Get thumbnail URL */
+ if($('.n-data-table__thead-products').length > 0){
+   thumbnailURL = $('.n-data-table__thead-products th img:first').attr('src');
+   imgAlt = $('.n-data-table__thead-products th img:first').attr('alt');
+ } else {
+   thumbnailURL = "/us/media/icon-" + categoryId + "-200x140.png";
+   imgAlt = categoryId + " Icon";
+ }
+
+ /* Get product description */
+if($('.n-hero__content-subtitle').length > 0) {
+  description = $('.n-hero__content-subtitle').text();
+}
+
+    adobe.target.trackEvent({
+      "mbox": "target-global-mbox",
+       "params":{ 
+         "entity.name": pageTitle,
+         "entity.id": entityId,
+         "entity.environment": country,
+         "entity.pageURL": pageURL,
+         "entity.thumbnailUrl": thumbnailURL,
+         "entity.message": description,
+         "entity.imgAlt": imgAlt
+         /*"entity.categoryId": categoryId*/
+         
+       
+       }
+    });
+  
+  
+});
+});

@@ -1,0 +1,4175 @@
+var netapp = {};
+// Constants - define standard tag values.
+/* The tag for all ui */
+netapp.DATA_TAG = "data-ntap-ui";
+netapp.LISTENERS = "section.tabs[" + netapp.DATA_TAG + "]";
+netapp.SOCIAL_LISTENERS = "section.socialTabs[" + netapp.DATA_TAG + "]";
+netapp.TABS_LINKS = "section.tabs li";
+netapp.MEGA_MENU = ".no-touch #tabs li.tab section";
+netapp.TOP_SHELVES = "aside.shelves article";
+netapp.MENU_SHOW_HOVER_DELAY = 100; //milleseconds
+netapp.MENU_HIDE_HOVER_DELAY = 1000; //milliseconds
+netapp.UI_ACTIVE_CLASS = "active";
+netapp.UI_DIRECTION = $('html.rtl').length ? "rtl" : "ltr";
+netapp.LIVE_CHAT_URL = 'https://livechat.boldchat.com/aid/3438906697823849762/';
+netapp.VIDEO_TAG = "data-ntap-video";
+netapp.VIDEO_LISTENERS = "a[" + netapp.VIDEO_TAG + "]";
+netapp.BASE_URL = location.protocol + "//" + location.hostname + (location.port && ":" + location.port) + "/";
+var NetAppPlayer = function() {};
+NetAppPlayer.init = function(player, playerContainer) {
+	this.player = player;
+	this.expandedHeight = 585;
+	this.shrunkHeight = 520;
+	this.playerContainer = playerContainer;
+};
+NetAppPlayer.expand = function(offset) {
+	document.getElementById(this.player).style.height = this.expandedHeight - offset + "px";
+};
+NetAppPlayer.shrink = function(offset) {
+	document.getElementById(this.player).style.height = this.shrunkHeight - offset + "px";
+};
+
+
+// GEFN: a brute force idea for stopping click events while something is animating - barkan
+if (Modernizr.touch) {
+	$(document).on('click', function(e) {
+		if ($(':animated').size() > 0) {
+			e.stopPropagation();
+			e.preventDefault();
+		}
+	});
+}
+
+netapp.clickEvent = Modernizr.touch && jQuery.jGestures ? 'tapone' : 'click';
+
+// Removes href, making global navs expand reliably cross device for touch devices.
+// inserts the href before clicking thelink as a link. 
+// Dozens of "simple fix for click problems on touch device' articles didn't help us.
+// Eric gets the points for the fix.
+if (Modernizr.touch && ntapDevice === 'desktop') {
+	$('#tabs .columns').prepend('<li class="touchCloser" style="background: url(https://media.netapp.com/images/v-form-close.png)no-repeat;background-position: 94% 50%; height: 20px;width: 100%;padding: 5px 0;"></li>');
+	$('.touchCloser').each(function() {
+		$(this).bind(netapp.clickEvent, function() {
+			setTimeout(function() {
+				$('.touch .tab').blur();
+			}, 400);
+		});
+	});
+	$('.tabText').each(function() {
+		$(this).data('realLink', this.href);
+		this.href = "#";
+		$(this).bind('touchstart', function() {
+			var realLink = $(this).data('realLink');
+			var $this = $(this);
+			setTimeout(function() {
+				$this.attr('href', realLink);
+			}, 500);
+		});
+	});
+};
+
+/* Commented for DIGITAL 6210 */
+
+
+netapp.flipCard = {};
+
+netapp.flipCard.init = function () {
+	$('.summaryPanels').on("click", ".js-flipCard", function (e) {
+		e.preventDefault();
+
+		if ($(this).parents('.panelContainer').hasClass('is-flipped')) {
+			$(this).parents('.panelContainer').removeClass('is-flipped')
+		} else {
+			$(this).parents('.panelContainer').addClass('is-flipped');
+		}
+	});
+};
+
+$( document ).ready(function() {
+	netapp.flipCard.init();
+});
+/**
+ * Provides url-centric utility functions -
+ * @namespace util
+ */
+
+netapp.util = {};
+
+netapp.util.getBaseURL = function() {
+	var baseURL = window.location.href.split('/').splice(0, 4).join('/');
+	return baseURL;
+};
+
+netapp.util.getCC = function() {
+	var path = document.location.pathname;
+	var pathArray = path.split('/');
+	var len = pathArray.length;
+	var cc = pathArray[1];
+	return cc;
+};
+
+/** 
+ * Maps country code in url to country 
+ * -> getCC from URL -> map to country -> for each item in JSON, if country array contains country, render
+ *
+ */
+ netapp.util.getCountry = function() {
+
+ 	var cc = netapp.util.getCC();
+
+ 	var countryMapping = {
+
+ 		// Americas
+ 		"us": "United States",
+ 		"ca": "Canada",
+
+ 		// Asia-Pacific
+ 		"au": "Australia",
+ 		"cn": "China",
+ 		"in": "India",	
+ 		"jp": "Japan",
+ 		"kr": "Korea",
+
+ 		// Special case - show U.K. for AS site now
+ 		"as": "United Kingdom",
+
+ 		// Europe
+ 		"uk": "United Kingdom",
+ 		"de": "Germany",
+ 		"fr": "France",
+ 		"it": "Italy",
+ 		"nl": "Netherlands",
+ 		"ru": "Russia",
+ 		"es": "Spain",
+ 		"se": "Sweden",
+ 		"ch": "Switzerland",
+
+ 		// Middle East and Africa
+ 		"il": "Israel",
+ 		
+ 		//Latin America
+ 		"mx": "Mexico",
+ 		"br": "Brazil"
+ 	}
+
+ 	if (cc in countryMapping) {
+ 		return countryMapping[cc];
+ 	}
+
+ };
+
+
+/**
+ * Maps country code in url to region (defined in DOTCOM country selector)
+ * @function getRegion
+ * @memberof util
+ */
+netapp.util.getRegion = function() {
+
+	var cc = netapp.util.getCC();
+
+	// Americas
+	if (cc == "us" || "ca") {
+		cc = "Americas";
+	// Asia-Pacific
+	} else if (cc == "au" || "cn" || "in" || "as" || "jp" || "kr") {
+		cc = "Asia-Pacific";
+	// Europe, Middle East & Africa
+	} else if (cc == "uk" || "de" || "fr" || "it" || "nl" || "ru" || "es" || "se" || "ch" || "il") {
+		cc = "Europe, Middle East & Africa";
+	// Latin America
+	} else if (cc == "mx" || "br") {
+		cc = "Latin America";
+	// Catch-all case 
+	} else {
+		cc = "Americas";
+	}
+
+	return cc;
+};
+
+/**
+      Parse string, change all the single quotes to double. Returns a javascript object.
+      @param text the text json that needs to be converted to object.
+      @return the object which can be now traversed.
+*/
+netapp.util.getJSON = function(text) {
+	var updStr = text.replace(/\'/g, "\"");
+	return jQuery.parseJSON(updStr);
+};
+
+/**
+      Utility function to get the QueryString out of the URL.
+      @param key for the query string.
+      @return return the value of the key.
+*/
+
+netapp.util.getQueryString = function(key) {
+	var vars = [],
+		hash;
+	var hashes = window.location.href.slice(window.location.href.indexOf('?') + 1).split('&');
+	for (var i = 0; i < hashes.length; i++) {
+		hash = hashes[i].split('=');
+		vars.push(hash[0]);
+		vars[hash[0]] = hash[1];
+	}
+	return vars[key];
+
+};
+
+/**
+ * Utility to handle decoding URIs.
+ * Depending on the result, we will want to decode 0, 1, or 2 times.
+ */
+
+netapp.util.uriDecoder = function(decodeThis) {
+	//console.log(decodeThis);
+	var decodeSave = decodeThis;
+	if (decodeThis.indexOf("%") !== -1) {
+		try {
+			decodeSave = netapp.util.uriDecoder(decodeURI(decodeThis));
+		} catch (e) {
+			decodeSave = decodeThis;
+		}
+	}
+	return decodeSave;
+};
+
+netapp.util.removeParam = function(key, sourceURL) {
+	var rtn = sourceURL.split("?")[0],
+		param,
+		params_arr = [],
+		queryString = (sourceURL.indexOf("?") !== -1) ? sourceURL.split("?")[1] : "";
+	if (queryString !== "") {
+		params_arr = queryString.split("&");
+		for (var i = params_arr.length - 1; i >= 0; i -= 1) {
+			param = params_arr[i].split("=")[0];
+			if (param === key) {
+				params_arr.splice(i, 1);
+			}
+		}
+		rtn = rtn + "?" + params_arr.join("&");
+	}
+	return rtn;
+};
+
+netapp.util.getOmniturePageName = function(url) {
+	var index = url.indexOf("www.netapp.com");
+	if (index !== -1) {
+		var path = url.substring(index + 14);
+		var pathArray = path.split('/');
+		var last = pathArray.pop();
+		if (last === '') {
+			pathArray.push('index');
+		} else {
+			var base = last.split('.')[0];
+			pathArray.push(base);
+		}
+		var out = pathArray.join(':');
+		return out.substring(1);
+	} else {
+		return url;
+	}
+};
+netapp.ui = {};
+
+/**
+      Initializes the ui architecture.
+*/
+netapp.ui.init = function() {
+
+	/* Commented for DIGITAL-6210
+	var $megaMenu = $(netapp.MEGA_MENU);
+	netapp.ui.megaMenu($megaMenu);
+
+	$(document).keydown(function(e) {
+		//console.log(e.keyCode);
+		if (e.keyCode === 27) {
+			netapp.ui.hideContent();
+		}
+	});
+	*/
+	
+	// Remove email social icon for contact module of CN
+	// cookie "geo_cc" is "cn" OR cookie "geo_cc" is empty and page url contains "cn"
+	if (getCookie("geo_cc") == "cn" || (!getCookie("geo_cc") && (window.location.href.indexOf("/cn/") > -1))) {
+		$('a.small-email.addthis_button_email').parent().remove();
+	}
+
+	//Get all the links with data-ntap-ui attribute
+	$("a[" + netapp.DATA_TAG + "^='{']").bind(netapp.clickEvent, function(e) {
+		e.preventDefault();
+		var uiDataJSON = netapp.util.getJSON($(this).attr(netapp.DATA_TAG));
+		//console.log(uiDataJSON.type);
+		//invoke the corresponding widget/ui behavior
+		if (uiDataJSON.type !== 'growElement') {
+			if (typeof netapp.ui[uiDataJSON.type] !== "undefined") {
+				netapp.ui[uiDataJSON.type](this, uiDataJSON.options);
+			}
+			return false;
+		}
+	});
+	//gefn refactor
+	$(netapp.LISTENERS).each(function() {
+		var uiDataJSON = netapp.util.getJSON($(this).attr(netapp.DATA_TAG));
+		$(this).find("nav a").bind(netapp.clickEvent, function() {
+			netapp.ui[uiDataJSON.type](this, $.extend(uiDataJSON.options, {
+				show: $(this).attr("href")
+			}));
+			return false;
+		});
+	});
+	//social listener
+	$(netapp.SOCIAL_LISTENERS).each(function() {
+		var uiDataJSON = netapp.util.getJSON($(this).attr(netapp.DATA_TAG));
+		$(this).find("nav a").bind(netapp.clickEvent, function() {
+			netapp.ui[uiDataJSON.type](this, $.extend(uiDataJSON.options, {
+				show: $(this).attr("href")
+			}));
+			return false;
+		});
+	});
+
+	$("section[" + netapp.DATA_TAG + "^='{']").each(function() {
+
+		var uiDataJSON = netapp.util.getJSON($(this).attr(netapp.DATA_TAG));
+		//console.log(uiDataJSON);
+		netapp.ui[uiDataJSON.type](this, uiDataJSON.options);
+		//console.log(uiDataJSON.options);
+
+	});
+
+
+	// For putting content in a temporary place and moving it somewhere outside of the template, e.g. putting product demo before .container1 - barkan
+	$('[data-ntap-insertBefore]').each(function() {
+		if($("#iframe3d")) {
+			$(this).insertBefore($('.productImage'));
+		} else {
+			$($(this).attr('data-ntap-insertBefore')).before(this);
+		}
+	});
+
+
+	$('[data-ntap-ui *= growElement]').each(netapp.ui.growElement.init);
+	$('[data-ntap-ui *= dropdown]').each(netapp.ui.dropdown.init);
+	$('[data-ntap-ui *= technoMercial]').each(netapp.ui.technoMercial.init);
+	$('[data-ntap-ui *= socialIcons] a').each(netapp.ui.socialIcons.init);
+	$('[data-ntap-ui *= stickyTabs]').each(netapp.ui.stickyTabs.init);
+	$('[data-ntap-ui *= videoPlayer]').each(netapp.ui.videoPlayer.init);
+	//Rewrite tech specs dropdown on all product pages
+	$('#managementListData').each(netapp.ui.dropdown.techspecs.init);
+	$('#C_Number_of_Employees1').each(netapp.ui.dropdown.alpahNumSort.init);
+	$('#C_OPTIN_GEN1').on('change', function(){
+	   this.value = this.checked ? 1 : null;
+	}).change();
+};
+netapp.library = {};
+netapp.library.init = {};
+netapp.library.searchParams = {
+	params: {
+		q: '', //keyword
+		ft: 'library_results_html',
+		resultsType: 'search_results',
+		x1: 't1',
+		q1: 'Library',
+		m_count_lib: '10',
+		m_sort_lib: 'publish_date',
+		page: 1 //page
+	},
+	set: function(name, value) {
+		netapp.library.searchParams.params[name] = value;
+	},
+	get: function(name) {
+		return netapp.library.searchParams.params[name];
+	}
+};
+
+netapp.library.video = {
+	isPlayerAdded: false
+};
+netapp.library.video.searchParams = {
+	params: {
+		keyword: '', //keyword
+		page: 1, //page
+		pageSize: 12,
+		resultsType: 'search_results' //search_results or search_categories
+	},
+	set: function(name, value) {
+		netapp.library.video.searchParams.params[name] = value;
+	},
+	get: function(name) {
+		return netapp.library.video.searchParams.params[name];
+	}
+
+};
+netapp.library.video.categories = {
+	products: '',
+	solutions: ''
+};
+netapp.library.video.params = {
+	autoStart: true,
+	bgcolor: '#FFFFFF',
+	width: ntapDevice === "phone" ? '300' : 640,
+	height: ntapDevice === "phone" ? '420' : 520,
+	isVid: true,
+	wmode: 'transparent',
+	dynamicStreaming: true,
+	isUI: true
+};
+netapp.library.video.players = {
+	'us': '1893375411001',
+	'uk': '1940201509001',
+	'ru': '1937987951001',
+	'nl': '1943274765001',
+	'mx': '1947505404001',
+	'kr': '1943168011001',
+	'jp': '1943255079001',
+	'it': '1943255080001',
+	'in': '1943274767001',
+	'il': '1943274768001',
+	'fr': '1947505405001',
+	'es': '1943374059001',
+	'de': '1943374060001',
+	'cn': '1943374061001',
+	'br': '1943168012001',
+	'au': '1943274769001',
+	'as': '1943374062001',
+	'ch': '1943274771001',
+	'se': '1943168014001',
+	'tw': '1947505406001',
+	'ca': '1893375411001'
+};
+netapp.library.showcase = {};
+netapp.library.showcase.init = {};
+var bcExp, modVP, modExp;
+
+netapp.library.video.init = function() {
+	netapp.library.video.registerListeners();
+	if (location.href.match("videoId")) {
+		var videoId = netapp.util.getQueryString("videoId");
+		$('section.carousel').addClass('hidden'); //hide carousel 
+		netapp.library.video.addVideoPlayer(videoId, "");
+		NetAppPlayer.init('libraryVideoPlayer', document.getElementById('BCLvideoWrapper'));
+	}
+};
+
+netapp.library.video.preparePageContainers = function() {
+
+	function checkForContainer() {
+		//add video container is not present
+		if ($("#BCLvideoWrapper").length === 0) {
+			if ($(".tabsBar").length > 0) {
+				if ($("#SocialShare").length > 0) {
+					$('<figure class="video"><div id="BCLvideoWrapper"></div></figure><br/>').insertAfter(".container1 #SocialShare");
+				} else {
+					$('<figure class="video"><div id="BCLvideoWrapper"></div></figure><br/>').insertAfter(".container1 .tabsBar");
+				}
+			} else {
+				if ($("#BCLvideoWrapper").length === 0) {
+					$(".container1 section").prepend('<figure class="video"><div id="BCLvideoWrapper"></div></figure><br/>');
+				}
+			}
+		}
+		if ($('div#BCLvideoWrapper[data-ntap-video-load]').length !== 0) {
+			netapp.library.video.params.autoStart = false;
+			netapp.library.video.addVideoPlayer($('div#BCLvideoWrapper[data-ntap-video-load]').attr("data-ntap-video-load"), "");
+			NetAppPlayer.init('libraryVideoPlayer', document.getElementById('BCLvideoWrapper'));
+		}
+	}
+
+	//make sure brightcove is loaded and the check containers
+	if (typeof brightcove === 'undefined') //load bricghtcove if not loaded
+	{
+		$.getScript("//admin.brightcove.com/js/BrightcoveExperiences.js").done(function() {
+			$.getScript("//admin.brightcove.com/js/APIModules_all.js").done(function() {
+				checkForContainer();
+			});
+		});
+	} else {
+		checkForContainer();
+	}
+};
+
+netapp.library.video.attachVideoClicks = function() {
+
+
+	if (($('.playVideo').length) || ($("a[rel*=modal-video]").length) || $("a[data-ntap-video]").length || $("img[data-ntap-video]").length) {
+		netapp.library.video.preparePageContainers(); // setup page for video if not already
+		var cc = "";
+		//catch and hook up legacy rel="modal-video..."
+		if (($("a[rel*=modal-video]").length) && ($("a[rel*=modal-video]").attr("rel").indexOf("modal-video") !== -1)) {
+			$("a[rel*=modal-video]").each(
+				function() {
+					$(this).addClass("playVideo");
+					//Strip out video ID
+					var endIndex = $(this).attr("rel").lastIndexOf("-");
+					var videoId = $(this).attr("rel").substring(12, endIndex);
+					cc = $(this).attr("rel").substring(endIndex + 1);
+					$(this).attr("data-ntap-video", videoId);
+					//console.log("parsed:"+cc);
+				});
+		}
+
+		//bind video play events
+		$('[data-ntap-video]').bind(netapp.clickEvent, function() {
+
+			if ((window.location.href.indexOf("/library/") !== -1) || (window.location.href.indexOf("/careers/") !== -1)) {
+				$('section.carousel').addClass('hidden'); //hide carousel for library or careers
+			}
+			netapp.library.video.addVideoPlayer($(this).attr("data-ntap-video"), cc);
+			NetAppPlayer.init('libraryVideoPlayer', document.getElementById('BCLvideoWrapper'));
+			$('.productImage').hide();
+
+			if (typeof _elqQ !== undefined) {
+				var _elq_url = location.href;
+				var _vid = $(this).attr('data-ntap-video');
+
+				if (location.href.match(".aspx")) {
+					_elq_url += "-video-";
+				} else {
+					_elq_url += "video-";
+				}
+				_elq_url += _vid;
+				_elqQ.push(['elqTrackPageView', _elq_url]);
+			}
+		});
+	}
+	$('.video .close a').on(netapp.clickEvent, function() {
+		$('figure.video').addClass('hidden');
+		$('section.carousel').removeClass('hidden');
+		if (typeof modExp.unload === 'function') {
+			modExp.unload();
+		} else if (typeof modVP.pause === 'function') {
+			modVP.pause(true);
+		}
+		$("#libraryVideoPlayer").remove(); //remove player object
+		netapp.library.video.isPlayerAdded = false; //set player added to false
+		return false;
+	});
+	if ($('.sliderModule').length) {
+		netapp.ui.sliderModule();
+		$('section.sliderModule').css('border', '1px solid red');
+	}
+};
+
+netapp.library.video.registerListeners = function() {
+	$("article#main").find("input.searchBtn").on("click", function() {
+		netapp.library.video.submitForm();
+		return false;
+	});
+
+	$('#videoLibrarySearchForm').on("submit", function() {
+		netapp.library.video.submitForm();
+		return false;
+	});
+
+	$("div.container2").on("click", "ul.searchFilter li a", function() {
+		netapp.library.video.refineSearch(this);
+	});
+	$("div.container2").on("click", "ul.filters a", function() {
+		netapp.library.video.resetCategory(this);
+	});
+	$("div.container3").on("click", 'a[data-ntap-video-categories-reset]', function() {
+		netapp.library.video.resetCategory(this);
+	});
+	$('div.container3').on("click", 'a[data-ntap-pagination]', function() {
+		var page = $(this).attr("data-ntap-pagination");
+		netapp.library.video.loadPage(page);
+		return false;
+	});
+	$('div.container3').on("change", 'select.resultsPerPage', function() {
+		var selectedValue = $(this).find("option:selected").attr("value");
+		netapp.library.video.setResultsPerPage(selectedValue);
+		return false;
+	});
+	$('div.container3').on("change", 'select.sortBy', function() {
+		var selectedValue = netapp.util.getJSON($(this).find("option:selected").attr("data-ntap-results-sort"));
+		netapp.library.video.sortResults(selectedValue);
+		return false;
+	});
+	$('div.container3').on("click", 'a#mostRecent', function() {
+		netapp.library.video.loadPopularOrRecent('recent');
+		return false;
+	});
+
+	$('div.container3').on("click", 'a#mostPopular', function() {
+		netapp.library.video.loadPopularOrRecent('popular');
+		return false;
+	});
+
+};
+netapp.library.video.loadCategories = function() {
+	netapp.library.video.searchParams.set("resultsType", "search_categories");
+	$('section#resultsFilter').addClass('loading');
+	$.ajax({
+		url: netapp.VIDEO_LIBRARY_SERVICE,
+		data: netapp.library.video.searchParams.params,
+		success: function(data) {
+			$('section#resultsFilter').removeClass('loading');
+			$("article#main").find("div.container2").html(data.html);
+		}
+	});
+};
+netapp.library.video.search = function() {
+	netapp.library.video.searchParams.set("resultsType", "search_results");
+	$('section.results').addClass('loading');
+	$.ajax({
+		url: netapp.VIDEO_LIBRARY_SERVICE,
+		data: netapp.library.video.searchParams.params,
+		success: function(data) {
+			$("article#main").find("div.container3").html(data.html);
+			$('section.results').removeClass('loading');
+			netapp.library.video.attachVideoClicks();
+		}
+	});
+};
+netapp.library.video.submitForm = function() {
+	var keyword = $('#libraryKeyword').prop("value");
+	if (keyword !== "") {
+		netapp.library.video.searchParams.set("keyword", keyword);
+	} 
+	netapp.library.video.searchParams.set("keyword", keyword);
+	delete netapp.library.video.searchParams.params.products;
+	delete netapp.library.video.searchParams.params.solutions;
+	delete netapp.library.video.searchParams.params.resultsDataType;
+	delete netapp.library.video.searchParams.params.sortOrder;
+	netapp.library.video.search();
+	netapp.library.video.loadCategories();
+};
+
+netapp.library.video.sortResults = function(data) {
+	$.extend(netapp.library.video.searchParams.params, data);
+	netapp.library.video.search();
+};
+
+
+function onContentLoad(evt) {
+	var currentVideo = modVP.getCurrentVideo();
+	var currentLink = modSocial.getLink();
+	if (currentVideo !== null) {
+		var videoName = currentVideo.displayName;
+		if (currentLink.indexOf("?") !== -1) {
+			currentLink = currentLink.substring(0, currentLink.indexOf("?"));
+		}
+		var updLink = currentLink + "?videoId=" + currentVideo.id;
+		modSocial.setLink(updLink);
+	}
+}
+
+function onMediaChange(evt) {
+	var currentVideo = modVP.getCurrentVideo();
+	var currentLink = modSocial.getLink();
+	if (currentVideo !== null) {
+		var videoName = currentVideo.displayName;
+		if (currentLink.indexOf("?") !== -1) {
+			currentLink = currentLink.substring(0, currentLink.indexOf("?"));
+		}
+		var updLink = currentLink + "?videoId=" + currentVideo.id;
+		modSocial.setLink(updLink);
+	}
+}
+
+function emailButtonClicked(evt) {
+	var currentVideo = modVP.getCurrentVideo();
+	if (currentVideo !== null && typeof Omniture !== 'undefined') {
+		var videoName = currentVideo.displayName;
+		var params = {
+			prop43: 'video-send-email-' + videoName,
+			eVar43: 'video-send-email-' + videoName,
+			events: 'event5'
+		};
+		/* Omniture.Call.customLink({
+			href: '/'
+		}, params);*/
+
+	}
+}
+
+function copyLinkButtonClicked(evt) {
+	var currentVideo = modVP.getCurrentVideo();
+	if (currentVideo !== null && typeof Omniture !== 'undefined') {
+		var videoName = currentVideo.displayName;
+		var params = {
+			prop43: 'video-copy-link-' + videoName,
+			eVar43: 'video-copy-link-' + videoName,
+			events: 'event5'
+		};
+		/* Omniture.Call.customLink({
+			href: '/'
+		}, params); */
+
+	}
+}
+
+function copyCodeButtonClicked(evt) {
+	var currentVideo = modVP.getCurrentVideo();
+	if (currentVideo !== null && typeof Omniture !== 'undefined') {
+		var videoName = currentVideo.displayName;
+		var params = {
+			prop43: 'video-copy-code-' + videoName,
+			eVar43: 'video-copy-code-' + videoName,
+			events: 'event5'
+		};
+		/* Omniture.Call.customLink({
+			href: '/'
+		}, params); */
+
+	}
+}
+
+bcTemplateLoaded = function(experienceId) {
+	bcExp = brightcove.getExperience(experienceId);
+	if (typeof bcExp !== 'undefined') {
+		modVP = bcExp.getModule(APIModules.VIDEO_PLAYER);
+		modExp = bcExp.getModule(APIModules.EXPERIENCE);
+		modSocial = bcExp.getModule(APIModules.SOCIAL);
+		modMenu = bcExp.getModule(APIModules.MENU);
+	} else {
+		bcExp = brightcove.api.getExperience(experienceId);
+		modVP = bcExp.getModule(brightcove.api.modules.APIModules.VIDEO_PLAYER);
+		modExp = bcExp.getModule(brightcove.api.modules.APIModules.EXPERIENCE);
+		modSocial = bcExp.getModule(brightcove.api.modules.APIModules.SOCIAL);
+		modMenu = bcExp.getModule(brightcove.api.modules.APIModules.MENU);
+	}
+};
+bcTemplateReady = function(evt) {
+	if (typeof BCExperienceEvent.CONTENT_LOAD !== 'undefined') {
+		modExp.addEventListener(BCExperienceEvent.CONTENT_LOAD, onContentLoad);
+	}
+	if (typeof BCMediaEvent.CHANGE !== 'undefined') {
+		modVP.addEventListener(BCMediaEvent.CHANGE, onMediaChange);
+	}
+	if (typeof modMenu !== 'undefined') {
+		modMenu.addEventListener(BCMenuEvent.SEND_EMAIL_CLICK, emailButtonClicked);
+	}
+	if (typeof modMenu !== 'undefined') {
+		modMenu.addEventListener(BCMenuEvent.COPY_LINK, copyLinkButtonClicked);
+	}
+	if (typeof modMenu !== 'undefined') {
+		modMenu.addEventListener(BCMenuEvent.COPY_CODE, copyCodeButtonClicked);
+	}
+};
+
+
+netapp.library.video.loadPopularOrRecent = function(resultsType) {
+	$.extend(netapp.library.video.searchParams.params, {
+		'resultsDataType': resultsType
+	});
+	netapp.library.video.submitForm();
+};
+
+netapp.library.video.loadPage = function(page) {
+	netapp.library.video.searchParams.set("page", page);
+	netapp.library.video.search();
+};
+netapp.library.video.setResultsPerPage = function(value) {
+	netapp.library.video.searchParams.set("pageSize", value);
+	netapp.library.video.searchParams.set("page", 1);
+	netapp.library.video.search();
+};
+netapp.library.video.resetCategory = function(node) {
+	var nodeData = $(node).attr("data-ntap-video-categories-reset");
+	delete netapp.library.video.searchParams.params[nodeData];
+	netapp.library.video.loadCategories();
+	netapp.library.video.search();
+};
+netapp.library.video.refineSearch = function(node) {
+	var nodeData = netapp.util.getJSON($(node).attr("data-ntap-video-categories"));
+	$.extend(netapp.library.video.searchParams.params, nodeData);
+	netapp.library.video.loadCategories();
+	netapp.library.video.search();
+};
+
+
+netapp.library.video.addVideoPlayer = function(videoId, cc) {
+	var path = document.location.pathname;
+	var pathArray = path.split('/');
+	var len = pathArray.length;
+	var geo = pathArray[1];
+	if (cc !== "") {
+		geo = cc;
+	}
+	var playerId = netapp.library.video.players[geo];
+	netapp.library.video.initVideoPlayer(videoId, playerId, geo);
+};
+netapp.library.video.initVideoPlayer = function(videoId, playerId, geo) {
+	if (typeof videoId !== "undefined") {
+		if (!netapp.library.video.isPlayerAdded) {
+			var videoPlayer = brightcove.createElement("object");
+			$('figure.video').removeClass("hidden");
+			videoPlayer.id = 'libraryVideoPlayer';
+			var parameter;
+			for (var i in netapp.library.video.params) {
+				parameter = brightcove.createElement("param");
+				parameter.name = i;
+				parameter.value = netapp.library.video.params[i];
+				videoPlayer.appendChild(parameter);
+			}
+			//videoId
+			parameter = brightcove.createElement("param");
+			parameter.name = "@videoPlayer";
+			parameter.value = videoId;
+			videoPlayer.appendChild(parameter);
+			//playerID
+			parameter = brightcove.createElement("param");
+			parameter.name = "playerID";
+			parameter.value = playerId;
+			videoPlayer.appendChild(parameter);
+			//cc for reporting
+			parameter = brightcove.createElement("param");
+			parameter.name = "cc";
+			parameter.value = geo;
+			videoPlayer.appendChild(parameter);
+			//templateloaded handler
+			parameter = brightcove.createElement("param");
+			parameter.name = "templateLoadHandler";
+			parameter.value = 'bcTemplateLoaded';
+			videoPlayer.appendChild(parameter);
+			//template readyhandler
+			parameter = brightcove.createElement("param");
+			parameter.name = "templateReadyHandler";
+			parameter.value = 'bcTemplateReady';
+			videoPlayer.appendChild(parameter);
+
+			if (ntapDevice === 'phone') {
+				parameter = brightcove.createElement("param");
+				parameter.name = "includeAPI";
+				parameter.value = "true";
+				videoPlayer.appendChild(parameter);
+			}
+
+			var container = document.getElementById('BCLvideoWrapper');
+			brightcove.createExperience(videoPlayer, container, true);
+			netapp.library.video.isPlayerAdded = true;
+		} else {
+			if (typeof modVP.loadVideo === 'function') {
+				modVP.loadVideo(videoId);
+			} else if (typeof modVP.loadVideoByID === 'function') {
+				modVP.loadVideoByID(videoId);
+			}
+		}
+	}
+};
+
+netapp.library.showcase.init = function() {
+	var cc = netapp.util.getCC();
+	var showcaseSearchURL = netapp.CUSTOMER_SHOWCASE_SEARCH_SERVICE[cc];
+	$("article#main").find("input.searchBtn").on("click", function() {
+		netapp.library.showcase.loadResults(showcaseSearchURL);
+		return false;
+	});
+
+	$('#librarySearchForm').on("submit", function() {
+		netapp.library.showcase.loadResults(showcaseSearchURL);
+		return false;
+	});
+
+	$('div.container2').on("click", 'a#showAllSummaries', function() {
+		netapp.library.showSummaries(this);
+	});
+
+	$('div.container2').on("click", 'a#hideAllSummaries', function() {
+		netapp.library.hideSummaries(this);
+	});
+
+	$('div.container2').on("click", 'a.viewSum', function() {
+		netapp.library.showHideSummary(this);
+	});
+
+	$('div.container2').on("click", 'div.paginator ul li a', function() {
+		var href = $(this).attr("href");
+		netapp.library.showcase.loadResults(href);
+		return false;
+	});
+	$('div.container2').on("change", 'select.resultsPerPage', function() {
+		var href = $(this).find("option:selected").attr("value");
+		netapp.library.showcase.loadResults(href);
+		return false;
+	});
+	$('div.container2').on("change", 'select.sortBy', function() {
+		var href = $(this).find("option:selected").attr("value");
+		netapp.library.showcase.loadResults(href);
+		return false;
+	});
+};
+netapp.library.showcase.loadResults = function(href) {
+	var hrefStr = href.substring(1);
+	var hrefParams = netapp.library.getParamsFromHref(hrefStr);
+	hrefParams.ft = "library_results_html";
+	var keyword = $('#libraryKeyword').prop("value");
+	$.extend(hrefParams, {
+		'resultsType': 'search_results'
+	});
+	if (keyword !== "") {
+		$.extend(hrefParams, {
+			'q': keyword
+		});
+	} 
+	$('section.results').addClass('loading');
+	$.ajax({
+		url: netapp.LIBRARY_SERVICE,
+		data: hrefParams,
+		success: function(data) {
+			$('section.results').removeClass('loading');
+			$("article#main").find("div.container2").html(data.html);
+		},
+		error: function() {
+
+		}
+	});
+};
+netapp.library.showcase.submitForm = function() {
+	var keyword = $('#libraryKeyword').prop("value");
+	if (keyword !== "") {
+		netapp.library.searchParams.set("q", keyword);
+	} 
+	netapp.library.showcase.search();
+};
+netapp.library.showcase.search = function() {
+	netapp.library.searchParams.set("resultsType", "search_results");
+	netapp.library.searchParams.set("ft", "library_results_html");
+	var keyword = $('#libraryKeyword').prop("value");
+	if (keyword !== "") {
+		netapp.library.searchParams.params.q = keyword;
+	}
+	$.extend(netapp.library.searchParams.params, {
+		'x2': 'lib_doc_type',
+		'q2': 'Customer Story'
+	});
+	$.ajax({
+		url: netapp.LIBRARY_SERVICE,
+		data: netapp.library.searchParams.params,
+		success: function(data) {
+			$("article#main").find("div.container2").html(data.html);
+		},
+		error: function() {
+
+		}
+	});
+};
+netapp.library.showcase.sortResults = function(value) {
+	netapp.library.searchParams.set("m_sort_lib", value);
+	netapp.library.searchParams.set("page", 1);
+	netapp.library.showcase.search();
+
+};
+netapp.library.showcase.setResultsPerPage = function(value) {
+	netapp.library.searchParams.set("m_count_lib", value);
+	netapp.library.searchParams.set("page", 1);
+	netapp.library.showcase.search();
+
+};
+netapp.library.showcase.loadPage = function(page) {
+	netapp.library.searchParams.set("page", page);
+	netapp.library.showcase.search();
+};
+netapp.library.init = function() {
+	netapp.library.registerListeners();
+};
+netapp.library.registerListeners = function() {
+	
+	//Handling the fake style drop down
+	$('.siteSearchDomain').html($('#q1SelectDomain option:selected').text());
+	$('#q1SelectDomain').change(function() {
+		$('#q1SiteSearchDomain').html($('#q1SelectDomain option:selected').text());
+	});
+	
+	$("article#main").find("input.searchBtn").on("click", function() {
+		var href = $('select#searchType').find("option:selected").attr("value");
+		netapp.library.loadResultsAndCategories(href);
+		return false;
+	});
+
+	$('#librarySearchForm').on("submit", function() {
+		var href = $('select#searchType').find("option:selected").attr("value");
+		netapp.library.loadResultsAndCategories(href);
+		return false;
+	});
+	$('div.container3').on("click", 'a#showAllSummaries', function() {
+		netapp.library.showSummaries(this);
+	});
+
+	$('div.container3').on("click", 'a#hideAllSummaries', function() {
+		netapp.library.hideSummaries(this);
+	});
+
+	$('div.container3').on("click", 'a.viewSum', function() {
+		netapp.library.showHideSummary(this);
+	});
+
+	$('div.container3').on("click", 'div.paginator ul li a', function() {
+		var href = $(this).attr("href");
+		netapp.library.loadResults(href);
+		return false;
+	});
+	$('div.container3').on("change", 'select.resultsPerPage', function() {
+		var href = $(this).find("option:selected").attr("value");
+		netapp.library.loadResults(href);
+		return false;
+	});
+	$('div.container3').on("change", 'select.sortBy', function() {
+		var href = $(this).find("option:selected").attr("value");
+		netapp.library.loadResults(href);
+		return false;
+	});
+
+	$("div.container2").on("click", "section#resultsFilter ul.searchFilter li a[title]", function() {
+		var href = $(this).attr("href");
+		netapp.library.loadResultsAndCategories(href);
+		return false;
+	});
+	$("div.container2").on("click", "section#resultsFilter ul.searchFilter li.selected a", function() {
+		var href = $(this).attr("href");
+		netapp.library.loadResultsAndCategories(href);
+		return false;
+	});
+};
+netapp.library.loadResultsAndCategories = function(href) {
+	netapp.library.loadResults(href);
+	netapp.library.loadCategories(href);
+};
+netapp.library.getParamsFromHref = function(hrefStr) {
+	var vars = {},
+		hash;
+	var hashes = hrefStr.split('&');
+	var len = hashes.length;
+	for (var i = 0; i < len; i++) {
+		hash = hashes[i].split('=');
+		vars[hash[0]] = hash[1];
+	}
+	return vars;
+};
+
+netapp.library.loadCategories = function(href) {
+	var hrefStr = href.substring(1);
+	var hrefParams = netapp.library.getParamsFromHref(hrefStr);
+	hrefParams.ft = "library_facets_html";
+	var keyword = $('#libraryKeyword').prop("value");
+	$.extend(hrefParams, {
+		'resultsType': 'search_categories'
+	});
+	if (keyword !== "") {
+		$.extend(hrefParams, {
+			'q': keyword
+		});
+	} 
+	if (!hrefParams.hasOwnProperty('m_sort_lib')) {
+		$.extend(hrefParams, {
+			'm_sort_lib': 'relevance',
+			'act': 'sort'
+		});
+	}
+	$('section#resultsFilter').addClass('loading');
+	$.ajax({
+		url: netapp.LIBRARY_SERVICE,
+		data: hrefParams,
+		success: function(data) {
+			$('section#resultsFilter').removeClass('loading');
+			$("article#main").find("div.container2").html(data.html);
+		}
+	});
+};
+netapp.library.loadResults = function(href) {
+	var hrefStr = href.substring(1);
+	var hrefParams = netapp.library.getParamsFromHref(hrefStr);
+	hrefParams.ft = "library_results_html";
+	var keyword = $('#libraryKeyword').prop("value");
+	$.extend(hrefParams, {
+		'resultsType': 'search_results'
+	});
+	if (keyword !== "") {
+		$.extend(hrefParams, {
+			'q': keyword
+		});
+	} 
+	if (!hrefParams.hasOwnProperty('m_sort_lib')) {
+		$.extend(hrefParams, {
+			'm_sort_lib': 'relevance',
+			'act': 'sort'
+		});
+	}
+	$('section.results').addClass('loading');
+	$.ajax({
+		url: netapp.LIBRARY_SERVICE,
+		data: hrefParams,
+		success: function(data) {
+			$('section.results').removeClass('loading');
+			$("article#main").find("div.container3").html(data.html);
+		},
+		error: function() {
+
+		}
+	});
+};
+
+netapp.library.showSummaries = function(node) {
+	var summaryNodes = $(node).parents().eq(2).find("td.summary");
+	var summaryLinks = $(node).parents().eq(2).find("a.viewSum");
+	summaryNodes.each(function() {
+		netapp.library.show(this);
+	});
+	summaryLinks.each(function() {
+		netapp.library.show(this);
+	});
+
+	return false;
+};
+netapp.library.hideSummaries = function(node) {
+	var summaryNodes = $(node).parents().eq(2).find("td.summary");
+	var summaryLinks = $(node).parents().eq(2).find("a.viewSum");
+	summaryNodes.each(function() {
+		netapp.library.hide(this);
+	});
+	summaryLinks.each(function() {
+		netapp.library.hide(this);
+	});
+	return false;
+};
+netapp.library.show = function(node) {
+	if (!$(node).hasClass('active')) {
+		$(node).addClass("active");
+	}
+	return false;
+};
+netapp.library.hide = function(node) {
+	if ($(node).hasClass('active')) {
+		$(node).removeClass("active");
+	}
+	return false;
+};
+
+netapp.library.showHideSummary = function(node) {
+	if (!$(node).hasClass('active')) {
+		$(node).addClass("active");
+	}
+	else {
+		$(node).removeClass("active");
+	}
+	var $summary = $(node).parents().eq(3).next().children('.summary');
+	if (!$summary.hasClass('active')) {
+		$summary.addClass('active');
+	} else {
+		$summary.removeClass("active");
+	}
+};
+netapp.sessionStore = {};
+var localArray;
+//start of sessionStorage test
+netapp.sessionStore.init = function(theItem, theArray, maxItems) {
+	if(theItem === '' || theItem === undefined) {
+		return;
+	}
+	//For testing only
+	//console.log(sessionStorage);
+
+	// Check if the browser support Local Storage
+	if (sessionStorage) {
+		try {
+			//logic
+			if (sessionStorage[theArray]) {
+				localArray = JSON.parse(sessionStorage[theArray]);
+			} else {
+				localArray = [];
+			}
+			// Check if the value exists in the array,
+			// returns -1 if the array does not contain the value
+			if ($.inArray(theItem, localArray) === -1) {
+				// If not, put it first and...
+				localArray.unshift(theItem);
+				//  ...pop one at the end if array is too big
+				if (localArray.length > maxItems) {
+					localArray.pop();
+				}
+
+				// Adding localArray to the storage
+				sessionStorage[theArray] = JSON.stringify(localArray);
+			}
+			//end of logic
+		} catch (domException) {
+			if (domException.name === 'QuotaExceededError' ||
+				domException.name === 'NS_ERROR_DOM_QUOTA_REACHED') {
+				// Fallback code comes here.
+			}
+		}
+	}
+};
+
+netapp.sessionStore.print = function(theArray, theContainer, optQueryString) {
+	if (sessionStorage[theArray]) {
+		try {
+			var tempArray = [];
+			tempArray = JSON.parse(sessionStorage[theArray]);
+
+			if (tempArray.length) {
+				$(theContainer).empty();
+				for (var i = 0; i < tempArray.length; i++) {
+					$("<li><a href='" + optQueryString + tempArray[i] + "'>" + decodeURIComponent(netapp.util.uriDecoder(tempArray[i])).replace(/\+/g, " ").replace("~2F","/") + "</a></li>").appendTo(theContainer);
+				}
+				$(theContainer + ':has(li)').closest('.module').css('display', 'block');
+			}
+		} catch (domException) {
+			if (domException.name === 'QuotaExceededError' ||
+				domException.name === 'NS_ERROR_DOM_QUOTA_REACHED') {
+				// Fallback code comes here.
+			}
+		}
+	}
+};
+	
+netapp.ui.accordion = function(obj, options) {
+
+	var allPanels = $('.personDetails').hide();
+	var allPersons = $('.accordion > .person > h1 > a');
+
+	if (window.location.hash.indexOf('#') === 0) {
+		$(window.location.hash).addClass('current');
+		$('.current').parent().next().show();
+
+		var scrollPos = $(window.location.hash).parent().offset().top;
+		if ($(window).innerWidth() > 1100) { 
+			scrollPos += ($('.n-property-bar').innerHeight() * 2);
+		}
+		$(window).scrollTop(scrollPos);
+	}
+
+	if (window.location.hash.indexOf('#') === -1) {
+		$('.accordion .person :first .name').addClass('current');
+		$('.accordion .person:first').children('.personDetails').show();
+	}
+
+	$('.accordion > article > h1 > a').bind(netapp.clickEvent, function() {
+		allPanels.hide();
+		if ($(this).hasClass("current")) {
+			allPersons.removeClass("current");
+		} else {
+			allPersons.removeClass("current");
+			$(this).parent().next().show();
+			$(this).addClass("current");
+
+			var updatedHash = '#' + $(this).attr('id');
+			(history.pushState) ? history.pushState(null, null, updatedHash) : location.hash = updatedHash;
+
+			var scrollPos = $(this).parent().offset().top;
+			if ($(window).innerWidth() > 1100) { 
+				scrollPos -= $('.n-property-bar').innerHeight() + 20;
+			}
+			$(window).scrollTop(scrollPos);
+		}
+		return false;
+	});
+};
+
+/**
+      The carousel using Anything SLider.
+*/
+
+netapp.ui.carousel = function(obj, options) {
+	if ($('.carousel.landing').length && $('.carousel .slides > li').length > 1) {
+		$('.carousel').addClass('flexslider');
+		$('.carousel').flexslider({
+			/* Putting all args here for speed of fine-tuning as we go. {value} indicates that's the default flexSlider value.
+			   All comments from flexSlider - barkan */
+			namespace: "flex-", //{flex-} String: Prefix string attached to the class of every element generated by the plugin
+			selector: ".slides > li", //{.slides > li} Selector: Must match a simple pattern. '{container} > {slide}' -- Ignore pattern at your own peril
+			animation: "fade", //{fade} String: Select your animation type, "fade" or "slide"
+			easing: "swing", //{swing} String: Determines the easing method used in jQuery transitions. jQuery easing plugin is supported!
+			direction: "horizontal", //{horizontal} String: Select the sliding direction, "horizontal" or "vertical"
+			reverse: false, //{false} Boolean: Reverse the animation direction
+			animationLoop: typeof options.animationLoop !== 'undefined' ? options.animationLoop : false, //{true} Boolean: Should the animation loop? If false, directionNav will received "disable" classes at either end
+			smoothHeight: false, //{false} Boolean: Allow height of the slider to animate smoothly in horizontal mode
+			startAt: 0, //{0} Integer: The slide that the slider should start on. Array notation (0 = first slide)
+			slideshow: options.slideshow || false, //{true} Boolean: Animate slider automatically
+			slideshowSpeed: 7000, //{7000} Integer: Set the speed of the slideshow cycling, in milliseconds
+			animationSpeed: 600, //{600} Integer: Set the speed of animations, in milliseconds
+			initDelay: 0, //{0} Integer: Set an initialization delay, in milliseconds
+			randomize: false, //{false} Boolean: Randomize slide order
+
+			// Usability features
+			pauseOnAction: true, //{true} Boolean: Pause the slideshow when interacting with control elements, highly recommended.
+			pauseOnHover: true, //{false} Boolean: Pause the slideshow when hovering over slider, then resume when no longer hovering
+			useCSS: true, //{true} Boolean: Slider will use CSS3 transitions if available
+			touch: false, //{true} Boolean: Allow touch swipe navigation of the slider on touch-enabled devices
+			video: false, //{false} Boolean: If using video in the slider, will prevent CSS3 3D Transforms to avoid graphical glitches
+
+			// Primary Controls
+			controlNav: true, //{true} Boolean: Create navigation for paging control of each clide? Note: Leave true for manualControls usage
+			directionNav: false, //{true} Boolean: Create navigation for previous/next navigation? (true/false)
+			prevText: "", //{Previous} String: Set the text for the "previous" directionNav item
+			nextText: "", //{Next} String: Set the text for the "next" directionNav item
+
+			// Secondary Navigation
+			keyboard: true, //{true} Boolean: Allow slider navigating via keyboard left/right keys
+			multipleKeyboard: false, //{false} Boolean: Allow keyboard navigation to affect multiple sliders. Default behavior cuts out keyboard navigation with more than one slider present.
+			mousewheel: false, //{false} Boolean: Requires jquery.mousewheel.js (https://github.com/brandonaaron/jquery-mousewheel) - Allows slider navigating via mousewheel
+			pausePlay: false, //{false} Boolean: Create pause/play dynamic element
+			pauseText: 'Pause', //{Pause} String: Set the text for the "pause" pausePlay item
+			playText: 'Play', //{Play} String: Set the text for the "play" pausePlay item
+
+			// Special properties
+			controlsContainer: ".flexslider .controls .liner", //{""} Selector: USE CLASS SELECTOR. Declare which container the navigation elements should be appended too. Default container is the FlexSlider element. Example use would be ".flexslider-container". Property is ignored if given element is not found.
+			manualControls: "", //{""} Selector: Declare custom control navigation. Examples would be ".flex-control-nav li" or "#tabs-nav li img", etc. The number of elements in your controlNav should match the number of slides/tabs.
+			sync: "", //{""} Selector: Mirror the actions performed on this slider with another slider. Use with care.
+			asNavFor: "", //{""} Selector: Internal property exposed for turning the slider into a thumbnail navigation for another slider
+
+			// Carousel Options
+			itemWidth: 0, //{0} Integer: Box-model width of individual carousel items, including horizontal borders and padding.
+			itemMargin: 0, //{0} Integer: Margin between carousel items.
+			minItems: 0, //{0} Integer: Minimum number of carousel items that should be visible. Items will resize fluidly when below this.
+			maxItems: 0, //{0} Integer: Maxmimum number of carousel items that should be visible. Items will resize fluidly when above this limit.
+			move: 0, //{0} Integer: Number of carousel items that should move on animation. If 0, slider will move all visible items.
+
+			// Callback API
+			start: function() {}, //{} Callback: function(slider) - Fires when the slider loads the first slide
+			before: function() {}, //{} Callback: function(slider) - Fires asynchronously with each slider animation
+			after: function() {}, //{} Callback: function(slider) - Fires after each slider animation completes
+			end: function() {}, //{} Callback: function(slider) - Fires when the slider reaches the last slide (asynchronous)
+			added: function() {}, //{} Callback: function(slider) - Fires after a slide is added
+			removed: function() {} //{} Callback: function(slider) - Fires after a slide is removed
+		});
+	}
+}
+
+/**
+      The carousel using Anything SLider.
+*/
+;
+netapp.ui.carouselOptions = {
+	animation: "slide", //{fade} String: Select your animation type, "fade" or "slide"
+	slideshow: false,
+	animationLoop: false,
+	// Usability features
+	pauseOnHover: true, //{false} Boolean: Pause the slideshow when hovering over slider, then resume when no longer hovering
+
+	// Primary Controls
+	controlNav: false, //{true} Boolean: Create navigation for paging control of each clide? Note: Leave true for manualControls usage
+	directionNav: false
+};
+netapp.ui.dropdown = {
+	init: function() {
+		// Create the dropdown base
+		if ($(".tabsBar ul").children().length > 0) {
+			$("<select class='dropdownMenu'/>").appendTo(".tabsBar");
+
+			// Populate dropdown with menu items
+			$(".tabsBar a").each(function() {
+				var el = $(this);
+				if ($.trim(el.text()) !== $.trim($('.tabsBar ul > .active').text())) {
+					$("<option />", {
+						"value": el.attr("href"),
+						"text": el.text()
+					}).appendTo(".tabsBar select");
+				} else {
+					$("<option />", {
+						"selected": "selected",
+						"value": el.attr("href"),
+						"text": el.text()
+					}).appendTo(".tabsBar select");
+				}
+			});
+			$(".tabsBar select").change(function() {
+				window.location = $(this).find("option:selected").val();
+			});
+		}
+		if ($(".footerTabs ul").children().length > 0) {
+			$("<select class='dropdownMenu'/>").appendTo(".footerTabs");
+
+			// Populate dropdown with menu items
+			$(".footerTabs a").each(function() {
+				var el = $(this);
+				if ($.trim(el.text()) !== $.trim($('.footerTabs ul > .active').text())) {
+					$("<option />", {
+						"value": el.attr("href"),
+						"text": el.text()
+					}).appendTo(".footerTabs select");
+				} else {
+					$("<option />", {
+						"selected": "selected",
+						"value": el.attr("href"),
+						"text": el.text()
+					}).appendTo(".footerTabs select");
+				}
+			});
+			$(".footerTabs select").change(function() {
+				window.location = $(this).find("option:selected").val();
+			});
+		}
+
+	}
+};
+
+//Rewrite tech spec dropdown
+netapp.ui.dropdown.techspecs = {
+	init: function() {
+		$(this).attr("onchange", "netapp.ui.dropdown.techspecs.jumpMenu('parent',this,0)");
+	},
+	jumpMenu: function(targ, selObj, restore) {
+		eval(targ + ".location='" + selObj.options[selObj.selectedIndex].value + "'");
+		if (restore) {
+			selObj.selectedIndex = 0;
+		} 
+	}
+};
+
+//Alpha numeric sorting
+netapp.ui.dropdown.alpahNumSort = {
+	init: function() {
+		var $dd = $(this);
+		if ($dd.length > 0) { // make sure we found the select we were looking for
+		
+		    // save the selected value
+		    var selectedVal = $dd.val();
+		
+		    // get the options and loop through them
+		    var $options = $('option', $dd);
+		    var arrVals = [];
+		    $options.each(function(){
+		        // push each option value and text into an array
+		        arrVals.push({
+					val: parseFloat(jQuery(this).val()) ? parseFloat(jQuery(this).val()) : jQuery(this).val(),
+					realval: jQuery(this).val(),
+					text: jQuery(this).text()
+				});
+				//console.log(arrVals);
+		    });
+		
+		    // sort the array by the value (change val to text to sort by text instead)
+		    arrVals.sort(function(a, b){
+		        return a.val - b.val;
+		    });
+		
+		    // loop through the sorted array and set the text/values to the options
+		    for (var i = 0, l = arrVals.length; i < l; i++) {
+		        $($options[i]).val(arrVals[i].realval).text(arrVals[i].text);
+		        //console.log(arrVals[i]);
+		    }
+		
+		    // set the selected value back
+		    $dd.val(selectedVal);
+		}
+
+	}
+};
+/**
+ * @file Controls search behavior for events LP
+ */
+
+// Run this partial only when element from Events LP is detected
+if ( $("#resultsFilter li.location").length ) {
+
+/**
+ * Object literal that will manage search, filter, and search result behavior for the Events LP
+ * @namespace eventsSearch
+ */
+netapp.eventsSearch = {};
+
+// For storing loaded JSON
+var eventsJSON;
+
+// For storing selected filters
+var activeFilters = {
+	date: [],
+	location: [],
+	type: []
+};
+
+// For storing filter url params
+var pageUrlParams = "";
+
+// Retrieve and compile the Handlebars template for rendering events
+// Enhancement - precompile this template and adjust syntax in this file to use it (this is the most expensive operation)
+var template = Handlebars.compile($("#event-template").html());
+
+var backTemplate = Handlebars.compile($("#back-event-template").html());
+
+/*
+ * If cities are entered for On Demand events, a Handlebars helper like this will have to be implemented
+ * to test for city and country names and counts. Currently, if a city is provided with an event it is
+ * assumed to not be On Demand.
+	Handlebars.registerHelper('if_eq', function(a, b, opts) {
+	    if (a === b) {
+	        return opts.fn(this);
+	    }
+	});
+ */
+
+
+/**
+ * Retrieve all events, register filter and breadcrumb listeners, and process url filter params
+ * @function init
+ * @memberof eventsSearch
+ */
+netapp.eventsSearch.init = function() {
+
+	// Retrieve events JSON file and render default events
+	netapp.eventsSearch.getEvents();
+
+	// Register listeners for the filters and breadcrumbs
+ 	netapp.eventsSearch.registerListeners();
+};
+
+
+/**
+ * Filter event categories specific in "f" url param on page load (overrides default render)
+ * @function urlParamRender
+ * @memberof eventsSearch
+ */
+netapp.eventsSearch.urlParamRender = function(query) {
+
+	// Each url filter param should be separated by a "+"
+	var queryArray = query.split("+");
+
+	// Click each filter checkbox that matches url params
+	for (var i = 0; i < queryArray.length; i++) {
+
+		var results = $('#resultsFilter li label').filter(function() {
+			return $.trim($(this).attr('id')).toLowerCase().replace(/\s/g, "") == queryArray[i];
+		}).find("input[type=checkbox]").trigger("click");
+	}
+};
+
+
+/**
+ * Render events that are in current geo on page load
+ * @function defaultRender
+ * @memberof eventsSearch
+ */
+netapp.eventsSearch.defaultRender = function() {
+
+	// Determine geo based on url
+	var country = netapp.util.getCountry();
+
+	var eventsHTML = "";
+	var context;
+
+	// Select for events that are within the current geo
+	$.each(eventsJSON, function(i, val) {
+
+		// Exclude "On Demand" and "Private" events by default
+		if (eventsJSON[i].eventType != "On Demand" && eventsJSON[i].eventType != "Private" && eventsJSON[i].eventType != "") {
+
+			// Only render events in current geo on page load
+			if ($.inArray(country, eventsJSON[i].country) != -1) {
+
+				// Decode html entities for title, summary, and url
+				var decodedTitle = netapp.eventsSearch.decodeHTMLEntities(eventsJSON[i].title);
+	    	var decodedSummary = netapp.eventsSearch.decodeHTMLEntities(eventsJSON[i].summary);
+				var decodedURL = netapp.eventsSearch.decodeHTMLEntities(eventsJSON[i].url);
+
+				// Only enter startDate if startDate + endDate they are the same in JSON
+				if (netapp.eventsSearch.compareStartEndDate(eventsJSON[i].startDate, eventsJSON[i].endDate)) {
+					eventsJSON[i].endDate = "";
+				}
+
+				// Display an event if it isn't preceded by another event in a series
+				if (netapp.eventsSearch.checkRelatedEvents(eventsJSON[i])) {
+					context = {"contentId": eventsJSON[i].contentId, "relatedEvents": eventsJSON[i].relatedEvents, "seriesLinkText": eventsJSON[i].seriesLinkText, "linkText": eventsJSON[i].linkText, "eventType": eventsJSON[i].eventType, "image": eventsJSON[i].image, "title": decodedTitle, "startDate": eventsJSON[i].startDate, "endDate": eventsJSON[i].endDate, "city": eventsJSON[i].city, "country": eventsJSON[i].country[0], "summary": decodedSummary, "url": decodedURL};
+					eventsHTML += netapp.eventsSearch.buildEventHTML(context, template);
+				}
+			}
+		}
+	});
+	netapp.eventsSearch.sortEvents(eventsHTML);
+};
+
+
+/**
+ * Select events that match active filters.
+ * An event returns a match if it matches at least one active filter in each filter category that is active.
+ * e.g. active filters -> Next 30 Days (Date category), Latin America (Location category), Asia-Pacific (Location category)
+ * will match all events in either Latin America OR Asia-Pacific AND in the next 30 days
+ * @function filterRender
+ * @memberof eventsSearch
+ */
+netapp.eventsSearch.filterRender = function(filter, filterCategory) {
+
+	var eventsHTML = "";
+	var context;
+
+	// Include On Demand events (excluded by default) if "On Demand" filter is checked
+	var onDemandActive;
+
+	if ($.inArray("On Demand", activeFilters.type) != -1) {
+		onDemandActive = true;
+	} else {
+		onDemandActive = false;
+	}
+
+	// Tie "Date" and "Type" filter categories to current geo if "Location" filter isn't selected
+	var country = netapp.util.getCountry();
+
+	// If "Location" filter(s) are selected, filter normally (don't tie to current geo)
+	if (activeFilters.location.length > 0) {
+
+		// Match each event against all active filters
+		$.each(eventsJSON, function(i, val) {
+
+			if (eventsJSON[i].eventType != "Private" && eventsJSON[i].eventType != "") {
+
+				// Ignore "On Demand" events when it isn't set specifically as a filter
+				if (eventsJSON[i].eventType == "On Demand" && onDemandActive == false) {
+						return true;
+				}
+
+				// Match against active Date filters
+				if (activeFilters.date.length > 0) {
+
+					// Calculate today and event date for each event
+					var today = new Date();
+					var eventDate = eventsJSON[i].startDate;
+
+					// Calculate day in ms to use in getTime() -> day conversion: 24*60*60*1000
+					var dayInMs = 86400000;
+
+					// Generate array containing year, month, day of event
+					var regExp = /(.*)\/(.*)\/(.*)/;
+					var yearMonthDay = regExp.exec(eventDate);
+
+					// Create Date object in YMD format (start at index 1 - index 0 holds entire string matched previously)
+					var newEventDate = new Date(yearMonthDay[1], yearMonthDay[2] - 1, yearMonthDay[3]);
+
+					// Calculate days until event - reverse the sign on the final result so that previous dates are negative and future events are positive
+					var daysUntil = Math.round((today.getTime() - newEventDate.getTime())/(dayInMs)) * -1;
+
+					// Go to next iteration if active date filters don't match event start date
+					if (
+						!($.inArray("Next 30 Days", activeFilters.date) != -1  && daysUntil < 31 && daysUntil >= 0) &&
+						!($.inArray("Next 60 Days", activeFilters.date) != -1  && daysUntil < 61 && daysUntil >= 0) )
+					{
+						// Within "$.each", returning true will act like a continue statement
+						return true;
+					}
+				}
+
+				// Match against active Location filters
+				if (activeFilters.location.length > 0) {
+
+					// If "All" filter isn't checked, evaluate against other location filters
+					if (!($.inArray("All", activeFilters.location) != -1)) {
+
+						var match = false;
+
+						// Map event region to active location filters by retrieving index
+						for (var j = 0; j < activeFilters.location.length; j++) {
+
+							if ($.inArray(activeFilters.location[j], eventsJSON[i].region) != -1) {
+							    match = true;
+							    break;
+							}
+
+							if (j == activeFilters.location.length - 1) {
+								// Within "$.each", returning true will act like a continue statement
+								return true;
+							}
+						}
+
+						if (!(match == true)) {
+							// Within "$.each", returning true will act like a continue statement
+							return true;
+						}
+					}
+				}
+
+				// Match against active Type filters
+				if (activeFilters.type.length > 0 ) {
+
+					if (!($.inArray(eventsJSON[i].eventType, activeFilters.type) != -1)) {
+						// Within "$.each", returning true will act like a continue statement
+						return true;
+					}
+				}
+
+				// Decode html entities for title and summary
+				var decodedTitle = netapp.eventsSearch.decodeHTMLEntities(eventsJSON[i].title);
+				var decodedSummary = netapp.eventsSearch.decodeHTMLEntities(eventsJSON[i].summary);
+				var decodedURL = netapp.eventsSearch.decodeHTMLEntities(eventsJSON[i].url);
+
+				// Only render date if event isn't OnDemand - hide HTML as we still sort by startDate
+				if (eventsJSON[i].eventType == "On Demand") {
+					eventsJSON[i].endDate = "";
+				}
+
+				// Only enter startDate if startDate + endDate they are the same in JSON
+				if (netapp.eventsSearch.compareStartEndDate(eventsJSON[i].startDate, eventsJSON[i].endDate)) {
+					eventsJSON[i].endDate = "";
+				}
+
+				// Display an event if it isn't preceded by another event in a series
+				if (netapp.eventsSearch.checkRelatedEvents(eventsJSON[i])) {
+					// Generate event tile HTML if event matches active filters
+					context = {"contentId": eventsJSON[i].contentId, "relatedEvents": eventsJSON[i].relatedEvents, "seriesLinkText": eventsJSON[i].seriesLinkText, "linkText": eventsJSON[i].linkText, "eventType": eventsJSON[i].eventType, "image": eventsJSON[i].image, "title": decodedTitle, "startDate": eventsJSON[i].startDate, "endDate": eventsJSON[i].endDate, "city": eventsJSON[i].city, "country": eventsJSON[i].country[0], "summary": decodedSummary, "url": decodedURL};
+					eventsHTML += netapp.eventsSearch.buildEventHTML(context, template);
+				}
+			}
+		});
+
+		// Default render if no filters are selected
+		if (activeFilters.type.length == 0 && activeFilters.location.length == 0 && activeFilters.date.length == 0) {
+			netapp.eventsSearch.defaultRender();
+		} else {
+			netapp.eventsSearch.sortEvents(eventsHTML);
+		}
+
+	// If there isn't a "Location" filter selected, tie event filters to country
+	// TODO: separate this logic out into functions (this was done last-minute)
+	} else {
+		// Match each event against all active filters
+		$.each(eventsJSON, function(i, val) {
+
+			if (eventsJSON[i].eventType != "Private" && eventsJSON[i].eventType != "") {
+
+				if ($.inArray(country, eventsJSON[i].country) != -1) {
+
+					// Ignore "On Demand" events when it isn't set specifically as a filter
+					if (eventsJSON[i].eventType == "On Demand" && onDemandActive == false) {
+							return true;
+					}
+
+					// Match against active Date filters
+					if (activeFilters.date.length > 0) {
+
+						// Calculate today and event date for each event
+						var today = new Date();
+
+						// Ignore events without startDates here
+						if (eventsJSON[i].startDate) {
+							var eventDate = eventsJSON[i].startDate;
+
+							// Calculate day in ms to use in getTime() -> day conversion: 24*60*60*1000
+							var dayInMs = 86400000;
+
+							// Generate array containing year, month, day of event
+							var regExp = /(.*)\/(.*)\/(.*)/;
+							var yearMonthDay = regExp.exec(eventDate);
+
+							// Create Date object in YMD format (start at index 1 - index 0 holds entire string matched previously)
+							var newEventDate = new Date(yearMonthDay[1], yearMonthDay[2] - 1, yearMonthDay[3]);
+
+							// Calculate days until event - reverse the sign on the final result so that previous dates are negative and future events are positive
+							var daysUntil = Math.round((today.getTime() - newEventDate.getTime())/(dayInMs)) * -1;
+
+							// Go to next iteration if active date filters don't match event start date
+							if (
+								!($.inArray("Next 30 Days", activeFilters.date) != -1  && daysUntil < 31 && daysUntil >= 0) &&
+								!($.inArray("Next 60 Days", activeFilters.date) != -1  && daysUntil < 61 && daysUntil >= 0) )
+							{
+								// Within "$.each", returning true will act like a continue statement
+								return true;
+							}
+						} else {
+							return true;
+						}
+					}
+
+					// Match against active Type filters
+					if (activeFilters.type.length > 0 ) {
+
+						if (!($.inArray(eventsJSON[i].eventType, activeFilters.type) != -1)) {
+							// Within "$.each", returning true will act like a continue statement
+							return true;
+						}
+					}
+
+					// Decode html entities for title and summary
+					var decodedTitle = netapp.eventsSearch.decodeHTMLEntities(eventsJSON[i].title);
+					var decodedSummary = netapp.eventsSearch.decodeHTMLEntities(eventsJSON[i].summary);
+					var decodedURL = netapp.eventsSearch.decodeHTMLEntities(eventsJSON[i].url);
+
+					// Only render date if event isn't OnDemand - hide HTML as we still sort by startDate
+					if (eventsJSON[i].eventType == "On Demand") {
+						//eventsJSON[i].startDate = "";
+						eventsJSON[i].endDate = "";
+					}
+
+					// Only enter startDate if startDate + endDate they are the same in JSON
+					if (netapp.eventsSearch.compareStartEndDate(eventsJSON[i].startDate, eventsJSON[i].endDate)) {
+						eventsJSON[i].endDate = "";
+					}
+
+					// Display an event if it isn't preceded by another event in a series
+					if (netapp.eventsSearch.checkRelatedEvents(eventsJSON[i])) {
+						// Generate event tile HTML if event matches active filters
+						context = {"contentId": eventsJSON[i].contentId, "relatedEvents": eventsJSON[i].relatedEvents, "seriesLinkText": eventsJSON[i].seriesLinkText, "linkText": eventsJSON[i].linkText, "eventType": eventsJSON[i].eventType, "image": eventsJSON[i].image, "title": decodedTitle, "startDate": eventsJSON[i].startDate, "endDate": eventsJSON[i].endDate, "city": eventsJSON[i].city, "country": eventsJSON[i].country[0], "summary": decodedSummary, "url": decodedURL};
+						eventsHTML += netapp.eventsSearch.buildEventHTML(context, template);
+					}
+				}
+			}
+		});
+		// Default render if no filters are selected
+		if (activeFilters.type.length == 0 && activeFilters.location.length == 0 && activeFilters.date.length == 0) {
+			netapp.eventsSearch.defaultRender();
+		} else {
+			netapp.eventsSearch.sortEvents(eventsHTML);
+		}
+
+	}
+};
+
+
+/**
+ * Sort matched events by start date - ascending for Live/Online, descending for On Demand
+ * @function sortEvents
+ * @memberof eventsSearch
+ */
+netapp.eventsSearch.sortEvents = function(html) {
+
+	// Convert HTML for current tiles and new tiles to strings
+	var parameterHTML = html;
+	var sortedEventsHTML = "";
+
+	// Create regex for generating array containing year, month, date of event
+	var regExp = /(.*)\/(.*)\/(.*)/;
+
+	// Sort matched events if they are available
+	if (parameterHTML) {
+
+		// Remove whitespace between tags
+		parameterHTML = $.trim(parameterHTML.replace(/>\s+</g,'><'));
+
+		// Calculate time in ms between events and sort in ascending order
+		sortedEventsHTML = $.parseHTML(parameterHTML).sort(function (a,b) {
+
+			var aEventDateTime;
+			var bEventDateTime;
+
+			// Calculate ms value of each event
+			var aDate = regExp.exec($(a).find("span.startDate").text());
+			if (aDate) {
+				aEventDateTime = new Date(aDate[1], aDate[2] - 1, aDate[3]).getTime();
+			}
+
+			var bDate = regExp.exec($(b).find("span.startDate").text());
+			if (bDate) {
+				bEventDateTime = new Date(bDate[1], bDate[2] - 1, bDate[3]).getTime();
+			}
+
+			// Sort events in ascending order
+			if ((typeof aEventDateTime !== "undefined") && (typeof bEventDateTime !== "undefined")) {
+
+				// Sort in descending only if On Demand filter is active and other event type filters aren't
+				if (($.inArray("On Demand", activeFilters.type)) != -1 && ($.inArray("Online", activeFilters.type) == -1) && ($.inArray("Live", activeFilters.type) == -1)) {
+					if (aEventDateTime < bEventDateTime) {
+						return 1;
+					}
+
+					if (aEventDateTime > bEventDateTime) {
+						return -1;
+					}
+				}
+				// Sort in ascending order in all other cases
+				else {
+					if (aEventDateTime > bEventDateTime) {
+						return 1;
+					}
+
+					if (aEventDateTime < bEventDateTime) {
+						return -1;
+					}
+				}
+			}
+			return 0;
+		});
+	}
+
+	// Count total number of events to be rendered
+	var eventCount = $(sortedEventsHTML).filter('article.panel').length;
+
+	// Update "XX Results" by rendering number of matched events and toggle "Result"/"Results" (not hardcoded for translation support)
+	if (eventCount == 1) {
+
+		// Unhide "Result"
+		$("#result").toggleClass("hidden", false);
+
+		// Hide "Results"
+		$("#results").toggleClass("hidden", true);
+
+		// Prepend event count before "Results"
+		$("#eventCount").text(eventCount);
+
+	} else {
+
+		// Unhide "Results"
+		$("#results").toggleClass("hidden", false);
+
+		// Hide "Result"
+		$("#result").toggleClass("hidden", true);
+
+		// Prepend event count before "Results"
+		$("#eventCount").text(eventCount);
+	}
+
+	// If there are no matched events, show associated message (not hardcoded for translation support)
+	if (eventCount == 0) {
+		$("div.resultPager > ul").html("");
+		$("#noResults").toggleClass("hidden", false);
+		$("div.summaryPanels").html("");
+	} else {
+		$("#noResults").toggleClass("hidden", true);
+		netapp.eventsSearch.eventRender(eventCount, sortedEventsHTML);
+	}
+};
+
+
+/**
+ * Build pagination bar and behavior and render events
+ * @function eventRender
+ * @memberof eventsSearch
+ */
+netapp.eventsSearch.eventRender = function(eventCount, sortedEventsHTML) {
+
+	// Calculate number of pages results will take up
+	var eventPages = Math.ceil(eventCount / 12);
+
+	// Build HTML that will be placed within div.resultPager to navigate result pages
+	var resultPagerHTML = "";
+
+	for (var i = 0; i < eventPages; i++) {
+
+		// If there is only one page, don't build pager
+		if (i == 0 && eventPages == 1) {
+			continue;
+		}
+		// If this is the first iteraton, build the "<" arrow and first page
+		else if (i == 0) {
+			resultPagerHTML = resultPagerHTML.concat("<li class=\"prev\"><a><span></span></a></li>");
+			resultPagerHTML = resultPagerHTML.concat("<li class=\"page current\"><a>" + (i + 1).toString() + "</a></li>");
+		// If this is the last iteration, build the last page and  ">" arrow
+		} else if (i == eventPages - 1) {
+			resultPagerHTML = resultPagerHTML.concat("<li class=\"page\"><a>" + (i + 1).toString() + "</a></li>");
+			resultPagerHTML = resultPagerHTML.concat("<li class=\"next\"><a><span></span></a></li>");
+		// If this is somewhere in the middle, build the current page
+		} else {
+			resultPagerHTML = resultPagerHTML.concat("<li class=\"page\"><a>" + (i + 1).toString() + "</a></li>");
+		}
+	}
+
+	// Render first 12 tiles
+	$("div.summaryPanels").html($(sortedEventsHTML).filter("article").slice(0, 12));
+
+	// Load full pager html
+	$("div.resultPager > ul").html($.parseHTML(resultPagerHTML));
+
+	// If multiple pages are available, disable "<" button
+	$('li.prev').addClass("disabled");
+
+	// If a number in pagination bar if clicked, load events $numberClicked * 12
+	$("li.page > a").click(function () {
+
+		var pageNumber = parseInt($(this).text());
+
+		// Make previous page clickable again on both result pagers
+		$('li.page > a').filter(function() {
+			return $.trim($(this).text()) != pageNumber;
+		}).parent().removeClass("current");
+
+		// Make selected page un-clickable on both result pagers
+		$('li.page > a').filter(function() {
+			return $.trim($(this).text()) == pageNumber;
+		}).parent().addClass("current");
+
+		var currentPageNum = $("li.page.current > a:first").text();
+
+		var currentPageInt = parseInt(currentPageNum);
+
+		// Disable arrow traversal in the appropriate direction when on the first or last page
+		if (pageNumber == eventPages) {
+			$('li.next').addClass("disabled");
+			$('li.prev').removeClass("disabled");
+		} else if (pageNumber == 1) {
+			$('li.prev').addClass("disabled");
+			$('li.next').removeClass("disabled");
+		// Always remove "disabled" arrow traversal in the appropriate direction when on any other page
+		} else {
+			$('li.next, li.prev').removeClass("disabled");
+		}
+
+		$("div.summaryPanels").html($(sortedEventsHTML).filter("article").slice(pageNumber*12-12, pageNumber*12));
+
+		// After event panels have been rendered, create outer panel links
+		netapp.eventsSearch.createTileLinks();
+
+		// Hide On Demand start dates
+		$(".eventType:contains('On Demand')").siblings(".startDate").addClass("hidden");
+		$(".eventType:contains('On Demand')").siblings("br").remove();
+	});
+
+	// Switch pages appropriately when "<" or ">" is clicked
+	$("li.prev > a, li.next > a").click( function () {
+
+		// Only switch pages if pagination arrow isn't disabled
+		if (!$(this).parent().hasClass("disabled")) {
+
+			var currentPageNum = $("li.page.current > a:first").text();
+
+			var currentPageInt = parseInt(currentPageNum);
+
+			// Determine if going forwards (">") or backwards ("<")
+			var direction;
+
+			if ($(this).parent().hasClass("prev")) {
+				direction = -1;
+			} else {
+				direction = 1;
+			}
+
+			// Calculate what new page number will be
+			var newPageNum = parseInt(currentPageNum, 10) + direction;
+
+			// Make previous page clickable again on both result pagers
+			$('li.page.current').removeClass("current");
+
+			// Make the new page number un-clickable
+			$('li.page > a').filter(function() {
+				return $.trim($(this).text()) == newPageNum;
+			}).parent().addClass("current");
+
+			// Disable arrow traversal in the appropriate direction when on the first or last page
+			if (newPageNum == eventPages) {
+				$('li.next').addClass("disabled");
+				$('li.prev').removeClass("disabled");
+			} else if (newPageNum == 1) {
+				$('li.prev').addClass("disabled");
+				$('li.next').removeClass("disabled");
+			// Always remove "disabled" arrow traversal in the appropriate direction when on any other page
+			} else {
+				$('li.next, li.prev').removeClass("disabled");
+			}
+
+			$("div.summaryPanels").html($(sortedEventsHTML).filter("article").slice(newPageNum*12-12, newPageNum*12));
+
+			// After event panels have been rendered, create outer panel links
+			netapp.eventsSearch.createTileLinks();
+
+			// Hide On Demand start dates
+			$(".eventType:contains('On Demand')").siblings(".startDate").addClass("hidden");
+			$(".eventType:contains('On Demand')").siblings("br").remove();
+		}
+	});
+
+	// After event panels have been rendered, create outer panel links
+	netapp.eventsSearch.createTileLinks();
+
+	// Hide On Demand start dates
+	$(".eventType:contains('On Demand')").siblings(".startDate").addClass("hidden");
+	$(".eventType:contains('On Demand')").siblings("br").remove();
+};
+
+
+/**
+ * Generate a new event result tile
+ * @function buildEventHTML
+ * @memberof eventsSearch
+ */
+netapp.eventsSearch.buildEventHTML = function(context, template) {
+
+	var id = context.title;
+	var result = "";
+
+
+	// Generate HTML via Handlebars and event context
+	var result = template(context);
+	return result;
+};
+
+
+/**
+ * Append the checked filter to the URL "f" param
+ * @function addUrlParam
+ * @memberof eventsSearch
+ */
+netapp.eventsSearch.addUrlParam = function (filter) {
+
+	// Sanitize new filter url param
+	var urlFilter = filter.replace(/\s/g, "").toLowerCase();
+
+	// Append new filter url param to existing filter url params
+	if (pageUrlParams != "") {
+		pageUrlParams = pageUrlParams + "+";
+	}
+
+	pageUrlParams = pageUrlParams + urlFilter;
+
+	// Update browser url
+	var stateObject = activeFilters;
+    var url = window.location.protocol
+        + "//"
+        + window.location.host
+        + window.location.pathname
+        + '?f=' + pageUrlParams;
+    history.pushState(stateObject, jQuery(document).find('title').text(), url);
+};
+
+
+/**
+ * Remove the unchecked filter from the URL "f" param
+ * @function removeUrlParam
+ * @memberof eventsSearch
+ */
+netapp.eventsSearch.removeUrlParam = function (filter) {
+
+	// Sanitize filter url param
+	var urlFilter = filter.replace(/\s/g, "").toLowerCase();
+
+	// Remove filter url param and the previous "+" if there
+	if (pageUrlParams != "") {
+		var regex = new RegExp("\\+*" + urlFilter);
+		pageUrlParams = pageUrlParams.replace(regex, "");
+	}
+
+	// Remove first character of url param string if it is "+"
+	if (pageUrlParams.charAt(0) === "+") {
+		pageUrlParams = pageUrlParams.substring(1);
+	}
+
+	// Update browser url
+	var stateObject = activeFilters;
+    var url = window.location.protocol
+        + "//"
+        + window.location.host
+        + window.location.pathname
+        + '?f=' + pageUrlParams;
+    history.pushState(stateObject, jQuery(document).find('title').text(), url);
+};
+
+
+/**
+ * In a set of related events, only show the most recent event
+ * @function checkRelatedEvents
+ * @memberof eventsSearch
+ */
+netapp.eventsSearch.checkRelatedEvents = function (event) {
+
+	// Create array to store related event start dates
+	var relatedEventsStartDates = [];
+	var startDate = event.startDate;
+	relatedEventsStartDates.push(startDate);
+
+	// Calculate today's time and create regex
+	var todayTime = new Date().getTime();
+	var regExp = /(.*)\/(.*)\/(.*)/;
+
+	var tcmid = event.contentId;
+
+	// Gather all related events
+	$.each(eventsJSON, function(i, val) {
+
+		// If tcmid is found in event's "Related Events field"
+		if ($.inArray(tcmid, eventsJSON[i].relatedEvents) != -1 ) {
+
+			// Evaluate start date of related event if it's not already stored
+			if ($.inArray(eventsJSON[i].startDate, relatedEventsStartDates) == -1) {
+
+				// Calculate time of related event start date
+				var eventDate = regExp.exec(eventsJSON[i].startDate);
+
+				var eventDateTime = 1;
+
+				if (eventDate) {
+					eventDateTime = new Date(eventDate[1], eventDate[2] - 1, eventDate[3]).getTime();
+				}
+
+				// Store start date of related event if it hasn't happened yet
+				if (eventDateTime > todayTime) {
+					relatedEventsStartDates.push(eventsJSON[i].startDate);
+				}
+			}
+		}
+	});
+
+	var sortedStartDates = relatedEventsStartDates.sort(function (a,b) {
+
+		var aEventDateTime;
+		var bEventDateTime;
+
+		// Calculate ms value of each event
+		var aDate = regExp.exec(a);
+		if (aDate) {
+			aEventDateTime = new Date(aDate[1], aDate[2] - 1, aDate[3]).getTime();
+
+		}
+
+		var bDate = regExp.exec(b);
+		if (bDate) {
+			bEventDateTime = new Date(bDate[1], bDate[2] - 1, bDate[3]).getTime();
+
+		}
+
+		// Sort events in ascending order
+		if ((typeof aEventDateTime !== "undefined") && (typeof bEventDateTime !== "undefined")) {
+
+			if (aEventDateTime > bEventDateTime) {
+				return 1;
+			}
+
+			if (aEventDateTime < bEventDateTime) {
+				return -1;
+			}
+		}
+		return 0;
+	});
+
+
+	if (startDate == sortedStartDates[0]) {
+		return true;
+	} else {
+		return false;
+	}
+};
+
+
+/**
+ * Wrap inner "Learn More" url around each event result tile
+ * @function createTileLinks
+ * @memberof eventsSearch
+ */
+netapp.eventsSearch.createTileLinks = function () {
+
+	$('.summaryPanels .panel').each(function () {
+
+		var csLink = $(this).find('.button');
+
+		// If the "Learn More" link points to a PDF, wrap panel container content with link that opens in a new tab
+		if ( ($(csLink).attr('href') != undefined && $(csLink).attr('href').indexOf("pdf") > -1)
+			|| ($(csLink).attr('href') != undefined && $(csLink).prop('hostname') != "www.netapp.com") ) {
+
+			// Assign panel container
+			var container = $(csLink).parent().parent().parent().parent();
+
+			// Have "Register Now" link open in new tab
+			$(csLink).attr('target', '_blank');
+
+			// Copy HTML within panel container
+			var containerContent = $(container).html();
+
+			// Assign href for panel container
+			var wrapperLink = $(csLink).attr('href');
+
+			// Clear panel container
+			$(container).html("");
+
+			// Create link to "Learn More" href, place panel container HTML within link, and append to panel container
+			$(document.createElement('a')).attr({
+				'href': wrapperLink,
+				'target': "_blank"
+			}).html(containerContent).appendTo($(container));
+
+		// If the "Learn More" doesn't point to a PDF and isn't external, set parent container to link with default target
+		} else if ($(csLink).attr('href') != undefined) {
+
+			// BUGFIX: Create container link like above but don't open in a new tab - this should allow event series to work on ALL tiles
+			/*$(this).on('click', function () {
+				window.location.assign($(csLink).attr('href'));
+			})*/
+
+			// Assign panel container
+			var container = $(csLink).parent().parent().parent().parent();
+
+			// Have "Register Now" link open in new tab
+			//$(csLink).attr('target', '_blank');
+
+			// Copy HTML within panel container
+			var containerContent = $(container).html();
+
+			// Assign href for panel container
+			var wrapperLink = $(csLink).attr('href');
+
+			// Clear panel container
+			$(container).html("");
+
+			// Create link to "Learn More" href, place panel container HTML within link, and append to panel container
+			$(document.createElement('a')).attr({
+				'href': wrapperLink
+			}).html(containerContent).appendTo($(container));
+
+		}
+	});
+};
+
+
+/**
+ * Triggers dropdown behavior for link filter tabs (Date, Location, Type)
+ * @function registerFilterDropdownsListeners
+ * @memberof eventsSearch
+ */
+netapp.eventsSearch.registerFilterDropdownsListeners = function () {
+
+	// On click of Date/Location/Type link filters
+	$('#resultsFilter > li > a').on('click', function () {
+
+      if ($(window).width() < 640) {
+        $('html,body').animate({scrollTop: $('#resultsFilter').offset().top},'fast');
+      }
+		// Collapse current link filter dropdown if one is active
+		$(this).parent().siblings('li.active').removeClass('active').children('ul').slideToggle('fast');
+
+		// Trigger clicked link filter dropdown
+		$(this).parent().toggleClass('active').children('ul').slideToggle('fast');
+
+		return false;
+	});
+
+	// Collapse active link filter dropdown if user clicks outside of it
+	$(document).on('click', function (e) {
+		if ($('#resultsFilter > li').hasClass('active') && !$(e.target).closest('#resultsFilter').length) {
+			$('#resultsFilter li.active').removeClass('active').children('ul').slideToggle('fast');
+		}
+	});
+};
+
+
+/**
+ * Deafult render when "Reset Filters" is clicked
+ * @function registerSortByListener
+ * @memberof eventsSearch
+ */
+netapp.eventsSearch.registerSortByListener = function() {
+
+	$('.resetFilterEvents').on("click", function(event) {
+
+		// Avoid scrolling to the top of the page upon click
+		event.preventDefault();
+
+		// Remove breadcrumbs
+		$('ul.results li:not(:first)').remove();
+
+		// Clear out all active filters
+		activeFilters.date.length = 0;
+		activeFilters.location.length = 0;
+		activeFilters.type.length = 0;
+
+		// Load default events again
+		netapp.eventsSearch.defaultRender();
+
+		// Uncheck all filters
+		$('#resultsFilter input[type=checkbox]').attr('checked', false);
+
+		// Clear all filter url params
+		pageUrlParams = "";
+		var stateObject = activeFilters;
+	    var url = window.location.protocol
+	        + "//"
+	        + window.location.host
+	        + window.location.pathname;
+	        //+ '?f=' + pageUrlParams;
+	    history.pushState(stateObject, jQuery(document).find('title').text(), url);
+
+	});
+};
+
+
+/**
+ * Registers breadcrumb and filter checkbox listeners
+ * @function registerListeners
+ * @memberof eventsSearch
+ */
+netapp.eventsSearch.registerListeners = function() {
+
+	// Show/remove filter breadcrumbs as filter checkboxes are clicked/unclicked
+	function csAddFilter(i) {
+		var pClass = i.parents('li').parents('li').attr('class').split(' ')[0],
+		  fValue = $.trim(i.parent().text()),
+		  facet = '<li class="' + pClass + '">' + fValue + '<a id="' + i.parent().attr('id') + '">&times;</a></li>';
+
+		$('ul.results').append(facet);
+    }
+
+    function csRemoveFilter(i) {
+		var fValue = $.trim(i.parent().text()),
+		   rFacet = $('ul.results li:contains(' + fValue + ')').parent('li');
+
+		var toRemove = $('.results li').filter(function() {
+			return $.trim($(this).text()) === fValue + "×";
+		}).remove();
+    }
+
+    $('#resultsFilter li li').on('change', 'input:checkbox', function() {
+		if ($(this).is(':checked')) {
+			csAddFilter($(this));
+		} else {
+			csRemoveFilter($(this));
+		}
+    });
+
+    // When breadcrumbs "×'s" are clicked, breadcrumb is removed and filter is removed from search results
+	$('.results').on('click', 'li a', function() {
+
+		// Remove breadcrumb
+		$(this).parent().remove();
+
+		// Remove check from filter checkbox
+		var tValue = $.trim($(this).parent().text());
+
+		// Trim the "×" from the output string
+		tValue = tValue.slice(0, -1);
+
+		$('#resultsFilter li li label:contains("' + tValue + '")').children('input').attr('checked',false);
+
+		// Gather specific filter name, remove whitespace on both ends
+		var filter = $('#resultsFilter li li label:contains("' + tValue + '")').attr('id');
+
+		// Gather filter category, remove whitespace on both ends
+		var filterCategory = $('#resultsFilter li li label:contains("' + tValue + '")').parent().parent().siblings('.filterCategory').attr('id');
+
+		var mappedFilter;
+
+		// Map filter HTML id to JSON search keyword
+		var filterMapping = {
+
+	 		// Date
+	 		"next30days": "Next 30 Days",
+	 		"next60days": "Next 60 Days",
+
+	 		// Location
+	 		"all": "All",
+	 		"americas": "Americas",
+	 		"asia-pacific": "Asia Pacific",
+	 		"emea": "Europe, Middle East and Africa",
+	 		//"emea": "Europe",
+	 		"latinamerica": "Latin America",
+
+	 		// Type
+	 		"live": "Live",
+	 		"online": "Online",
+	 		"ondemand": "On Demand"
+	 	};
+
+	 	if (filter in filterMapping) {
+	 		mappedFilter = filterMapping[filter];
+	 	} else {
+	 		mappedFilter = "All";
+	 	}
+
+		// Reverse search results
+		if (filterCategory == "Date") {
+    		activeFilters.date.splice($.inArray(mappedFilter, activeFilters.date),1);
+
+		} else if (filterCategory == "Location") {
+			activeFilters.location.splice($.inArray(mappedFilter, activeFilters.location),1);
+
+		} else {
+			activeFilters.type.splice($.inArray(mappedFilter, activeFilters.type),1);
+		}
+
+		netapp.eventsSearch.filterRender(mappedFilter, filterCategory);
+
+		netapp.eventsSearch.removeUrlParam(filter);
+	});
+
+	// Submit search when filter checkbox item is clicked - or reverse search if filter is clicked off (check for other filters)
+	$('#resultsFilter').on("change", "input[type=checkbox]", function() {
+
+		// Gather specific filter name, remove whitespace on both ends
+		var filter = $(this).parent().attr('id');
+
+		// Gather filter category, remove whitespace on both ends
+		var filterCategory = $(this).parent().parent().parent().siblings('.filterCategory').attr('id');
+
+		var mappedFilter;
+
+		// Map filter HTML id to JSON search keyword
+		var filterMapping = {
+
+	 		// Date
+	 		"next30days": "Next 30 Days",
+	 		"next60days": "Next 60 Days",
+
+	 		// Location
+	 		"all": "All",
+	 		"americas": "Americas",
+	 		"asia-pacific": "Asia Pacific",
+	 		"emea": "Europe, Middle East and Africa",
+	 		//"emea": "Europe",
+	 		"latinamerica": "Latin America",
+
+	 		// Type
+	 		"live": "Live",
+	 		"online": "Online",
+	 		"ondemand": "On Demand"
+	 	};
+
+	 	if (filter in filterMapping) {
+	 		mappedFilter = filterMapping[filter];
+	 	} else {
+	 		mappedFilter = "All";
+	 	}
+
+		// If input is checked render appropriate content
+		if ($(this).prop('checked') == true) {
+
+			if (filterCategory == "Date") {
+				activeFilters.date.push(mappedFilter);
+
+			} else if (filterCategory == "Location") {
+				activeFilters.location.push(mappedFilter);
+
+			} else {
+				activeFilters.type.push(mappedFilter);
+			}
+
+			netapp.eventsSearch.filterRender(mappedFilter, filterCategory);
+
+			netapp.eventsSearch.addUrlParam(filter);
+		}
+		// Otherwise remove breadcrumb and remove appropriate tiles
+		else {
+
+			if (filterCategory == "Date") {
+
+    			activeFilters.date.splice($.inArray(mappedFilter, activeFilters.date),1);
+
+			} else if (filterCategory == "Location") {
+
+    			activeFilters.location.splice($.inArray(mappedFilter, activeFilters.location),1);
+
+			} else {
+
+    			activeFilters.type.splice($.inArray(mappedFilter, activeFilters.type),1);
+
+			}
+
+			netapp.eventsSearch.filterRender(mappedFilter, filterCategory);
+
+			netapp.eventsSearch.removeUrlParam(filter);
+		}
+
+	});
+};
+
+
+/**
+ * Registers flipcard listener for handling internal and external links on back of event tiles
+ * @function registerFlipCardListener
+ * @memberof eventsSearch
+ */
+netapp.eventsSearch.registerFlipCardListener = function() {
+
+	$('.summaryPanels').on("click", ".js-flipCard", function (e) {
+			e.preventDefault();
+
+			// Make external event detail items open in a new tab
+			if ($(this).parents('.panelContainer').hasClass('is-flipped')) {
+
+				/* FE workaround for if BE can't send proper data */
+
+				// Retrieve tcmid, Retrieve related events for tcmid, Construct array of related event info, Use array to construct html for back of tile, Render on back of tile
+
+				// Retrieve tcmid
+				var tcmId = $(this).parents('.panelContainer').attr('id');
+
+				// Retrieve title
+				var title = $(this).parents('.panel').attr('id');
+
+				// Retrieve related events for tcmid
+				var relatedTcmIds = "";
+
+				// Retrieve "Back" button text for back of event tile
+				var backLinkText = "";
+
+				$.each(eventsJSON, function(i, val) {
+					if (eventsJSON[i].contentId == tcmId) {
+						relatedTcmIds = eventsJSON[i].relatedEvents;
+						backLinkText = eventsJSON[i].backLinkText;
+					}
+				});
+
+				// Construct array of related event info
+				var relatedEvents = [];
+
+				$.each(eventsJSON, function(i, val) {
+					if ($.inArray(eventsJSON[i].contentId, relatedTcmIds) != -1) {
+
+						var eventLoc = "";
+
+						// Don't display a country on the back of a tile for Online/On Demand events
+						if (eventsJSON[i].eventType == "Online" || eventsJSON[i].eventType == "On Demand") {
+							eventLoc = "";
+						} else {
+							if (eventsJSON[i].city == "") {
+								eventLoc = eventsJSON[i].country[0];
+							} else {
+								eventLoc = eventsJSON[i].city + ", " + eventsJSON[i].country[0];
+							}
+						}
+
+						relatedEvents.push({
+							"url": eventsJSON[i].url,
+							"eventDate": eventsJSON[i].startDate,
+							"eventLoc": eventLoc
+						});
+					}
+				});
+
+				// Sort related events by earliest to latest dates
+				var regExp = /(.*)\/(.*)\/(.*)/;
+				var sortedRelatedEvents = relatedEvents.sort(function (a,b) {
+
+					var aEventDateTime;
+					var bEventDateTime;
+
+					// Calculate ms value of each event
+					var aDate = regExp.exec(a.eventDate);
+					if (aDate) {
+						aEventDateTime = new Date(aDate[1], aDate[2] - 1, aDate[3]).getTime();
+					}
+
+					var bDate = regExp.exec(b.eventDate);
+					if (bDate) {
+						bEventDateTime = new Date(bDate[1], bDate[2] - 1, bDate[3]).getTime();
+					}
+
+					// Sort events in ascending order
+					if ((typeof aEventDateTime !== "undefined") && (typeof bEventDateTime !== "undefined")) {
+
+						if (aEventDateTime > bEventDateTime) {
+							return 1;
+						}
+
+						if (aEventDateTime < bEventDateTime) {
+							return -1;
+						}
+					}
+					return 0;
+				});
+
+				// Use array to construct html for back of tile
+				var context = {title: title, relatedEvents: sortedRelatedEvents, backLinkText: backLinkText };
+				var backTileHTML = backTemplate(context);
+
+				// Render on back of tile
+				$(this).parents().siblings('.panelBack').html(backTileHTML);
+
+				$('.eventDateLink').filter(function() {
+					if ($(this).prop("hostname") != "www.netapp.com") {
+						return $(this);
+					}
+				}).attr("target", "_blank");
+
+			}
+	});
+};
+
+
+/**
+ * Organizes and renders defaults events according to user's geo
+ * @function getEvents
+ * @memberof eventsSearch
+ */
+netapp.eventsSearch.getEvents = function() {
+
+	// Construct JSON url depending on environment
+	var jsonUrl = netapp.eventsSearch.detectDomain();
+
+	//$.getJSON("/mockdata-4.js", function(result) {
+	// $.getJSON(jsonUrl, function(result) {
+		// eventsJSON = result.events;
+		// eventsJSON = netapp.eventsSearch.sanitizeEventsJSON(eventsJSON);
+		// netapp.eventsSearch.defaultRender();
+		// console.log("Printing eventsJSON after initial GET from " + jsonUrl + ":");
+		// console.log(eventsJSON);
+
+		// // If "f" url filter param is populated, render corresponding events
+		// var query = netapp.util.getQueryString("f");
+
+		// if (query !== undefined) {
+			// netapp.eventsSearch.urlParamRender(query);
+		// }
+  // });
+  
+  $.ajax({
+        type: "GET",
+        url: jsonUrl,
+        data: "{}",
+        contentType: "application/json; charset=utf-8",
+        success: function(result) {
+			eventsJSON = result.events;
+			eventsJSON = netapp.eventsSearch.sanitizeEventsJSON(eventsJSON);
+			netapp.eventsSearch.defaultRender();
+			console.log("Printing eventsJSON after initial GET from " + jsonUrl + ":");
+			console.log(eventsJSON);
+
+			// If "f" url filter param is populated, render corresponding events
+			var query = netapp.util.getQueryString("f");
+
+			if (query !== undefined) {
+				netapp.eventsSearch.urlParamRender(query);
+			}
+		}
+    }); 
+};
+
+
+/**
+ * Detect whether in Dev, QA, or Review/Live and return corresponding JSON link
+ * @function detectDomain
+ * @memberof eventsSearch
+ */
+netapp.eventsSearch.detectDomain = function() {
+	var ctryForEvents = "/us/";
+	try{
+	if(document.location.href.split('/')[3].length == 2)
+		ctryForEvents = "/" + document.location.href.split('/')[3] + "/";
+	else
+		ctryForEvents = "/";
+	}
+	catch(e){};
+	var devUrl = ctryForEvents + "system/searchxml.aspx?js=1&fjs=1&dmn=https://dev.www.netapp.&geo=com/cn,com/de,com/es,com/fr,com/jp,com/us,ca,ch,co.il,co.kr,co.uk,com.au,com.br,com.sg,com.tw,in,it,mx,nl,ru,se&types=events";
+	var qaUrl = ctryForEvents + "system/searchxml.aspx?js=1&fjs=1&dmn=https://qa.www.netapp.&geo=com/cn,com/de,com/es,com/fr,com/jp,com/us,ca,ch,co.il,co.kr,co.uk,com.au,com.br,com.sg,com.tw,in,it,mx,nl,ru,se&types=events";
+	var reviewUrl = ctryForEvents + "system/searchxml.aspx?js=1&fjs=1&dmn=https://review.netapp.&geo=com/cn,com/de,com/es,com/fr,com/jp,com/us,ca,ch,co.il,co.kr,co.uk,com.au,com.br,com.sg,com.tw,in,it,mx,nl,ru,se&types=events";
+	var liveUrl = ctryForEvents + "system/searchxml.aspx?js=1&fjs=1&dmn=https://www.netapp.&geo=com/cn,com/de,com/es,com/fr,com/jp,com/us,ca,ch,co.il,co.kr,co.uk,com.au,com.br,com.sg,com.tw,in,it,mx,nl,ru,se&types=events";
+
+	var domain = document.domain;
+
+	if (domain == "dev.www.netapp.com" || domain == "dev1.www.netapp.com" ) {
+		return devUrl;
+	} else if (domain == "qa.www.netapp.com" || domain == "qa1.www.netapp.com") {
+		return qaUrl;
+	} else if (domain == "review.netapp.com" || domain == "review1.netapp.com") {
+		return reviewUrl;
+	}  else if (domain.indexOf("localhost") != -1) { // Only a few on localhost
+		return ctryForEvents + "system/searchxml.aspx?js=1&fjs=1&dmn=&geo=http://localhost:90/us,http://localhost:90/jp,http://localhost:7051/&types=events";
+	}	else {
+		return liveUrl;
+	}
+};
+
+
+/**
+ * Decode html entities in JSON text that backend pipeline (mistakenly) encodes
+ * @function decodeHTMLEntities
+ * @memberof eventsSearch
+ */
+netapp.eventsSearch.decodeHTMLEntities = function(encodedText) {
+	var textArea = document.createElement('textarea');
+	textArea.innerHTML = encodedText;
+	return textArea.value;
+};
+
+
+/**
+ * Determine if entered "startDate" and "endDate" for event are the same
+ * @function compareStartEndDate
+ * @memberof eventsSearch
+ */
+netapp.eventsSearch.compareStartEndDate = function(startDate, endDate) {
+
+	if (startDate == endDate) {
+		return true;
+	} else {
+		return false;
+	}
+};
+
+
+/**
+ * Trim the city, country array, and region array for each event
+ * @function sanitizeEventsJSON
+ * @memberof eventsSearch
+ */
+netapp.eventsSearch.sanitizeEventsJSON = function(eventsJSON) {
+
+	var json = eventsJSON;
+
+	$.each(json, function(i, val) {
+
+		// Trim the city
+		if (json[i].city) {
+			json[i].city = json[i].city.trim();
+		}
+
+		// Trim the country array
+		if (json[i].country) {
+			for (var j = 0; j < json[i].country.length; j++) {
+				json[i].country[j] = json[i].country[j].trim();
+			}
+		}
+
+		// Trim the region array
+		if (json[i].region) {
+			for (var j = 0; j < json[i].region.length; j++) {
+				json[i].region[j] = json[i].region[j].trim();
+			}
+		}
+
+	});
+
+	return json;
+};
+
+
+// Calling these manually due to IE incompatibilities with Modernizr.load and yepnope
+$( document ).ready(function() {
+	netapp.eventsSearch.init();
+	netapp.eventsSearch.registerFilterDropdownsListeners();
+	netapp.eventsSearch.registerSortByListener();
+	netapp.eventsSearch.registerFlipCardListener();
+});
+}
+;
+netapp.ui.equalHeight = function(obj, options) {
+	var maxHeight = 0,
+		items = $(options.selector);
+	items.each(function(i, item) {
+		maxHeight = Math.max($(item).height(), maxHeight);
+	});
+	items.each(function(i, item) {
+		var thisDelta = maxHeight - $(item).height(),
+			thisLast = $(item).children().last();
+		if (thisDelta > 0) {
+			thisLast.css('min-height', thisLast.height() + thisDelta);
+		}
+	});
+};
+/**
+      EU Cookie Law Notice Modal JS.
+      gefn - needs animation which needs researching in colorbox 
+    IE is jerky - Shyam.
+*/
+
+netapp.ui.euModal = function(obj, options) {
+	// Get the Query string in the URL
+	var query = netapp.util.getQueryString("euCookie");
+	if (query) {
+		//Below option is extended to add & remove the background yellow of the modal.
+		options = $.extend(options, {
+			onLoad: function() {
+				$("#cboxContent").addClass("euCookieModalBG");
+			},
+			onClosed: function() {
+				$("#cboxContent").removeClass("euCookieModalBG");
+			}
+		});
+		$.colorbox(options);
+		$("#cookieNoticeShort a").bind(netapp.clickEvent, function() {
+			$("#cookieNoticeShort").addClass("hidden");
+			$("#cookieNoticeExpanded").removeClass("hidden");
+			$.colorbox.resize();
+		});
+
+		//taking screenWidth  to resize the euModal with 50px padding
+
+		var screenWidth = screen.width;
+
+		if (screenWidth < 490) {
+			var newWidth = screen.width - 100;
+			$.colorbox.resize({
+				width: newWidth
+			});
+		}
+	}
+};
+netapp.ui.growElement = {
+	lastGrown: {}, // for closing from more than one place
+	lastHidden: {}, // for closing from more than one place
+	init: function() {
+		var uiDataJSON = netapp.util.getJSON($(this).attr(netapp.DATA_TAG)),
+			options = uiDataJSON.options;
+		if (ntapDevice === "phone" && $(options.grows).attr('src')) {
+			$(this).data('src', $(options.grows).attr('src'));
+			$(this).bind(netapp.clickEvent, function() {
+				window.open($(this).data('src'));
+			});
+		} else {
+			$(this).data('grows', $(options.grows));
+			$(this).data('hides', $(options.hides));
+
+			$(options.grows).data('grows', $(options.grows));
+			$(options.grows).data('hides', $(options.hides));
+
+			$(this).bind(netapp.clickEvent, netapp.ui.growElement.growFunc);
+		}
+
+	},
+	growFunc: function() {
+		// 3d demo analytics tracking
+		_satellite.track('3dDemoClick');
+
+		var g = $(this).data('grows').first(); // doesn't make sense to grow multiple elements - barkan
+
+		netapp.ui.growElement.lastGrown = g;
+		netapp.ui.growElement.lastHidden = $(this).data('hides');
+
+		$(this).data('hides').each(function(i, h) {
+			$(h).animate({
+				height: 'hide',
+				opacity: 'hide'
+			});
+		});
+
+		if ($(g).attr('data-full-width') && $(g).attr('data-full-height')) {
+			$(g).animate({
+				width: $(g).attr('data-full-width'),
+				height: $(g).attr('data-full-height'),
+				opacity: 'show'
+			});
+		} else {
+			$(g).animate({
+				width: 'show',
+				height: 'show',
+				opactiy: 'show'
+			});
+		}
+		return false;
+	},
+	hideFunc: function() {
+		$(this.lastHidden).each(function(i, h) {
+			$(h).animate({
+				height: 'show',
+				opacity: 'show'
+			});
+		});
+
+		$(this.lastGrown).animate({
+			width: 0,
+			height: 0,
+			opacity: 'hide'
+		});
+	}
+};
+netapp.ui.liveChatSettings = {
+	'us': {
+		url: netapp.LIVE_CHAT_URL + 'bc.chat?cbdid=3011443994008877806&amp;wdid=3682071963888102016&amp;url=' + escape(document.location.href),
+		chatID: 'Chat2062696572973033378'
+	},
+	'cn': {
+		url: netapp.LIVE_CHAT_URL + 'bc.chat?cbdid=4715985455342252930&amp;wdid=4128635980169529276&amp;url=' + escape(document.location.href),
+		chatID: 'Chat1653577421068585630'
+	},
+	'kr': {
+		url: netapp.LIVE_CHAT_URL + 'bc.chat?cbdid=7158486773845042735&amp;wdid=4461421699358108630&amp;url=' + escape(document.location.href),
+		chatID: 'Chat1320491535744444148'
+	},
+	'it': {
+		url: netapp.LIVE_CHAT_URL + 'bc.chat?cbdid=3207688872652260696&amp;wdid=1379692910022363355&amp;url=' + escape(document.location.href),
+		chatID: 'Chat4367598902258599417'
+	},
+	'uk': {
+		url: netapp.LIVE_CHAT_URL + 'bc.chat?cbdid=6866554161482778948&amp;wdid=124822476997916420&amp;url=' + escape(document.location.href),
+		chatID: 'Chat3315218916840667686'
+	},
+	'de': {
+		url: netapp.LIVE_CHAT_URL + 'bc.chat?cbdid=5647474061355152344&amp;wdid=8666768590634319856&amp;url=' + escape(document.location.href),
+		chatID: 'Chat6341067685597934290'
+	},
+	'in': {
+		url: netapp.LIVE_CHAT_URL + 'bc.chat?cbdid=763324604623093912&amp;wdid=2426445596525794305&amp;url=' + escape(document.location.href),
+		chatID: 'Chat1014721697346722083'
+	},
+	'au': {
+		url: netapp.LIVE_CHAT_URL + 'bc.chat?cbdid=4146812614014004074&amp;wdid=3499522200958717238&amp;url=' + escape(document.location.href),
+		chatID: 'Chat2245536503348084756'
+	},
+	'as': { 
+		url: netapp.LIVE_CHAT_URL + 'bc.chat?cbdid=3268985311739115372&amp;wdid=1355755926095416900&amp;url=' + escape(document.location.href), 
+		chatID: 'Chat4425331712528794470' 
+	},
+	'jp': { 
+		url: netapp.LIVE_CHAT_URL + 'bc.chat?cbdid=299731303167067454&amp;wdid=2304121612912153553&amp;url=' + escape(document.location.href), 
+		chatID: 'Chat3476938401032003315' 
+	} 
+
+};
+netapp.ui.livechat = function(obj, options) {
+	//livechat analytics track 
+	_satellite.track('liveChatClick');
+	//gefn refactor once all country accounts are populated
+	var cc = (options.country !== "") ? options.country : netapp.util.getCC();
+	this.newWindow = window.open(netapp.ui.liveChatSettings[cc].url,
+		netapp.ui.liveChatSettings[cc].chatID,
+		'toolbar=0,scrollbars=1,location=0,statusbar=0,menubar=0,resizable=1,width=640,height=480');
+	this.newWindow.focus();
+	this.newWindow.opener = window;
+	return false;
+
+};
+netapp.ui.map = function(obj, options) {
+
+	var directionsDisplay = new google.maps.DirectionsRenderer(),
+		directionsService = new google.maps.DirectionsService(),
+		infowindow = new google.maps.InfoWindow(),
+		mapOptions = {
+			center: new google.maps.LatLng(options.lat, options.lon),
+			zoom: parseInt(options.zoom),
+			panControl: true,
+			zoomControl: true,
+			scaleControl: true,
+			mapTypeId: google.maps.MapTypeId.ROADMAP
+		},
+		map = new google.maps.Map(document.getElementById("map_canvas"),
+			mapOptions);
+	
+	function plotPoints() {
+		var uiDataJSON = netapp.util.getJSON($(this).attr('data-ntap-mapPoint')),
+			lat = uiDataJSON.lat,
+			lon = uiDataJSON.lon,
+			title = uiDataJSON.title;
+		var image = new google.maps.MarkerImage('https://media.netapp.com/images/netapp-icon.png',
+			// This marker is 32 pixels wide by 32 pixels tall.
+			new google.maps.Size(32, 32),
+			// The origin for this image is 0,0.
+			new google.maps.Point(0, 0),
+			// The anchor for this image is the base of the flagpole at 0,32.
+			new google.maps.Point(0, 32));
+
+		var shadow = new google.maps.MarkerImage('https://media.netapp.com/images/netapp-icon-shaddow.png',
+			// The shadow image is larger in the horizontal dimension
+			// while the position and offset are the same as for the main image.
+			new google.maps.Size(50, 32),
+			new google.maps.Point(0, 0),
+			new google.maps.Point(0, 32));
+
+		var myLatLng = new google.maps.LatLng(lat, lon);
+		var marker = new google.maps.Marker({
+			position: myLatLng,
+			map: map,
+			shadow: shadow,
+			icon: image,
+			title: title,
+			flat: false
+		});
+
+		var content = ($(this).html());
+
+		google.maps.event.addListener(marker, 'click', function() {
+			infowindow.close();
+			infowindow.setContent(content);
+			infowindow.open(map, marker);
+		});
+
+	}
+
+	directionsDisplay.setMap(map);
+	directionsDisplay.setPanel(document.getElementById("directionsPanel"));
+
+	$('[data-ntap-mapPoint *= lat]').each(plotPoints);
+
+	$(document).on(netapp.clickEvent, '#map_canvas [data-ntap-ui *= setOffice]', function() {
+		var uiDataJSON = netapp.util.getJSON($(this).attr('data-ntap-ui')),
+			address = uiDataJSON.options.address,
+			text = uiDataJSON.options.text;
+		document.getElementById("endCoords").value = address;
+		document.getElementById("endLocation").value = text;
+		document.getElementById('directionsPanel').style.display = 'block';
+		// sprint 11: added focus element
+		document.getElementById("start").focus();
+	});
+
+
+	$('#getDir').bind(netapp.clickEvent, function() {
+		var start = document.getElementById("start").value;
+		var end = document.getElementById("endCoords").value;
+		var request = {
+			origin: start,
+			destination: end,
+			travelMode: google.maps.TravelMode.DRIVING
+		};
+		directionsService.route(request, function(response, status) {
+			if (status === google.maps.DirectionsStatus.OK) {
+				directionsDisplay.setDirections(response);
+			}
+		});
+	});
+
+	
+};
+/**
+      The dialog ui behavior using jquery colorbox plugin.
+*/
+
+netapp.ui.modal = function(obj, options) {
+	//$('#' + obj.id).colorbox(options);
+	return false;
+};
+netapp.ui.setOffice = function(obj, options) {
+	document.getElementById("endCoords").value = options.address;
+	document.getElementById("endLocation").value = options.text;
+	document.getElementById('directionsPanel').style.display = 'block';
+	// sprint 11: added focus element
+	document.getElementById("start").focus();
+};
+/**
+      sidebar module slider
+*/
+
+netapp.ui.sliderModule = function() {
+	$('.sliderModule').flexslider({
+		animation: "slide", //{fade} String: Select your animation type, "fade" or "slide"
+		slideshow: true, //{true} Boolean: Animate slider automatically
+		slideshowSpeed: 12000, //{7000} Integer: Set the speed of the slideshow cycling, in milliseconds
+		animationLoop: true,
+		animationSpeed: 600, //{600} Integer: Set the speed of animations, in milliseconds
+		initDelay: 0, //{0} Integer: Set an initialization delay, in milliseconds
+
+		// Usability features
+		pauseOnHover: true, //{false} Boolean: Pause the slideshow when hovering over slider, then resume when no longer hovering
+		pauseOnAction: false,
+		// Primary Controls
+		controlNav: true, //{true} Boolean: Create navigation for paging control of each clide? Note: Leave true for manualControls usage
+		directionNav: false, //{true} Boolean: Create navigation for previous/next navigation? (true/false)
+
+
+		// Carousel Options
+		itemWidth: 1000,
+		itemMargin: 1000,
+		minItems: 1, //{0} Integer: Minimum number of carousel items that should be visible. Items will resize fluidly when below this.
+		maxItems: 1, //{0} Integer: Maxmimum number of carousel items that should be visible. Items will resize fluidly when above this limit.
+		move: 1 //{0} Integer: Number of carousel items that should move on animation. If 0, slider will move all visible items.
+
+	});
+};
+// Inserted by Rohan 8/5/15 as we need this global variable for addthis code below
+var addthis_share = addthis_share || {};
+netapp.ui.socialIcons = {
+	init: function() {
+		var theTitle = encodeURIComponent(document.title),
+			thePage = window.location.href,
+			facebookTitle,
+			linkedinTitle,
+			liSummary,
+			twitterTitle,
+			twLink,
+			qZoneTitle,
+			weiboTitle,
+			theTagURL,
+			tryParent = false,
+			theClasses = '.' + $(this).attr('class').split(' ')[0];
+		// console.log(theClasses);
+		
+		  window.___gcfg = {
+    lang: 'en-US',
+    parsetags: 'onload'
+  };
+		
+		// Inserted by Rohan 8/5/15 for replacing Title of share icons with the text from the SEO component - STARTS
+		if($('#emailTitle').length && $('#emailTitle').val()){
+			addthis_share = {
+				title: $('#emailTitle').val()
+			}
+		}
+		
+		if($('#facebookTitle').length && $('#facebookTitle').val()){
+			facebookTitle = encodeURIComponent($('#facebookTitle').val());
+		}
+			
+		if($('#linkedinTitle').length && $('#linkedinTitle').val()){
+			linkedinTitle = encodeURIComponent($('#linkedinTitle').val());
+		}
+
+		if($('#liSummary').length && $('#liSummary').val()){
+			liSummary = encodeURIComponent($('#liSummary').val());
+		}
+		
+		if($('#twitterTitle').length && $('#twitterTitle').val()){
+			twitterTitle = encodeURIComponent($('#twitterTitle').val());
+		}
+
+		if($('#twLink').length && $('#twLink').val()){
+			twLink = encodeURIComponent($('#twLink').val());
+		}
+		
+		if($('#qZoneTitle').length && $('#qZoneTitle').val()){
+			qZoneTitle = encodeURIComponent($('#qZoneTitle').val());
+		}
+		
+		if($('#weiboTitle').length && $('#weiboTitle').val()){
+			weiboTitle = encodeURIComponent($('#weiboTitle').val());
+		}
+
+		//Inserted by Rohan 8/5/15 for replacing Title of share icons with the text from the SEO component - ENDS
+
+		//hotfix to remove email icon from CN pages
+		$('[lang="zh-CN"] a.small-email.addthis_button_email.at300b').parent().remove();
+		$('[lang="zh-CN"] a.small-grey-email.addthis_button_email.at300b').parent().remove();
+		$('[lang="zh-CN"] a.small-white-email.addthis_button_email.at300b').parent().remove();
+		$('[lang="zh-CN"] a.medium-email.addthis_button_email.at300b').parent().remove();
+		$('[lang="zh-CN"] a.medium-grey-email.addthis_button_email.at300b').parent().remove();
+		$('[lang="zh-CN"] a.medium-white-email.addthis_button_email.at300b').parent().remove();
+		$('[lang="zh-CN"] a.large-email.addthis_button_email.at300b').parent().remove();
+		$('[lang="zh-CN"] a.large-grey-email.addthis_button_email.at300b').parent().remove();
+		$('[lang="zh-CN"] a.large-white-email.addthis_button_email.at300b').parent().remove();
+
+		switch (theClasses) {
+			case ".large-facebook":
+			case ".large-white-facebook":
+			case ".large-grey-facebook":
+			case ".medium-facebook":
+			case ".medium-white-facebook":
+			case ".medium-grey-facebook":
+			case ".small-facebook":
+			case ".small-white-facebook":
+			case ".small-grey-facebook":
+				theTagURL = "http://www.facebook.com/sharer.php?u=" + thePage + "&title=" + (facebookTitle ? facebookTitle : theTitle);
+				break;
+			case ".large-twitter":
+			case ".large-white-twitter":
+			case ".large-grey-twitter":
+			case ".medium-twitter":
+			case ".medium-white-twitter":
+			case ".medium-grey-twitter":
+			case ".small-twitter":
+			case ".small-white-twitter":
+			case ".small-grey-twitter":
+				theTagURL = "http://twitter.com/share?url=" + (twLink ? twLink : thePage) + "&text=" + (twitterTitle ? twitterTitle : theTitle) + " - ";
+				break;
+			case ".large-linkedin":
+			case ".large-white-linkedin":
+			case ".large-grey-linkedin":
+			case ".medium-linkedin":
+			case ".medium-white-linkedin":
+			case ".medium-grey-linkedin":
+			case ".small-linkedin":
+			case ".small-white-linkedin":
+			case ".small-grey-linkedin":
+				theTagURL = "http://www.linkedin.com/shareArticle?mini=true&url=" + thePage + "&title=" + (linkedinTitle ? linkedinTitle : theTitle) + "&summary=" + liSummary;
+				//console.log(theTagURL);
+				break;
+			case ".large-qzone":
+			case ".large-white-qzone":
+			case ".large-grey-qzone":
+			case ".medium-qzone":
+			case ".medium-white-qzone":
+			case ".medium-grey-qzone":
+			case ".small-qzone":
+			case ".small-white-qzone":
+			case ".small-grey-qzone":
+				theTagURL = "http://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=" + thePage + "&title=" + (qZoneTitle ? qZoneTitle : theTitle);
+				break;
+			case ".large-google-plus":
+			case ".large-white-google-plus":
+			case ".large-grey-google-plus":
+			case ".medium-google-plus":
+			case ".medium-white-google-plus":
+			case ".medium-grey-google-plus":
+			case ".small-google-plus":
+			case ".small-white-google-plus":
+			case ".small-grey-google-plus":
+				theTagURL = "https://plus.google.com/share?url=" + thePage + "&h1=" + (window.navigator.userLanguage || window.navigator.language);
+				break;
+			case ".large-google-xing":
+			case ".large-white-google-xing":
+			case ".large-grey-google-xing":
+			case ".medium-google-xing":
+			case ".medium-white-google-xing":
+			case ".medium-grey-google-xing":
+			case ".small-google-xing":
+			case ".small-white-google-xing":
+			case ".small-grey-google-xing":
+				theTagURL = "https://www.xing.com/app/user?op=share;url=" + thePage;
+				break;
+			case ".large-weibo":
+			case ".large-white-weibo":
+			case ".large-grey-weibo":
+			case ".medium-weibo":
+			case ".medium-white-weibo":
+			case ".medium-grey-weibo":
+			case ".small-weibo":
+			case ".small-white-weibo":
+			case ".small-grey-weibo":
+				theTagURL = "http://service.weibo.com/share/share.php?url=" + thePage + "&title=" + (weiboTitle ? weiboTitle : theTitle);
+				break;
+		}
+		if (theTagURL !== '' && theClasses !== ".small-colleague" && theClasses !== ".large-email" && theClasses !== ".medium-email" && theClasses !== ".small-email" && theClasses !== ".small-white-email" && theClasses !== ".small-grey-email" && theClasses !== ".medium-white-email" && theClasses !== ".medium-grey-email" && theClasses !== ".large-white-email" && theClasses !== ".large-grey-email") {
+
+			if ($(this).is("span")) {
+				//console.log("bind int share widget: " + theTagURL);
+				$(this).parent().bind(netapp.clickEvent, function() {
+					_satellite.track('socialMediaDCR');
+					if(theClasses.indexOf("-google-plus") != -1 && $('#googlePlusTitle').length > 0 && $('.g-interactivepost').length > 0)
+					{
+						$('.g-interactivepost').click();
+					}
+					else
+						window.open(theTagURL, '', 'scrollbars=yes,menubar=no,width=620,height=400,resizable=yes,toolbar=no,location=no,status=no');
+					return false;
+				});
+			} else {
+				//console.log("bind non int share widget: " + theTagURL);
+				$(this).bind(netapp.clickEvent, function() {
+					_satellite.track('socialMediaDCR');
+					if(theClasses.indexOf("-google-plus") != -1 && $('#googlePlusTitle').length > 0 && $('.g-interactivepost').length > 0)
+					{
+						$('.g-interactivepost').click();
+					}
+					else
+						window.open(theTagURL, '', 'scrollbars=yes,menubar=no,width=620,height=400,resizable=yes,toolbar=no,location=no,status=no');					
+					return false;
+				});
+			}
+		}
+	}
+};
+netapp.ui.socialTabs = function(obj, options) {
+	$('.headingOne').show();
+	$('.headingTwo').hide();
+	$('.headingThree').hide();
+
+	if (!obj.className.match('socialTabs')) { // bit of error-checking to prevent unsetting .active on pageload.
+		$(options.hide).hide();
+		$('.socialTabs li').removeClass("active");
+		$(obj).closest('li').addClass("active");
+		$(options.show).show();
+	}
+	$('#communityTab > a').bind(netapp.clickEvent, function() {
+		$('.headingOne').show();
+		$('.headingTwo').hide();
+		$('.headingThree').hide();
+		$(".socialTabContent#0001").show();
+		$(".socialTabContent#0002").hide();
+		$(".socialTabContent#0003").hide();
+	});
+	$('#blogTab > a').bind(netapp.clickEvent, function() {
+		$('.headingOne').hide();
+		$('.headingTwo').show();
+		$('.headingThree').hide();
+		$(".socialTabContent#0001").hide();
+		$(".socialTabContent#0002").show();
+		$(".socialTabContent#0003").hide();
+	});
+	$('#twitterTab > a').bind(netapp.clickEvent, function() {
+		$('.headingOne').hide();
+		$('.headingTwo').hide();
+		$('.headingThree').show();
+		$(".socialTabContent#0001").hide();
+		$(".socialTabContent#0002").hide();
+		$(".socialTabContent#0003").show();
+	});
+	return false;
+};
+//why are we declaring a variable way out here? - ev
+var showItems = 3;
+
+
+netapp.ui.spotlightTabs = function(obj, options) {
+	$(".spotlightTabs .tabsBar li a").bind(netapp.clickEvent, function() {
+		$(".tabsBar li.active").removeClass("active");
+		$(this).parent().addClass("active");
+		var i = $(this).parent().index();
+		var showTab = i;
+		$(".spotlight.active").removeClass("active");
+		$(".spotlight").eq(i).addClass("active");
+		return false;
+	});
+
+	$('.spotlight').each(function() {
+		var listItems = $(".items li", this).size();
+		var pages = Math.ceil(listItems / showItems);
+		//if(listItems > showItems) {
+		//  $(".controls", this).addClass("active");
+		//  for ( var i = 1; i <= pages ; i++ ) {
+		//    $(".flex-control-nav", this).append( '<li><a href="#">' + i + '</a></li>' );
+		//  }
+		//$(".flex-control-nav", this).children("li").eq(0).children("a").addClass("flex-active");
+		//}
+		$(".items li", this).slice(0, 3).css("display", "block");
+		var linerWidth = pages * 2.4;
+		//$(".controls .liner", this).width(linerWidth+"em");
+	});
+};
+
+function spotlightPaginate() {
+	var num = parseInt($(".spotlight.active a.flex-active").text()) - 1;
+	var start = showItems * num;
+	var end = showItems + start;
+	$(".spotlight.active .items li").hide();
+	$(".spotlight.active .items li").slice(start, end).css("display", "block");
+	if ($(".spotlight.active .flex-control-nav li").eq(0).children("a").hasClass("flex-active")) {
+		$(".spotlight.active .flex-direction-nav li a.flex-prev").addClass("flex-disabled");
+	} else {
+		$(".spotlight.active .flex-direction-nav li a.flex-prev").removeClass("flex-disabled");
+	}
+	if ($(".spotlight.active .flex-control-nav li").eq(-1).children("a").hasClass("flex-active")) {
+		$(".spotlight.active .flex-direction-nav li a.flex-next").addClass("flex-disabled");
+	} else {
+		$(".spotlight.active .flex-direction-nav li a.flex-next").removeClass("flex-disabled");
+	}
+	//console.log(num);
+};
+netapp.ui.stickyTabs = {
+	init: function() {
+		console.log("initialize sticky tabs");
+		
+		$(window).on('load', function(e){
+			console.log("window on load ");
+			e.preventDefault();
+			// Hide sticky tab on event detail page if it's empty
+			$('.tabsBar ul').filter(function (index) {
+    		return $(this).children().length < 1;
+			}).parent().parent().hide();
+
+			if (window.location.hash.indexOf('#') !== -1) {
+				var currentTab = window.location.hash;
+				$('#main .tab.active').removeClass('active');
+				$('#main .tab a[href="'+currentTab+'"]').parents('li').addClass('active');
+				$('select.dropdownMenu option:selected').removeAttr('selected');
+				$('.dropdownMenu option[value="'+currentTab+'"]').prop('selected','selected');
+				$('.tabbedSection').hide();
+				$(currentTab).show();
+			} else {
+				console.log("window: hide tabs, active t1 on load");
+				$('.tabbedSection').hide();
+				$('#main .tab1').addClass('active');
+				$('#t1').show();
+			}
+		}).on('hashchange', function(e){
+			e.preventDefault();
+			if (window.location.hash.indexOf('#') !== -1) {
+				var currentTab = window.location.hash;
+				$('#main .tab.active').removeClass('active');
+				$('#main .tab a[href="'+currentTab+'"]').parents('li').addClass('active');
+				$('select.dropdownMenu option:selected').removeAttr('selected');
+				$('.dropdownMenu option[value="'+currentTab+'"]').prop('selected','selected');
+				$('.eventDetailSection').fadeOut('slow');
+				if ($(window).scrollTop() > 30) {
+                	$(currentTab).fadeIn('slow');
+				} else if ($(window).width() > 1100) {
+					$('html, body').animate({ scrollTop: $(".tabsBarParent").offset().top - 205 }, 2000); 
+				} else {
+                	$('html, body').animate({ scrollTop: $(".tabsBarParent").offset().top }, 2000); 
+                }
+				$(currentTab).fadeIn('slow');
+			} else {
+				$('#main .tab.active').removeClass('active');
+				$('#main .tab:first-of-type').addClass('active');
+				$('.eventDetailSection').fadeOut('slow');
+				$('.eventDetailSection:first-of-type').fadeIn('slow');
+			}
+		});
+	
+	}
+};
+netapp.ui.tabs = {};
+
+/**
+ * tabs ui behavior
+ * @param {Object} options
+ */
+netapp.ui.tabs = function(obj, options) {
+	if (obj.className !== 'tabs') { // bit of error-checking to prevent unsetting .active on pageload.
+		$(options.hide).removeClass("active").hide(); // putting .hide() in there to make it backwards compatible - zk
+		$(netapp.TABS_LINKS).removeClass("active");
+		$(obj).closest('li').addClass("active");
+		var cId = $(obj).attr("href");
+		$(cId).addClass("active");
+		if ($(cId).is(":hidden")) { // making it backwards compatible - zk
+			$(options.show).show();
+		}
+		return false;
+	}
+	//  if (obj.className != 'tabs') {// bit of error-checking to prevent unsetting .active on pageload.
+	//  $(options.hide).hide();
+	//  $(netapp.TABS_LINKS).removeClass("active");
+	//  $(obj).closest('li').addClass("active");
+	//  $(options.show).show();
+	//  return false;
+	//  }
+};
+netapp.ui.technoMercial = {
+	init: function() {
+		if ($(".technomercial260 div").length) {
+			$(".technomercial260").hide();
+		}
+		if ($(".technomercial360 div").length) {
+			$(".technomercial360").hide();
+		}
+	}
+};
+// Move
+netapp.ui.ticker = function(obj, options) {
+	var startDate = new Date(2012, 11, 1); // This is 2012 Dec 1
+	var today = new Date();
+	var incr = 75; // GB per second
+	var startValue = 7267000000;
+
+	var n = (today - startDate) / 1000;
+	var renderNum = Math.round((n * incr) + startValue);
+
+	$('.ticker').jOdometer({
+		increment: 1,
+		counterStart: renderNum < 10000000000 ? "0" + renderNum : renderNum,
+		numbersImage: 'https://www.netapp.com/us/static/images/ticker/jodometer-numbers-netapp.png',
+		spaceNumbers: 1,
+		offsetRight: -1,
+		widthNumber: 18,
+		widthDot: 6
+	});
+};
+netapp.ui.videoCarousel = function() {
+	$('.videoCarousel').flexslider({
+		animation: "slide", //{fade} String: Select your animation type, "fade" or "slide"
+		slideshow: true, //{true} Boolean: Animate slider automatically
+		slideshowSpeed: 12000, //{7000} Integer: Set the speed of the slideshow cycling, in milliseconds
+		animationLoop: false,
+		animationSpeed: 600, //{600} Integer: Set the speed of animations, in milliseconds
+		initDelay: 0, //{0} Integer: Set an initialization delay, in milliseconds
+
+		// Usability features
+		pauseOnHover: true, //{false} Boolean: Pause the slideshow when hovering over slider, then resume when no longer hovering
+		pauseOnAction: false,
+		// Primary Controls
+		controlNav: false, //{true} Boolean: Create navigation for paging control of each clide? Note: Leave true for manualControls usage
+		directionNav: true, //{true} Boolean: Create navigation for previous/next navigation? (true/false)
+		prevText: "Previous", //{Previous} String: Set the text for the "previous" directionNav item
+		nextText: "Next", //{Next} String: Set the text for the "next" directionNav item
+
+		// Carousel Options
+		itemWidth: 253,
+		itemMargin: 13,
+		minItems: 3, //{0} Integer: Minimum number of carousel items that should be visible. Items will resize fluidly when below this.
+		maxItems: 3, //{0} Integer: Maxmimum number of carousel items that should be visible. Items will resize fluidly when above this limit.
+		move: 0 //{0} Integer: Number of carousel items that should move on animation. If 0, slider will move all visible items.
+	});
+	$('section.carousel li.panel').bind(netapp.clickEvent, function() {
+		$('section.carousel li.panel.active').removeClass('active');
+		$(this).addClass('active');
+	});
+};
+netapp.ui.videoPlayer = {
+
+	init: function() {
+
+		var player, videoName, videoLength, videoOffset, videoId, videoName, videos, playlistWidth;
+		var tt_lastvid = -1;
+
+		netapp.ui.videoPlayer.isPlayerAdded = false;
+
+		netapp.ui.videoPlayer.defaults = {
+			bgcolor: '#FFFFFF',
+			width: '560',
+			height: '315',
+			videoID: '',
+			playerKey: 'AQ~~,AAAAPLMHdIE~,XTYhbdaYQW4CXsESMZ87DAzjDVu5EbVC',
+			playerID: '',
+			playlistID: '',
+			videoContainer: $('.videoContainer'),
+			playlistContainer: $('.playlistContainer')
+		}
+
+		$('.js-loadVideo').on(netapp.clickEvent, function(e) {
+
+			if (($(this).attr("data-video-id"))&&($(this).attr("data-video-id") != "")) {
+				netapp.ui.videoPlayer.defaults.videoContainer.data("ntapUi").options.videoID=$(this).attr("data-video-id");
+			}
+
+			var options = netapp.ui.videoPlayer.defaults.videoContainer.data("ntapUi").options;
+			options = $.extend(netapp.ui.videoPlayer.defaults, options);
+			e.preventDefault();
+
+			// On TnT Homepage, show placeholder content for previous video and add "autostart" option
+			if ($('.tt-triggerVideo').length >= 1) {
+
+				// Show placeholder content for previous video
+				if (tt_lastvid > -1) {
+					$(".video-placeholder[data-video-id='" + tt_lastvid + "'] .tt-triggerVideo").show();
+					$(".video-placeholder[data-video-id='" + tt_lastvid + "'] .divimg").show();
+					$(".video-placeholder[data-video-id='" + tt_lastvid + "'] figure").show();
+				}
+
+				// Add "autostart option"
+				options = $.extend({"autoStart": "true"}, options);
+			}
+
+			netapp.ui.videoPlayer.addPlayer(options);
+
+			if ($(this).parents('section').hasClass('blurb')) {
+				var videoModule = $('.videoContainer').detach();
+	        	$(videoModule).prependTo('.contentWrapper1');
+	        	$('.banner').removeClass('hidden');
+	        	$('html, body').animate({
+	        		scrollTop: $(".contentWrapper1").offset().top}, 500);
+			}
+
+
+			if ($('.dataFabric #lensFlare').length > 0) {
+				$("#lensFlare").hide(50);
+				if ($('.no-touch').length > 0 && $('.csscolumns').length > 0) {
+					window.removeEventListener("scroll", heroToggle, true);
+					$('#hero').css('top', "0px");
+				}
+			}
+
+			// On TnT Homepage, replace video placeholder content with video player
+			if ($('.tt-triggerVideo').length >= 1) {
+
+				if ( $(this).attr("data-video-id") && $(this).attr("data-video-id") != "") {
+
+					var vid = $(this).attr("data-video-id");
+					tt_lastvid = vid;
+
+					// Replace video placeholder content
+					$(".video-placeholder[data-video-id='" + vid + "'] .tt-triggerVideo").hide();
+					$(".video-placeholder[data-video-id='" + vid + "'] .divimg").hide();
+					$(".video-placeholder[data-video-id='" + vid + "'] figure").hide();
+
+					// Add video player to proper container
+					var vmod = $('.videoContainer').detach();
+					$(".tt-triggerVideo[data-video-id='" + vid + "']").after($(vmod));
+					$(".videoContainer").removeClass("hidden");
+					$(".videoContainer").css("padding-bottom", "50%");
+				}
+			}
+
+		});
+		//for the generic video witout play button on it
+		$(document).ready(function() {
+
+	           var videoID = $("#bcVideoContainer").attr("data-video-id");
+				if(videoID && videoID != ""){
+						netapp.ui.videoPlayer.defaults.videoContainer.data("ntapUi").options.videoID=videoID;
+						var options = netapp.ui.videoPlayer.defaults.videoContainer.data("ntapUi").options;
+						options = $.extend(netapp.ui.videoPlayer.defaults, options);
+						netapp.ui.videoPlayer.addVideoPlayer(options);
+				}
+
+        });
+	},
+
+
+	addPlayer: function(options) {
+		if (!$('.videoContainer').hasClass("hidden")) {
+			$( ".videoContainer .close" ).trigger(netapp.clickEvent);
+		}
+		netapp.ui.videoPlayer.isPlayerAdded = true;
+		var template = Handlebars.compile($('#playerTemplate').html());
+		options.videoContainer.append(template(options));
+		netapp.ui.videoPlayer.toggleVideo(options.videoContainer);
+		if ($('.dataFabric').length = 0) {
+			$('html, body').animate({
+			scrollTop: options.videoContainer.position().top
+			}, 1000);
+		}
+
+		if(options.playlistID.length) {
+			options.playlistContainer.removeClass('hidden');
+		}
+		brightcove.createExperiences();
+	},
+
+	//for the generic video witout play button on it
+	addVideoPlayer: function(options) {
+
+		netapp.ui.videoPlayer.isPlayerAdded = true;
+		var template = Handlebars.compile($('#playerTemplate').html());
+		options.videoContainer.append(template(options));
+		//netapp.ui.videoPlayer.toggleVideo(options.videoContainer);
+		brightcove.createExperiences();
+	},
+
+	toggleVideo: function(el) {
+		if(el.hasClass('hidden')) {
+			el.removeClass('hidden');
+			el.prev('.banner').addClass('hidden');
+			netapp.ui.videoPlayer.closeVideo();
+		} else {
+			el.prev('.banner').removeClass('hidden');
+			el.addClass('hidden');
+		}
+	},
+
+	closeVideo: function() {
+		if ($('.videoContainer .close').length < 1) {
+			$('<div class="close"><a href="#">x</a></div>').prependTo(netapp.ui.videoPlayer.defaults.videoContainer);
+			$('.video .close').css('display', 'block');
+		}
+		$('.close').on(netapp.clickEvent, function(e) {
+			e.preventDefault();
+			if ($(this).parent().parent().attr('class') == 'contentWrapper1') {
+				var videoModule = $('.videoContainer').detach();
+		        $('.banner').after(videoModule);
+		        $('.banner').removeClass('hidden');
+		        console.log('move back');
+			}
+
+			// On TnT homepage, show placeholder video content if "X" is clicked on a video
+			if ($('.tt-triggerVideo').length >= 1) {
+
+				// Show placeholder play button
+				$(this).parent().parent().children(".tt-triggerVideo").show();
+				$(this).parent().parent().children(".tt-triggerVideo").children(".divimg").show();
+
+				// Show placeholder image
+				$(this).parent().parent().children(".video-placeholder figure").show();
+			}
+
+			$(this).remove();
+			//modVP.pause(true);
+			netapp.ui.videoPlayer.removeVideo();
+			if ($('.dataFabric #lensFlare').length > 0 && $('.no-touch').length > 0 && $('.csscolumns').length > 0) {
+				$("#lensFlare").show(50);
+				window.addEventListener("scroll", heroToggle, true);
+			}
+
+			if ($('.homePage .dataFabric').length) {
+			    $('#hero').css('min-height', '500px');
+			}
+
+            if ($('.landingPage .dataFabric').length) {
+			    $('.wireBlock').css('min-height', '500px');
+			    $('.container10').css({'background': 'url(https://www.netapp.com/us/media/insight2016-hero-2500x500.jpg)', 'background-position': 'top center', 'background-repeat' : 'no-repeat', 'background-size': 'cover', 'min-height': '500px', 'z-index': '2'});			}
+
+		});
+		//move video
+
+	},
+
+	removeVideo: function() {
+		netapp.ui.videoPlayer.toggleVideo(netapp.ui.videoPlayer.defaults.videoContainer);
+		netapp.ui.videoPlayer.defaults.videoContainer.removeAttr('style');
+
+		// 11/17 Mapped legacy video player to HTML5, Adjustment to close the mapped player
+		$('.videoContainer').children().filter('#myExperience').each(function() { 
+			$(this).remove();
+		});
+
+		modExp.unload;
+		$('object#myExperience').empty();
+
+		// On TnT homepage, remove BrightCove object when video is closed
+		if ($('.tt-triggerVideo').length >= 1) {
+			$('object#myExperience').remove();
+		}
+
+		$('#playerTemplate').nextAll().remove();
+		netapp.ui.videoPlayer.isPlayerAdded = false;
+
+		if (netapp.ui.videoPlayer.defaults.playerID.length) {
+			netapp.ui.videoPlayer.defaults.playlistContainer.addClass('hidden');
+			netapp.ui.videoPlayer.defaults.playlistContainer.children('.playlist').remove();
+		}
+	},
+
+	buildPlaylist: function() {
+		// console.log(videos);
+		var playlistTemplate = Handlebars.compile($('#playlistTemplate').html());
+		netapp.ui.videoPlayer.defaults.playlistContainer.append(playlistTemplate(videos));
+		netapp.ui.videoPlayer.loadVideo();
+	},
+
+	loadVideo: function() {
+		$('.playlist').css("width", playlistWidth);
+
+		$('.playlist').on(netapp.clickEvent, ".playlistItem", function (e) {
+			e.preventDefault();
+			var videoId = $(this).data();
+			modVP.loadVideoByID(videoId.videoid);
+
+			if($(this).siblings().hasClass('active')) {
+				$(this).siblings().removeClass('active');
+				$(this).addClass('active');
+			} else {
+				$(this).addClass('active');
+			}
+
+		});
+	},
+
+	loadNewVideo: function(videoId) {
+		modVP.loadVideoByID(videoId);
+		console.log('load new');
+	},
+
+	getPlaylistData: function() {
+
+		if(netapp.ui.videoPlayer.defaults.playerID.length) {
+				modCon.getPlaylistByID(netapp.ui.videoPlayer.defaults.playlistID, function(playlistDTO) {
+				var data = playlistDTO.videos;
+				videos = $.map(data, function (video) {
+					return {
+						name: video.displayName,
+						thumbnail: video.thumbnailURL,
+						description: video.shortDescription,
+						videoID: video.id,
+					};
+				});
+				// playlistWidth is the width of the container for the playlist so that users can scroll to see more playlist items
+				if ($(window).width() < 971) {
+					playlistWidth = videos.length * 320;
+				} else {
+					playlistWidth = videos.length * 520;
+				}
+
+				netapp.ui.videoPlayer.buildPlaylist();
+			});
+		}
+	},
+
+	captionsLoaded: function(evt) {
+		if (evt.error == null && typeof Omniture !== 'undefined') {
+			modVP.getCurrentVideo(function(videoDTO) {
+			var videoName = videoDTO.displayName;
+			var params = {
+				prop44: 'video-caption-' + videoName,
+				eVar15: 'video-caption-' + videoName
+			};
+			/*Omniture.Call.customLink({
+					href: '/'
+				}, params); */
+			});
+		}
+	},
+
+	captionsButton: function(evt) {
+		modCap = player.getModule(brightcove.api.modules.APIModules.CAPTIONS);
+		modCap.addEventListener(brightcove.api.events.CaptionsEvent.DFXP_LOAD_SUCCESS, netapp.ui.videoPlayer.captionsLoaded);
+	},
+
+	// If you need to manipulate the player using the API make your function calls from here
+	enhancements : function() {
+		netapp.ui.videoPlayer.getPlaylistData();
+		netapp.ui.videoPlayer.captionsButton();
+	}
+
+};
+netapp.geoUpdateContactInfo = function(geo_cc) {
+	//find contact module
+	var urlBase = window.location.protocol + "//" + window.location.host;
+	var wsfSvc = urlBase + "/webservices/v1/cdservice.svc/getlayout/" + geo_cc + "/dynamic_contact";
+	var wsfSvc_livechat = urlBase + "/webservices/v1/cdservice.svc/getlayout/" + geo_cc + "/dynamic_contact_livechat";
+	// get updated contact module and replace the old one
+	$.ajax({
+		url: wsfSvc,
+		type:"GET",
+		success: function(code) {
+			if (code.length != 0 && code != "Entered URL not correct.") {
+				// remove all newline breaks
+				var content = $.trim(code.replace(/[\t\n]+/g,' '));
+				// split html code to left contact module and right social share module
+				var arr = content.split("|");
+				// kill old left contact module
+				$(".contactPhone address").empty();
+				// write contact info
+				$(".contactPhone address").append(arr[0]);
+				if ($(".social").length) {
+					// kill old right social share module except email
+					$(".small-email").parent().siblings().remove();
+					// write social share module
+					$(".social").append(arr[1]);
+				}
+				// ui initialization
+				netapp.ui.init();	
+			} else {
+				netapp.ui.init();
+			}
+		},
+		error: function(e) {
+			netapp.ui.init();
+		}
+	});
+
+    // separate bold chat call because it's slow on Azure
+	$.ajax({
+	    url: wsfSvc_livechat,
+	    type: "GET",
+	    success: function (code) {
+	        if (code.length != 0 && code != "Entered URL not correct.") {
+	            // remove all newline breaks
+	            var content = $.trim(code.replace(/[\t\n]+/g, ' '));
+	            // split html code to left contact module and right social share module
+	            var arr = content.split("|");
+	            var node = $.parseHTML(arr[0])[0].children[0];
+	            if (node.id == "dynamicLiveChatLink") {
+	                // Prepend live chat
+	                $(".contactPhone address ul").prepend(node);
+	                //Get livechat link with data-ntap-ui attribute
+	                $("a[" + netapp.DATA_TAG + "^='{\'type\': \'livechat\']").bind(netapp.clickEvent, function (e) {
+	                    e.preventDefault();
+	                    var uiDataJSON = netapp.util.getJSON($(this).attr(netapp.DATA_TAG))
+	                    netapp.ui.livechat(this, uiDataJSON.options);
+	                });
+	                
+	            }
+	        }
+	    },
+	    error: function (e) {}
+	});
+}; 
+	
+
+/*jshint unused:false*/
+/*jshint evil: true */
+/*global location:true, Modernizr:true, ntapDevice:true, _gaq:true, Omniture:true, escape: true, google:true, _elqQ:true */
+/*global APIModules:true */
+/*global brightcove:true */
+/*global modMenu:true */
+/*global modSocial:true */
+/*global BCMenuEvent:true */
+/*global BCMediaEvent:true */
+/*global BCExperienceEvent:true */
+/*global bcTemplateReady:true */
+/*global bcTemplateLoaded:true */
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+netapp.VIDEO_LIBRARY_SERVICE = netapp.util.getBaseURL() + "/system/getVideoSearchResults.aspx";
+netapp.LIBRARY_SERVICE = netapp.util.getBaseURL() + "/system/getSearchResults.aspx";
+netapp.CUSTOMER_SHOWCASE_SEARCH_SERVICE = {
+	'us': '?ft=library_results_html&q2=Customer+Story&x2=lib_doc_type',
+	'de': '?ft=library_results_html&q2=Kundenreferenz&x2=lib_doc_type',
+	'uk': '?ft=library_results_html&q2=Customer+Story&x2=lib_doc_type'
+};
+
+setTimeout(function() {
+	$(".iframe3d").contents().find(".close3d").bind(netapp.clickEvent, function() {
+		netapp.ui.growElement.hideFunc();
+	});
+}, 5000);
+
+
+$(document).ready(function() {
+
+
+	if (netapp.clickEvent === 'tapone') {
+		$('#changeCountry').on('click', function(e) {
+			return false;
+		});
+	}
+
+	$('figure.video.hidden #BCLvideoWrapper').prepend('<div class="close"><a href="#">Close <img src="/us/static/images/v-form-close.png" alt="Close" /></a></div>');
+	$('.W01 .container1 table.layout, .W03 .container1 table.tableTechSpecs').each(function() {
+		if ($(this).parents('.tableContainer, .tableContainor, table').size() === 0) {
+			$(this).wrap('<div class="tableContainer" />');
+		}
+	});
+
+	//moving all videos and technomercials to the bottom
+	$('.W03 .container1 figure.video, .W03 .container1 figure.technomercial360, .W03 .container1 figure.technomercial260').each(function() {
+		var figureWithVideo;
+		figureWithVideo = $(this).detach();
+		figureWithVideo.appendTo( ".container1" );
+	});
+
+	$('h1.tabHeader').bind(netapp.clickEvent, function() {
+		if ($(this).parent().hasClass('active')) {
+			return false;
+		} else {
+			$(this).parent().parent().children('section.tabContent.active').children('.liner').slideToggle(400).parent().removeClass('active');
+			$(this).siblings('.liner').slideToggle(400).parent('section.tabContent').addClass('active');
+			return false;
+		}
+	});
+
+	if($('.ntapForm').parent().parent('.module')) {
+		$('.ntapForm').parent().parent('.module').addClass('fcModule');
+		$('.module .ntapForm select').parent().parent().addClass('selectBox');
+	}
+
+	/* Render localized dynamic contact module, set goe cookie and ui initialization
+	   Only applies to language sites
+	 * */
+	var host = document.location.hostname + "/";
+	// Check if it's a language site and contact module exists on the page
+	if($('.contactPhone').length && (host.indexOf("netapp.com/") != -1 || host.indexOf("localhost/") != -1)){
+	   	//get cc from URL
+	   	var parsed_cc = netapp.util.getCC();
+		// Check if cookie exists
+		if (getCookie("geo_cc")) {
+			var geo_cc = getCookie("geo_cc");
+	   		if ((geo_cc != "") && (geo_cc != undefined)) {
+				netapp.geoUpdateContactInfo(geo_cc);
+			} else {
+				// If both are same, then init
+	            netapp.geoUpdateContactInfo(parsed_cc);
+			}
+		} else {
+			if (cookieLaw.euCountry != undefined || typeof __ntap_dmdbase != "undefined") {
+				// Get country code from demandbase or fallback js function
+			    var cc = typeof __ntap_dmdbase != "undefined" ? (__ntap_dmdbase.registry_country_code != undefined ? __ntap_dmdbase.registry_country_code.toLowerCase() : __ntap_dmdbase.country.toLowerCase()) : cookieLaw.euCountry.toLowerCase();
+				var urlBase = window.location.protocol + "//" + window.location.host;
+				var wsfSvc = urlBase + "/webservices/v1/cdservice.svc/getfallbackcountrycode/" + cc
+				// get fallback country code
+				$.ajax({
+					url: wsfSvc,
+					type:"GET",
+					success: function(geo_cc) {
+						if (geo_cc.length != 0) {
+							setCookie("geo_cc", geo_cc, 1);
+						}
+						if (geo_cc.length != 0) {
+							netapp.geoUpdateContactInfo(geo_cc);
+						} else {
+						    netapp.geoUpdateContactInfo(parsed_cc);
+						}
+					},
+					error: function(e) {
+					    netapp.geoUpdateContactInfo(parsed_cc);
+					}
+				});
+			} else {
+			    netapp.geoUpdateContactInfo(parsed_cc);
+			}
+		}
+	} else {
+		netapp.ui.init();
+	}
+
+
+	$('.searchFilter li:has(ul)').addClass('category');
+	if (location.href.match("/library/") && !(location.href.match("videos"))) {
+		netapp.library.init();
+	}
+	if (location.href.match('customer-showcase')) {
+		netapp.library.showcase.init();
+	}
+	if (location.href.indexOf("videos.aspx") > 0) {
+		netapp.library.video.init();
+	}
+	netapp.library.video.attachVideoClicks();
+	if ($('div#BCLvideoWrapper[data-ntap-video-load]').length) {
+		netapp.library.video.preparePageContainers();
+	}
+
+
+});
+
+// midsize containers equalish heights
+$(window).ready(function(){
+	$('.W10.no-touch .container1').height($('.W10.no-touch .container2').height() - 70);
+});
+
+// home page form module interaction
+var homeSubmit = 0;
+$('.W01.homePage.no-touch').on('click', 'div.close', function(){
+	if($('.ntapForm').is(':visible')) {
+		$('.ntapForm').slideUp(function(){
+			$(this).parents('.hmodule').removeClass('active');
+			$('.close').remove();
+		});
+	} else if($('#embeddedThanks').is(':visible'))  {
+		homeSubmit = 1;
+		$('#embeddedThanks').slideUp(function(){
+			$(this).parent('.hmodule').removeClass('active');
+			$(this).siblings('.close').remove();
+		});
+	}
+});
+
+$('.W01.homePage.no-touch').on('click', 'div.hmodule:eq(2)', function(){
+	if($(window).width() > 970) {
+		if(!$(this).hasClass('active') && homeSubmit == 0) {
+			$(this).addClass('active');
+			$(this).find('.ntapForm').slideDown(function(){
+				$(this).parents('.hmodule').prepend('<div class="close">&nbsp;</div>');
+				$('.ntapForm :input:enabled:visible:first').focus();
+			});
+		} else if(!$(this).hasClass('active') && homeSubmit == 1) {
+			$(this).addClass('active');
+			$(this).find('#embeddedThanks').slideDown(function(){
+				$(this).parent().prepend('<div class="close">&nbsp;</div>');
+			});
+		}
+	}
+});
+/*function homeModHeight(){
+	if ($(window).width() < 971 && $(window).width() > 600) {
+		$('.homeModules').height($('.hmodule:last-child .fcModule').innerHeight() + $('.hmodule:last-child p:first-of-type').innerHeight() + 40);
+	} else {
+		$('.homeModules').removeAttr('style');
+	}
+}
+if ($('.homeModules').length) {
+	$(window).on('load', homeModHeight);
+	$(window).on('resize', homeModHeight);
+}*/
+//Legacy functions for inline video anchors tags using light window modal
+
+var myLightWindow = {};
+myLightWindow._playModalVideo = function(videoId, cc, var1, var2) {
+	cc = "";
+	function playVideo() {
+		if ($("#BCLvideoWrapper").length === 0) {
+			if ($(".tabsBar").length > 0) {
+				if ($("#SocialShare").length > 0) {
+					$('<figure class="video"><div id="BCLvideoWrapper"></div></figure><br/><br/>').insertAfter(".container1 #SocialShare");
+				} else {
+					$('<figure class="video"><div id="BCLvideoWrapper"></div></figure><br/><br/>').insertAfter(".container1 .tabsBar");
+				}
+			} else {
+				if ($("#BCLvideoWrapper").length === 0) {
+					$(".container1 section").prepend('<figure class="video"><div id="BCLvideoWrapper"></div></figure><br/><br/>');
+				}
+			}
+		}
+		NetAppPlayer.init('libraryVideoPlayer', document.getElementById('BCLvideoWrapper'));
+		netapp.library.video.addVideoPlayer(videoId, cc);
+		$("html, body").animate({
+			scrollTop: $("#BCLvideoWrapper").position().top
+		}, 1000);
+	}
+
+	if (typeof brightcove === 'undefined') //load bricghtcove if not loaded
+	{
+		$.getScript("//admin.brightcove.com/js/BrightcoveExperiences.js").done(function() {
+			$.getScript("//admin.brightcove.com/js/APIModules_all.js").done(function() {
+				playVideo();
+			});
+		});
+	} else {
+		playVideo();
+	}
+
+};
+
+var BCVideoPlayer = {};
+BCVideoPlayer.playVideo = function(videoId) {
+	function playVideo() {
+		if ($("#BCLvideoWrapper").length === 0) {
+			if ($(".tabsBar").length > 0) {
+				if ($("#SocialShare").length > 0) {
+					$('<figure class="video"><div id="BCLvideoWrapper"></div></figure><br/><br/>').insertAfter(".container1 #SocialShare");
+				} else {
+					$('<figure class="video"><div id="BCLvideoWrapper"></div></figure><br/><br/>').insertAfter(".container1 .tabsBar");
+				}
+			} else {
+				if ($("#BCLvideoWrapper").length === 0) {
+					$(".container1 section").prepend('<figure class="video"><div id="BCLvideoWrapper"></div></figure><br/><br/>');
+				}
+			}
+		}
+		NetAppPlayer.init('libraryVideoPlayer', document.getElementById('BCLvideoWrapper'));
+		netapp.library.video.addVideoPlayer(videoId, "");
+		$("html, body").animate({
+			scrollTop: $("#BCLvideoWrapper").position().top
+		}, 1000);
+	  $('#BCLvideoWrapper').mousedown(function() {
+	  	ga('send', 'event', 'Video', 'Interaction', videoId);
+	  });
+	}
+
+	if (typeof brightcove === 'undefined') //load bricghtcove if not loaded
+	{
+		$.getScript("//admin.brightcove.com/js/BrightcoveExperiences.js").done(function() {
+			$.getScript("//admin.brightcove.com/js/APIModules_all.js").done(function() {
+				playVideo();
+			});
+		});
+	} else {
+		playVideo();
+	}
+
+};
