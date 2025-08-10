@@ -1,0 +1,227 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <title>Kevin's Knowledge Base - Articles</title>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no"/>
+    <link rel="stylesheet" href="assets/css/main.css"/>
+    <style>
+        .article-category {
+            margin-bottom: 2em;
+            border-left: 4px solid #49bf9d;
+            padding-left: 1em;
+        }
+        .article-list {
+            list-style: none;
+            padding: 0;
+        }
+        .article-list li {
+            margin-bottom: 0.5em;
+            padding: 0.5em;
+            background: rgba(255,255,255,0.05);
+            border-radius: 4px;
+        }
+        .article-list li:hover {
+            background: rgba(255,255,255,0.1);
+        }
+        .article-link {
+            color: #49bf9d;
+            text-decoration: none;
+        }
+        .article-link:hover {
+            color: #ffffff;
+        }
+        .category-title {
+            color: #49bf9d;
+            border-bottom: 2px solid #49bf9d;
+            padding-bottom: 0.5em;
+            margin-bottom: 1em;
+        }
+        .back-home {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: #49bf9d;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 5px;
+            text-decoration: none;
+        }
+        .back-home:hover {
+            background: #3a9d7a;
+            color: white;
+        }
+    </style>
+</head>
+<body class="is-preload">
+
+<a href="index.html" class="back-home">← 返回首页</a>
+
+<!-- Header -->
+<header id="header">
+    <div class="inner">
+        <a href="index.html" class="image avatar"><img src="images/avatar.jpg" alt=""/></a>
+        <h1><strong>Knowledge Base</strong><br/>
+            技术文章与学习笔记<br/>
+            持续更新中...</h1>
+    </div>
+</header>
+
+<!-- Main -->
+<div id="main">
+    <section id="one">
+        <header class="major">
+            <h2>文章导航</h2>
+        </header>
+        <p>这里收录了我的技术学习笔记、论文阅读、项目实践等内容。涵盖Java、大数据、并发编程、数据库、架构设计等多个技术领域。</p>
+    </section>
+
+    <!-- 博客文章分类 -->
+    <section class="article-category">
+        <h3 class="category-title">📝 博客文章</h3>
+        
+        <h4>🤖 人工智能</h4>
+        <ul class="article-list">
+            <li><a href="博客文章/Artificial/时间序列预测prophet算法工程实践.md" class="article-link">时间序列预测Prophet算法工程实践</a></li>
+        </ul>
+
+        <h4>📊 大数据</h4>
+        <ul class="article-list">
+            <li><a href="博客文章/BigData/Google 三驾马车.md" class="article-link">Google 三驾马车</a></li>
+            <li><a href="博客文章/BigData/Spark JobGraph探究.md" class="article-link">Spark JobGraph探究</a></li>
+            <li><a href="博客文章/BigData/ES数据收集分析爬虫.md" class="article-link">ES数据收集分析爬虫</a></li>
+        </ul>
+
+        <h4>☁️ 云计算</h4>
+        <ul class="article-list">
+            <li><a href="博客文章/Cloud/aws-terminology.md" class="article-link">AWS术语解析</a></li>
+        </ul>
+
+        <h4>💼 工作经验</h4>
+        <ul class="article-list">
+            <li><a href="博客文章/Work/工作模板.md" class="article-link">工作模板</a></li>
+            <li><a href="博客文章/Work/技术模板.md" class="article-link">技术模板</a></li>
+        </ul>
+    </section>
+
+    <!-- Java技术文章 -->
+    <section class="article-category">
+        <h3 class="category-title">☕ Java技术</h3>
+        
+        <h4>JDK新特性</h4>
+        <ul class="article-list">
+            <li><a href="article/Java/JDK/JDK9-JPMS模块化.md" class="article-link">JDK9 - JPMS模块化</a></li>
+            <li><a href="article/Java/JDK/JDK10-var类型推断.md" class="article-link">JDK10 - var类型推断</a></li>
+            <li><a href="article/Java/JDK/JDK11-ZGC.md" class="article-link">JDK11 - ZGC垃圾收集器</a></li>
+            <li><a href="article/Java/JDK/JDK12-switch匹配.md" class="article-link">JDK12 - Switch表达式</a></li>
+            <li><a href="article/Java/JDK/JDK13-CDS数据共享.md" class="article-link">JDK13 - CDS数据共享</a></li>
+            <li><a href="article/Java/JDK/JDK14-G1 NUMA.md" class="article-link">JDK14 - G1 NUMA优化</a></li>
+            <li><a href="article/Java/JDK/AJDK-AOT静态编译.md" class="article-link">AJDK - AOT静态编译</a></li>
+            <li><a href="article/Java/JDK/AJDK-Wisp协程.md" class="article-link">AJDK - Wisp协程</a></li>
+        </ul>
+    </section>
+
+    <!-- 并发编程 -->
+    <section class="article-category">
+        <h3 class="category-title">🔄 并发编程</h3>
+        <ul class="article-list">
+            <li><a href="Concurrent/原理总结.md" class="article-link">并发编程原理总结</a></li>
+            <li><a href="Concurrent/AQS/" class="article-link">AQS (AbstractQueuedSynchronizer)</a></li>
+            <li><a href="Concurrent/Atomic/" class="article-link">原子类 (Atomic)</a></li>
+            <li><a href="Concurrent/CAS/" class="article-link">CAS (Compare And Swap)</a></li>
+            <li><a href="Concurrent/Executor/" class="article-link">线程池 (Executor)</a></li>
+            <li><a href="Concurrent/ForkJoinPool/" class="article-link">ForkJoinPool</a></li>
+            <li><a href="Concurrent/Lock/" class="article-link">锁机制 (Lock)</a></li>
+        </ul>
+    </section>
+
+    <!-- 其他技术领域 -->
+    <section class="article-category">
+        <h3 class="category-title">🛠️ 其他技术</h3>
+        
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1em;">
+            <div>
+                <h4>数据库</h4>
+                <ul class="article-list">
+                    <li><a href="Database/" class="article-link">数据库相关</a></li>
+                    <li><a href="Mysql/" class="article-link">MySQL</a></li>
+                </ul>
+            </div>
+            
+            <div>
+                <h4>架构设计</h4>
+                <ul class="article-list">
+                    <li><a href="架构/" class="article-link">架构设计</a></li>
+                    <li><a href="Distrubute/" class="article-link">分布式系统</a></li>
+                </ul>
+            </div>
+            
+            <div>
+                <h4>容器化</h4>
+                <ul class="article-list">
+                    <li><a href="Docker/" class="article-link">Docker</a></li>
+                </ul>
+            </div>
+            
+            <div>
+                <h4>系统运维</h4>
+                <ul class="article-list">
+                    <li><a href="Linux/" class="article-link">Linux</a></li>
+                    <li><a href="Nginx/" class="article-link">Nginx</a></li>
+                </ul>
+            </div>
+            
+            <div>
+                <h4>网络编程</h4>
+                <ul class="article-list">
+                    <li><a href="NIO/" class="article-link">NIO</a></li>
+                    <li><a href="Netty/" class="article-link">Netty</a></li>
+                </ul>
+            </div>
+            
+            <div>
+                <h4>响应式编程</h4>
+                <ul class="article-list">
+                    <li><a href="Reactive/" class="article-link">Reactive</a></li>
+                    <li><a href="RxJava/" class="article-link">RxJava</a></li>
+                    <li><a href="WebFlux/" class="article-link">WebFlux</a></li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <!-- 学习资源 -->
+    <section class="article-category">
+        <h3 class="category-title">📚 学习资源</h3>
+        <ul class="article-list">
+            <li><a href="待读书籍/" class="article-link">待读书籍清单</a></li>
+            <li><a href="开源软件架构/" class="article-link">开源软件架构</a></li>
+            <li><a href="English/" class="article-link">英语学习</a></li>
+        </ul>
+    </section>
+
+</div>
+
+<!-- Footer -->
+<footer id="footer">
+    <div class="inner">
+        <ul class="icons">
+            <li><a href="https://github.com/kevinten10" class="icon fa-github"><span class="label">Github</span></a></li>
+            <li><a href="mailto:wshten@gmail.com" class="icon fa-envelope-o"><span class="label">Email</span></a></li>
+        </ul>
+        <ul class="copyright">
+            <li>&copy; kevinten10</li>
+            <li>Knowledge Base</li>
+        </ul>
+    </div>
+</footer>
+
+<!-- Scripts -->
+<script src="assets/js/jquery.min.js"></script>
+<script src="assets/js/browser.min.js"></script>
+<script src="assets/js/breakpoints.min.js"></script>
+<script src="assets/js/util.js"></script>
+<script src="assets/js/main.js"></script>
+
+</body>
+</html>
