@@ -7,49 +7,139 @@
     <link rel="stylesheet" href="assets/css/main.css"/>
     <style>
         .article-category {
-            margin-bottom: 2em;
+            margin-bottom: 3em;
             border-left: 4px solid #49bf9d;
-            padding-left: 1em;
+            padding-left: 1.5em;
+            background: rgba(73, 191, 157, 0.05);
+            border-radius: 8px;
+            padding: 1.5em;
         }
         .article-list {
             list-style: none;
             padding: 0;
+            display: grid;
+            gap: 0.8em;
         }
         .article-list li {
-            margin-bottom: 0.5em;
-            padding: 0.5em;
-            background: rgba(255,255,255,0.05);
-            border-radius: 4px;
+            padding: 1em;
+            background: linear-gradient(135deg, rgba(255,255,255,0.08), rgba(255,255,255,0.02));
+            border-radius: 8px;
+            border: 1px solid rgba(73, 191, 157, 0.2);
+            transition: all 0.3s ease;
+            position: relative;
         }
         .article-list li:hover {
-            background: rgba(255,255,255,0.1);
+            background: linear-gradient(135deg, rgba(73, 191, 157, 0.15), rgba(73, 191, 157, 0.05));
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(73, 191, 157, 0.2);
         }
         .article-link {
             color: #49bf9d;
             text-decoration: none;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 0.5em;
         }
         .article-link:hover {
             color: #ffffff;
         }
+        .article-link::before {
+            content: "📄";
+            font-size: 1.2em;
+        }
+        .folder-link::before {
+            content: "📁";
+        }
+        .pdf-link::before {
+            content: "📕";
+        }
         .category-title {
             color: #49bf9d;
-            border-bottom: 2px solid #49bf9d;
-            padding-bottom: 0.5em;
-            margin-bottom: 1em;
+            border-bottom: 3px solid #49bf9d;
+            padding-bottom: 0.8em;
+            margin-bottom: 1.5em;
+            font-size: 1.4em;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.3);
         }
         .back-home {
             position: fixed;
             top: 20px;
             right: 20px;
-            background: #49bf9d;
+            background: linear-gradient(135deg, #49bf9d, #3a9d7a);
             color: white;
-            padding: 10px 20px;
-            border-radius: 5px;
+            padding: 12px 24px;
+            border-radius: 25px;
             text-decoration: none;
+            box-shadow: 0 4px 12px rgba(73, 191, 157, 0.3);
+            transition: all 0.3s ease;
+            z-index: 1000;
         }
         .back-home:hover {
-            background: #3a9d7a;
+            background: linear-gradient(135deg, #3a9d7a, #2d7a5f);
             color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 16px rgba(73, 191, 157, 0.4);
+        }
+        .stats-bar {
+            background: linear-gradient(135deg, rgba(73, 191, 157, 0.1), rgba(73, 191, 157, 0.05));
+            padding: 1.5em;
+            border-radius: 8px;
+            margin-bottom: 2em;
+            text-align: center;
+            border: 1px solid rgba(73, 191, 157, 0.2);
+        }
+        .stats-item {
+            display: inline-block;
+            margin: 0 1em;
+            padding: 0.5em 1em;
+            background: rgba(73, 191, 157, 0.1);
+            border-radius: 20px;
+            color: #49bf9d;
+            font-weight: bold;
+        }
+        .search-box {
+            width: 100%;
+            padding: 1em;
+            margin-bottom: 2em;
+            background: rgba(255,255,255,0.05);
+            border: 2px solid rgba(73, 191, 157, 0.3);
+            border-radius: 25px;
+            color: white;
+            font-size: 1em;
+            outline: none;
+            transition: all 0.3s ease;
+        }
+        .search-box:focus {
+            border-color: #49bf9d;
+            box-shadow: 0 0 12px rgba(73, 191, 157, 0.3);
+        }
+        .search-box::placeholder {
+            color: rgba(255,255,255,0.6);
+        }
+        .tech-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.5em;
+            margin-top: 1em;
+        }
+        .tech-card {
+            background: linear-gradient(135deg, rgba(255,255,255,0.08), rgba(255,255,255,0.02));
+            border-radius: 12px;
+            padding: 1.5em;
+            border: 1px solid rgba(73, 191, 157, 0.2);
+            transition: all 0.3s ease;
+        }
+        .tech-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 24px rgba(73, 191, 157, 0.2);
+        }
+        .tech-card h4 {
+            color: #49bf9d;
+            margin-bottom: 1em;
+            font-size: 1.1em;
+            border-bottom: 2px solid rgba(73, 191, 157, 0.3);
+            padding-bottom: 0.5em;
         }
     </style>
 </head>
@@ -71,136 +161,179 @@
 <div id="main">
     <section id="one">
         <header class="major">
-            <h2>文章导航</h2>
+            <h2>🚀 Kevin's 技术知识库</h2>
         </header>
         <p>这里收录了我的技术学习笔记、论文阅读、项目实践等内容。涵盖Java、大数据、并发编程、数据库、架构设计等多个技术领域。</p>
+        
+        <!-- 统计信息 -->
+        <div class="stats-bar">
+            <span class="stats-item">📝 技术文章 50+</span>
+            <span class="stats-item">📚 学习笔记 30+</span>
+            <span class="stats-item">🔬 论文研读 20+</span>
+            <span class="stats-item">💡 实践项目 15+</span>
+        </div>
+        
+        <!-- 搜索框 -->
+        <input type="text" id="searchBox" class="search-box" placeholder="🔍 搜索文章标题或技术关键词...">
     </section>
 
     <!-- 博客文章分类 -->
-    <section class="article-category">
+    <section class="article-category" data-category="blog">
         <h3 class="category-title">📝 博客文章</h3>
         
         <h4>🤖 人工智能</h4>
         <ul class="article-list">
-            <li><a href="博客文章/Artificial/时间序列预测prophet算法工程实践.md" class="article-link">时间序列预测Prophet算法工程实践</a></li>
+            <li><a href="viewer.html?file=博客文章/Artificial/时间序列预测prophet算法工程实践.md" class="article-link">时间序列预测Prophet算法工程实践</a></li>
         </ul>
 
         <h4>📊 大数据</h4>
         <ul class="article-list">
-            <li><a href="博客文章/BigData/Google 三驾马车.md" class="article-link">Google 三驾马车</a></li>
-            <li><a href="博客文章/BigData/Spark JobGraph探究.md" class="article-link">Spark JobGraph探究</a></li>
-            <li><a href="博客文章/BigData/ES数据收集分析爬虫.md" class="article-link">ES数据收集分析爬虫</a></li>
+            <li><a href="viewer.html?file=博客文章/BigData/Google 三驾马车.md" class="article-link">Google 三驾马车</a></li>
+            <li><a href="viewer.html?file=博客文章/BigData/Spark JobGraph探究.md" class="article-link">Spark JobGraph探究</a></li>
+            <li><a href="viewer.html?file=博客文章/BigData/ES数据收集分析爬虫.md" class="article-link">ES数据收集分析爬虫</a></li>
         </ul>
 
         <h4>☁️ 云计算</h4>
         <ul class="article-list">
-            <li><a href="博客文章/Cloud/aws-terminology.md" class="article-link">AWS术语解析</a></li>
+            <li><a href="viewer.html?file=博客文章/Cloud/aws-terminology.md" class="article-link">AWS术语解析</a></li>
         </ul>
 
         <h4>💼 工作经验</h4>
         <ul class="article-list">
-            <li><a href="博客文章/Work/工作模板.md" class="article-link">工作模板</a></li>
-            <li><a href="博客文章/Work/技术模板.md" class="article-link">技术模板</a></li>
+            <li><a href="viewer.html?file=博客文章/Work/工作模板.md" class="article-link">工作模板</a></li>
+            <li><a href="viewer.html?file=博客文章/Work/技术模板.md" class="article-link">技术模板</a></li>
         </ul>
     </section>
 
     <!-- Java技术文章 -->
-    <section class="article-category">
+    <section class="article-category" data-category="java">
         <h3 class="category-title">☕ Java技术</h3>
         
         <h4>JDK新特性</h4>
         <ul class="article-list">
-            <li><a href="article/Java/JDK/JDK9-JPMS模块化.md" class="article-link">JDK9 - JPMS模块化</a></li>
-            <li><a href="article/Java/JDK/JDK10-var类型推断.md" class="article-link">JDK10 - var类型推断</a></li>
-            <li><a href="article/Java/JDK/JDK11-ZGC.md" class="article-link">JDK11 - ZGC垃圾收集器</a></li>
-            <li><a href="article/Java/JDK/JDK12-switch匹配.md" class="article-link">JDK12 - Switch表达式</a></li>
-            <li><a href="article/Java/JDK/JDK13-CDS数据共享.md" class="article-link">JDK13 - CDS数据共享</a></li>
-            <li><a href="article/Java/JDK/JDK14-G1 NUMA.md" class="article-link">JDK14 - G1 NUMA优化</a></li>
-            <li><a href="article/Java/JDK/AJDK-AOT静态编译.md" class="article-link">AJDK - AOT静态编译</a></li>
-            <li><a href="article/Java/JDK/AJDK-Wisp协程.md" class="article-link">AJDK - Wisp协程</a></li>
+            <li><a href="viewer.html?file=article/Java/JDK/JDK9-JPMS模块化.md" class="article-link">JDK9 - JPMS模块化</a></li>
+            <li><a href="viewer.html?file=article/Java/JDK/JDK10-var类型推断.md" class="article-link">JDK10 - var类型推断</a></li>
+            <li><a href="viewer.html?file=article/Java/JDK/JDK11-ZGC.md" class="article-link">JDK11 - ZGC垃圾收集器</a></li>
+            <li><a href="viewer.html?file=article/Java/JDK/JDK12-switch匹配.md" class="article-link">JDK12 - Switch表达式</a></li>
+            <li><a href="viewer.html?file=article/Java/JDK/JDK13-CDS数据共享.md" class="article-link">JDK13 - CDS数据共享</a></li>
+            <li><a href="viewer.html?file=article/Java/JDK/JDK14-G1 NUMA.md" class="article-link">JDK14 - G1 NUMA优化</a></li>
+            <li><a href="viewer.html?file=article/Java/JDK/AJDK-AOT静态编译.md" class="article-link">AJDK - AOT静态编译</a></li>
+            <li><a href="viewer.html?file=article/Java/JDK/AJDK-Wisp协程.md" class="article-link">AJDK - Wisp协程</a></li>
         </ul>
     </section>
 
     <!-- 并发编程 -->
-    <section class="article-category">
+    <section class="article-category" data-category="concurrent">
         <h3 class="category-title">🔄 并发编程</h3>
         <ul class="article-list">
-            <li><a href="Concurrent/原理总结.md" class="article-link">并发编程原理总结</a></li>
-            <li><a href="Concurrent/AQS/" class="article-link">AQS (AbstractQueuedSynchronizer)</a></li>
-            <li><a href="Concurrent/Atomic/" class="article-link">原子类 (Atomic)</a></li>
-            <li><a href="Concurrent/CAS/" class="article-link">CAS (Compare And Swap)</a></li>
-            <li><a href="Concurrent/Executor/" class="article-link">线程池 (Executor)</a></li>
-            <li><a href="Concurrent/ForkJoinPool/" class="article-link">ForkJoinPool</a></li>
-            <li><a href="Concurrent/Lock/" class="article-link">锁机制 (Lock)</a></li>
+            <li><a href="viewer.html?file=Concurrent/原理总结.md" class="article-link">并发编程原理总结</a></li>
+            <li><a href="Concurrent/AQS/" class="article-link folder-link">AQS (AbstractQueuedSynchronizer)</a></li>
+            <li><a href="Concurrent/Atomic/" class="article-link folder-link">原子类 (Atomic)</a></li>
+            <li><a href="Concurrent/CAS/" class="article-link folder-link">CAS (Compare And Swap)</a></li>
+            <li><a href="Concurrent/Executor/" class="article-link folder-link">线程池 (Executor)</a></li>
+            <li><a href="Concurrent/ForkJoinPool/" class="article-link folder-link">ForkJoinPool</a></li>
+            <li><a href="Concurrent/Lock/" class="article-link folder-link">锁机制 (Lock)</a></li>
         </ul>
     </section>
 
     <!-- 其他技术领域 -->
-    <section class="article-category">
+    <section class="article-category" data-category="tech">
         <h3 class="category-title">🛠️ 其他技术</h3>
         
-        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1em;">
-            <div>
-                <h4>数据库</h4>
+        <div class="tech-grid">
+            <div class="tech-card">
+                <h4>💾 数据库</h4>
                 <ul class="article-list">
-                    <li><a href="Database/" class="article-link">数据库相关</a></li>
-                    <li><a href="Mysql/" class="article-link">MySQL</a></li>
+                    <li><a href="Database/" class="article-link folder-link">数据库相关</a></li>
+                    <li><a href="Mysql/" class="article-link folder-link">MySQL</a></li>
                 </ul>
             </div>
             
-            <div>
-                <h4>架构设计</h4>
+            <div class="tech-card">
+                <h4>🏗️ 架构设计</h4>
                 <ul class="article-list">
-                    <li><a href="架构/" class="article-link">架构设计</a></li>
-                    <li><a href="Distrubute/" class="article-link">分布式系统</a></li>
+                    <li><a href="架构/" class="article-link folder-link">架构设计</a></li>
+                    <li><a href="Distrubute/" class="article-link folder-link">分布式系统</a></li>
                 </ul>
             </div>
             
-            <div>
-                <h4>容器化</h4>
+            <div class="tech-card">
+                <h4>🐳 容器化</h4>
                 <ul class="article-list">
-                    <li><a href="Docker/" class="article-link">Docker</a></li>
+                    <li><a href="Docker/" class="article-link folder-link">Docker</a></li>
                 </ul>
             </div>
             
-            <div>
-                <h4>系统运维</h4>
+            <div class="tech-card">
+                <h4>🖥️ 系统运维</h4>
                 <ul class="article-list">
-                    <li><a href="Linux/" class="article-link">Linux</a></li>
-                    <li><a href="Nginx/" class="article-link">Nginx</a></li>
+                    <li><a href="Linux/" class="article-link folder-link">Linux</a></li>
+                    <li><a href="Nginx/" class="article-link folder-link">Nginx</a></li>
                 </ul>
             </div>
             
-            <div>
-                <h4>网络编程</h4>
+            <div class="tech-card">
+                <h4>🌐 网络编程</h4>
                 <ul class="article-list">
-                    <li><a href="NIO/" class="article-link">NIO</a></li>
-                    <li><a href="Netty/" class="article-link">Netty</a></li>
+                    <li><a href="NIO/" class="article-link folder-link">NIO</a></li>
+                    <li><a href="Netty/" class="article-link folder-link">Netty</a></li>
                 </ul>
             </div>
             
-            <div>
-                <h4>响应式编程</h4>
+            <div class="tech-card">
+                <h4>⚡ 响应式编程</h4>
                 <ul class="article-list">
-                    <li><a href="Reactive/" class="article-link">Reactive</a></li>
-                    <li><a href="RxJava/" class="article-link">RxJava</a></li>
-                    <li><a href="WebFlux/" class="article-link">WebFlux</a></li>
+                    <li><a href="Reactive/" class="article-link folder-link">Reactive</a></li>
+                    <li><a href="RxJava/" class="article-link folder-link">RxJava</a></li>
+                    <li><a href="WebFlux/" class="article-link folder-link">WebFlux</a></li>
                 </ul>
             </div>
         </div>
     </section>
 
     <!-- 学习资源 -->
-    <section class="article-category">
+    <section class="article-category" data-category="resources">
         <h3 class="category-title">📚 学习资源</h3>
         <ul class="article-list">
-            <li><a href="待读书籍/" class="article-link">待读书籍清单</a></li>
-            <li><a href="开源软件架构/" class="article-link">开源软件架构</a></li>
-            <li><a href="English/" class="article-link">英语学习</a></li>
+            <li><a href="待读书籍/" class="article-link folder-link">待读书籍清单</a></li>
+            <li><a href="开源软件架构/" class="article-link folder-link">开源软件架构</a></li>
+            <li><a href="English/" class="article-link folder-link">英语学习</a></li>
         </ul>
     </section>
 
 </div>
+
+<!-- 搜索脚本 -->
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const searchBox = document.getElementById('searchBox');
+    const categories = document.querySelectorAll('.article-category');
+    
+    searchBox.addEventListener('input', function() {
+        const searchTerm = this.value.toLowerCase();
+        
+        categories.forEach(category => {
+            const links = category.querySelectorAll('.article-link');
+            let hasVisibleItems = false;
+            
+            links.forEach(link => {
+                const text = link.textContent.toLowerCase();
+                const listItem = link.closest('li');
+                
+                if (text.includes(searchTerm)) {
+                    listItem.style.display = 'block';
+                    hasVisibleItems = true;
+                } else {
+                    listItem.style.display = searchTerm ? 'none' : 'block';
+                }
+            });
+            
+            // 显示/隐藏整个分类
+            category.style.display = (searchTerm && !hasVisibleItems) ? 'none' : 'block';
+        });
+    });
+});
+</script>
 
 <!-- Footer -->
 <footer id="footer">

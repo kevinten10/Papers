@@ -1,0 +1,206 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <title>Kevin's Knowledge Base - Article Viewer</title>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no"/>
+    <link rel="stylesheet" href="assets/css/main.css"/>
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/highlight.js@11.9.0/lib/highlight.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@11.9.0/styles/github-dark.min.css">
+    <style>
+        .article-content {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 2em;
+            background: rgba(255,255,255,0.05);
+            border-radius: 8px;
+            line-height: 1.8;
+        }
+        .article-content h1, .article-content h2, .article-content h3 {
+            color: #49bf9d;
+            border-bottom: 2px solid #49bf9d;
+            padding-bottom: 0.5em;
+        }
+        .article-content pre {
+            background: rgba(0,0,0,0.3);
+            padding: 1em;
+            border-radius: 5px;
+            overflow-x: auto;
+        }
+        .article-content code {
+            background: rgba(0,0,0,0.2);
+            padding: 0.2em 0.4em;
+            border-radius: 3px;
+            font-family: 'Courier New', monospace;
+        }
+        .article-content blockquote {
+            border-left: 4px solid #49bf9d;
+            padding-left: 1em;
+            margin-left: 0;
+            font-style: italic;
+            color: #ccc;
+        }
+        .back-nav {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: #49bf9d;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 5px;
+            text-decoration: none;
+            z-index: 1000;
+        }
+        .back-nav:hover {
+            background: #3a9d7a;
+            color: white;
+        }
+        .loading {
+            text-align: center;
+            padding: 2em;
+            color: #49bf9d;
+        }
+        .error {
+            text-align: center;
+            padding: 2em;
+            color: #ff6b6b;
+        }
+        .article-meta {
+            background: rgba(73, 191, 157, 0.1);
+            padding: 1em;
+            border-radius: 5px;
+            margin-bottom: 2em;
+            border-left: 4px solid #49bf9d;
+        }
+    </style>
+</head>
+<body class="is-preload">
+
+<a href="articles.html" class="back-nav">← 返回文章列表</a>
+
+<!-- Header -->
+<header id="header">
+    <div class="inner">
+        <a href="index.html" class="image avatar"><img src="images/avatar.jpg" alt=""/></a>
+        <h1><strong>Article Viewer</strong><br/>
+            文章阅读器<br/>
+            支持 Markdown 渲染</h1>
+    </div>
+</header>
+
+<!-- Main -->
+<div id="main">
+    <div class="article-meta">
+        <h3 id="article-title">正在加载文章...</h3>
+        <p id="article-path"></p>
+    </div>
+    
+    <div id="loading" class="loading">
+        <h3>📖 正在加载文章内容...</h3>
+        <p>请稍候</p>
+    </div>
+    
+    <div id="error" class="error" style="display: none;">
+        <h3>❌ 文章加载失败</h3>
+        <p>无法加载指定的文章，请检查文件路径是否正确。</p>
+    </div>
+    
+    <div id="article-content" class="article-content" style="display: none;">
+        <!-- 文章内容将在这里显示 -->
+    </div>
+</div>
+
+<!-- Footer -->
+<footer id="footer">
+    <div class="inner">
+        <ul class="icons">
+            <li><a href="https://github.com/kevinten10" class="icon fa-github"><span class="label">Github</span></a></li>
+            <li><a href="mailto:596823919@qq.com" class="icon fa-envelope-o"><span class="label">Email</span></a></li>
+        </ul>
+        <ul class="copyright">
+            <li>&copy; kevinten10</li>
+            <li>Knowledge Base Viewer</li>
+        </ul>
+    </div>
+</footer>
+
+<!-- Scripts -->
+<script src="assets/js/jquery.min.js"></script>
+<script src="assets/js/browser.min.js"></script>
+<script src="assets/js/breakpoints.min.js"></script>
+<script src="assets/js/util.js"></script>
+<script src="assets/js/main.js"></script>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // 配置 marked
+    marked.setOptions({
+        highlight: function(code, lang) {
+            if (lang && hljs.getLanguage(lang)) {
+                return hljs.highlight(code, { language: lang }).value;
+            }
+            return hljs.highlightAuto(code).value;
+        },
+        breaks: true,
+        gfm: true
+    });
+
+    // 获取 URL 参数
+    const urlParams = new URLSearchParams(window.location.search);
+    const filePath = urlParams.get('file');
+    
+    if (!filePath) {
+        showError('未指定要查看的文章');
+        return;
+    }
+    
+    // 更新页面信息
+    document.getElementById('article-title').textContent = decodeURIComponent(filePath.split('/').pop().replace('.md', ''));
+    document.getElementById('article-path').textContent = `文件路径: ${filePath}`;
+    
+    // 加载文章内容
+    loadArticle(filePath);
+});
+
+function loadArticle(filePath) {
+    fetch(filePath)
+        .then(response => {
+            if (!response.ok) {
+                throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+            }
+            return response.text();
+        })
+        .then(content => {
+            // 隐藏加载提示
+            document.getElementById('loading').style.display = 'none';
+            
+            // 渲染 Markdown
+            const htmlContent = marked.parse(content);
+            document.getElementById('article-content').innerHTML = htmlContent;
+            document.getElementById('article-content').style.display = 'block';
+            
+            // 高亮代码块
+            document.querySelectorAll('pre code').forEach((block) => {
+                hljs.highlightElement(block);
+            });
+        })
+        .catch(error => {
+            console.error('加载文章失败:', error);
+            showError(`加载失败: ${error.message}`);
+        });
+}
+
+function showError(message) {
+    document.getElementById('loading').style.display = 'none';
+    document.getElementById('error').style.display = 'block';
+    document.getElementById('error').innerHTML = `
+        <h3>❌ 文章加载失败</h3>
+        <p>${message}</p>
+        <p><a href="articles.html" style="color: #49bf9d;">返回文章列表</a></p>
+    `;
+}
+</script>
+
+</body>
+</html>
