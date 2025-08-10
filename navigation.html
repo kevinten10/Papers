@@ -1,0 +1,333 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <title>Kevin's Knowledge Hub - 导航中心</title>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no"/>
+    <link rel="stylesheet" href="assets/css/main.css"/>
+    <style>
+        .nav-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2em;
+            margin: 2em 0;
+        }
+
+        .nav-card {
+            background: linear-gradient(135deg, rgba(255,255,255,0.1), rgba(255,255,255,0.05));
+            border-radius: 15px;
+            padding: 2em;
+            border: 2px solid rgba(73, 191, 157, 0.2);
+            transition: all 0.4s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .nav-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 5px;
+            background: linear-gradient(90deg, #49bf9d, #64b5f6, #81c784);
+        }
+
+        .nav-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(73, 191, 157, 0.3);
+            border-color: #49bf9d;
+        }
+
+        .nav-icon {
+            font-size: 3em;
+            margin-bottom: 0.5em;
+            display: block;
+        }
+
+        .nav-title {
+            color: #49bf9d;
+            font-size: 1.3em;
+            font-weight: bold;
+            margin-bottom: 0.8em;
+        }
+
+        .nav-description {
+            color: rgba(255,255,255,0.8);
+            line-height: 1.6;
+            margin-bottom: 1.5em;
+        }
+
+        .nav-features {
+            list-style: none;
+            padding: 0;
+            margin-bottom: 1.5em;
+        }
+
+        .nav-features li {
+            color: rgba(255,255,255,0.7);
+            margin-bottom: 0.5em;
+            padding-left: 1.5em;
+            position: relative;
+        }
+
+        .nav-features li::before {
+            content: '✓';
+            position: absolute;
+            left: 0;
+            color: #49bf9d;
+            font-weight: bold;
+        }
+
+        .nav-button {
+            background: linear-gradient(135deg, #49bf9d, #3a9d7a);
+            color: white;
+            padding: 0.8em 1.5em;
+            border: none;
+            border-radius: 25px;
+            text-decoration: none;
+            display: inline-block;
+            transition: all 0.3s ease;
+            font-weight: bold;
+        }
+
+        .nav-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(73, 191, 157, 0.4);
+            color: white;
+        }
+
+        .nav-button.secondary {
+            background: linear-gradient(135deg, #64b5f6, #42a5f5);
+        }
+
+        .nav-button.accent {
+            background: linear-gradient(135deg, #81c784, #66bb6a);
+        }
+
+        .quick-stats {
+            background: rgba(73, 191, 157, 0.1);
+            border-radius: 10px;
+            padding: 1.5em;
+            margin: 2em 0;
+            border-left: 4px solid #49bf9d;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+            gap: 1em;
+            text-align: center;
+        }
+
+        .stat-item {
+            color: #49bf9d;
+        }
+
+        .stat-number {
+            font-size: 2em;
+            font-weight: bold;
+            display: block;
+        }
+
+        .recent-updates {
+            background: rgba(255,255,255,0.05);
+            border-radius: 10px;
+            padding: 1.5em;
+            margin: 2em 0;
+        }
+
+        .update-item {
+            display: flex;
+            align-items: center;
+            gap: 1em;
+            padding: 0.8em 0;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .update-item:last-child {
+            border-bottom: none;
+        }
+
+        .update-date {
+            background: #49bf9d;
+            color: white;
+            padding: 0.3em 0.8em;
+            border-radius: 15px;
+            font-size: 0.8em;
+            white-space: nowrap;
+        }
+    </style>
+</head>
+<body class="is-preload">
+
+<!-- Header -->
+<header id="header">
+    <div class="inner">
+        <a href="index.html" class="image avatar"><img src="images/avatar.jpg" alt=""/></a>
+        <h1><strong>Knowledge Hub</strong><br/>
+            技术知识导航中心<br/>
+            一站式学习平台</h1>
+    </div>
+</header>
+
+<!-- Main -->
+<div id="main">
+    <section id="one">
+        <header class="major">
+            <h2>🎯 选择你的学习方式</h2>
+        </header>
+        <p>提供多种浏览和学习方式，满足不同场景下的知识获取需求。从传统的分类浏览到AI驱动的智能推荐，总有一种适合你。</p>
+        
+        <div class="quick-stats">
+            <h3 style="color: #49bf9d; margin-bottom: 1em;">📊 知识库统计</h3>
+            <div class="stats-grid">
+                <div class="stat-item">
+                    <span class="stat-number">150+</span>
+                    <span>技术文章</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-number">20+</span>
+                    <span>技术领域</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-number">500+</span>
+                    <span>学习小时</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-number">50+</span>
+                    <span>实践项目</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div class="nav-grid">
+        <!-- 智能知识库 -->
+        <div class="nav-card">
+            <span class="nav-icon">🚀</span>
+            <h3 class="nav-title">智能知识库</h3>
+            <p class="nav-description">AI驱动的现代化知识管理系统，提供智能搜索、个性化推荐和交互式学习体验。</p>
+            <ul class="nav-features">
+                <li>智能全文搜索</li>
+                <li>分类树状导航</li>
+                <li>实时统计分析</li>
+                <li>响应式设计</li>
+                <li>Markdown渲染</li>
+            </ul>
+            <a href="knowledge-base.html" class="nav-button">🎯 进入智能库</a>
+        </div>
+
+        <!-- 传统文章浏览 -->
+        <div class="nav-card">
+            <span class="nav-icon">📚</span>
+            <h3 class="nav-title">传统文章浏览</h3>
+            <p class="nav-description">经典的分类浏览方式，按技术领域整理，适合系统性学习和知识梳理。</p>
+            <ul class="nav-features">
+                <li>技术分类清晰</li>
+                <li>搜索过滤功能</li>
+                <li>标签系统</li>
+                <li>美观卡片布局</li>
+                <li>快速导航</li>
+            </ul>
+            <a href="articles.html" class="nav-button secondary">📖 传统浏览</a>
+        </div>
+
+        <!-- 文章阅读器 -->
+        <div class="nav-card">
+            <span class="nav-icon">📄</span>
+            <h3 class="nav-title">文章阅读器</h3>
+            <p class="nav-description">专业的Markdown文章阅读器，支持代码高亮、数学公式和丰富的排版效果。</p>
+            <ul class="nav-features">
+                <li>Markdown完美渲染</li>
+                <li>代码语法高亮</li>
+                <li>目录自动生成</li>
+                <li>阅读进度跟踪</li>
+                <li>夜间模式</li>
+            </ul>
+            <a href="viewer.html" class="nav-button accent">🔍 阅读器</a>
+        </div>
+
+        <!-- GitHub仓库 -->
+        <div class="nav-card">
+            <span class="nav-icon">🐙</span>
+            <h3 class="nav-title">GitHub仓库</h3>
+            <p class="nav-description">访问完整的源代码仓库，查看提交历史、下载资源文件和参与开源贡献。</p>
+            <ul class="nav-features">
+                <li>完整源码访问</li>
+                <li>版本历史记录</li>
+                <li>Issue讨论</li>
+                <li>Fork & Star</li>
+                <li>协作开发</li>
+            </ul>
+            <a href="https://github.com/kevinten10/Papers" class="nav-button" target="_blank">🌟 访问GitHub</a>
+        </div>
+    </div>
+
+    <!-- 最近更新 -->
+    <section class="recent-updates">
+        <h3 style="color: #49bf9d; margin-bottom: 1em;">🔄 最近更新</h3>
+        <div class="update-item">
+            <span class="update-date">2024-01</span>
+            <div>
+                <strong>智能知识库系统上线</strong>
+                <p style="margin: 0; color: rgba(255,255,255,0.7); font-size: 0.9em;">全新的AI驱动知识管理系统，提供更好的用户体验</p>
+            </div>
+        </div>
+        <div class="update-item">
+            <span class="update-date">2024-01</span>
+            <div>
+                <strong>文章阅读器优化</strong>
+                <p style="margin: 0; color: rgba(255,255,255,0.7); font-size: 0.9em;">增强Markdown渲染能力，支持更多语法特性</p>
+            </div>
+        </div>
+        <div class="update-item">
+            <span class="update-date">2024-01</span>
+            <div>
+                <strong>界面全面美化</strong>
+                <p style="margin: 0; color: rgba(255,255,255,0.7); font-size: 0.9em;">现代化设计风格，响应式布局，更好的视觉体验</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- 技术栈展示 -->
+    <section style="margin: 3em 0;">
+        <h3 style="color: #49bf9d; margin-bottom: 1em;">🛠️ 技术栈覆盖</h3>
+        <div style="display: flex; flex-wrap: wrap; gap: 0.8em;">
+            <span style="background: linear-gradient(135deg, #49bf9d, #3a9d7a); color: white; padding: 0.5em 1em; border-radius: 20px; font-size: 0.9em;">☕ Java</span>
+            <span style="background: linear-gradient(135deg, #64b5f6, #42a5f5); color: white; padding: 0.5em 1em; border-radius: 20px; font-size: 0.9em;">📊 Big Data</span>
+            <span style="background: linear-gradient(135deg, #81c784, #66bb6a); color: white; padding: 0.5em 1em; border-radius: 20px; font-size: 0.9em;">🔄 Concurrent</span>
+            <span style="background: linear-gradient(135deg, #ffb74d, #ffa726); color: white; padding: 0.5em 1em; border-radius: 20px; font-size: 0.9em;">💾 Database</span>
+            <span style="background: linear-gradient(135deg, #e57373, #ef5350); color: white; padding: 0.5em 1em; border-radius: 20px; font-size: 0.9em;">🏗️ Architecture</span>
+            <span style="background: linear-gradient(135deg, #ba68c8, #ab47bc); color: white; padding: 0.5em 1em; border-radius: 20px; font-size: 0.9em;">🐳 Docker</span>
+            <span style="background: linear-gradient(135deg, #4db6ac, #26a69a); color: white; padding: 0.5em 1em; border-radius: 20px; font-size: 0.9em;">🐧 Linux</span>
+            <span style="background: linear-gradient(135deg, #f06292, #ec407a); color: white; padding: 0.5em 1em; border-radius: 20px; font-size: 0.9em;">⚡ Reactive</span>
+            <span style="background: linear-gradient(135deg, #90a4ae, #78909c); color: white; padding: 0.5em 1em; border-radius: 20px; font-size: 0.9em;">🤖 AI/ML</span>
+            <span style="background: linear-gradient(135deg, #a1887f, #8d6e63); color: white; padding: 0.5em 1em; border-radius: 20px; font-size: 0.9em;">☁️ Cloud</span>
+        </div>
+    </section>
+</div>
+
+<!-- Footer -->
+<footer id="footer">
+    <div class="inner">
+        <ul class="icons">
+            <li><a href="https://github.com/kevinten10" class="icon fa-github"><span class="label">Github</span></a></li>
+            <li><a href="mailto:596823919@qq.com" class="icon fa-envelope-o"><span class="label">Email</span></a></li>
+        </ul>
+        <ul class="copyright">
+            <li>&copy; kevinten10</li>
+            <li>Knowledge Hub Navigation Center</li>
+        </ul>
+    </div>
+</footer>
+
+<!-- Scripts -->
+<script src="assets/js/jquery.min.js"></script>
+<script src="assets/js/browser.min.js"></script>
+<script src="assets/js/breakpoints.min.js"></script>
+<script src="assets/js/util.js"></script>
+<script src="assets/js/main.js"></script>
+
+</body>
+</html>

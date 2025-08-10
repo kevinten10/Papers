@@ -1,0 +1,857 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <title>Kevin's Advanced Knowledge Base</title>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no"/>
+    <link rel="stylesheet" href="assets/css/main.css"/>
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/highlight.js@11.9.0/lib/highlight.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@11.9.0/styles/github-dark.min.css">
+    <style>
+        :root {
+            --primary-color: #49bf9d;
+            --primary-dark: #3a9d7a;
+            --accent-color: #64b5f6;
+            --warning-color: #ffb74d;
+            --success-color: #81c784;
+            --error-color: #e57373;
+        }
+
+        .knowledge-dashboard {
+            display: grid;
+            grid-template-columns: 300px 1fr;
+            gap: 2em;
+            min-height: 100vh;
+        }
+
+        .sidebar {
+            background: linear-gradient(135deg, rgba(73, 191, 157, 0.1), rgba(73, 191, 157, 0.05));
+            border-radius: 12px;
+            padding: 1.5em;
+            border: 1px solid rgba(73, 191, 157, 0.2);
+            position: sticky;
+            top: 20px;
+            height: fit-content;
+            max-height: calc(100vh - 40px);
+            overflow-y: auto;
+        }
+
+        .content-area {
+            background: rgba(255,255,255,0.02);
+            border-radius: 12px;
+            padding: 2em;
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .search-advanced {
+            position: relative;
+            margin-bottom: 2em;
+        }
+
+        .search-input {
+            width: 100%;
+            padding: 1em 1em 1em 3em;
+            background: rgba(255,255,255,0.05);
+            border: 2px solid rgba(73, 191, 157, 0.3);
+            border-radius: 25px;
+            color: white;
+            font-size: 1em;
+            outline: none;
+            transition: all 0.3s ease;
+        }
+
+        .search-input:focus {
+            border-color: var(--primary-color);
+            box-shadow: 0 0 20px rgba(73, 191, 157, 0.3);
+        }
+
+        .search-icon {
+            position: absolute;
+            left: 1em;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--primary-color);
+            font-size: 1.2em;
+        }
+
+        .filter-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5em;
+            margin-top: 1em;
+        }
+
+        .filter-tag {
+            background: rgba(73, 191, 157, 0.2);
+            color: var(--primary-color);
+            padding: 0.3em 0.8em;
+            border-radius: 15px;
+            font-size: 0.8em;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 1px solid transparent;
+        }
+
+        .filter-tag:hover, .filter-tag.active {
+            background: var(--primary-color);
+            color: white;
+            transform: translateY(-2px);
+        }
+
+        .category-tree {
+            margin-top: 2em;
+        }
+
+        .tree-node {
+            margin-bottom: 0.5em;
+        }
+
+        .tree-toggle {
+            background: none;
+            border: none;
+            color: var(--primary-color);
+            cursor: pointer;
+            font-size: 1em;
+            padding: 0.5em;
+            border-radius: 5px;
+            transition: all 0.3s ease;
+            width: 100%;
+            text-align: left;
+        }
+
+        .tree-toggle:hover {
+            background: rgba(73, 191, 157, 0.1);
+        }
+
+        .tree-children {
+            margin-left: 1em;
+            border-left: 2px solid rgba(73, 191, 157, 0.2);
+            padding-left: 1em;
+            margin-top: 0.5em;
+        }
+
+        .tree-children.collapsed {
+            display: none;
+        }
+
+        .article-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 1.5em;
+            margin-top: 2em;
+        }
+
+        .article-card {
+            background: linear-gradient(135deg, rgba(255,255,255,0.08), rgba(255,255,255,0.02));
+            border-radius: 12px;
+            padding: 1.5em;
+            border: 1px solid rgba(73, 191, 157, 0.2);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .article-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, var(--primary-color), var(--accent-color));
+        }
+
+        .article-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(73, 191, 157, 0.2);
+            border-color: var(--primary-color);
+        }
+
+        .article-title {
+            color: var(--primary-color);
+            font-size: 1.1em;
+            font-weight: bold;
+            margin-bottom: 0.8em;
+            line-height: 1.4;
+        }
+
+        .article-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1em;
+            font-size: 0.9em;
+            color: rgba(255,255,255,0.7);
+        }
+
+        .article-type {
+            background: var(--accent-color);
+            color: white;
+            padding: 0.2em 0.6em;
+            border-radius: 10px;
+            font-size: 0.8em;
+        }
+
+        .article-description {
+            color: rgba(255,255,255,0.8);
+            line-height: 1.6;
+            margin-bottom: 1em;
+        }
+
+        .article-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.3em;
+            margin-bottom: 1em;
+        }
+
+        .article-tag {
+            background: rgba(73, 191, 157, 0.2);
+            color: var(--primary-color);
+            padding: 0.2em 0.5em;
+            border-radius: 8px;
+            font-size: 0.7em;
+        }
+
+        .article-actions {
+            display: flex;
+            gap: 0.5em;
+        }
+
+        .btn-read {
+            background: linear-gradient(135deg, var(--primary-color), var(--primary-dark));
+            color: white;
+            padding: 0.5em 1em;
+            border: none;
+            border-radius: 20px;
+            cursor: pointer;
+            text-decoration: none;
+            font-size: 0.9em;
+            transition: all 0.3s ease;
+        }
+
+        .btn-read:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(73, 191, 157, 0.4);
+            color: white;
+        }
+
+        .stats-overview {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1em;
+            margin-bottom: 2em;
+        }
+
+        .stat-card {
+            background: linear-gradient(135deg, rgba(73, 191, 157, 0.1), rgba(73, 191, 157, 0.05));
+            border-radius: 10px;
+            padding: 1.5em;
+            text-align: center;
+            border: 1px solid rgba(73, 191, 157, 0.2);
+        }
+
+        .stat-number {
+            font-size: 2em;
+            font-weight: bold;
+            color: var(--primary-color);
+        }
+
+        .stat-label {
+            color: rgba(255,255,255,0.8);
+            margin-top: 0.5em;
+        }
+
+        .breadcrumb {
+            background: rgba(73, 191, 157, 0.1);
+            padding: 1em;
+            border-radius: 8px;
+            margin-bottom: 2em;
+            border-left: 4px solid var(--primary-color);
+        }
+
+        .loading-spinner {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid rgba(73, 191, 157, 0.3);
+            border-radius: 50%;
+            border-top-color: var(--primary-color);
+            animation: spin 1s ease-in-out infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        .no-results {
+            text-align: center;
+            padding: 3em;
+            color: rgba(255,255,255,0.6);
+        }
+
+        @media (max-width: 768px) {
+            .knowledge-dashboard {
+                grid-template-columns: 1fr;
+            }
+            
+            .sidebar {
+                position: relative;
+                top: 0;
+                max-height: none;
+            }
+        }
+    </style>
+</head>
+<body class="is-preload">
+
+<!-- Header -->
+<header id="header">
+    <div class="inner">
+        <a href="index.html" class="image avatar"><img src="images/avatar.jpg" alt=""/></a>
+        <h1><strong>Advanced Knowledge Base</strong><br/>
+            智能技术文档系统<br/>
+            AI驱动的学习平台</h1>
+    </div>
+</header>
+
+<!-- Main -->
+<div id="main">
+    <div class="breadcrumb">
+        <span>🏠 <a href="index.html" style="color: var(--primary-color);">首页</a></span>
+        <span> / </span>
+        <span>📚 高级知识库</span>
+    </div>
+
+    <div class="knowledge-dashboard">
+        <!-- 侧边栏 -->
+        <div class="sidebar">
+            <div class="search-advanced">
+                <div style="position: relative;">
+                    <span class="search-icon">🔍</span>
+                    <input type="text" id="advancedSearch" class="search-input" placeholder="智能搜索文章、技术栈、关键词...">
+                </div>
+                <div class="filter-tags" id="filterTags">
+                    <span class="filter-tag active" data-filter="all">全部</span>
+                    <span class="filter-tag" data-filter="java">Java</span>
+                    <span class="filter-tag" data-filter="bigdata">大数据</span>
+                    <span class="filter-tag" data-filter="concurrent">并发</span>
+                    <span class="filter-tag" data-filter="database">数据库</span>
+                    <span class="filter-tag" data-filter="architecture">架构</span>
+                    <span class="filter-tag" data-filter="ai">AI/ML</span>
+                </div>
+            </div>
+
+            <div class="category-tree" id="categoryTree">
+                <h4 style="color: var(--primary-color); margin-bottom: 1em;">📂 分类导航</h4>
+                <!-- 动态生成的分类树 -->
+            </div>
+        </div>
+
+        <!-- 内容区域 -->
+        <div class="content-area">
+            <div class="stats-overview">
+                <div class="stat-card">
+                    <div class="stat-number" id="totalArticles">0</div>
+                    <div class="stat-label">📄 技术文章</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number" id="totalCategories">0</div>
+                    <div class="stat-label">📁 分类目录</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number" id="totalTags">0</div>
+                    <div class="stat-label">🏷️ 技术标签</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number" id="readingTime">0</div>
+                    <div class="stat-label">⏱️ 预计阅读(小时)</div>
+                </div>
+            </div>
+
+            <div id="loadingIndicator" style="text-align: center; padding: 2em;">
+                <div class="loading-spinner"></div>
+                <p style="margin-top: 1em; color: var(--primary-color);">正在加载知识库内容...</p>
+            </div>
+
+            <div class="article-grid" id="articleGrid" style="display: none;">
+                <!-- 动态生成的文章卡片 -->
+            </div>
+
+            <div class="no-results" id="noResults" style="display: none;">
+                <h3>🔍 未找到匹配的内容</h3>
+                <p>尝试调整搜索关键词或筛选条件</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Footer -->
+<footer id="footer">
+    <div class="inner">
+        <ul class="icons">
+            <li><a href="https://github.com/kevinten10" class="icon fa-github"><span class="label">Github</span></a></li>
+            <li><a href="mailto:596823919@qq.com" class="icon fa-envelope-o"><span class="label">Email</span></a></li>
+        </ul>
+        <ul class="copyright">
+            <li>&copy; kevinten10</li>
+            <li>Advanced Knowledge Base System</li>
+        </ul>
+    </div>
+</footer>
+
+<!-- Scripts -->
+<script src="assets/js/jquery.min.js"></script>
+<script src="assets/js/browser.min.js"></script>
+<script src="assets/js/breakpoints.min.js"></script>
+<script src="assets/js/util.js"></script>
+<script src="assets/js/main.js"></script>
+
+<script>
+// 知识库数据结构
+const knowledgeBase = {
+    categories: {
+        "博客文章": {
+            icon: "📝",
+            children: {
+                "人工智能": {
+                    icon: "🤖",
+                    articles: [
+                        {
+                            title: "时间序列预测Prophet算法工程实践",
+                            path: "博客文章/Artificial/时间序列预测prophet算法工程实践.md",
+                            type: "markdown",
+                            tags: ["AI", "时间序列", "Prophet", "算法"],
+                            description: "深入探讨Facebook开源的Prophet时间序列预测算法在实际工程中的应用实践",
+                            readTime: 15
+                        }
+                    ]
+                },
+                "大数据": {
+                    icon: "📊",
+                    articles: [
+                        {
+                            title: "Google 三驾马车",
+                            path: "博客文章/BigData/Google 三驾马车.md",
+                            type: "markdown",
+                            tags: ["Google", "BigData", "GFS", "MapReduce", "Bigtable"],
+                            description: "深度解析Google三大核心技术：GFS、MapReduce、Bigtable的设计理念与实现",
+                            readTime: 25
+                        },
+                        {
+                            title: "Spark JobGraph探究",
+                            path: "博客文章/BigData/Spark JobGraph探究.md",
+                            type: "markdown",
+                            tags: ["Spark", "JobGraph", "大数据", "调度"],
+                            description: "深入分析Spark作业调度机制，探索JobGraph的构建与优化策略",
+                            readTime: 20
+                        },
+                        {
+                            title: "ES数据收集分析爬虫",
+                            path: "博客文章/BigData/ES数据收集分析爬虫.md",
+                            type: "markdown",
+                            tags: ["Elasticsearch", "爬虫", "数据分析"],
+                            description: "基于Elasticsearch的数据收集与分析爬虫系统设计与实现",
+                            readTime: 18
+                        }
+                    ]
+                },
+                "云计算": {
+                    icon: "☁️",
+                    articles: [
+                        {
+                            title: "AWS术语解析",
+                            path: "博客文章/Cloud/aws-terminology.md",
+                            type: "markdown",
+                            tags: ["AWS", "云计算", "术语"],
+                            description: "AWS核心服务与术语详解，帮助快速理解云计算概念",
+                            readTime: 12
+                        }
+                    ]
+                }
+            }
+        },
+        "Java技术": {
+            icon: "☕",
+            children: {
+                "JDK新特性": {
+                    icon: "🆕",
+                    articles: [
+                        {
+                            title: "JDK9 - JPMS模块化",
+                            path: "article/Java/JDK/JDK9-JPMS模块化.md",
+                            type: "markdown",
+                            tags: ["JDK9", "JPMS", "模块化", "Java"],
+                            description: "深入理解JDK9引入的Java平台模块系统(JPMS)设计与应用",
+                            readTime: 22
+                        },
+                        {
+                            title: "JDK10 - var类型推断",
+                            path: "article/Java/JDK/JDK10-var类型推断.md",
+                            type: "markdown",
+                            tags: ["JDK10", "var", "类型推断", "Java"],
+                            description: "JDK10局部变量类型推断特性详解与最佳实践",
+                            readTime: 15
+                        },
+                        {
+                            title: "JDK11 - ZGC垃圾收集器",
+                            path: "article/Java/JDK/JDK11-ZGC.md",
+                            type: "markdown",
+                            tags: ["JDK11", "ZGC", "垃圾收集", "性能优化"],
+                            description: "ZGC低延迟垃圾收集器原理分析与性能调优实践",
+                            readTime: 28
+                        },
+                        {
+                            title: "AJDK - AOT静态编译",
+                            path: "article/Java/JDK/AJDK-AOT静态编译.md",
+                            type: "markdown",
+                            tags: ["AJDK", "AOT", "静态编译", "性能"],
+                            description: "阿里JDK的AOT静态编译技术深度解析与应用场景",
+                            readTime: 25
+                        }
+                    ]
+                }
+            }
+        },
+        "并发编程": {
+            icon: "🔄",
+            articles: [
+                {
+                    title: "并发编程原理总结",
+                    path: "Concurrent/原理总结.md",
+                    type: "markdown",
+                    tags: ["并发", "多线程", "同步", "原理"],
+                    description: "Java并发编程核心概念与原理全面总结",
+                    readTime: 35
+                },
+                {
+                    title: "AQS源码深度解析",
+                    path: "Concurrent/AQS/",
+                    type: "folder",
+                    tags: ["AQS", "源码", "同步器", "锁"],
+                    description: "AbstractQueuedSynchronizer同步器框架源码深度分析",
+                    readTime: 45
+                }
+            ]
+        },
+        "数据库技术": {
+            icon: "💾",
+            articles: [
+                {
+                    title: "MySQL、HBase、ES特点对比",
+                    path: "Database/",
+                    type: "folder",
+                    tags: ["MySQL", "HBase", "Elasticsearch", "对比"],
+                    description: "三大主流数据存储方案的特点分析与选型指南",
+                    readTime: 30
+                }
+            ]
+        },
+        "架构设计": {
+            icon: "🏗️",
+            articles: [
+                {
+                    title: "分布式系统设计",
+                    path: "Distrubute/",
+                    type: "folder",
+                    tags: ["分布式", "架构", "系统设计"],
+                    description: "分布式系统核心概念与架构设计模式",
+                    readTime: 40
+                }
+            ]
+        },
+        "响应式编程": {
+            icon: "⚡",
+            articles: [
+                {
+                    title: "响应式编程入门",
+                    path: "Reactive/响应式.md",
+                    type: "markdown",
+                    tags: ["响应式", "异步", "流处理"],
+                    description: "响应式编程范式入门与实践指南",
+                    readTime: 25
+                },
+                {
+                    title: "Spring WebFlux实战",
+                    path: "WebFlux/",
+                    type: "folder",
+                    tags: ["WebFlux", "Spring", "响应式"],
+                    description: "Spring WebFlux响应式Web框架实战教程",
+                    readTime: 35
+                }
+            ]
+        }
+    }
+};
+
+// 初始化知识库
+document.addEventListener('DOMContentLoaded', function() {
+    initializeKnowledgeBase();
+    setupEventListeners();
+});
+
+function initializeKnowledgeBase() {
+    generateCategoryTree();
+    generateArticleGrid();
+    updateStatistics();
+    
+    // 隐藏加载指示器
+    setTimeout(() => {
+        document.getElementById('loadingIndicator').style.display = 'none';
+        document.getElementById('articleGrid').style.display = 'grid';
+    }, 1500);
+}
+
+function generateCategoryTree() {
+    const treeContainer = document.getElementById('categoryTree');
+    let treeHTML = '';
+    
+    Object.entries(knowledgeBase.categories).forEach(([categoryName, categoryData]) => {
+        treeHTML += `
+            <div class="tree-node">
+                <button class="tree-toggle" onclick="toggleCategory('${categoryName}')">
+                    ${categoryData.icon} ${categoryName} <span class="toggle-icon">▼</span>
+                </button>
+                <div class="tree-children" id="tree-${categoryName}">
+        `;
+        
+        if (categoryData.children) {
+            Object.entries(categoryData.children).forEach(([subName, subData]) => {
+                const articleCount = subData.articles ? subData.articles.length : 0;
+                treeHTML += `
+                    <div class="tree-node">
+                        <button class="tree-toggle" onclick="filterByCategory('${categoryName}', '${subName}')">
+                            ${subData.icon} ${subName} (${articleCount})
+                        </button>
+                    </div>
+                `;
+            });
+        } else if (categoryData.articles) {
+            treeHTML += `
+                <div class="tree-node">
+                    <button class="tree-toggle" onclick="filterByCategory('${categoryName}')">
+                        📄 ${categoryData.articles.length} 篇文章
+                    </button>
+                </div>
+            `;
+        }
+        
+        treeHTML += `
+                </div>
+            </div>
+        `;
+    });
+    
+    treeContainer.innerHTML += treeHTML;
+}
+
+function generateArticleGrid() {
+    const gridContainer = document.getElementById('articleGrid');
+    let articlesHTML = '';
+    
+    // 收集所有文章
+    const allArticles = [];
+    Object.entries(knowledgeBase.categories).forEach(([categoryName, categoryData]) => {
+        if (categoryData.children) {
+            Object.entries(categoryData.children).forEach(([subName, subData]) => {
+                if (subData.articles) {
+                    subData.articles.forEach(article => {
+                        allArticles.push({
+                            ...article,
+                            category: categoryName,
+                            subcategory: subName
+                        });
+                    });
+                }
+            });
+        } else if (categoryData.articles) {
+            categoryData.articles.forEach(article => {
+                allArticles.push({
+                    ...article,
+                    category: categoryName
+                });
+            });
+        }
+    });
+    
+    // 生成文章卡片
+    allArticles.forEach(article => {
+        const typeIcon = article.type === 'markdown' ? '📄' : '📁';
+        const tagsHTML = article.tags.map(tag => 
+            `<span class="article-tag">${tag}</span>`
+        ).join('');
+        
+        articlesHTML += `
+            <div class="article-card" data-category="${article.category}" data-tags="${article.tags.join(',').toLowerCase()}">
+                <div class="article-meta">
+                    <span class="article-type">${typeIcon} ${article.type}</span>
+                    <span>⏱️ ${article.readTime}分钟</span>
+                </div>
+                <h3 class="article-title">${article.title}</h3>
+                <p class="article-description">${article.description}</p>
+                <div class="article-tags">${tagsHTML}</div>
+                <div class="article-actions">
+                    <a href="viewer.html?file=${encodeURIComponent(article.path)}" class="btn-read">
+                        📖 阅读文章
+                    </a>
+                </div>
+            </div>
+        `;
+    });
+    
+    gridContainer.innerHTML = articlesHTML;
+}
+
+function updateStatistics() {
+    let totalArticles = 0;
+    let totalCategories = 0;
+    let totalReadingTime = 0;
+    const allTags = new Set();
+    
+    Object.entries(knowledgeBase.categories).forEach(([categoryName, categoryData]) => {
+        totalCategories++;
+        
+        if (categoryData.children) {
+            Object.entries(categoryData.children).forEach(([subName, subData]) => {
+                if (subData.articles) {
+                    totalArticles += subData.articles.length;
+                    subData.articles.forEach(article => {
+                        totalReadingTime += article.readTime;
+                        article.tags.forEach(tag => allTags.add(tag));
+                    });
+                }
+            });
+        } else if (categoryData.articles) {
+            totalArticles += categoryData.articles.length;
+            categoryData.articles.forEach(article => {
+                totalReadingTime += article.readTime;
+                article.tags.forEach(tag => allTags.add(tag));
+            });
+        }
+    });
+    
+    // 动画更新数字
+    animateNumber('totalArticles', totalArticles);
+    animateNumber('totalCategories', totalCategories);
+    animateNumber('totalTags', allTags.size);
+    animateNumber('readingTime', Math.round(totalReadingTime / 60));
+}
+
+function animateNumber(elementId, targetValue) {
+    const element = document.getElementById(elementId);
+    let currentValue = 0;
+    const increment = targetValue / 50;
+    
+    const timer = setInterval(() => {
+        currentValue += increment;
+        if (currentValue >= targetValue) {
+            currentValue = targetValue;
+            clearInterval(timer);
+        }
+        element.textContent = Math.floor(currentValue);
+    }, 30);
+}
+
+function setupEventListeners() {
+    // 搜索功能
+    const searchInput = document.getElementById('advancedSearch');
+    searchInput.addEventListener('input', debounce(performSearch, 300));
+    
+    // 筛选标签
+    const filterTags = document.querySelectorAll('.filter-tag');
+    filterTags.forEach(tag => {
+        tag.addEventListener('click', function() {
+            filterTags.forEach(t => t.classList.remove('active'));
+            this.classList.add('active');
+            filterArticles(this.dataset.filter);
+        });
+    });
+}
+
+function debounce(func, wait) {
+    let timeout;
+    return function executedFunction(...args) {
+        const later = () => {
+            clearTimeout(timeout);
+            func(...args);
+        };
+        clearTimeout(timeout);
+        timeout = setTimeout(later, wait);
+    };
+}
+
+function performSearch() {
+    const searchTerm = document.getElementById('advancedSearch').value.toLowerCase();
+    const articles = document.querySelectorAll('.article-card');
+    let visibleCount = 0;
+    
+    articles.forEach(article => {
+        const title = article.querySelector('.article-title').textContent.toLowerCase();
+        const description = article.querySelector('.article-description').textContent.toLowerCase();
+        const tags = article.dataset.tags;
+        
+        const isVisible = title.includes(searchTerm) || 
+                         description.includes(searchTerm) || 
+                         tags.includes(searchTerm);
+        
+        article.style.display = isVisible ? 'block' : 'none';
+        if (isVisible) visibleCount++;
+    });
+    
+    // 显示/隐藏无结果提示
+    document.getElementById('noResults').style.display = visibleCount === 0 ? 'block' : 'none';
+    document.getElementById('articleGrid').style.display = visibleCount === 0 ? 'none' : 'grid';
+}
+
+function filterArticles(filter) {
+    const articles = document.querySelectorAll('.article-card');
+    let visibleCount = 0;
+    
+    articles.forEach(article => {
+        const shouldShow = filter === 'all' || 
+                          article.dataset.category.toLowerCase().includes(filter) ||
+                          article.dataset.tags.includes(filter);
+        
+        article.style.display = shouldShow ? 'block' : 'none';
+        if (shouldShow) visibleCount++;
+    });
+    
+    // 显示/隐藏无结果提示
+    document.getElementById('noResults').style.display = visibleCount === 0 ? 'block' : 'none';
+    document.getElementById('articleGrid').style.display = visibleCount === 0 ? 'none' : 'grid';
+}
+
+function toggleCategory(categoryName) {
+    const treeChildren = document.getElementById(`tree-${categoryName}`);
+    const toggleIcon = event.target.querySelector('.toggle-icon');
+    
+    if (treeChildren.classList.contains('collapsed')) {
+        treeChildren.classList.remove('collapsed');
+        toggleIcon.textContent = '▼';
+    } else {
+        treeChildren.classList.add('collapsed');
+        toggleIcon.textContent = '▶';
+    }
+}
+
+function filterByCategory(category, subcategory = null) {
+    const articles = document.querySelectorAll('.article-card');
+    let visibleCount = 0;
+    
+    articles.forEach(article => {
+        const articleCategory = article.dataset.category;
+        const shouldShow = articleCategory === category;
+        
+        article.style.display = shouldShow ? 'block' : 'none';
+        if (shouldShow) visibleCount++;
+    });
+    
+    // 显示/隐藏无结果提示
+    document.getElementById('noResults').style.display = visibleCount === 0 ? 'block' : 'none';
+    document.getElementById('articleGrid').style.display = visibleCount === 0 ? 'none' : 'grid';
+}
+</script>
+
+</body>
+</html>
