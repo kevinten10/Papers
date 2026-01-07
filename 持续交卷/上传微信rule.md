@@ -6,49 +6,11 @@
 
 `wenyan-mcp` 是一个基于 Model Context Protocol (MCP) 的服务器组件，可以让 AI 自动将 Markdown 文章排版后发布至微信公众号草稿箱。
 
-## 🔧 环境配置
-
-### 方式一：本地安装（推荐）
-
-```bash
-npm install -g @wenyan-md/mcp
-```
-
-### 方式二：Docker 运行
-
-```bash
-docker pull caol64/wenyan-mcp
-```
-
-### MCP 客户端配置
-
-在你的 MCP 配置文件中添加以下内容：
-
-```json
-{
-  "mcpServers": {
-    "wenyan-mcp": {
-      "name": "公众号助手",
-      "command": "wenyan-mcp",
-      "env": {
-        "WECHAT_APP_ID": "your_app_id",
-        "WECHAT_APP_SECRET": "your_app_secret"
-      }
-    }
-  }
-}
-```
-
-**环境变量说明：**
-
-- `WECHAT_APP_ID`: 微信公众号平台的 App ID
-- `WECHAT_APP_SECRET`: 微信平台的 App Secret
-
 ## 📝 文章格式要求
 
-### Frontmatter 配置
+### 上传前置条件
 
-在每篇文章开头添加 frontmatter：
+确保文章包含必要的 frontmatter 配置：
 
 ```yaml
 ---
@@ -57,20 +19,14 @@ cover: https://images.unsplash.com/photo-1434030216411-0b793f4b4173?w=800&h=400&
 ---
 ```
 
-**字段说明：**
+**必填字段：**
+- `title`: 文章标题
+- `cover`: 封面图片链接
 
-- `title`: 文章标题，必填
-- `cover`: 封面图片链接，支持本地路径和网络图片
-
-### 推荐封面图片
-
-根据 `持续交卷` 项目主题，推荐使用以下封面图片：
-
-```text
-https://images.unsplash.com/photo-1434030216411-0b793f4b4173?w=800&h=400&fit=crop&crop=center
-```
-
-这张图片体现了知识积累和智慧启发的主题，完美契合持续学习的理念。
+**注意事项：**
+- 使用 Markdown 格式
+- 确保至少包含一张图片（封面图或正文图片）
+- 内容结构清晰，编码为 UTF-8
 
 ## 🎨 主题选择
 
@@ -93,102 +49,55 @@ wenyan-mcp 支持多种内置主题：
 
 ## 📤 上传流程
 
-### 步骤1：准备文章
-
-确保文章符合以下要求：
-
-- 使用 Markdown 格式
-- 添加完整的 frontmatter
-- 图片路径正确（支持本地和网络路径）
-- 内容结构清晰
-
-### 步骤2：调用 MCP 工具
-
-使用以下命令上传文章：
+### 核心命令
 
 ```bash
-# 方式1：直接使用 MCP
-mcp_wenyan-mcp_publish_article content="文章内容" theme_id="default"
-
-# 方式2：通过 AI 助手调用
-@wenyan-mcp 上传文章：持续交卷/rule.md default
+# 上传文章到微信公众号草稿箱
+mcp_wenyan-mcp_publish_article content="文章内容" theme_id="主题ID"
 ```
+
+**参数说明：**
+- `content`: Markdown格式的文章内容
+- `theme_id`: 主题样式（default、lapis、maize等）
+
+### 上传前检查
+
+确保文章满足以下条件：
+- 包含完整的frontmatter（title和cover）
+- 至少有一张图片
+- 使用UTF-8编码
 
 ## 🎯 快速开始
 
-### 示例：上传持续交卷主规则
+### 基础用法
 
 ```bash
-# 读取并上传 rule.md
+# 上传主规则文档
 mcp_wenyan-mcp_publish_article content="$(cat 持续交卷/rule.md)" theme_id="default"
-```
 
-### 示例：上传算法学习规则
-
-```bash
-# 读取并上传算法规则
+# 上传算法规则（使用技术主题）
 mcp_wenyan-mcp_publish_article content="$(cat 持续交卷/算法/rule.md)" theme_id="lapis"
 ```
 
-### 📚 实际案例：英语资讯文章处理与上传流程
+### 📚 实际案例：文章上传成功案例
 
 #### 案例背景
-2025年12月24日，使用wenyan-mcp成功上传一篇英语资讯学习总结文章。
+2025年12月24日，使用wenyan-mcp成功上传英语资讯文章到微信公众号草稿箱。
 
-#### 完整流程
+#### 上传流程
 
-**步骤1：文章内容处理**
-- 原始文章：简单的AI营销笔记（24.md）
-- 处理方式：按照`持续交卷/英语资讯/rule.md`规则整理
-- 转换内容：从简单笔记转换为规范的英语学习总结
+**前置准备**
+- 确保文章包含完整的frontmatter（标题和封面图）
+- 验证文章中至少包含一张图片
 
-**步骤2：格式标准化**
-```markdown
----
-title: 2025-12-24 - Understanding AI Platforms in Marketing
-cover: https://images.unsplash.com/photo-1434030216411-0b793f4b4173?w=800&h=400&fit=crop&crop=center
----
-
-# 2025-12-24 - Understanding AI Platforms in Marketing
-
-## 📄 文章信息
-- **原文标题**: AI Platforms Revolutionizing Marketing Communications
-- **来源**: TechCrunch / Marketing Technology Insights
-- **阅读日期**: 2025-12-24
-- **文章链接**: https://techcrunch.com/ai-marketing-platforms-2025
-
-## 🎯 核心要点 (Key Points)
-[4个核心观点总结]
-
-## 💡 个人见解 (My Thoughts)
-[个人思考内容]
-
-## 📚 新学词汇 (New Vocabulary)
-[3个专业词汇学习]
-
-## 🔍 语法学习 (Grammar Notes)
-[语法结构分析]
-
-## 💭 应用思考 (Practical Applications)
-[实际应用思考]
-```
-
-**步骤3：图片要求处理**
-- 问题：微信公众号要求文章必须包含图片
-- 解决方案：在正文中添加至少一张图片
-- 示例：
-```markdown
-![AI Marketing Technology](https://images.unsplash.com/photo-1551434678-e076c223a692?w=800&h=400&fit=crop&crop=center)
-```
-
-**步骤4：上传执行**
+**上传执行**
 ```bash
-# 使用lapis主题（技术类文章推荐）
+# 使用lapis主题上传技术类文章
 mcp_wenyan-mcp_publish_article content="[完整文章内容]" theme_id="lapis"
 ```
 
-**步骤5：结果确认**
-- 状态：✅ 成功发布到草稿箱
+**上传结果**
+- ✅ 成功发布到草稿箱
 - 媒体ID：`x6O7RRF01Hjdx0XQ1RztQPX0YD97IDmUUy2Eww8QgDAv9hVUF_uqGhTIetzYQb-L`
 
 #### 遇到的问题及解决方案
@@ -212,10 +121,6 @@ mcp_wenyan-mcp_publish_article content="[完整文章内容]" theme_id="lapis"
 3. **图片处理**：满足微信公众号的图片要求
 4. **主题选择**：根据内容类型选择合适的主题
 5. **问题排查**：系统性解决技术问题
-
-### 步骤3：确认发布
-
-文章将发布到微信公众号草稿箱，获得媒体ID确认成功。
 
 ## 📂 项目文章路径
 
