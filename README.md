@@ -4,6 +4,7 @@
 
 [![GitHub Pages](https://img.shields.io/badge/GitHub%20Pages-Live-brightgreen)](https://kevinten10.github.io/Papers/)
 [![License](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE.txt)
+[![GitHub Actions](https://img.shields.io/github/actions/workflow/status/kevinten10/Papers/deploy.yml?label=Deploy)](https://github.com/kevinten10/Papers/actions)
 [![Articles](https://img.shields.io/badge/Articles-150+-orange.svg)](#)
 [![Tech Stack](https://img.shields.io/badge/Tech%20Stack-20+-purple.svg)](#)
 
@@ -65,6 +66,7 @@
 - **响应式设计** - 适配各种设备
 
 ### 部署方案
+- **GitHub Actions** - 自动化CI/CD部署
 - **GitHub Pages** - 静态网站托管
 - **CDN加速** - 全球访问优化
 - **HTTPS安全** - 安全访问保障
@@ -87,6 +89,15 @@ npx serve .
 # 访问 http://localhost:8000
 ```
 
+### 部署到GitHub Pages
+项目已配置GitHub Actions自动部署：
+
+1. **自动部署**: 推送到 `master` 分支时自动触发部署
+2. **手动部署**: 在GitHub仓库的Actions页面手动触发
+3. **自定义域名**: 支持配置自定义域名（已在workflow中配置为 `papers.kevinten10.com`）
+
+**部署状态**: 查看 [GitHub Actions](https://github.com/kevinten10/Papers/actions)
+
 ### 文件结构
 ```
 Papers/
@@ -108,6 +119,12 @@ Papers/
 ```
 
 ## 📈 更新日志
+
+### 🚀 v2.1.0 (2026-01)
+- 🤖 添加GitHub Actions自动化部署
+- 📊 集成部署状态徽章
+- 🔧 优化CI/CD流程，支持自动发布
+- 📝 更新部署文档和使用说明
 
 ### 🎉 v2.0.0 (2024-01)
 - ✨ 全新智能知识库系统上线

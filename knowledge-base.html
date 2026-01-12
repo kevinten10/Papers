@@ -4,6 +4,13 @@
     <title>Kevin's Advanced Knowledge Base</title>
     <meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no"/>
+    <meta name="description" content="Kevin的智能知识库 - AI驱动的现代化知识管理，支持全文搜索、标签过滤、智能分类"/>
+    <meta name="keywords" content="智能知识库, 全文搜索, 技术文档, AI搜索, 知识管理"/>
+    <meta name="author" content="Kevin Ten"/>
+    <meta property="og:title" content="Kevin's Advanced Knowledge Base"/>
+    <meta property="og:description" content="AI驱动的现代化知识管理 - 支持全文搜索、标签过滤、智能分类"/>
+    <meta property="og:url" content="https://kevinten10.github.io/Papers/knowledge-base.html"/>
+    <link rel="canonical" href="https://kevinten10.github.io/Papers/knowledge-base.html"/>
     <link rel="stylesheet" href="assets/css/main.css"/>
     <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/highlight.js@11.9.0/lib/highlight.min.js"></script>
@@ -408,9 +415,12 @@
 <script src="assets/js/util.js"></script>
 <script src="assets/js/main.js"></script>
 
+<script src="knowledge-base-data.js"></script>
+
 <script>
-// 知识库数据结构
-const knowledgeBase = {
+// 如果没有自动生成的知识库数据，使用默认数据结构
+if (typeof knowledgeBase === 'undefined') {
+    const knowledgeBase = {
     categories: {
         "博客文章": {
             icon: "📝",
@@ -585,8 +595,18 @@ const knowledgeBase = {
     }
 };
 
-// 初始化知识库
+// 默认知识库数据结构结束
+}
 document.addEventListener('DOMContentLoaded', function() {
+    // 如果没有自动生成的知识库数据，使用默认数据
+    if (typeof knowledgeBase === 'undefined') {
+        knowledgeBase = {
+            categories: {
+                // 默认分类数据将在这里定义
+            }
+        };
+    }
+
     initializeKnowledgeBase();
     setupEventListeners();
 });
