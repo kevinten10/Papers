@@ -1,0 +1,32 @@
+{
+  "name": "kevins-knowledge-base",
+  "version": "2.1.0",
+  "description": "Kevin's Advanced Knowledge Base - 个人技术知识库系统",
+  "main": "generate-index.js",
+  "scripts": {
+    "generate-index": "node generate-index.js",
+    "build": "npm run generate-index",
+    "serve": "npx serve . -p 8000",
+    "dev": "npm run build && npm run serve"
+  },
+  "keywords": [
+    "knowledge-base",
+    "documentation",
+    "static-site",
+    "github-pages"
+  ],
+  "author": "Kevin Ten",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/kevinten10/Papers.git"
+  },
+  "homepage": "https://kevinten10.github.io/Papers/",
+  "dependencies": {},
+  "devDependencies": {
+    "serve": "^14.2.1"
+  },
+  "engines": {
+    "node": ">=14.0.0"
+  }
+}

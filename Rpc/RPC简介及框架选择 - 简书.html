@@ -1,0 +1,1690 @@
+<!DOCTYPE html>
+<!-- saved from url=(0038)https://www.jianshu.com/p/b0343bfd216e -->
+<html><!--<![endif]--><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0,user-scalable=no">
+
+  <!-- Start of Baidu Transcode -->
+  <meta http-equiv="Cache-Control" content="no-siteapp">
+  <meta http-equiv="Cache-Control" content="no-transform">
+  <meta name="applicable-device" content="pc,mobile">
+  <meta name="MobileOptimized" content="width">
+  <meta name="HandheldFriendly" content="true">
+  <meta name="mobile-agent" content="format=html5;url=https://www.jianshu.com/p/b0343bfd216e">
+  <!-- End of Baidu Transcode -->
+
+    <meta name="description" content="简单介绍RPC协议及常见框架，对比传统restful api和RPC方式的优缺点。常见RPC框架，gRPC及序列化方式Protobuf等 HTTP协议 http协议是基于tcp协议的，tcp协议是流式协议，包头部分可以通过多出的\r\n来分界，包体部分如何分界呢？这是协议本身要解决的问题。目前一般有两种方式，第一种方式就是在包头中有个content-Length字段，这个字段的值的大小标识了...">
+
+  <meta name="360-site-verification" content="604a14b53c6b871206001285921e81d8">
+  <meta property="wb:webmaster" content="294ec9de89e7fadb">
+  <meta property="qc:admins" content="104102651453316562112116375">
+  <meta property="qc:admins" content="11635613706305617">
+  <meta property="qc:admins" content="1163561616621163056375">
+  <meta name="google-site-verification" content="cV4-qkUJZR6gmFeajx_UyPe47GW9vY6cnCrYtCHYNh4">
+  <meta name="google-site-verification" content="HF7lfF8YEGs1qtCE-kPml8Z469e2RHhGajy6JPVy5XI">
+  <meta http-equiv="mobile-agent" content="format=html5; url=https://www.jianshu.com/p/b0343bfd216e">
+
+  <!-- Apple -->
+  <meta name="apple-mobile-web-app-title" content="简书">
+
+    <!--  Meta for Smart App Banner -->
+  <meta name="apple-itunes-app" content="app-id=888237539, app-argument=jianshu://notes/28724164">
+  <!-- End -->
+
+  <!--  Meta for Twitter Card -->
+  <meta content="summary" property="twitter:card">
+  <meta content="@jianshucom" property="twitter:site">
+  <meta content="RPC简介及框架选择" property="twitter:title">
+  <meta content="简单介绍RPC协议及常见框架，对比传统restful api和RPC方式的优缺点。常见RPC框架，gRPC及序列化方式Protobuf等 HTTP协议 http协议是基于tc..." property="twitter:description">
+  <meta content="https://www.jianshu.com/p/b0343bfd216e" property="twitter:url">
+  <!-- End -->
+
+  <!--  Meta for OpenGraph -->
+  <meta property="fb:app_id" content="865829053512461">
+  <meta property="og:site_name" content="简书">
+  <meta property="og:title" content="RPC简介及框架选择">
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://www.jianshu.com/p/b0343bfd216e">
+  <meta property="og:description" content="简单介绍RPC协议及常见框架，对比传统restful api和RPC方式的优缺点。常见RPC框架，gRPC及序列化方式Protobuf等 HTTP协议 http协议是基于tcp协议的，tcp协议...">
+  <!-- End -->
+
+  <!--  Meta for Facebook Applinks -->
+  <meta property="al:ios:url" content="jianshu://notes/28724164">
+  <meta property="al:ios:app_store_id" content="888237539">
+  <meta property="al:ios:app_name" content="简书">
+
+  <meta property="al:android:url" content="jianshu://notes/28724164">
+  <meta property="al:android:package" content="com.jianshu.haruki">
+  <meta property="al:android:app_name" content="简书">
+  <!-- End -->
+
+
+    <title>RPC简介及框架选择 - 简书</title>
+
+  <meta name="csrf-param" content="authenticity_token">
+<meta name="csrf-token" content="rPYkzbDb1btvPsaPl9t6BZwJ+w708+6IHZ/qthGZkrPCkPFNNa8l7YbzJHFZTrltmPvL9PxVG2oDnyCpq8Z0Tw==">
+
+  <link rel="stylesheet" media="all" href="./RPC简介及框架选择 - 简书_files/web-7aa33b92940cc2f7886b.css">
+  
+  <link rel="stylesheet" media="all" href="./RPC简介及框架选择 - 简书_files/entry-aa75deb505b1b600256a.css">
+
+  <link href="https://cdn2.jianshu.io/assets/favicons/favicon-e743bfb1821442341c3ab15bdbe804f7ad97676bd07a770ccc9483473aa76f06.ico" rel="shortcut icon" type="image/x-icon">
+      <link rel="apple-touch-icon-precomposed" href="https://cdn2.jianshu.io/assets/apple-touch-icons/57-a6f1f1ee62ace44f6dc2f6a08575abd3c3b163288881c78dd8d75247682a4b27.png" sizes="57x57">
+      <link rel="apple-touch-icon-precomposed" href="https://cdn2.jianshu.io/assets/apple-touch-icons/72-fb9834bcfce738fd7b9c5e31363e79443e09a81a8e931170b58bc815387c1562.png" sizes="72x72">
+      <link rel="apple-touch-icon-precomposed" href="https://cdn2.jianshu.io/assets/apple-touch-icons/76-49d88e539ff2489475d603994988d871219141ecaa0b1a7a9a1914f4fe3182d6.png" sizes="76x76">
+      <link rel="apple-touch-icon-precomposed" href="https://cdn2.jianshu.io/assets/apple-touch-icons/114-24252fe693524ed3a9d0905e49bff3cbd0228f25a320aa09053c2ebb4955de97.png" sizes="114x114">
+      <link rel="apple-touch-icon-precomposed" href="https://cdn2.jianshu.io/assets/apple-touch-icons/120-1bb7371f5e87f93ce780a5f1a05ff1b176828ee0d1d130e768575918a2e05834.png" sizes="120x120">
+      <link rel="apple-touch-icon-precomposed" href="https://cdn2.jianshu.io/assets/apple-touch-icons/152-bf209460fc1c17bfd3e2b84c8e758bc11ca3e570fd411c3bbd84149b97453b99.png" sizes="152x152">
+
+  <!-- Start of 访问统计 -->
+    <script src="./RPC简介及框架选择 - 简书_files/push.js.下载"></script><script src="./RPC简介及框架选择 - 简书_files/hm.js.下载"></script><script>
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?0c0e9d9b1e7d617b3e6842e85b9fb068";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+  <!-- End of 访问统计 -->
+<style type="text/css">@charset "UTF-8";.image-package .image-container{position:relative;z-index:2;background-color:#eee;-webkit-transition:background-color .1s linear;-o-transition:background-color .1s linear;transition:background-color .1s linear;margin:0 auto}body.reader-night-mode .image-package .image-container{background-color:#545454}.image-package .image-container-fill{z-index:1}.image-package .image-container .image-view{position:absolute;top:0;left:0;width:100%;height:100%;overflow:hidden}.image-package .image-container .image-view-error:after{content:"图片获取失败，请点击重试";position:absolute;top:50%;left:50%;width:100%;-webkit-transform:translate(-50%,-50%);-ms-transform:translate(-50%,-50%);transform:translate(-50%,-50%);color:#888;font-size:14px}.image-package .image-container .image-view img.image-loading{opacity:.3}.image-package .image-container .image-view img{-webkit-transition:all .15s linear;-o-transition:all .15s linear;transition:all .15s linear;z-index:2;opacity:1}</style><style type="text/css">fieldset[disabled] .multiselect {
+  pointer-events: none;
+}
+
+.multiselect__spinner {
+  position: absolute;
+  right: 1px;
+  top: 1px;
+  width: 48px;
+  height: 35px;
+  background: #fff;
+  display: block;
+}
+
+.multiselect__spinner:after,
+.multiselect__spinner:before {
+  position: absolute;
+  content: "";
+  top: 50%;
+  left: 50%;
+  margin: -8px 0 0 -8px;
+  width: 16px;
+  height: 16px;
+  border-radius: 100%;
+  border-color: #41b883 transparent transparent;
+  border-style: solid;
+  border-width: 2px;
+  box-shadow: 0 0 0 1px transparent;
+}
+
+.multiselect__spinner:before {
+  animation: a 2.4s cubic-bezier(.41,.26,.2,.62);
+  animation-iteration-count: infinite;
+}
+
+.multiselect__spinner:after {
+  animation: a 2.4s cubic-bezier(.51,.09,.21,.8);
+  animation-iteration-count: infinite;
+}
+
+.multiselect__loading-enter-active,
+.multiselect__loading-leave-active {
+  transition: opacity .4s ease-in-out;
+  opacity: 1;
+}
+
+.multiselect__loading-enter,
+.multiselect__loading-leave-active {
+  opacity: 0;
+}
+
+.multiselect,
+.multiselect__input,
+.multiselect__single {
+  font-family: inherit;
+  font-size: 14px;
+  -ms-touch-action: manipulation;
+  touch-action: manipulation;
+}
+
+.multiselect {
+  box-sizing: content-box;
+  display: block;
+  position: relative;
+  width: 100%;
+  min-height: 40px;
+  text-align: left;
+  color: #35495e;
+}
+
+.multiselect * {
+  box-sizing: border-box;
+}
+
+.multiselect:focus {
+  outline: none;
+}
+
+.multiselect--disabled {
+  opacity: .6;
+}
+
+.multiselect--active {
+  z-index: 1;
+}
+
+.multiselect--active:not(.multiselect--above) .multiselect__current,
+.multiselect--active:not(.multiselect--above) .multiselect__input,
+.multiselect--active:not(.multiselect--above) .multiselect__tags {
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
+}
+
+.multiselect--active .multiselect__select {
+  transform: rotate(180deg);
+}
+
+.multiselect--above.multiselect--active .multiselect__current,
+.multiselect--above.multiselect--active .multiselect__input,
+.multiselect--above.multiselect--active .multiselect__tags {
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
+}
+
+.multiselect__input,
+.multiselect__single {
+  position: relative;
+  display: inline-block;
+  min-height: 20px;
+  line-height: 20px;
+  border: none;
+  border-radius: 5px;
+  background: #fff;
+  padding: 0 0 0 5px;
+  width: 100%;
+  transition: border .1s ease;
+  box-sizing: border-box;
+  margin-bottom: 8px;
+  vertical-align: top;
+}
+
+.multiselect__tag~.multiselect__input,
+.multiselect__tag~.multiselect__single {
+  width: auto;
+}
+
+.multiselect__input:hover,
+.multiselect__single:hover {
+  border-color: #cfcfcf;
+}
+
+.multiselect__input:focus,
+.multiselect__single:focus {
+  border-color: #a8a8a8;
+  outline: none;
+}
+
+.multiselect__single {
+  padding-left: 6px;
+  margin-bottom: 8px;
+}
+
+.multiselect__tags-wrap {
+  display: inline;
+}
+
+.multiselect__tags {
+  min-height: 40px;
+  display: block;
+  padding: 8px 40px 0 8px;
+  border-radius: 5px;
+  border: 1px solid #e8e8e8;
+  background: #fff;
+}
+
+.multiselect__tag {
+  position: relative;
+  display: inline-block;
+  padding: 4px 26px 4px 10px;
+  border-radius: 5px;
+  margin-right: 10px;
+  color: #fff;
+  line-height: 1;
+  background: #41b883;
+  margin-bottom: 5px;
+  white-space: nowrap;
+  overflow: hidden;
+  max-width: 100%;
+  text-overflow: ellipsis;
+}
+
+.multiselect__tag-icon {
+  cursor: pointer;
+  margin-left: 7px;
+  position: absolute;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  font-weight: 700;
+  font-style: normal;
+  width: 22px;
+  text-align: center;
+  line-height: 22px;
+  transition: all .2s ease;
+  border-radius: 5px;
+}
+
+.multiselect__tag-icon:after {
+  content: "\D7";
+  color: #266d4d;
+  font-size: 14px;
+}
+
+.multiselect__tag-icon:focus,
+.multiselect__tag-icon:hover {
+  background: #369a6e;
+}
+
+.multiselect__tag-icon:focus:after,
+.multiselect__tag-icon:hover:after {
+  color: #fff;
+}
+
+.multiselect__current {
+  min-height: 40px;
+  overflow: hidden;
+  padding: 8px 12px 0;
+  padding-right: 30px;
+  white-space: nowrap;
+  border-radius: 5px;
+  border: 1px solid #e8e8e8;
+}
+
+.multiselect__current,
+.multiselect__select {
+  line-height: 16px;
+  box-sizing: border-box;
+  display: block;
+  margin: 0;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.multiselect__select {
+  position: absolute;
+  width: 40px;
+  height: 38px;
+  right: 1px;
+  top: 1px;
+  padding: 4px 8px;
+  text-align: center;
+  transition: transform .2s ease;
+}
+
+.multiselect__select:before {
+  position: relative;
+  right: 0;
+  top: 65%;
+  color: #999;
+  margin-top: 4px;
+  border-style: solid;
+  border-width: 5px 5px 0;
+  border-color: #999 transparent transparent;
+  content: "";
+}
+
+.multiselect__placeholder {
+  color: #adadad;
+  display: inline-block;
+  margin-bottom: 10px;
+  padding-top: 2px;
+}
+
+.multiselect--active .multiselect__placeholder {
+  display: none;
+}
+
+.multiselect__content-wrapper {
+  position: absolute;
+  display: block;
+  background: #fff;
+  width: 100%;
+  max-height: 240px;
+  overflow: auto;
+  border: 1px solid #e8e8e8;
+  border-top: none;
+  border-bottom-left-radius: 5px;
+  border-bottom-right-radius: 5px;
+  z-index: 1;
+  -webkit-overflow-scrolling: touch;
+}
+
+.multiselect__content {
+  list-style: none;
+  display: inline-block;
+  padding: 0;
+  margin: 0;
+  min-width: 100%;
+  vertical-align: top;
+}
+
+.multiselect--above .multiselect__content-wrapper {
+  bottom: 100%;
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
+  border-top-left-radius: 5px;
+  border-top-right-radius: 5px;
+  border-bottom: none;
+  border-top: 1px solid #e8e8e8;
+}
+
+.multiselect__content::webkit-scrollbar {
+  display: none;
+}
+
+.multiselect__element {
+  display: block;
+}
+
+.multiselect__option {
+  display: block;
+  padding: 12px;
+  min-height: 40px;
+  line-height: 16px;
+  text-decoration: none;
+  text-transform: none;
+  vertical-align: middle;
+  position: relative;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.multiselect__option:after {
+  top: 0;
+  right: 0;
+  position: absolute;
+  line-height: 40px;
+  padding-right: 12px;
+  padding-left: 20px;
+}
+
+.multiselect__option--highlight {
+  background: #41b883;
+  outline: none;
+  color: #fff;
+}
+
+.multiselect__option--highlight:after {
+  content: attr(data-select);
+  background: #41b883;
+  color: #fff;
+}
+
+.multiselect__option--selected {
+  background: #f3f3f3;
+  color: #35495e;
+  font-weight: 700;
+}
+
+.multiselect__option--selected:after {
+  content: attr(data-selected);
+  color: silver;
+}
+
+.multiselect__option--selected.multiselect__option--highlight {
+  background: #ff6a6a;
+  color: #fff;
+}
+
+.multiselect__option--selected.multiselect__option--highlight:after {
+  background: #ff6a6a;
+  content: attr(data-deselect);
+  color: #fff;
+}
+
+.multiselect--disabled {
+  background: #ededed;
+  pointer-events: none;
+}
+
+.multiselect--disabled .multiselect__current,
+.multiselect--disabled .multiselect__select,
+.multiselect__option--disabled {
+  background: #ededed;
+  color: #a6a6a6;
+}
+
+.multiselect__option--disabled {
+  cursor: text;
+  pointer-events: none;
+}
+
+.multiselect__option--disabled.multiselect__option--highlight {
+  background: #dedede!important;
+}
+
+.multiselect-enter-active,
+.multiselect-leave-active {
+  transition: all .15s ease;
+}
+
+.multiselect-enter,
+.multiselect-leave-active {
+  opacity: 0;
+}
+
+.multiselect__strong {
+  margin-bottom: 8px;
+  line-height: 20px;
+  display: inline-block;
+  vertical-align: top;
+}
+
+[dir=rtl] .multiselect {
+  text-align: right;
+}
+
+[dir=rtl] .multiselect__select {
+  right: auto;
+  left: 1px;
+}
+
+[dir=rtl] .multiselect__tags {
+  padding: 8px 8px 0 40px;
+}
+
+[dir=rtl] .multiselect__content {
+  text-align: right;
+}
+
+[dir=rtl] .multiselect__option:after {
+  right: auto;
+  left: 0;
+}
+
+[dir=rtl] .multiselect__clear {
+  right: auto;
+  left: 12px;
+}
+
+[dir=rtl] .multiselect__spinner {
+  right: auto;
+  left: 1px;
+}
+
+@keyframes a {
+  0% {
+    transform: rotate(0);
+  }
+
+  to {
+    transform: rotate(2turn);
+  }
+}</style><style type="text/css">
+#free-reward-panel .reward-users-modal main {
+  padding: 0;
+}
+</style><style type="text/css">
+@charset "UTF-8";
+/*
+ * 变量
+*/
+.reward-note-modal .v-modal {
+  width: 620px;
+  text-align: center;
+}
+.reward-note-modal .v-modal form {
+    margin: 0 auto 25px auto;
+    padding: 0 40px;
+}
+.reward-note-modal .v-modal .reward-intro {
+    margin-top: 20px;
+    margin-bottom: 20px;
+    font-size: 16px;
+}
+.reward-note-modal .v-modal .reward-intro .avatar {
+      cursor: default !important;
+      width: 36px;
+      height: 36px;
+      margin-right: 10px;
+      display: inline-block;
+}
+.reward-note-modal .v-modal .reward-intro .intro {
+      margin-right: 5px;
+      font-weight: bold;
+      vertical-align: middle;
+}
+.reward-note-modal .v-modal .reward-intro i {
+      color: #EA6F5A;
+      vertical-align: middle;
+}
+.reward-note-modal .v-modal .main-inputs {
+    margin: 25px 0;
+}
+.reward-note-modal .v-modal .main-inputs .amount-group {
+      margin: 0 -5px;
+}
+.reward-note-modal .v-modal .main-inputs .amount-group input {
+        display: none;
+}
+.reward-note-modal .v-modal .main-inputs .amount-group input:checked + .option {
+        color: #EA6F5A;
+        border-color: #EA6F5A;
+}
+.reward-note-modal .v-modal .main-inputs .amount-group .custom-amount:checked + .option .custom-text {
+        opacity: 0;
+}
+.reward-note-modal .v-modal .main-inputs .amount-group .custom-amount:checked + .option .custom-amount-input {
+        opacity: 1;
+}
+.reward-note-modal .v-modal .main-inputs .amount-group .option {
+        position: relative;
+        margin: 0 5px 15px;
+        width: 156px;
+        height: 56px;
+        line-height: 54px;
+        border: 1px solid #E6E6E6;
+        border-radius: 4px;
+        font-weight: normal;
+        color: #999999;
+        cursor: pointer;
+}
+.reward-note-modal .v-modal .main-inputs .amount-group .option i {
+          font-size: 16px;
+          vertical-align: middle;
+}
+.reward-note-modal .v-modal .main-inputs .amount-group .option .amount {
+          font-size: 28px;
+          vertical-align: middle;
+}
+.reward-note-modal .v-modal .main-inputs .amount-group .option .piece {
+          font-size: 13px;
+          vertical-align: sub;
+}
+.reward-note-modal .v-modal .main-inputs .amount-group .option .custom-amount-input {
+          position: absolute;
+          top: 0;
+          z-index: -1;
+          width: 100%;
+          opacity: 0;
+}
+.reward-note-modal .v-modal .main-inputs .amount-group .option .custom-amount-input i {
+            position: absolute;
+            top: 0;
+            left: 10px;
+}
+.reward-note-modal .v-modal .main-inputs .amount-group .option .custom-amount-input .piece {
+            position: absolute;
+            top: 4px;
+            right: 10px;
+}
+.reward-note-modal .v-modal .main-inputs .amount-group .option .custom-amount-input input {
+            display: block;
+            margin: 0 auto;
+            width: 80px;
+            height: 54px;
+            line-height: 54px;
+            border: none;
+            font-size: 28px;
+            text-align: center;
+            background: transparent;
+            -moz-appearance: textfield;
+}
+.reward-note-modal .v-modal .main-inputs .amount-group .option .custom-amount-input input::-webkit-outer-spin-button, .reward-note-modal .v-modal .main-inputs .amount-group .option .custom-amount-input input::-webkit-inner-spin-button {
+              -webkit-appearance: none !important;
+}
+.reward-note-modal .v-modal .main-inputs .message {
+      padding: 15px 20px;
+      margin-bottom: 0;
+      font-size: 14px;
+      border: 1px solid #E6E6E6;
+      color: #333333;
+      border-radius: 4px;
+      background-color: rgba(180, 180, 180, 0.1);
+}
+.reward-note-modal .v-modal .main-inputs .message textarea {
+        width: 100%;
+        height: 44px;
+        padding: 0;
+        margin: 0;
+        resize: none;
+        background: none !important;
+        border: none !important;
+        -webkit-box-sizing: border-box;
+                box-sizing: border-box;
+        -webkit-box-shadow: none;
+                box-shadow: none;
+}
+.reward-note-modal .v-modal .main-inputs .message textarea:focus {
+          outline: none;
+}
+.reward-note-modal .v-modal .reward-info .amount {
+    font-size: 28px;
+    font-weight: bold;
+    color: #EA6F5A;
+}
+.reward-note-modal .v-modal .reward-info .pay-method {
+    font-size: 14px;
+}
+.reward-note-modal .v-modal .reward-info .pay-method a {
+      color: #3194D0;
+}
+.reward-note-modal .v-modal .choose-pay {
+    margin: 0 -5px;
+}
+.reward-note-modal .v-modal .choose-pay input {
+      display: none;
+}
+.reward-note-modal .v-modal .choose-pay input:checked + .option {
+      color: #EA6F5A;
+      border-color: #EA6F5A;
+}
+.reward-note-modal .v-modal .choose-pay .option {
+      margin: 20px 5px 10px;
+      width: 156px;
+      height: 56px;
+      line-height: 54px;
+      text-align: center;
+      border: 1px solid #E6E6E6;
+      border-radius: 4px;
+      cursor: pointer;
+}
+.reward-note-modal .v-modal .choose-pay .option img {
+        height: 30px;
+}
+.reward-note-modal .v-modal .choose-pay .option img.day.alipay, .reward-note-modal .v-modal .choose-pay .option img.night.alipay {
+        min-width: 85px;
+}
+.reward-note-modal .v-modal .choose-pay .option img.day.wechat, .reward-note-modal .v-modal .choose-pay .option img.night.wechat {
+        min-width: 112px;
+}
+.reward-note-modal .v-modal .choose-pay .option img.night {
+        display: none;
+}
+.reward-note-modal .v-modal .choose-pay .tooltip {
+      width: 230px;
+}
+.reward-note-modal .v-modal .modal-footer {
+    padding: 0 15px 20px;
+    border: none;
+    background-color: transparent;
+    text-align: center;
+}
+.reward-note-modal .v-modal .modal-footer .btn {
+      padding: 8px 45px;
+      font-size: 24px;
+}
+.reward-note-modal .v-modal .btn-pay {
+    padding: 8px 25px;
+    font-size: 16px;
+    color: #ffffff;
+    background-color: #F5A623;
+}
+.weixin-pay, .success-pay {
+  text-align: center;
+}
+.weixin-pay .v-modal, .success-pay .v-modal {
+    width: 350px;
+}
+.weixin-pay .ic-successed, .success-pay .ic-successed {
+    font-size: 60px;
+    color: #3db922;
+}
+.weixin-pay h2, .weixin-pay h3, .success-pay h2, .success-pay h3 {
+    margin-bottom: 20px;
+    color: #333333;
+}
+.weixin-pay h2, .success-pay h2 {
+    margin: 0 0 40px 0;
+    font-size: 24px;
+}
+.weixin-pay .bind-text, .success-pay .bind-text {
+    position: relative;
+    margin-bottom: 30px;
+    font-size: 14px;
+    color: #999999;
+}
+.weixin-pay .bind-text:before, .weixin-pay .bind-text:after, .success-pay .bind-text:before, .success-pay .bind-text:after {
+      content: "";
+      border-top: 1px solid #999;
+      display: block;
+      position: absolute;
+      width: 40px;
+      top: 8px;
+}
+.weixin-pay .bind-text:before, .success-pay .bind-text:before {
+      left: 30px;
+}
+.weixin-pay .bind-text:after, .success-pay .bind-text:after {
+      right: 30px;
+}
+.weixin-pay .share-bind, .success-pay .share-bind {
+    display: block;
+    margin-bottom: 30px;
+}
+.weixin-pay .share-bind i, .success-pay .share-bind i {
+      margin-right: 4px;
+      font-size: 22px;
+      vertical-align: middle;
+}
+.weixin-pay .share-bind.wechat i, .success-pay .share-bind.wechat i {
+      color: #00BB29;
+}
+.weixin-pay .share-bind.weibo i, .success-pay .share-bind.weibo i {
+      color: #E05244;
+}
+.weixin-pay .wx-qr-code, .success-pay .wx-qr-code {
+    display: inline-block;
+}
+.weixin-pay .wx-qr-code img, .success-pay .wx-qr-code img {
+      margin: 0 auto;
+      padding: 10px;
+      width: 200px;
+      background-color: #ffffff;
+}
+.weixin-pay .pay-amount, .success-pay .pay-amount {
+    margin: 20px 0;
+    color: #787878;
+}
+.weixin-pay .pay-amount span, .success-pay .pay-amount span {
+      color: #F5A623;
+}
+</style><style type="text/css">
+@charset "UTF-8";
+/*
+ * 变量
+*/
+.v-modal-wrap {
+  position: fixed;
+  left: 0;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 9999;
+  background-color: transparent;
+}
+.v-modal-wrap.modal-leave-active {
+    -webkit-transition: opacity 0.3s;
+    -o-transition: opacity 0.3s;
+    transition: opacity 0.3s;
+}
+.v-modal-wrap.modal-enter-active .v-modal-mask, .v-modal-wrap.modal-leave-active .v-modal-mask {
+    opacity: 0;
+}
+.v-modal-wrap.modal-enter-active .v-modal, .v-modal-wrap.modal-leave-active .v-modal {
+    -webkit-transform: translate(-50%, -70%);
+        -ms-transform: translate(-50%, -70%);
+            transform: translate(-50%, -70%);
+    opacity: 0;
+}
+.v-modal-wrap .v-modal-mask {
+    background-color: rgba(255, 255, 255, 0.7);
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    -webkit-transition: opacity 0.3s;
+    -o-transition: opacity 0.3s;
+    transition: opacity 0.3s;
+    opacity: 1;
+}
+.v-modal-wrap .v-modal {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    -webkit-transform: translate(-50%, -50%);
+        -ms-transform: translate(-50%, -50%);
+            transform: translate(-50%, -50%);
+    border-radius: 6px;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    background-color: #fff;
+    -webkit-box-shadow: 0 5px 25px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 5px 25px rgba(0, 0, 0, 0.1);
+    -webkit-transition: opacity 0.3s, -webkit-transform 0.3s;
+    transition: opacity 0.3s, -webkit-transform 0.3s;
+    -o-transition: opacity 0.3s, transform 0.3s;
+    transition: opacity 0.3s, transform 0.3s;
+    transition: opacity 0.3s, transform 0.3s, -webkit-transform 0.3s;
+    opacity: 1;
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+    -webkit-flex-direction: column;
+        -ms-flex-direction: column;
+            flex-direction: column;
+    overflow: hidden;
+}
+.v-modal-wrap .v-modal > header:before, .v-modal-wrap .v-modal > header:after, .v-modal-wrap .v-modal > main:before, .v-modal-wrap .v-modal > main:after, .v-modal-wrap .v-modal > footer:before, .v-modal-wrap .v-modal > footer:after {
+      content: '';
+      clear: both;
+      display: table;
+}
+.v-modal-wrap .v-modal > header {
+      padding: 20px;
+      border-bottom: 1px solid #F0F0F0;
+}
+.v-modal-wrap .v-modal > header h4 {
+        margin: 0;
+        color: #333;
+        text-align: left;
+}
+.v-modal-wrap .v-modal .close {
+      position: absolute;
+      right: 16px;
+      top: 20px;
+      font-size: 26px;
+      line-height: 20px;
+      color: rgba(0, 0, 0, 0.8);
+}
+.v-modal-wrap .v-modal .close:hover {
+        color: #000000;
+}
+.v-modal-wrap .v-modal > main {
+      padding: 20px 20px 20px 20px;
+      font-size: 15px;
+      color: #333;
+      -webkit-box-flex: 1;
+      -webkit-flex-grow: 1;
+          -ms-flex-positive: 1;
+              flex-grow: 1;
+      overflow-x: hidden;
+      overflow-y: auto;
+}
+.v-modal-wrap .v-modal > footer {
+      padding: 20px;
+      background-color: #fff;
+}
+.v-modal-wrap .v-modal > footer button {
+        padding: 0;
+        margin: 0;
+        background-color: transparent;
+        border: 0;
+        float: right;
+}
+.v-modal-wrap .v-modal > footer button:focus {
+          outline: 0;
+}
+.v-modal-wrap .v-modal > footer .submit {
+        padding: 4px 12px;
+        border: 1px solid;
+        border-radius: 20px;
+}
+.v-modal-wrap .v-modal > footer .cancel {
+        margin-top: 5px;
+}
+.v-modal-wrap .v-modal > footer .cancel:hover {
+          color: #333333;
+}
+.reader-night-mode .v-modal-wrap .v-modal-mask {
+  background-color: rgba(63, 63, 63, 0.7);
+}
+.reader-night-mode .v-modal-wrap .v-modal {
+  background-color: #3f3f3f;
+}
+.reader-night-mode .v-modal-wrap .v-modal header {
+    border-color: #2F2F2F;
+}
+.reader-night-mode .v-modal-wrap .v-modal header h4 {
+      color: #C8C8C8;
+}
+.reader-night-mode .v-modal-wrap .v-modal .close {
+    color: #C8C8C8;
+}
+.reader-night-mode .v-modal-wrap .v-modal .close:hover {
+      color: #ffffff;
+}
+.reader-night-mode .v-modal-wrap .v-modal main {
+    color: #C8C8C8;
+}
+.reader-night-mode .v-modal-wrap .v-modal footer {
+    background-color: #3f3f3f;
+}
+.reader-night-mode .v-modal-wrap .v-modal footer .cancel:hover {
+      color: #C8C8C8;
+}
+</style><style type="text/css">
+@charset "UTF-8";
+/*
+ * 变量
+*/
+.youdao-fixed-ad {
+  display: block;
+  position: relative;
+  width: 180px;
+  height: 180px;
+}
+.youdao-fixed-ad .img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+}
+.youdao-fixed-ad .ad-badge {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    display: block;
+    font-size: 12px;
+    padding: 2px 5px 0 6px;
+    background-color: rgba(0, 0, 0, 0.5);
+    color: #fff;
+    cursor: pointer;
+}
+</style><style type="text/css">
+.yuxi-fixed-ad {
+  position: relative;
+  width: 180px;
+  height: 180px;
+}
+.yuxi-fixed-ad .img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+    background-image: url(//cdn2.jianshu.io/assets/web/yuxi-ads-d73b364baf42dfeca32d518c819a0136.jpg);
+}
+.yuxi-fixed-ad .ad-badge {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    display: block;
+    font-size: 12px;
+    padding: 2px 5px 0 6px;
+    background-color: rgba(0, 0, 0, 0.5);
+    color: #fff;
+    cursor: pointer;
+}
+</style><style type="text/css">
+@charset "UTF-8";
+/*
+ * 变量
+*/
+.like[data-v-6ddd02c6] {
+  display: inline-block;
+}
+.like .like-group[data-v-6ddd02c6] {
+    position: relative;
+    padding: 13px 0 15px 0;
+    font-size: 0;
+    border: 1px solid #EA6F5A;
+    border-radius: 40px;
+}
+.like .like-group[data-v-6ddd02c6]:hover {
+      background-color: rgba(236, 97, 73, 0.05);
+}
+.like .like-group .btn-like[data-v-6ddd02c6] {
+      display: inline-block;
+      font-size: 19px;
+}
+.like .like-group .btn-like[data-v-6ddd02c6]:before {
+        content: '';
+        position: absolute;
+        left: 12px;
+        top: 2px;
+        width: 50px;
+        height: 50px;
+        background-image: url(//cdn2.jianshu.io/assets/web/like_animation_steps-62a00a7b52377d3069927cdb8e61fd34.png);
+        background-position: left;
+        background-repeat: no-repeat;
+        background-size: 1000px 50px;
+}
+.like .like-group .btn-like a[data-v-6ddd02c6] {
+        position: relative;
+        padding: 18px 30px 18px 55px;
+        color: #EA6F5A;
+}
+.like .like-group .modal-wrap[data-v-6ddd02c6] {
+      font-size: 18px;
+      border-left: 1px solid rgba(236, 97, 73, 0.4);
+      display: inline-block;
+      margin-left: -15px;
+}
+.like .like-group .modal-wrap a[data-v-6ddd02c6] {
+        color: #EA6F5A;
+        padding: 18px 26px 18px 18px;
+}
+.like .like-group.like-animation[data-v-6ddd02c6], .like .like-group.active[data-v-6ddd02c6] {
+      background-color: #EA6F5A;
+}
+.like .like-group.like-animation .btn-like a[data-v-6ddd02c6], .like .like-group.active .btn-like a[data-v-6ddd02c6] {
+        color: white;
+}
+.like .like-group.like-animation .modal-wrap[data-v-6ddd02c6], .like .like-group.active .modal-wrap[data-v-6ddd02c6] {
+        border-left: 1px solid white;
+}
+.like .like-group.like-animation .modal-wrap a[data-v-6ddd02c6], .like .like-group.active .modal-wrap a[data-v-6ddd02c6] {
+          color: white;
+}
+.like .like-group.like-animation .btn-like[data-v-6ddd02c6]:before {
+      -webkit-animation: likeBlast-data-v-6ddd02c6 0.6s 1 steps(19);
+              animation: likeBlast-data-v-6ddd02c6 0.6s 1 steps(19);
+      background-position: right;
+}
+@-webkit-keyframes likeBlast {
+0% {
+    background-position: left;
+}
+100% {
+    background-position: right;
+}
+}
+@keyframes likeBlast-data-v-6ddd02c6 {
+0% {
+    background-position: left;
+}
+100% {
+    background-position: right;
+}
+}
+.like .like-group.active .btn-like[data-v-6ddd02c6]:before {
+      background-position: right;
+}
+</style><style type="text/css">
+@charset "UTF-8";
+/*
+ * 变量
+*/
+.main {
+  position: relative;
+  margin: 0 auto;
+  padding: 0 0 30px 0;
+  width: 620px;
+}
+.main .title {
+    padding-left: 8px;
+    border-left: 3px solid #EA6F5A;
+    line-height: 1;
+    font-size: 15px;
+}
+.main .collection-settings {
+    position: absolute;
+    top: 2px;
+    right: 0;
+    font-size: 13px;
+    color: #A0A0A0;
+}
+.main .collection-settings span {
+      padding-left: 4px;
+}
+.main .include-collection {
+    width: 100%;
+    padding-top: 20px;
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-orient: horizontal;
+    -webkit-box-direction: normal;
+    -webkit-flex-direction: row;
+        -ms-flex-direction: row;
+            flex-direction: row;
+    -webkit-box-pack: start;
+    -webkit-justify-content: flex-start;
+        -ms-flex-pack: start;
+            justify-content: flex-start;
+    -webkit-box-align: center;
+    -webkit-align-items: center;
+        -ms-flex-align: center;
+            align-items: center;
+    -webkit-flex-wrap: wrap;
+        -ms-flex-wrap: wrap;
+            flex-wrap: wrap;
+}
+.main .include-collection .item {
+      display: inline-block;
+      margin: 0 12px 12px 0;
+      min-height: 32px;
+      background-color: white;
+      border: 1px solid #DCDCDC;
+      border-radius: 4px;
+      vertical-align: top;
+      overflow: hidden;
+}
+.main .include-collection .item img {
+        width: 32px;
+        height: 32px;
+}
+.main .include-collection .item .name {
+        display: inline-block;
+        padding: 0 10px;
+        font-size: 14px;
+}
+.main .include-collection .add-collection-wrap {
+      margin: 0 12px 12px 0;
+}
+.main .include-collection .add-collection {
+      padding: 8px 12px;
+      font-size: 14px;
+      border: 1px solid #DCDCDC;
+      border-radius: 4px;
+}
+.main .include-collection .add-collection i {
+        margin-right: 4px;
+        color: #969696;
+}
+.main .recommend-note a {
+    position: relative;
+    margin: 20px 2px 0 0;
+    width: 200px;
+    height: 160px;
+    display: inline-block;
+}
+.main .recommend-note a:after {
+      content: "";
+      position: absolute;
+      width: 200px;
+      height: 160px;
+      border-radius: 0 0 4px 4px;
+      -webkit-box-shadow: inset 0px -80px 50px -22px rgba(0, 0, 0, 0.6);
+              box-shadow: inset 0px -80px 50px -22px rgba(0, 0, 0, 0.6);
+      top: 0;
+      left: 0;
+      z-index: 1;
+}
+.main .recommend-note .name {
+    position: absolute;
+    bottom: 40px;
+    left: 10px;
+    right: 10px;
+    font-size: 17px;
+    font-weight: bold;
+    color: #ffffff;
+    z-index: 2;
+}
+.main .recommend-note .author {
+    position: absolute;
+    bottom: 10px;
+    left: 10px;
+    right: 10px;
+    z-index: 2;
+}
+.main .recommend-note .avatar {
+    width: 20px;
+    height: 20px;
+    display: inline-block;
+}
+.main .recommend-note .avatar img {
+      border-radius: 50%;
+}
+.main .recommend-note .author-name {
+    font-size: 12px;
+    color: #ffffff;
+    display: inline-block;
+    vertical-align: -1px;
+}
+.main .show-more {
+    margin: 0 12px 12px 0;
+    font-size: 14px;
+    color: #A0A0A0;
+}
+</style></head>
+
+  <!-- 只给10%的用户添加代码 -->
+  <!-- ###第四范式-智能推荐：代码直接复制 无需修改参数### -->
+  <!-- ###功能：上报内容并反馈用户行为### -->
+  <!--
+    <script charset="utf-8" id="ParadigmSDKv3" src="https://nbrecsys.4paradigm.com/sdk/js/ParadigmSDK_v3.js">
+    </script>
+    <script>
+      ParadigmSDKv3.init("5cc57c5e8add401aa5533ff26dde2532");
+      ParadigmSDKv3.trackDetailPageShow(524);
+    </script>
+  -->
+  <body lang="zh-CN" class="reader-black-font vsc-initialized" style="">
+    <!-- 全局顶部导航栏 -->
+<nav class="navbar navbar-default navbar-fixed-top" role="navigation">
+  <div class="width-limit">
+    <!-- 左上方 Logo -->
+    <a class="logo" href="https://www.jianshu.com/"><img src="./RPC简介及框架选择 - 简书_files/nav-logo-4c7bbafe27adc892f3046e6978459bac.png" alt="Nav logo"></a>
+
+    <!-- 右上角 -->
+      <!-- 未登录显示登录/注册/写文章 -->
+      <a class="btn write-btn" target="_blank" href="https://www.jianshu.com/writer#/">
+        <i class="iconfont ic-write"></i>写文章
+</a>      <a class="btn sign-up" id="sign_up" href="https://www.jianshu.com/sign_up">注册</a>
+      <a class="btn log-in" id="sign_in" href="https://www.jianshu.com/sign_in">登录</a>
+
+    <!-- 如果用户登录，显示下拉菜单 -->
+
+    <div class="style-mode"><a class="style-mode-btn"><i class="iconfont ic-navigation-mode"></i></a> <div class="popover-modal" style="left: 0px; display: none;"><div class="meta"><i class="iconfont ic-navigation-night"></i><span>夜间模式</span></div> <div class="switch day-night-group"><a class="switch-btn">开</a> <a class="switch-btn active">关</a></div> <hr> <div class="switch font-family-group"><a class="switch-btn font-song">宋体</a> <a class="switch-btn font-hei active">黑体</a></div> <div class="switch"><a class="switch-btn active">简</a> <a class="switch-btn">繁</a></div></div></div>
+    <div class="container">
+      <div class="navbar-header">
+        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#menu" aria-expanded="false">
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+      </div>
+      <div class="collapse navbar-collapse" id="menu">
+        <ul class="nav navbar-nav">
+            <li class="tab ">
+              <a href="https://www.jianshu.com/">
+                <span class="menu-text">首页</span><i class="iconfont ic-navigation-discover menu-icon"></i>
+</a>            </li>
+            <li class="tab ">
+              <a id="web-nav-app-download-btn" class="app-download-btn" href="https://www.jianshu.com/apps?utm_medium=desktop&amp;utm_source=navbar-apps"><span class="menu-text">下载App</span><i class="iconfont ic-navigation-download menu-icon"></i></a>
+            </li>
+          <li class="search">
+            <form target="_blank" action="https://www.jianshu.com/search" accept-charset="UTF-8" method="get"><input name="utf8" type="hidden" value="✓">
+              <input type="text" name="q" id="q" value="" autocomplete="off" placeholder="搜索" class="search-input">
+              <a class="search-btn" href="javascript:void(null)"><i class="iconfont ic-search"></i></a>
+</form>          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</nav>
+
+    
+<div class="note">
+  <div id="note-fixed-ad-container">
+    <div id="fixed-ad-container">
+      <div style="display: block;"><a target="_blank" href="https://www.jianshu.com/apps/redirect?utm_source=side-banner-click" id="web-note-ad-fixed"><span class="close">×</span></a></div>
+      <!---->
+      <a href="http://e.cn.miaozhen.com/r/k=2110413&amp;p=7L9Gn&amp;dx=__IPDX__&amp;rt=2&amp;ns=__IP__&amp;ni=__IESID__&amp;v=__LOC__&amp;xa=__ADPLATFORM__&amp;tr=__REQUESTID__&amp;mo=__OS__&amp;m0=__OPENUDID__&amp;m0a=__DUID__&amp;m1=__ANDROIDID1__&amp;m1a=__ANDROIDID__&amp;m2=__IMEI__&amp;m4=__AAID__&amp;m5=__IDFA__&amp;m6=__MAC1__&amp;m6a=__MAC__&amp;vo=3f2e070eb&amp;vr=2&amp;o=https%3A%2F%2Fwww.jianshu.com%2Fp%2Fee05f7eff678" target="_blank" class="yuxi-fixed-ad" style="display: none;"><div class="img"></div> <span class="ad-badge">广告</span></a>
+      <div id="_so_pdsBy_0"></div>
+    </div>
+  </div>
+  <div class="post">
+    <div class="article">
+        <h1 class="title">RPC简介及框架选择</h1>
+
+        <!-- 作者区域 -->
+        <div class="author">
+          <a class="avatar" href="https://www.jianshu.com/u/63e7d8aa8856">
+            <img src="./RPC简介及框架选择 - 简书_files/ebe66a58353d" alt="96">
+</a>          <div class="info">
+            <span class="name"><a href="https://www.jianshu.com/u/63e7d8aa8856">63e7d8aa8856</a></span>
+            <!-- 关注用户按钮 -->
+            <a class="btn btn-success follow"><i class="iconfont ic-follow"></i><span>关注</span></a>
+            <!-- 文章数据信息 -->
+            <div class="meta">
+              <!-- 如果文章更新时间大于发布时间，那么使用 tooltip 显示更新时间 -->
+                <span class="publish-time" data-toggle="tooltip" data-placement="bottom" title="" data-original-title="最后编辑于 2018.06.05 15:34">2018.05.29 19:23*</span>
+              <span class="wordage">字数 4220</span>
+            <span class="views-count">阅读 3257</span><span class="comments-count">评论 0</span><span class="likes-count">喜欢 30</span></div>
+          </div>
+          <!-- 如果是当前作者，加入编辑按钮 -->
+        </div>
+
+
+        <!-- 文章内容 -->
+        <div data-note-content="" class="show-content">
+          <div class="show-content-free">
+            <p>简单介绍RPC协议及常见框架，对比传统restful api和RPC方式的优缺点。常见RPC框架，gRPC及序列化方式Protobuf等</p>
+<h3>HTTP协议</h3>
+<p>http协议是基于tcp协议的，tcp协议是流式协议，包头部分可以通过多出的\r\n来分界，包体部分如何分界呢？这是协议本身要解决的问题。目前一般有两种方式，第一种方式就是在包头中有个content-Length字段，这个字段的值的大小标识了POST数据的长度，服务器收到一个数据包后，先从包头解析出这个字段的值，再根据这个值去读取相应长度的作为http协议的包体数据。<br>
+浏览器connect 80端口</p>
+<h3>RESTful API   (http+json)</h3>
+<p><a href="http://www.ruanyifeng.com/blog/2011/09/restful.html" target="_blank" rel="nofollow">理解RESTful架构 - 阮一峰</a><br>
+<a href="https://www.zhihu.com/question/27785028/answer/48096396" target="_blank" rel="nofollow">REST 架构该怎么生动地理解？ - 覃超的回答 - 知乎</a></p>
+<p>网站即软件，而且是一种新型的软件，这种"互联网软件"采用客户端/服务器模式，建立在分布式体系上，通过互联网通信，具有高延时（high latency）、高并发等特点。<br>
+　　它首次出现在 2000 年 Roy Fielding 的博士论文中，他是 HTTP 规范的主要编写者之一。Representational State Transfer，翻译是”表现层状态转化”，通俗来讲就是：资源在网络中以某种表现形式进行状态转移。<br>
+总结一下什么是RESTful架构：<br>
+　　（1）每一个URI代表一种资源；<br>
+　　（2）客户端和服务器之间，传递这种资源的某种表现层，比如用JSON，XML，JPEG等；<br>
+　　（3）客户端通过四个HTTP动词，对服务器端资源进行操作，实现"表现层状态转化"。</p>
+<p>URL定位<strong>资源</strong>，用HTTP动词（GET,POST,DELETE,DETC）描述操作。<br>
+用HTTP协议里的动词来实现资源的添加，修改，删除等操作。即通过HTTP动词来实现资源的状态扭转：<br>
+　　GET 用来获取资源，<br>
+　　POST 用来新建资源（也可以用于更新资源），<br>
+　　PUT 用来更新资源，<br>
+　　DELETE 用来删除资源。</p>
+<h3>RPC</h3>
+<p>进程间通信（IPC，Inter-Process Communication），指至少两个进程或线程间传送数据或信号的一些技术或方法。进程是计算机系统分配资源的最小单位。每个进程都有自己的一部分独立的系统资源，彼此是隔离的。为了能使不同的进程互相访问资源并进行协调工作，才有了进程间通信。这些进程可以运行在同一计算机上或网络连接的不同计算机上。 进程间通信技术包括消息传递、同步、共享内存和远程过程调用。 IPC是一种标准的Unix通信机制。</p>
+<p>有两种类型的进程间通信(IPC)。</p>
+<ul>
+<li>本地过程调用(LPC)LPC用在多任务操作系统中，使得同时运行的任务能互相会话。这些任务共享内存空间使任务同步和互相发送信息。</li>
+<li>远程过程调用(RPC)RPC类似于LPC，只是在网上工作。RPC开始是出现在Sun微系统公司和HP公司的运行UNIX操作系统的计算机中。</li>
+</ul>
+<p>为什么RPC呢？就是无法在一个进程内，甚至一个计算机内通过本地调用的方式完成的需求，比如比如不同的系统间的通讯，甚至不同的组织间的通讯。由于计算能力需要横向扩展，需要在多台机器组成的集群上部署应用</p>
+<p>RPC的核心并不在于使用什么协议。RPC的目的是让你在本地调用远程的方法，而对你来说这个调用是透明的，你并不知道这个调用的方法是部署哪里。通过RPC能解耦服务，这才是使用RPC的真正目的。RPC的原理主要用到了动态代理模式，至于http协议，只是传输协议而已。简单的实现可以参考spring remoting，复杂的实现可以参考dubbo。</p>
+<p>简单的说，</p>
+<ul>
+<li>RPC就是从一台机器（客户端）上通过参数传递的方式调用另一台机器（服务器）上的一个函数或方法（可以统称为服务）并得到返回的结果。</li>
+<li>RPC 会隐藏底层的通讯细节（不需要直接处理Socket通讯或Http通讯） RPC 是一个请求响应模型。</li>
+<li>客户端发起请求，服务器返回响应（类似于Http的工作方式） RPC 在使用形式上像调用本地函数（或方法）一样去调用远程的函数（或方法）。</li>
+</ul>
+<h2>RPC通信过程</h2>
+<p><a href="https://blog.csdn.net/u013521220/article/details/66530188" target="_blank" rel="nofollow">RPC架构简单理解</a><br>
+<a href="https://waylau.com/remote-procedure-calls/" target="_blank" rel="nofollow">远程过程调用(RPC)详解</a></p>
+<p>默认socket通信。本地机器的RPC框架反序列化出执行结果，函数return这个结果</p>
+<br>
+<div class="image-package">
+<div class="image-container" style="max-width: 500px; max-height: 314px; background-color: transparent;">
+<div class="image-container-fill" style="padding-bottom: 62.8%;"></div>
+<div class="image-view" data-width="500" data-height="314"><img data-original-src="//upload-images.jianshu.io/upload_images/729358-839e7a32b598953e.png" data-original-width="500" data-original-height="314" data-original-format="image/png" data-original-filesize="140130" class="" style="cursor: zoom-in;" src="./RPC简介及框架选择 - 简书_files/729358-839e7a32b598953e.png"></div>
+</div>
+<div class="image-caption">RPC通信过程</div>
+</div>
+<h3>RPC和restful api对比</h3>
+<p><a href="https://stackoverflow.com/questions/15056878/rest-vs-json-rpc" target="_blank" rel="nofollow">* REST vs JSON-RPC? - stackoverflow</a><br>
+<a href="https://www.zhihu.com/question/41609070/answer/191965937" target="_blank" rel="nofollow">既然有http 请求，为什么还要用rpc调用？ - 手不要乱摸的回答 - 知乎</a><br>
+<a href="https://blog.csdn.net/weixin_42098168/article/details/80365260" target="_blank" rel="nofollow">为什么需要RPC，而不是简单的HTTP接口</a></p>
+<p>REST是一种设计风格，它的很多思维方式与RPC是完全冲突的。 RPC的思想是把本地函数映射到API，也就是说一个API对应的是一个function，我本地有一个getAllUsers，远程也能通过某种约定的协议来调用这个getAllUsers。至于这个协议是Socket、是HTTP还是别的什么并不重要； RPC中的主体都是动作，是个动词，表示我要做什么。 而REST则不然，它的URL主体是资源，是个名词。而且也仅支持HTTP协议，规定了使用HTTP Method表达本次要做的动作，类型一般也不超过那四五种。这些动作表达了对资源仅有的几种转化方式。<br>
+RPC的根本问题是耦合。RPC客户端以多种方式与服务实现紧密耦合，并且很难在不中断客户端的情况下更改服务实现。RPC更偏向内部调用，REST更偏向外部调用。</p>
+<p>Web 服务应该算是 RPC 的一个子集，理论上 RPC 能实现的功能， 用 Web 服务也能实现，甚至很多 RPC 框架选用 HTTP 协议作为传输层。<br>
+现在很多网站的 API 都是以 HTTP 服务的形式提供的，这也算是 RPC 的一种形式。</p>
+<p>区别主要在这 2 个东西设计的出发点不太一样：</p>
+<ul>
+<li>HTTP 是面向浏览器设计的应用层协议，操作的核心在<strong>资源。</strong>我们更多的用 Web 服务在做网站。</li>
+<li>RPC 是为了在像在本地调用一个函数那样调用远程的代码而设计的，所以更关注减少本地调用和远程调用的差异，像 SOAP(简单对象访问协议) 这种东西是可以把对象当参数传的。</li>
+</ul>
+<p>我们讨论 RPC 和 Web 的区别，其实是在谈论 2 个东西：序列化协议和传输协议。序列化协议比如常见的 XML，JSON 和比较现代的 Protocol Buffers、Thrift。 传输协议比如 TCP、UDP 以及更高层的 HTTP 1.1、HTTP 2.0。</p>
+<p>一般我们考虑用 RPC 而不是 HTTP 构建自己的服务，通常是考虑到下面的因素：</p>
+<ul>
+<li>接口是否需要 Schema 约束</li>
+<li>是否需要更高效的传输协议（TCP，HTTP 2.0）</li>
+<li>是否对数据包的大小非常敏感</li>
+</ul>
+<p>比如 HTTP 是基于文本的协议，头部有非常多冗余（对于 RPC 服务而言）。HTTP 中我们用的最多就是 RESTful ，而 RESTful 是个弱 Schema 约束，大家通过文档沟通，但是如果我就是不在实现的时候对接口文档约定的参数做检查，你也不能把我怎么样。这个时候 Thrift 这种序列化协议的优势就体现出来了，由于 Schema 的存在，可以保证服务端接受的参数和 Schema 保持一致。</p>
+<h2>RPC框架</h2>
+<p><a href="https://www.zhihu.com/question/25536695/answer/221638079" target="_blank" rel="nofollow">谁能用通俗的语言解释一下什么是 RPC 框架？ - 洪春涛的回答 - 知乎</a><br>
+<a href="https://www.cnblogs.com/doit8791/p/4979465.html" target="_blank" rel="nofollow">常用的跨语言通信方案</a><br>
+<a href="https://blog.csdn.net/mindfloating/article/details/39474123" target="_blank" rel="nofollow">深入浅出 RPC - 深入篇</a></p>
+<ul>
+<li>Call ID映射。我们怎么告诉远程机器我们要调用Multiply，而不是Add或者FooBar呢？在本地调用中，函数体是直接通过函数指针来指定的，我们调用Multiply，编译器就自动帮我们调用它相应的函数指针。但是在远程调用中，函数指针是不行的，因为两个进程的地址空间是完全不一样的。所以，在RPC中，所有的函数都必须有自己的一个ID。这个ID在所有进程中都是唯一确定的。客户端在做远程过程调用时，必须附上这个ID。然后我们还需要在客户端和服务端分别维护一个 {函数 &lt;--&gt; Call ID} 的对应表。两者的表不一定需要完全相同，但相同的函数对应的Call ID必须相同。当客户端需要进行远程调用时，它就查一下这个表，找出相应的Call ID，然后把它传给服务端，服务端也通过查表，来确定客户端需要调用的函数，然后执行相应函数的代码。</li>
+<li>序列化和反序列化。客户端怎么把参数值传给远程的函数呢？在本地调用中，我们只需要把参数压到栈里，然后让函数自己去栈里读就行。但是在远程过程调用时，客户端跟服务端是不同的进程，不能通过内存来传递参数。甚至有时候客户端和服务端使用的都不是同一种语言（比如服务端用C++，客户端用Java或者Python）。这时候就需要客户端把参数先转成一个字节流，传给服务端后，再把字节流转成自己能读取的格式。这个过程叫序列化和反序列化。同理，从服务端返回的值也需要序列化反序列化的过程。</li>
+<li>网络传输。远程调用往往用在网络上，客户端和服务端是通过网络连接的。所有的数据都需要通过网络传输，因此就需要有一个网络传输层。网络传输层需要把Call ID和序列化后的参数字节流传给服务端，然后再把序列化后的调用结果传回客户端。只要能完成这两者的，都可以作为传输层使用。因此，它所使用的协议其实是不限的，能完成传输就行。尽管大部分RPC框架都使用TCP协议，但其实UDP也可以，而gRPC干脆就用了HTTP2。Java的Netty也属于这层的东西。</li>
+</ul>
+<p>目前有很多Java的RPC框架，有基于Json的，有基于XML，也有基于二进制对象的。</p>
+<p>论复杂度，RPC框架肯定是高于简单的HTTP接口的。但毋庸置疑，HTTP接口由于受限于HTTP协议，需要带HTTP请求头，导致传输起来效率或者说安全性不如RPC</p>
+<br>
+<div class="image-package">
+<div class="image-container" style="max-width: 589px; max-height: 571px; background-color: transparent;">
+<div class="image-container-fill" style="padding-bottom: 96.94%;"></div>
+<div class="image-view" data-width="589" data-height="571"><img data-original-src="//upload-images.jianshu.io/upload_images/729358-de38e5423ffbc3e7.png" data-original-width="589" data-original-height="571" data-original-format="image/png" data-original-filesize="93100" class="" style="cursor: zoom-in;" src="./RPC简介及框架选择 - 简书_files/729358-de38e5423ffbc3e7.png"></div>
+</div>
+<div class="image-caption">RPC框架封装</div>
+</div>
+<h2>常用RPC框架</h2>
+<p>支持Java最多，golang</p>
+<ul>
+<li>Netty - Netty框架不局限于RPC，更多的是作为一种网络协议的实现框架，比如HTTP，由于RPC需要高效的网络通信，就可能选择以Netty作为基础。</li>
+<li>brpc是一个基于protobuf接口的RPC框架，在百度内部称为“baidu-rpc”，它囊括了百度内部所有RPC协议，并支持多种第三方协议，从目前的性能测试数据来看，brpc的性能领跑于其他同类RPC产品。</li>
+<li>Dubbo是Alibaba开发的一个RPC框架，远程接口基于Java Interface, 依托于Spring框架。</li>
+<li>gRPC的Java实现的底层网络库是基于Netty开发而来，其Go实现是基于net库。</li>
+<li>Thrift是Apache的一个项目(<a href="http://thrift.apache.org/" target="_blank" rel="nofollow">http://thrift.apache.org</a>)，前身是Facebook开发的一个RPC框架，采用thrift作为IDL (Interface description language)。</li>
+<li>jsonrpc</li>
+</ul>
+<h2>JSON-RPC</h2>
+<p><a href="https://www.jianshu.com/p/545acae57e27" target="_blank">python web接口实现（restful方式、jsonrpc方式）</a><br>
+区块链项目中用的较多？资料不是很多<br>
+JSON-RPC是一种序列化协议。JSON 是 JS 对象的字符串表示法，它使用文本表示一个 JS 对象的信息，本质是一个字符串。<br>
+非常简单，方便，速度慢<br>
+相关Python 包(直接集成到flask和django)<br>
+Flask-JSONRPC,django-json-rpc；jsonrpcserver,jsonrpcclient</p>
+<h2>thrift</h2>
+<p><a href="https://www.jianshu.com/p/82a6bdaabcd3" target="_blank">Python RPC 之 Thrift</a><br>
+Facebook开源的跨语言RPC框架。</p>
+<h2>gRPC</h2>
+<p><a href="http://doc.oschina.net/grpc?t=56831" target="_blank" rel="nofollow">gRPC 官方文档中文版</a><br>
+<a href="https://zhuanlan.zhihu.com/p/27595419" target="_blank" rel="nofollow">深入了解gRPC协议-知乎</a></p>
+<ol>
+<li>tensorflow分布式与tensorflow serving底层通信都是是用的grpc<br>
+序列化用protobuf，通信使用http2</li>
+<li>latest Google APIs will have gRPC versions of their interfaces, letting you easily build Google functionality into your applications.</li>
+<li>支持 C, C++, Node.js, Python, Ruby, Objective-C,PHP and C#</li>
+</ol>
+<h2>HTTP2</h2>
+<p><a href="https://zhuanlan.zhihu.com/p/26559480" target="_blank" rel="nofollow">一文读懂 HTTP2 特性 - 又拍云的文章 - 知乎</a><br>
+<a href="https://link.zhihu.com/?target=https%3A//http2.akamai.com/demo" target="_blank" rel="nofollow">HTTP/2 和 HTTP/1 速度对比</a><br>
+<a href="http://www.http2demo.io/" target="_blank" rel="nofollow">http://www.http2demo.io/</a><br>
+<a href="https://hpbn.co/http2/" target="_blank" rel="nofollow">HTTP/2</a><br>
+HTTP/2 是 HTTP 协议自 1999 年 HTTP 1.1 发布后的首个更新，主要基于 SPDY 协议。<br>
+HTTP/2的主要目标是通过启用完整请求和响应复用来减少延迟，通过有效压缩HTTP头字段来最大限度地降低协议开销，并添加对请求优先级和服务器推送的支持;多路复用(同一tcp,多个流)，头部压缩，服务推送。</p>
+<h2>Protobuf</h2>
+<p><a href="https://www.cnblogs.com/doit8791/p/4979465.html" target="_blank" rel="nofollow">常用的跨语言通信方案</a><br>
+<a href="https://www.ibm.com/developerworks/cn/linux/l-cn-gpb/index.html" target="_blank" rel="nofollow">Google Protocol Buffer 的使用和原理</a><br>
+<a href="http://colobu.com/2015/01/07/Protobuf-language-guide/" target="_blank" rel="nofollow">Protobuf 语法指南</a><br>
+Protocol Buffers 是一种轻便高效的结构化数据存储格式，可以用于结构化数据串行化，或者说序列化。它很适合做数据存储或 RPC 数据交换格式。可用于通讯协议、数据存储等领域的语言无关、平台无关、可扩展的序列化结构数据格式。目前提供了 C++、Java、Python 三种语言的 API。<br>
+同 XML 相比， Protobuf 的主要优点在于性能高。它以高效的二进制方式存储，比 XML 小 3 到 10 倍，快 20 到 100 倍。</p>
+<h2>框架选择</h2>
+<p><a href="https://blog.csdn.net/dazheng/article/details/48830511" target="_blank" rel="nofollow">gRPC vs Thrift</a><br>
+<a href="http://www.useopen.net/blog/2015/rpc-performance.html" target="_blank" rel="nofollow">RPC框架性能基本比较测试</a><br>
+<a href="https://www.zhihu.com/question/30027669" target="_blank" rel="nofollow">怎么看待谷歌的开源 RPC 框架 gRPC？ - 知乎</a><br>
+<a href="https://zhuanlan.zhihu.com/p/35427150" target="_blank" rel="nofollow">微服务的服务间通信与服务治理</a><br>
+<a href="https://zhuanlan.zhihu.com/p/33623693" target="_blank" rel="nofollow">最佳实践 | 7大维度看国外企业为啥选择gRPC打造高性能微服务？</a></p>
+<h5>如何选择</h5>
+<p><strong>什么时候应该选择gRPC而不是Thrift</strong><br>
+　　需要良好的文档、示例<br>
+　　喜欢、习惯HTTP/2、ProtoBuf<br>
+　　对网络传输带宽敏感<br>
+<strong>什么时候应该选择Thrift而不是gRPC</strong><br>
+　　需要在非常多的语言间进行数据交换<br>
+　　对CPU敏感<br>
+　　协议层、传输层有多种控制要求<br>
+　　需要稳定的版本<br>
+　　不需要良好的文档和示例</p>
+<p>总的来说，Python rpc框架选择较少，thrift性能最好，grpc性能比thrift稍差，原因是多了http2，而thrift直接基于tcp，但grpc序列化方案更通用(protobuf)优秀，文档较好；<br>
+jsonrpc 本身基于http/1进行通信，速度最慢，相对于之前速度无提升，只是接口和数据格式更为统一；</p>
+<h3>gRPC不足</h3>
+<p>1）GRPC尚未提供连接池<br>
+2）尚未提供“服务发现”、“负载均衡”机制<br>
+3）因为基于HTTP2，绝大部多数HTTP Server、Nginx都尚不支持，即Nginx不能将GRPC请求作为HTTP请求来负载均衡，而是作为普通的TCP请求。（nginx将会在1.9版本支持）</p>
+
+          </div>
+        </div>
+    </div>
+
+    <!-- 如果是付费文章，未购买，则显示购买按钮 -->
+
+    <!-- 连载目录项 -->
+
+    <!-- 如果是付费文章 -->
+      <!-- 如果是付费连载，已购买，且作者允许赞赏，则显示付费信息和赞赏 -->
+        <div id="free-reward-panel" class="support-author"><p>小礼物走一走，来简书关注我</p> <div class="btn btn-pay">赞赏支持</div> <div class="supporter"><ul class="support-list"></ul> <!----></div> <!----> <!----></div>
+
+      <div class="show-foot">
+        <a class="notebook" href="https://www.jianshu.com/nb/26000147">
+          <i class="iconfont ic-search-notebook"></i>
+          <span>编程</span>
+</a>        <div class="copyright" data-toggle="tooltip" data-html="true" data-original-title="转载请联系作者获得授权，并标注“简书作者”。">
+          © 著作权归作者所有
+        </div>
+        <div class="modal-wrap" data-report-note="">
+          <a id="report-modal">举报文章</a>
+        </div>
+      </div>
+
+      <!-- 文章底部作者信息 -->
+        <div class="follow-detail">
+          <div class="info">
+            <a class="avatar" href="https://www.jianshu.com/u/63e7d8aa8856">
+              <img src="./RPC简介及框架选择 - 简书_files/ebe66a58353d" alt="96">
+</a>            <a class="btn btn-success follow"><i class="iconfont ic-follow"></i><span>关注</span></a>
+            <a class="title" href="https://www.jianshu.com/u/63e7d8aa8856">63e7d8aa8856</a>
+          <p>写了 7784 字，被 8 人关注，获得了 31 个喜欢</p></div>
+        </div>
+
+    <div class="meta-bottom">
+      <div data-v-6ddd02c6="" class="like"><div data-v-6ddd02c6="" class="btn like-group"><div data-v-6ddd02c6="" class="btn-like"><a data-v-6ddd02c6="">喜欢</a></div> <div data-v-6ddd02c6="" class="modal-wrap"><a data-v-6ddd02c6="">30</a></div></div> <!----></div>
+      <div class="share-group">
+        <a class="share-circle" data-action="weixin-share" data-toggle="tooltip" data-original-title="分享到微信">
+          <i class="iconfont ic-wechat"></i>
+        </a>
+        <a class="share-circle" data-action="weibo-share" data-toggle="tooltip" href="javascript:void((function(s,d,e,r,l,p,t,z,c){var%20f=&#39;http://v.t.sina.com.cn/share/share.php?appkey=1881139527&#39;,u=z||d.location,p=[&#39;&amp;url=&#39;,e(u),&#39;&amp;title=&#39;,e(t||d.title),&#39;&amp;source=&#39;,e(r),&#39;&amp;sourceUrl=&#39;,e(l),&#39;&amp;content=&#39;,c||&#39;gb2312&#39;,&#39;&amp;pic=&#39;,e(p||&#39;&#39;)].join(&#39;&#39;);function%20a(){if(!window.open([f,p].join(&#39;&#39;),&#39;mb&#39;,[&#39;toolbar=0,status=0,resizable=1,width=440,height=430,left=&#39;,(s.width-440)/2,&#39;,top=&#39;,(s.height-430)/2].join(&#39;&#39;)))u.href=[f,p].join(&#39;&#39;);};if(/Firefox/.test(navigator.userAgent))setTimeout(a,0);else%20a();})(screen,document,encodeURIComponent,&#39;&#39;,&#39;&#39;,&#39;&#39;, &#39;推荐 63e7d8aa8856 的文章《RPC简介及框架选择》（ 分享自 @简书 ）&#39;,&#39;https://www.jianshu.com/p/b0343bfd216e?utm_campaign=maleskine&amp;utm_content=note&amp;utm_medium=reader_share&amp;utm_source=weibo&#39;,&#39;页面编码gb2312|utf-8默认gb2312&#39;));" data-original-title="分享到微博">
+          <i class="iconfont ic-weibo"></i>
+        </a>
+        <a class="share-circle" data-toggle="tooltip" id="longshare" target="_blank" data-original-title="" title="">
+            <div class="qrcode" id="qrcode">
+             <img src="./RPC简介及框架选择 - 简书_files/download-index-side-qrcode-cb13fc9106a478795f8d10f9f632fccf.png" alt="Download index side qrcode">
+             <p>下载app生成长微博图片</p>
+             </div>
+          <i class="iconfont ic-picture"></i>
+        </a>
+        <a class="share-circle more-share" tabindex="0" data-toggle="popover" data-placement="top" data-html="true" data-trigger="focus" href="javascript:void(0);" data-content="
+          &lt;ul class=&quot;share-list&quot;&gt;
+            &lt;li&gt;&lt;a href=&quot;javascript:void(function(){var d=document,e=encodeURIComponent,r=&#39;http://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=&#39;+e(&#39;https://www.jianshu.com/p/b0343bfd216e?utm_campaign=maleskine&amp;utm_content=note&amp;utm_medium=reader_share&amp;utm_source=qzone&#39;)+&#39;&amp;title=&#39;+e(&#39;推荐 63e7d8aa8856 的文章《RPC简介及框架选择》&#39;),x=function(){if(!window.open(r,&#39;qzone&#39;,&#39;toolbar=0,resizable=1,scrollbars=yes,status=1,width=600,height=600&#39;))location.href=r};if(/Firefox/.test(navigator.userAgent)){setTimeout(x,0)}else{x()}})();&quot;&gt;&lt;i class=&quot;social-icon-sprite social-icon-zone&quot;&gt;&lt;/i&gt;&lt;span&gt;分享到QQ空间&lt;/span&gt;&lt;/a&gt;&lt;/li&gt;
+            &lt;li&gt;&lt;a href=&quot;javascript:void(function(){var d=document,e=encodeURIComponent,r=&#39;https://twitter.com/share?url=&#39;+e(&#39;https://www.jianshu.com/p/b0343bfd216e?utm_campaign=maleskine&amp;utm_content=note&amp;utm_medium=reader_share&amp;utm_source=twitter&#39;)+&#39;&amp;text=&#39;+e(&#39;推荐 63e7d8aa8856 的文章《RPC简介及框架选择》（ 分享自 @jianshucom ）&#39;)+&#39;&amp;related=&#39;+e(&#39;jianshucom&#39;),x=function(){if(!window.open(r,&#39;twitter&#39;,&#39;toolbar=0,resizable=1,scrollbars=yes,status=1,width=600,height=600&#39;))location.href=r};if(/Firefox/.test(navigator.userAgent)){setTimeout(x,0)}else{x()}})();&quot;&gt;&lt;i class=&quot;social-icon-sprite social-icon-twitter&quot;&gt;&lt;/i&gt;&lt;span&gt;分享到Twitter&lt;/span&gt;&lt;/a&gt;&lt;/li&gt;
+            &lt;li&gt;&lt;a href=&quot;javascript:void(function(){var d=document,e=encodeURIComponent,r=&#39;https://www.facebook.com/dialog/share?app_id=483126645039390&amp;display=popup&amp;href=https://www.jianshu.com/p/b0343bfd216e?utm_campaign=maleskine&amp;utm_content=note&amp;utm_medium=reader_share&amp;utm_source=facebook&#39;,x=function(){if(!window.open(r,&#39;facebook&#39;,&#39;toolbar=0,resizable=1,scrollbars=yes,status=1,width=450,height=330&#39;))location.href=r};if(/Firefox/.test(navigator.userAgent)){setTimeout(x,0)}else{x()}})();&quot;&gt;&lt;i class=&quot;social-icon-sprite social-icon-facebook&quot;&gt;&lt;/i&gt;&lt;span&gt;分享到Facebook&lt;/span&gt;&lt;/a&gt;&lt;/li&gt;
+            &lt;li&gt;&lt;a href=&quot;javascript:void(function(){var d=document,e=encodeURIComponent,r=&#39;https://plus.google.com/share?url=&#39;+e(&#39;https://www.jianshu.com/p/b0343bfd216e?utm_campaign=maleskine&amp;utm_content=note&amp;utm_medium=reader_share&amp;utm_source=google_plus&#39;),x=function(){if(!window.open(r,&#39;google_plus&#39;,&#39;toolbar=0,resizable=1,scrollbars=yes,status=1,width=450,height=330&#39;))location.href=r};if(/Firefox/.test(navigator.userAgent)){setTimeout(x,0)}else{x()}})();&quot;&gt;&lt;i class=&quot;social-icon-sprite social-icon-google&quot;&gt;&lt;/i&gt;&lt;span&gt;分享到Google+&lt;/span&gt;&lt;/a&gt;&lt;/li&gt;
+            &lt;li&gt;&lt;a href=&quot;javascript:void(function(){var d=document,e=encodeURIComponent,s1=window.getSelection,s2=d.getSelection,s3=d.selection,s=s1?s1():s2?s2():s3?s3.createRange().text:&#39;&#39;,r=&#39;http://www.douban.com/recommend/?url=&#39;+e(&#39;https://www.jianshu.com/p/b0343bfd216e?utm_campaign=maleskine&amp;utm_content=note&amp;utm_medium=reader_share&amp;utm_source=douban&#39;)+&#39;&amp;title=&#39;+e(&#39;RPC简介及框架选择&#39;)+&#39;&amp;sel=&#39;+e(s)+&#39;&amp;v=1&#39;,x=function(){if(!window.open(r,&#39;douban&#39;,&#39;toolbar=0,resizable=1,scrollbars=yes,status=1,width=450,height=330&#39;))location.href=r+&#39;&amp;r=1&#39;};if(/Firefox/.test(navigator.userAgent)){setTimeout(x,0)}else{x()}})()&quot;&gt;&lt;i class=&quot;social-icon-sprite social-icon-douban&quot;&gt;&lt;/i&gt;&lt;span&gt;分享到豆瓣&lt;/span&gt;&lt;/a&gt;&lt;/li&gt;
+          &lt;/ul&gt;
+        " data-original-title="" title="">更多分享</a>
+      </div>
+    </div>
+
+      <a id="web-note-ad-2" target="_blank" href="https://www.jianshu.com/p/428251ede1aa"><img src="./RPC简介及框架选择 - 简书_files/gupao-b953be49108805c4198258448895344a.jpg" alt="Gupao"></a>
+
+    <!--
+    <div id="note-comment-above-ad-container">
+      <span id="youdao-comment-ad" class="ad-badge">广告</span>
+    </div>
+    -->
+    <div id="vue_comment"></div>
+  </div>
+
+  <div class="side-tool"><ul><li data-placement="left" data-toggle="tooltip" data-container="body" data-original-title="回到顶部" style=""><a class="function-button"><i class="iconfont ic-backtop"></i></a></li> <!----> <!----> <!----> <!----> <li data-placement="left" data-toggle="tooltip" data-container="body" data-original-title="分享文章" id="share"><a tabindex="0" role="button" data-toggle="popover" data-placement="left" data-html="true" data-trigger="focus" href="javascript:void(0);" data-content="&lt;ul class=&#39;share-list&#39; style=&quot;width:220px&quot;&gt;
+                  &lt;li&gt;&lt;a class=&quot;weixin-share&quot;&gt;&lt;i class=&quot;social-icon-sprite social-icon-weixin&quot;&gt;&lt;/i&gt;&lt;span&gt;分享到微信&lt;/span&gt;&lt;/a&gt;&lt;/li&gt;
+                  &lt;li&gt;&lt;a href=&quot;javascript:void((function(s,d,e,r,l,p,t,z,c){var%20f=&#39;http://v.t.sina.com.cn/share/share.php?appkey=1881139527&#39;,u=z||d.location,p=[&#39;&amp;url=&#39;,e(u),&#39;&amp;title=&#39;,e(t||d.title),&#39;&amp;source=&#39;,e(r),&#39;&amp;sourceUrl=&#39;,e(l),&#39;&amp;content=&#39;,c||&#39;gb2312&#39;,&#39;&amp;pic=&#39;,e(p||&#39;&#39;)].join(&#39;&#39;);function%20a(){if(!window.open([f,p].join(&#39;&#39;),&#39;mb&#39;,[&#39;toolbar=0,status=0,resizable=1,width=440,height=430,left=&#39;,(s.width-440)/2,&#39;,top=&#39;,(s.height-430)/2].join(&#39;&#39;)))u.href=[f,p].join(&#39;&#39;);};if(/Firefox/.test(navigator.userAgent))setTimeout(a,0);else%20a();})(screen,document,encodeURIComponent,&#39;&#39;,&#39;&#39;,&#39;&#39;, &#39;推荐 63e7d8aa8856 的文章《RPC简介及框架选择》（ 分享自 @简书 ）&#39;,&#39;https://www.jianshu.com/p/b0343bfd216e?utm_campaign=maleskine&amp;utm_content=note&amp;utm_medium=reader_share&amp;utm_source=weibo&#39;,&#39;页面编码gb2312|utf-8默认gb2312&#39;));&quot;&gt;&lt;i class=&#39;social-icon-sprite social-icon-weibo&#39;&gt;&lt;/i&gt;&lt;span&gt;分享到微博&lt;/span&gt;&lt;/a&gt;&lt;/li&gt;
+                  
+                  &lt;li&gt;&lt;a href=&quot;javascript:void(function(){var d=document,e=encodeURIComponent,r=&#39;http://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=&#39;+e(&#39;https://www.jianshu.com/p/b0343bfd216e?utm_campaign=maleskine&amp;utm_content=note&amp;utm_medium=reader_share&amp;utm_source=qzone&#39;)+&#39;&amp;title=&#39;+e(&#39;推荐 63e7d8aa8856 的文章《RPC简介及框架选择》&#39;),x=function(){if(!window.open(r,&#39;qzone&#39;,&#39;toolbar=0,resizable=1,scrollbars=yes,status=1,width=600,height=600&#39;))location.href=r};if(/Firefox/.test(navigator.userAgent)){setTimeout(x,0)}else{x()}})();&quot;&gt;&lt;i class=&#39;social-icon-sprite social-icon-zone&#39;&gt;&lt;/i&gt;&lt;span&gt;分享到QQ空间&lt;/span&gt;&lt;/a&gt;&lt;/li&gt;
+                  &lt;li&gt;&lt;a href=&quot;javascript:void(function(){var d=document,e=encodeURIComponent,r=&#39;https://twitter.com/share?url=&#39;+e(&#39;https://www.jianshu.com/p/b0343bfd216e?utm_campaign=maleskine&amp;utm_content=note&amp;utm_medium=reader_share&amp;utm_source=twitter&#39;)+&#39;&amp;text=&#39;+e(&#39;推荐 63e7d8aa8856 的文章《RPC简介及框架选择》（ 分享自 @jianshucom ）&#39;)+&#39;&amp;related=&#39;+e(&#39;jianshucom&#39;),x=function(){if(!window.open(r,&#39;twitter&#39;,&#39;toolbar=0,resizable=1,scrollbars=yes,status=1,width=600,height=600&#39;))location.href=r};if(/Firefox/.test(navigator.userAgent)){setTimeout(x,0)}else{x()}})();&quot;&gt;&lt;i class=&#39;social-icon-sprite social-icon-twitter&#39;&gt;&lt;/i&gt;&lt;span&gt;分享到Twitter&lt;/span&gt;&lt;/a&gt;&lt;/li&gt;
+                  &lt;li&gt;&lt;a href=&quot;javascript:void(function(){var d=document,e=encodeURIComponent,r=&#39;https://www.facebook.com/dialog/share?app_id=483126645039390&amp;display=popup&amp;href=https://www.jianshu.com/p/b0343bfd216e?utm_campaign=maleskine&amp;utm_content=note&amp;utm_medium=reader_share&amp;utm_source=facebook&#39;,x=function(){if(!window.open(r,&#39;facebook&#39;,&#39;toolbar=0,resizable=1,scrollbars=yes,status=1,width=450,height=330&#39;))location.href=r};if(/Firefox/.test(navigator.userAgent)){setTimeout(x,0)}else{x()}})();&quot;&gt;&lt;i class=&#39;social-icon-sprite social-icon-facebook&#39;&gt;&lt;/i&gt;&lt;span&gt;分享到Facebook&lt;/span&gt;&lt;/a&gt;&lt;/li&gt;
+                  &lt;li&gt;&lt;a href=&quot;javascript:void(function(){var d=document,e=encodeURIComponent,r=&#39;https://plus.google.com/share?url=&#39;+e(&#39;https://www.jianshu.com/p/b0343bfd216e?utm_campaign=maleskine&amp;utm_content=note&amp;utm_medium=reader_share&amp;utm_source=google_plus&#39;),x=function(){if(!window.open(r,&#39;google_plus&#39;,&#39;toolbar=0,resizable=1,scrollbars=yes,status=1,width=450,height=330&#39;))location.href=r};if(/Firefox/.test(navigator.userAgent)){setTimeout(x,0)}else{x()}})();&quot;&gt;&lt;i class=&#39;social-icon-sprite social-icon-google&#39;&gt;&lt;/i&gt;&lt;span&gt;分享到Google+&lt;/span&gt;&lt;/a&gt;&lt;/li&gt;
+                  &lt;li&gt;&lt;a href=&quot;javascript:void(function(){var d=document,e=encodeURIComponent,s1=window.getSelection,s2=d.getSelection,s3=d.selection,s=s1?s1():s2?s2():s3?s3.createRange().text:&#39;&#39;,r=&#39;http://www.douban.com/recommend/?url=&#39;+e(&#39;https://www.jianshu.com/p/b0343bfd216e?utm_campaign=maleskine&amp;utm_content=note&amp;utm_medium=reader_share&amp;utm_source=douban&#39;)+&#39;&amp;title=&#39;+e(&#39;RPC简介及框架选择&#39;)+&#39;&amp;sel=&#39;+e(s)+&#39;&amp;v=1&#39;,x=function(){if(!window.open(r,&#39;douban&#39;,&#39;toolbar=0,resizable=1,scrollbars=yes,status=1,width=450,height=330&#39;))location.href=r+&#39;&amp;r=1&#39;};if(/Firefox/.test(navigator.userAgent)){setTimeout(x,0)}else{x()}})()&quot;&gt;&lt;i class=&#39;social-icon-sprite social-icon-douban&#39;&gt;&lt;/i&gt;&lt;span&gt;分享到豆瓣&lt;/span&gt;&lt;/a&gt;&lt;/li&gt;
+                &lt;/ul&gt;" data-original-title="" title="" class="function-button"><i class="iconfont ic-share"></i></a> <!----></li> <!----></ul></div>
+</div>
+<div class="note-bottom">
+  <div><div class="main"><div class="title">被以下专题收入，发现更多相似内容</div> <!----> <div class="include-collection"><!----> <a href="https://www.jianshu.com/c/7847442e0728?utm_source=desktop&amp;utm_medium=notes-included-collection" target="_blank" class="item"><img src="./RPC简介及框架选择 - 简书_files/CodeHeader-1920x1200.jpg"><div class="name">我爱编程</div></a><a href="https://www.jianshu.com/c/7e0aa76ead47?utm_source=desktop&amp;utm_medium=notes-included-collection" target="_blank" class="item"><img src="./RPC简介及框架选择 - 简书_files/crop1525219695828.jpg"><div class="name">分布式</div></a><a href="https://www.jianshu.com/c/85aaed417400?utm_source=desktop&amp;utm_medium=notes-included-collection" target="_blank" class="item"><img src="./RPC简介及框架选择 - 简书_files/timg_(3).jpg"><div class="name">计算机网络</div></a><a href="https://www.jianshu.com/c/cf81cbfd9d1c?utm_source=desktop&amp;utm_medium=notes-included-collection" target="_blank" class="item"><img src="./RPC简介及框架选择 - 简书_files/1535862509.jpg"><div class="name">微服务</div></a> <!----></div></div> <!----> <!----></div>
+  <div data-vcomp="recommended-notes" data-note-id="28724164"></div>
+  <!-- 相关文章 -->
+    <!-- 未登录用户 -->
+    <div class="seo-recommended-notes">
+
+          <div class="note have-img">
+            <a class="cover" target="_blank" href="https://www.jianshu.com/p/15dbc8665648?utm_campaign=maleskine&amp;utm_content=note&amp;utm_medium=seo_notes&amp;utm_source=recommendation">
+              <img src="./RPC简介及框架选择 - 简书_files/6302559-e91bd771639181a1.PNG" alt="240">
+</a>            <a class="title" target="_blank" href="https://www.jianshu.com/p/15dbc8665648?utm_campaign=maleskine&amp;utm_content=note&amp;utm_medium=seo_notes&amp;utm_source=recommendation">Thrift RPC详解（转载）</a>
+            <p class="description">转自：http://blog.csdn.net/kesonyk/article/details/50924489 案例：https://github.com/lebron374/thriftDemo RPC, 远程过程调用（Remote Procedure Call，RPC...</p>
+            <a class="author" target="_blank" href="https://www.jianshu.com/u/1e38a3346f93?utm_campaign=maleskine&amp;utm_content=user&amp;utm_medium=seo_notes&amp;utm_source=recommendation">
+              <div class="avatar">
+                <img src="./RPC简介及框架选择 - 简书_files/c3a251d0-a9b7-413a-997e-257bf59375a2.jpg" alt="48">
+              </div>
+              <span class="name">晴天哥_374</span>
+</a>          </div>
+
+          <div class="note have-img">
+            <a class="cover" target="_blank" href="https://www.jianshu.com/p/a3f34d5d07ab?utm_campaign=maleskine&amp;utm_content=note&amp;utm_medium=seo_notes&amp;utm_source=recommendation">
+              <img src="./RPC简介及框架选择 - 简书_files/11085360-7a2ec0238e75fb62" alt="240">
+</a>            <a class="title" target="_blank" href="https://www.jianshu.com/p/a3f34d5d07ab?utm_campaign=maleskine&amp;utm_content=note&amp;utm_medium=seo_notes&amp;utm_source=recommendation">服务化实战之 dubbo、dubbox、motan、thrift、grpc等RPC框架比较及选型</a>
+            <p class="description">概述 前段时间项目要做服务化，所以我比较了现在流行的几大RPC框架的优缺点以及使用场景，最终结合本身项目的实际情况选择了使用dubbox作为rpc基础服务框架。下面就简单介绍一下RPC框架技术选型的过程。 RPC简述 该系列文章将讲述以下RPC框架的helloword实例以...</p>
+            <a class="author" target="_blank" href="https://www.jianshu.com/u/1b913d1d733b?utm_campaign=maleskine&amp;utm_content=user&amp;utm_medium=seo_notes&amp;utm_source=recommendation">
+              <div class="avatar">
+                <img src="./RPC简介及框架选择 - 简书_files/1161020e-821b-4ff5-83b5-4bb9ddb606b7.jpg" alt="48">
+              </div>
+              <span class="name">devabel</span>
+</a>          </div>
+
+          <div class="note ">
+                        <a class="title" target="_blank" href="https://www.jianshu.com/p/97322a6d2242?utm_campaign=maleskine&amp;utm_content=note&amp;utm_medium=seo_notes&amp;utm_source=recommendation">Java远程通讯技术及原理分析</a>
+            <p class="description">在分布式服务框架中，一个最基础的问题就是远程服务是怎么通讯的，在Java领域中有很多可实现远程通讯的技术，例如：RMI、MINA、ESB、Burlap、Hessian、SOAP、EJB和JMS等，这些名词之间到底是些什么关系呢，它们背后到底是基于什么原理实现的呢，了解这些是...</p>
+            <a class="author" target="_blank" href="https://www.jianshu.com/u/657c611b2e07?utm_campaign=maleskine&amp;utm_content=user&amp;utm_medium=seo_notes&amp;utm_source=recommendation">
+              <div class="avatar">
+                <img src="./RPC简介及框架选择 - 简书_files/105612dd-1e85-48e5-b3fa-a13cf07fddb6.jpg" alt="48">
+              </div>
+              <span class="name">猿码道</span>
+</a>          </div>
+
+          <div class="note have-img">
+            <a class="cover" target="_blank" href="https://www.jianshu.com/p/52fa63b222ac?utm_campaign=maleskine&amp;utm_content=note&amp;utm_medium=seo_notes&amp;utm_source=recommendation">
+              <img src="./RPC简介及框架选择 - 简书_files/9824247-c3876396b1aec866.jpg" alt="240">
+</a>            <a class="title" target="_blank" href="https://www.jianshu.com/p/52fa63b222ac?utm_campaign=maleskine&amp;utm_content=note&amp;utm_medium=seo_notes&amp;utm_source=recommendation">RPC框架实践之：Apache Thrift</a>
+            <p class="description">一、概述 RPC（Remote Procedure Call）即  远程过程调用，说的这么抽象，其实简化理解就是一个节点如何请求另一节点所提供的服务。在文章 微服务调用链追踪中心搭建 一文中模拟出来的调用链：ServiceA ---&gt; ServiceB ---&gt; Servi...</p>
+            <a class="author" target="_blank" href="https://www.jianshu.com/u/d19536b0189b?utm_campaign=maleskine&amp;utm_content=user&amp;utm_medium=seo_notes&amp;utm_source=recommendation">
+              <div class="avatar">
+                <img src="./RPC简介及框架选择 - 简书_files/40d57bfb-b574-423a-8443-82816aa8eab7.png" alt="48">
+              </div>
+              <span class="name">CodeSheep</span>
+</a>          </div>
+
+          <div class="note ">
+                        <a class="title" target="_blank" href="https://www.jianshu.com/p/6824f818b3f0?utm_campaign=maleskine&amp;utm_content=note&amp;utm_medium=seo_notes&amp;utm_source=recommendation">2018年第四本书《细节营销》</a>
+            <p class="description">  这本书之前有听过解说版，当时就觉得一针见血，对于当下相关的思考有很多提示。所以不过瘾买来一阅。   果然，此书中亮点频出，值得回味之处很多。第一点让我一惊的是我们一直关注的是市场营销，但是很少对市场营销进行相关的研发工作。在过去的2年中，我从事顾问式销售的工作，回忆过往...</p>
+            <a class="author" target="_blank" href="https://www.jianshu.com/u/9b443c4836be?utm_campaign=maleskine&amp;utm_content=user&amp;utm_medium=seo_notes&amp;utm_source=recommendation">
+              <div class="avatar">
+                <img src="./RPC简介及框架选择 - 简书_files/c769b083-db3a-482e-bd76-b7b7767516ed.jpg" alt="48">
+              </div>
+              <span class="name">嫕君</span>
+</a>          </div>
+
+          <div class="note ">
+                        <a class="title" target="_blank" href="https://www.jianshu.com/p/dd9d47577534?utm_campaign=maleskine&amp;utm_content=note&amp;utm_medium=seo_notes&amp;utm_source=recommendation">致一一</a>
+            <p class="description">这一刻，你的目光 是一抹微笑的皮肤 测试人间的冷暖，这一刻 你的目光，在沙漠 涌现绿色 目光如水，水做的女子 水做的母亲 水一样的双手，寄语 儿女由爱而生旷世之情 天地山河又如何 生万物于水，生万物 于世间女子，这一刻 你仪态天下，用一尾 明快的芦笛，吹响 花朵、种子、爱怜、风情</p>
+            <a class="author" target="_blank" href="https://www.jianshu.com/u/eee3b174b1b0?utm_campaign=maleskine&amp;utm_content=user&amp;utm_medium=seo_notes&amp;utm_source=recommendation">
+              <div class="avatar">
+                <img src="./RPC简介及框架选择 - 简书_files/c6fc7082-6a20-4452-afb6-1ed6928a2756" alt="48">
+              </div>
+              <span class="name">合肥张建春</span>
+</a>          </div>
+
+          <div class="note ">
+                        <a class="title" target="_blank" href="https://www.jianshu.com/p/f84621065d72?utm_campaign=maleskine&amp;utm_content=note&amp;utm_medium=seo_notes&amp;utm_source=recommendation">java中关于三目运算符的问题</a>
+            <p class="description">java中常用的三目运算符，大家都知道 可是在看IO流源码时发现了这个： 关于类型转换的时间就成了问题。 我很奇怪a被转型(int)的时间</p>
+            <a class="author" target="_blank" href="https://www.jianshu.com/u/49a1830102ff?utm_campaign=maleskine&amp;utm_content=user&amp;utm_medium=seo_notes&amp;utm_source=recommendation">
+              <div class="avatar">
+                <img src="./RPC简介及框架选择 - 简书_files/4d6fc4e3eeea.jpg" alt="48">
+              </div>
+              <span class="name">浪痕</span>
+</a>          </div>
+
+          <div class="note have-img">
+            <a class="cover" target="_blank" href="https://www.jianshu.com/p/e58674eb4c7a?utm_campaign=maleskine&amp;utm_content=note&amp;utm_medium=seo_notes&amp;utm_source=recommendation">
+              <img src="./RPC简介及框架选择 - 简书_files/1535472-25f2daadf01edffc.jpg" alt="240">
+</a>            <a class="title" target="_blank" href="https://www.jianshu.com/p/e58674eb4c7a?utm_campaign=maleskine&amp;utm_content=note&amp;utm_medium=seo_notes&amp;utm_source=recommendation">Netty使用</a>
+            <p class="description">github地址：https://github.com/netty/netty 官网：http://netty.io Demo地址：https://github.com/jiutianbian/java_learn/tree/master/NettyServerTestht...</p>
+            <a class="author" target="_blank" href="https://www.jianshu.com/u/0ad853a1492b?utm_campaign=maleskine&amp;utm_content=user&amp;utm_medium=seo_notes&amp;utm_source=recommendation">
+              <div class="avatar">
+                <img src="./RPC简介及框架选择 - 简书_files/11-4d7c6ca89f439111aff57b23be1c73ba.jpg" alt="48">
+              </div>
+              <span class="name">就天边</span>
+</a>          </div>
+
+          <div class="note ">
+                        <a class="title" target="_blank" href="https://www.jianshu.com/p/0e5c9fb7b6b8?utm_campaign=maleskine&amp;utm_content=note&amp;utm_medium=seo_notes&amp;utm_source=recommendation">爸爸的房子</a>
+            <p class="description">   1   广州工作的弟弟打来电话说想在老家县城买套房子，让孩子在县城接受更好的教育。     “可以呀，那就买呗！”我不假思索回答，但是仔细一想可能没那么简单。      “可是我们手头上的钱不够付首付，爸爸又不愿支持………”电话那头的低头欲言又止，我想这个电话来着不善...</p>
+            <a class="author" target="_blank" href="https://www.jianshu.com/u/951a60fcc269?utm_campaign=maleskine&amp;utm_content=user&amp;utm_medium=seo_notes&amp;utm_source=recommendation">
+              <div class="avatar">
+                <img src="./RPC简介及框架选择 - 简书_files/e8c53954-8f05-4119-ba65-53337d5a79b3.jpg" alt="48">
+              </div>
+              <span class="name">陌上山花开满天</span>
+</a>          </div>
+    </div>
+</div>
+
+    <script type="application/json" data-name="page-data">{"user_signed_in":false,"locale":"zh-CN","os":"windows","read_mode":"day","read_font":"font2","note_show":{"is_author":false,"is_following_author":false,"is_liked_note":false,"follow_state":0,"uuid":"8a606ccb-1476-4935-889a-f017509f8b78"},"note":{"id":28724164,"slug":"b0343bfd216e","user_id":729358,"notebook_id":26000147,"commentable":true,"likes_count":30,"views_count":3257,"public_wordage":4220,"comments_count":0,"featured_comments_count":0,"total_rewards_count":0,"is_author":false,"paid_type":"free","paid":false,"paid_content_accessible":false,"author":{"nickname":"63e7d8aa8856","total_wordage":7784,"followers_count":8,"total_likes_count":31}}}</script>
+    
+    <script src="./RPC简介及框架选择 - 简书_files/babel-polyfill-6cd2d6b53fe3184b71cc.js.下载" crossorigin="anonymous"></script>
+    <script src="./RPC简介及框架选择 - 简书_files/web-base-39e403648ba765460237.js.下载" crossorigin="anonymous"></script>
+<script src="./RPC简介及框架选择 - 简书_files/web-acc2cff0a5ee612d7067.js.下载" crossorigin="anonymous"></script>
+    
+    <script src="./RPC简介及框架选择 - 简书_files/entry-9d461ca287ff774d7b3e.js.下载" crossorigin="anonymous"></script>
+    <script>
+  (function(){
+      var bp = document.createElement('script');
+      var curProtocol = window.location.protocol.split(':')[0];
+      if (curProtocol === 'https') {
+          bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+      }
+      else {
+          bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+      }
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(bp, s);
+  })();
+</script>
+
+  
+
+<!----><!----><div id="yhqhadin" style="display:none;"></div></body></html>

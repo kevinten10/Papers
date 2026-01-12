@@ -1,0 +1,749 @@
+<!DOCTYPE html>
+<!-- saved from url=(0043)https://my.oschina.net/u/658658/blog/415226 -->
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    
+    <meta http-equiv="Content-Language" content="zh-CN">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="referrer" content="always">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+    <title>MySQL单机多实例方案 - 天天顺利的个人空间 - 开源中国</title>
+            <meta name="keywords" content="NUMA,天天顺利,,MySQL单机多实例方案 - 天天顺利的个人空间,开源中国博客">
+                <meta name="description" content="MySQL单机多实例方案">
+        <link rel="stylesheet" type="text/css" href="./MySQL单机多实例方案 - 天天顺利的个人空间 - 开源中国_files/semantic.min.css">
+                <link type="text/css" rel="stylesheet" href="./MySQL单机多实例方案 - 天天顺利的个人空间 - 开源中国_files/space.be7a2494.css">        <script src="./MySQL单机多实例方案 - 天天顺利的个人空间 - 开源中国_files/hm.js.下载"></script><script src="./MySQL单机多实例方案 - 天天顺利的个人空间 - 开源中国_files/push.js.下载"></script><script type="text/javascript">window.__STATIC_DOMAIN = "https://static.oschina.net";</script>
+    <script src="./MySQL单机多实例方案 - 天天顺利的个人空间 - 开源中国_files/jquery.min.js.下载"></script>
+    <link rel="shortcut icon" type="image/x-icon" href="https://static.oschina.net/new-osc/img/favicon.ico">
+    <link rel="alternate" type="application/rss+xml" title="最新开源项目" href="https://www.oschina.net/project/rss">
+    <link rel="alternate" type="application/rss+xml" title="最新开源资讯" href="https://www.oschina.net/news/rss">
+    <link rel="alternate" type="application/rss+xml" title="最新问题列表" href="https://www.oschina.net/question/rss">
+    <link rel="alternate" type="application/rss+xml" title="最新翻译列表" href="https://www.oschina.net/translate/rss">
+    <link rel="alternate" type="application/rss+xml" title="最新博客列表" href="https://www.oschina.net/blog/rss">
+    <link rel="alternate" type="application/rss+xml" title="推荐博客列表" href="https://www.oschina.net/blog/rss?show=more">
+    <link rel="alternate" type="application/rss+xml" title="推荐软件列表" href="https://www.oschina.net/project/rss?show=recomms">
+    <link rel="alternate" type="application/rss+xml" title="最新代码分享列表" href="https://www.oschina.net/code/rss">
+    <link rel="alternate" type="application/rss+xml" title="开源中国 - 源码列表" href="https://www.oschina.net/code/source_rss">
+<script src="./MySQL单机多实例方案 - 天天顺利的个人空间 - 开源中国_files/share.js.下载"></script><script type="text/javascript" src="./MySQL单机多实例方案 - 天天顺利的个人空间 - 开源中国_files/jquery.serialize-object.min.js.下载"></script><script type="text/javascript" src="./MySQL单机多实例方案 - 天天顺利的个人空间 - 开源中国_files/jquery.serialize-object.min.js.下载"></script><script type="text/javascript" src="./MySQL单机多实例方案 - 天天顺利的个人空间 - 开源中国_files/radarChart.js.下载"></script><script type="text/javascript" src="./MySQL单机多实例方案 - 天天顺利的个人空间 - 开源中国_files/jquery.serialize-object.min.js.下载"></script><script type="text/javascript" src="./MySQL单机多实例方案 - 天天顺利的个人空间 - 开源中国_files/jquery.serialize-object.min.js.下载"></script><script type="text/javascript" src="./MySQL单机多实例方案 - 天天顺利的个人空间 - 开源中国_files/vue.min.js.下载"></script><link rel="stylesheet" type="text/css" href="./MySQL单机多实例方案 - 天天顺利的个人空间 - 开源中国_files/viewer.min.css"><script type="text/javascript" src="./MySQL单机多实例方案 - 天天顺利的个人空间 - 开源中国_files/viewer.min.js.下载"></script><script type="text/javascript" src="./MySQL单机多实例方案 - 天天顺利的个人空间 - 开源中国_files/vue.min.js.下载"></script><script type="text/javascript" src="./MySQL单机多实例方案 - 天天顺利的个人空间 - 开源中国_files/osc-message.js.下载"></script><script type="text/javascript" src="./MySQL单机多实例方案 - 天天顺利的个人空间 - 开源中国_files/osc-message.js.下载"></script><script type="text/javascript" src="./MySQL单机多实例方案 - 天天顺利的个人空间 - 开源中国_files/osc-message.js.下载"></script><script type="text/javascript" src="./MySQL单机多实例方案 - 天天顺利的个人空间 - 开源中国_files/osc-message.js.下载"></script><script type="text/javascript" src="./MySQL单机多实例方案 - 天天顺利的个人空间 - 开源中国_files/jquery-viewer.min.js.下载"></script><script type="text/javascript" src="./MySQL单机多实例方案 - 天天顺利的个人空间 - 开源中国_files/jquery.caret.min.js.下载"></script><script type="text/javascript" src="./MySQL单机多实例方案 - 天天顺利的个人空间 - 开源中国_files/jquery.atwho.min.js.下载"></script></head>
+<body class="pushable vsc-initialized" style=""><svg aria-hidden="true" style="position: absolute; width: 0px; height: 0px; overflow: hidden;"><symbol id="oicon-world" viewBox="0 0 1024 1024"><path d="M921.6 204.8h-1.024A510.464 510.464 0 0 0 512 0C229.696 0 0 229.696 0 512s229.696 512 512 512c167.04 0 315.072-80.64 408.576-204.8h1.024v-1.28C985.6 732.416 1024 626.816 1024 512s-38.4-220.416-102.4-305.92V204.8zM358.4 891.456A409.984 409.984 0 0 1 102.4 512c0-17.408 1.408-34.432 3.52-51.2H153.6l51.2 102.4v102.4L307.2 768l51.2 51.2v72.256zM512 921.6a408.32 408.32 0 0 1-96.448-11.904L460.8 819.2l51.2-102.4V614.4H409.6l-51.2-51.2h-51.2L256 460.8l51.2-102.4 51.2-51.2 51.2-51.2 51.2-102.4v-47.68c16.768-2.112 33.792-3.52 51.2-3.52a407.04 407.04 0 0 1 256 90.368V256l-51.2 102.4 51.2 51.2v51.2l-102.4 51.2-51.2 52.032 51.2 50.368 51.2 51.2 51.2 102.4 33.472 33.472A408.32 408.32 0 0 1 512 921.6z"></path></symbol><symbol id="oicon-setting" viewBox="0 0 1162 1024"><path d="M1055.479204 128.810127H442.676311c-10.415913-55.551537-57.287523-97.21519-116.311031-97.21519-57.287523 0-105.895118 41.663653-116.31103 97.21519H53.815552c-10.415913 0-19.095841 8.679928-19.095841 20.831826s8.679928 20.831826 20.831826 20.831826h156.238698c10.415913 55.551537 57.287523 97.21519 116.311031 97.21519 57.287523 0 105.895118-41.663653 116.311031-97.21519h611.066907c12.151899 0 20.831826-8.679928 20.831827-20.831826s-8.679928-20.831826-20.831827-20.831826zM328.101266 224.289331c-41.663653 0-76.383363-34.719711-76.383364-76.383364 0-41.663653 34.719711-76.383363 76.383364-76.383363 41.663653 0 76.383363 34.719711 76.383363 76.383363 0 41.663653-34.719711 76.383363-76.383363 76.383364zM1055.479204 840.564195H637.106691c-10.415913-55.551537-57.287523-97.21519-116.311031-97.21519-57.287523 0-105.895118 41.663653-116.311031 97.21519H55.551537c-12.151899 0-20.831826 8.679928-20.831826 20.831827s8.679928 20.831826 20.831826 20.831826h348.933092c10.415913 55.551537 57.287523 97.21519 116.311031 97.21519 57.287523 0 105.895118-41.663653 116.311031-97.21519H1055.479204c12.151899 0 20.831826-8.679928 20.831827-20.831826 0-10.415913-8.679928-20.831826-20.831827-20.831827z m-534.683544 97.21519c-41.663653 0-76.383363-34.719711-76.383363-76.383363 0-41.663653 34.719711-76.383363 76.383363-76.383364 41.663653 0 76.383363 34.719711 76.383364 76.383364-1.735986 41.663653-34.719711 76.383363-76.383364 76.383363zM1055.479204 484.687161h-67.703435c-10.415913-55.551537-57.287523-97.21519-116.311031-97.21519-57.287523 0-105.895118 41.663653-116.311031 97.21519H55.551537c-12.151899 0-20.831826 8.679928-20.831826 20.831826s8.679928 20.831826 20.831826 20.831827h699.60217c10.415913 55.551537 57.287523 97.21519 116.311031 97.21519 57.287523 0 105.895118-41.663653 116.311031-97.21519h67.703435c12.151899 0 20.831826-8.679928 20.831827-20.831827s-8.679928-20.831826-20.831827-20.831826z m-184.014466 97.21519c-41.663653 0-76.383363-34.719711-76.383364-76.383364 0-41.663653 34.719711-76.383363 76.383364-76.383363 41.663653 0 76.383363 34.719711 76.383363 76.383363 0 41.663653-34.719711 76.383363-76.383363 76.383364z"></path></symbol><symbol id="oicon-gitee" viewBox="0 0 1024 1024"><path d="M966.524718 400.672821H456.520205c-24.497231 0-44.347077 19.954872-44.347077 44.557128v133.540102c0 24.602256 19.849846 44.530872 44.347077 44.530872h288.295385c33.266872 0 44.320821 11.132718 44.347077 44.530872 0.026256 89.035487-50.884923 133.566359-133.041231 133.566359h-376.779487c-24.602256 0-44.530872-19.954872-44.530872-44.530872v-400.67282c0-73.780513 59.575795-133.592615 133.014974-133.592616h598.593641c24.470974 0 44.320821-19.928615 44.320821-44.504615V44.530872C1010.740513 19.928615 990.916923 0 966.419692 0H367.826051C171.979487 0 13.128205 159.455179 13.128205 356.168205v623.32718C13.128205 1004.045128 32.978051 1024 57.475282 1024h598.646154c196.187897 0 352.439795-170.325333 354.619077-367.327179 0.131282-11.106462 0.131282-200.33641 0.131282-211.442872a44.478359 44.478359 0 0 0-44.347077-44.530872z"></path></symbol><symbol id="oicon-trending" viewBox="0 0 1106 1024"><path d="M0 290.766798m55.308301 0l0 0q55.308301 0 55.3083 55.3083l0 608.391307q0 55.308301-55.3083 55.3083l0 0q-55.308301 0-55.308301-55.3083l0-608.391307q0-55.308301 55.308301-55.3083Z" fill="#F5A623"></path><path d="M331.849803 14.225295m55.308301 0l0 0q55.308301 0 55.308301 55.3083l0 884.93281q0 55.308301-55.308301 55.3083l0 0q-55.308301 0-55.308301-55.3083l0-884.93281q0-55.308301 55.308301-55.3083Z" fill="#F5A623" opacity=".8"></path><path d="M663.699607 401.383399m55.3083 0l0 0q55.308301 0 55.308301 55.3083l0 497.774706q0 55.308301-55.308301 55.3083l0 0q-55.308301 0-55.3083-55.3083l0-497.774706q0-55.308301 55.3083-55.3083Z" fill="#F5A623" opacity=".6"></path><path d="M995.54941 124.841896m55.308301 0l0 0q55.308301 0 55.3083 55.308301l0 774.316208q0 55.308301-55.3083 55.3083l0 0q-55.308301 0-55.308301-55.3083l0-774.316208q0-55.308301 55.308301-55.308301Z" fill="#F5A623" opacity=".4"></path></symbol></svg>
+        <val data-name="space_user_url" data-value="https://my.oschina.net/u/658658"></val>      <val data-name="g_user_url" data-value=""></val>      <val data-name="api_prefix" data-value="/action"></val>      <val data-name="g_user_code" data-value=""></val>     <val data-name="g_user_id" data-value=""></val>     <val data-name="g_user" data-value=""></val>     <val data-name="login_page" data-value="https://www.oschina.net/home/login?goto_page=https%3A%2F%2Fmy.oschina.net%2Fu%2F658658%2Fblog%2F415226"></val>     
+    
+                <val data-name="weixinAppId" data-value="wx880def15e694b905"></val>
+        <val data-name="weixinTimestamp" data-value="1548832350551"></val>
+        <val data-name="weixinNonceStr" data-value="88015491-a29a-4748-9a7d-6f9b778fc9ab"></val>
+        <val data-name="weixinSignature" data-value="fb1e5d6c3fec9e7d639777d1cd771cdb4ff2b42c"></val>
+        <val data-name="weixinShareUrl" data-value="https://my.oschina.net/u/658658/blog/415226"></val>                             
+                <val data-name="is_detail_page" data-value="true"></val>
+
+        
+        <div class="ui left inverted sidebar vertical menu" id="mobileNavSidebar">
+        <a href="https://www.oschina.net/project" class="item project">开源软件</a>
+        <a href="https://www.oschina.net/question" class="item question">问答</a>
+        <a href="https://www.oschina.net/tweets" class="item tweet">动弹</a>
+        <a href="https://www.oschina.net/blog" class="item blog">博客</a>
+        <a href="https://www.oschina.net/translate" class="item translate">翻译</a>
+        <a href="https://www.oschina.net/news" class="item news">资讯</a>
+        <a href="https://gitee.com/?from=osc-index" class="item gitee" target="_blank">码云</a>
+        <a href="https://zb.oschina.net/" class="item" target="_blank">众包</a>
+        <a href="https://www.oschina.net/event/ych" class="item meetup">源创会</a>
+        <a href="https://www.oschina.net/event" class="item">活动</a>
+        <a href="https://job.oschina.net/" class="item" target="_blank">求职/招聘</a>
+        <a href="https://www.oschina.net/question/topic/masteronline" class="item">高手问答</a>
+        <a href="https://www.oschina.net/question/topic/osc-interview" class="item">开源访谈</a>
+        <a href="https://my.oschina.net/editorial-story" class="item">周刊</a>
+        <a href="https://www.oschina.net/company" class="item">公司开源导航页</a>
+    </div>
+        <div class="ui right inverted sidebar vertical menu" id="mobileUserSidebar">
+                    <a class="item" href="https://www.oschina.net/home/login?goto_page=https%3A%2F%2Fmy.oschina.net%2Fu%2F658658%2Fblog%2F415226">登录</a>
+            <a class="item" href="https://www.oschina.net/home/reg?goto_page=https%3A%2F%2Fmy.oschina.net%2Fu%2F658658%2Fblog%2F415226">注册</a>
+            </div>
+
+        <div class="ui vertical inverted right sidebar menu" id="sideMenu">
+    <div class="header">
+        <b>文档章节</b>
+    </div>
+    <div class="ui basic segment" id="sideMenuBody"></div>
+</div>
+<div class="ui black big launch right attached fixed button" id="sideMenuLauncher">
+    <i class="list icon"></i>
+    <span class="text">文档章节</span>
+</div>
+
+
+        <div class="pusher  mobile-disabled-fixed-menu  ">
+                <div class="ui secondary inverted fixed menu" id="headerNavMenu">
+            <a class="item logo" href="https://www.oschina.net/" title="开源中国"><img src="./MySQL单机多实例方案 - 天天顺利的个人空间 - 开源中国_files/logo.svg" alt="开源中国"></a>
+                                                <form action="https://www.oschina.net/search" class="item search-item">
+                <div class="ui icon input">
+                    <input type="hidden" name="scope" value="blog">
+                    <input placeholder="大家都在搜...." id="keyword" name="q" size="24" value="" type="text">
+                    <i class="search link icon"></i>
+                </div>
+                <div class="results"></div>
+            </form>
+            <div class="item download-item">
+                <a class="ui primary button" id="btnDownloadApp" href="https://www.oschina.net/app" target="_blank">下载APP</a>
+            </div>
+            <div class="ui popup top left transition hidden" id="btnDownloadAppContent">
+                <h3 class="header">开源中国 App —— <br>关注技术领域的头条文章</h3>
+                <p>聚合全网技术文章，根据你的阅读喜好进行个性推荐</p>
+                <img width="200" src="./MySQL单机多实例方案 - 天天顺利的个人空间 - 开源中国_files/osc_app_download_qrcode.png" alt="下载APP">
+            </div>
+            <div class="ui secondary text menu" id="menuList">
+                <a href="https://www.oschina.net/project" class="item project">开源软件</a>
+                <a href="https://www.oschina.net/question" class="item question">问答</a>
+                <a href="https://www.oschina.net/tweets" class="item tweet">动弹</a>
+                <a href="https://www.oschina.net/blog" class="item blog">博客</a>
+                <a href="https://www.oschina.net/translate" class="item translate">翻译</a>
+                <a href="https://www.oschina.net/news" class="item news">资讯</a>
+                <a href="https://gitee.com/?from=osc-index" class="item gitee" target="_blank">码云<span class="floating ui red label giteetip">代码托管</span></a>
+                <a href="https://zb.oschina.net/" class="item" target="_blank">众包</a>
+                <a href="https://www.oschina.net/event" class="item event">活动</a>
+            </div>
+            <div class="ui dropdown item" id="moreMenu" tabindex="0">
+                更多 <i class="dropdown icon" tabindex="0"><div class="menu" tabindex="-1"></div></i>
+                <div class="menu" tabindex="-1">
+                    <a href="https://www.oschina.net/event/ych" class="item meetup"><i class="world icon"></i>源创会</a>
+                    <a href="https://job.oschina.net/" class="item" target="_blank"><i class="address card outline icon"></i>求职/招聘</a>
+                    <a href="https://www.oschina.net/question/topic/masteronline" class="item"><i class="spy icon"></i>高手问答</a>
+                    <a href="https://www.oschina.net/question/topic/osc-interview" class="item"><i class="coffee icon"></i>开源访谈</a>
+                    <a href="https://my.oschina.net/editorial-story" class="item"><i class="calendar outline icon"></i>周刊</a>
+                    <a href="https://www.oschina.net/company" class="item"><i class="building outline icon"></i>公司开源导航页</a>
+                </div>
+            </div>
+            <div class="right menu">
+                                    <a class="item" href="https://www.oschina.net/home/login?goto_page=https%3A%2F%2Fmy.oschina.net%2Fu%2F658658%2Fblog%2F415226">登录</a>
+                    <a class="item" href="https://www.oschina.net/home/reg?goto_page=https%3A%2F%2Fmy.oschina.net%2Fu%2F658658%2Fblog%2F415226">注册</a>
+                            </div>
+        </div>
+                <div class="ui secondary inverted fixed menu" id="mobileHeaderNavMenu">
+            <a class="icon item toggle-mobile-nav-sidebar">
+                <i class="large content icon"></i>
+            </a>
+            <div class="logo back-to-top-toggle"><img src="./MySQL单机多实例方案 - 天天顺利的个人空间 - 开源中国_files/logo.svg" alt="开源中国"></div>
+            <a class="icon item toggle-mobile-user-sidebar">
+                                    <i class="large user outline icon"></i>
+                            </a>
+        </div>
+                <div id="mainScreen">
+            <div class="ui container">
+                
+
+
+
+
+
+
+
+
+
+
+
+<x-foo-define data-define="space-blog-detail"></x-foo-define> 
+<val data-name="objId" data-value="415226"></val> <val data-name="author_id" data-value="658658"></val> <val data-name="space_user_id" data-value="658658"></val> 
+<val data-name="fetchCommentsUrl" data-value="?type=comments"></val>              <val data-name="publishCommentUrl" data-value="/space/blog/add_comment"></val>    <val data-name="replyCommentUrl" data-value="/space/blog/add_comment"></val>      <val data-name="deleteCommentUrl" data-value="/space/blog/delete_blog_comments"></val>  
+<val data-name="weixinShareTitle" data-value="MySQL单机多实例方案"></val> <val data-name="weixinShareImgUrl" data-value="https://static.oschina.net/uploads/space/2017/0606/104418_CPLl_2733728.png"></val> 
+<div class="ui internally grid blog-detail bg-wrap">
+    <div class="row">
+        <div class="two wide computer only column" style="height: 2237px; min-height: 342px;">
+            <div class="ui sticky float-menu fixed top" id="floatMenu" style="left: 341.5px; width: 128px !important; height: 342px !important; margin-top: 200px;">
+                <div class="ui vertical large compact menu">
+                                            <a class="item donate" donate="" data-id="415226" data-obj-type="16344358" data-subject="MySQL单机多实例方案" data-donater="" data-author="658658" data-return-url="https://my.oschina.net/u/658658/blog/415226" data-notify-url="https://my.oschina.net/action/donate/paySuccess">                             <i class="yen icon"></i>打赏</a>
+                                        <a class="item comment-btn" href="https://my.oschina.net/u/658658/blog/415226#comments" title="共有 0 条评论"><i class="comment outline icon"></i>评论</a>
+                    <a class="item collect-btn " data-id="415226" data-user-id="658658" data-obj-type="3" data-max="99" data-tag-required="" data-current-user-id="" data-recommend-tags="NUMA"><i class="star outline icon"></i>收藏</a>
+                    <a class="item like article-like " data-id="415226"><i class="thumbs up outline icon"></i>点赞</a>
+                    <h5 class="ui item inverted brown header">分享文章</h5>
+                    <div class="bdsharebuttonbox reset left-menu bdshare-button-style0-16" data-tag="share-news" data-bd-bind="1548832352874">
+                        <a class="item" data-cmd="tsina" title="分享到新浪微博"><i class="weibo icon"></i>微博</a>
+                        <a class="item" data-cmd="sqq" title="分享到QQ好友"><i class="qq icon"></i>QQ</a>
+                        <a class="item" data-cmd="weixin" title="分享到微信"><i class="weixin icon"></i>微信</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="twelve wide computer sixteen wide tablet sixteen wide mobile column body-container">
+            <div class="float-menu-content">
+                <div class="ui large breadcrumb">
+                    <a class="section" href="https://my.oschina.net/u/658658">天天顺利的个人空间</a>
+                                                                <i class="right chevron icon divider"></i>
+                        <a class="section" href="https://my.oschina.net/u/658658?tab=newest&amp;catalogId=475632">工作日志</a>
+                                        <i class="right chevron icon divider"></i>
+                    <div class="active section">正文</div>
+                </div>
+                <div class="article-detail">
+                                            <div class="ad-wrap">
+                                                        </div>
+                                        <h2 class="header">
+                        MySQL单机多实例方案
+                                                                            <div class="ui brown label horizontal" data-tooltip="转载">转</div>
+                                                                                            </h2>
+                    <div class="extra ui horizontal list meta-wrap">
+                        <div class="item">
+                            <a href="https://my.oschina.net/u/658658" class="__user">                        <div class="osc-avatar small-portrait _35x35 avatar" title="天天顺利" data-user-id="658658">
+                <img src="./MySQL单机多实例方案 - 天天顺利的个人空间 - 开源中国_files/658658_50.png" alt="天天顺利" title="天天顺利">
+            </div>
+            &nbsp;<span>天天顺利</span></a>
+                            发布于 2015/05/15 11:14</div>
+                        <div class="item">字数 1424</div>
+                        <div class="item">阅读 156</div>
+                        <div class="item collect-btn " data-id="415226" data-user-id="658658" data-obj-type="3" data-max="99" data-tag-required="" data-current-user-id="" data-recommend-tags="NUMA">收藏 <span data-collect-count="" data-id="415226" data-obj-type="3">0</span></div>
+                        <div class="item"><a class="normal like article-like " data-id="415226">点赞 <span data-article-like-count="">0</span></a></div>
+                        <div class="item comment-count"><a href="https://my.oschina.net/u/658658/blog/415226#comments" class="normal"><i class="comment outline icon"></i> 评论 <span data-article-reply-count="">0</span></a></div>
+                                            </div>
+                                                                        <div class="tags">
+                                <a class="ui horizontal label" href="https://my.oschina.net/u/658658?q=NUMA">NUMA</a>                            </div>
+                                                                <div class="content" id="articleContent">
+                                                    <div class="ad-wrap">
+                                                        <p style="margin:0 0 10px 0;"><a data-traceid="blog_detail_above_text_link_1" data-tracepid="blog_detail_above_text_link" style="color:#A00;font-weight:bold;" href="https://my.oschina.net/u/3779583/blog/1862418" target="_blank">开发十年，只剩下这套Java开发体系了
+&gt;&gt;&gt; </a>&nbsp;&nbsp;<img src="./MySQL单机多实例方案 - 天天顺利的个人空间 - 开源中国_files/hot3.png" align="absmiddle" style="max-height: 32px; max-width: 32px;"></p>
+                                        </div>
+                                                <div> 
+ <p> MySQL单机多实例方案，是指在一台物理的PC服务器上运行多个MySQL数据库实例，为什么要这样做？这样做的好处是什么？<br> 1.存储技术飞速发展，IO不再是瓶颈<br> 普通PC服务器的CPU与IO资源不均衡，因为磁盘的IO能力非常有限，为了满足应用的需要，往往需要配置大量的服务器，这样就造成CPU资源的大量浪 费。但是，Flash存储技术的出现改变了这一切，单机的IO能力不再是瓶颈，可以在单机运行多个MySQL实例提升CPU利用率。<br> 2.MySQL对多核CPU利用率低<br> MySQL对多核CPU的利用率不高，一直是个问题，5.1版本以前的MySQL，当CPU超过4个核时，性能无法线性扩展。虽然MySQL后续版本一直 在改进这个问题，包括Innodb plugin和Percona XtraDB都对多核CPU的利用率改进了很多，但是依然无法实现性能随着CPU core的增加而提升。我们现在常用的双路至强服务器，单颗CPU有4-8个core，在操作系统上可以看到16-32 CPU(每个core有两个线程)，四路服务器可以达到64 core甚至更多，所以提升MySQL对于多核CPU的利用率是提升性能的重要手段。下图是Percona的一份测试数据： </p> 
+ <p> 3.NUMA对MySQL性能的影响<br> 我们现在使用的PC服务器都是NUMA架构的，下图是Intel 5600 CPU的架构： </p> 
+ <p> NUMA的内存分配策略有四种：<br> 1.缺省(default)：总是在本地节点分配（分配在当前进程运行的节点上）；<br> 2.绑定(bind)：强制分配到指定节点上；<br> 3.交叉(interleave)：在所有节点或者指定的节点上交织分配；<br> 4.优先(preferred)：在指定节点上分配，失败则在其他节点上分配。<br> 因为NUMA默认的内存分配策略是优先在进程所在CPU的本地内存中分配，会导致CPU节点之间内存分配不均衡，当某个CPU节点的内存不足时，会导致swap产生，而不是从远程节点分配内存。这就是所谓的swap insanity现象。<br> MySQL采用了线程模式，对于NUMA特性的支持并不好，如果单机只运行一个MySQL实例，我们可以选择关闭NUMA，关闭的方法有三种：1.硬件 层，在BIOS中设置关闭；2.OS内核，启动时设置numa=off；3.可以用numactl命令将内存分配策略修改为interleave（交 叉），有些硬件可以在BIOS中设置。<br> 如果单机运行多个MySQL实例，我们可以将MySQL绑定在不同的CPU节点上，并且采用绑定的内存分配策略，强制在本节点内分配内存，这样既可以充分利用硬件的NUMA特性，又避免了单实例MySQL对多核CPU利用率不高的问题。 </p> 
+ <p> 资源隔离方案<br> 1.CPU，Memory<br> numactl –cpubind=0 –localalloc，此命令将MySQL绑定在不同的CPU节点上，cpubind是指NUMA概念中的CPU节点，可以用numactl –hardware查看，localalloc参数指定内存为本地分配策略。<br> 2.IO<br> 我们在机器中内置了fusionio卡(320G)，配合flashcache技术，单机的IO不再成为瓶颈，所以IO我们采用了多实例共享的方式，并没有对IO做资源限制。多个MySQL实例使用相同的物理设备，不同的目录的来进行区分。<br> 3.Network<br> 因为单机运行多个实例，必须对网络进行优化，我们通过多个的IP的方式，将多个MySQL实例绑定在不同的网卡上，从而提高整体的网络能力。还有一种更高级的做法是，将不同网卡的中断与CPU绑定，这样可以大幅度提升网卡的效率。<br> 4.为什么不采用虚拟机<br> 虚拟机会耗费额外的资源，而且MySQL属于IO类型的应用，采用虚拟机会大幅度降低IO的性能，而且虚拟机的管理成本比较高。所以，我们的数据库都不采用虚拟机的方式。<br> 5.性能<br> 下图是Percona的测试数据，可以看到运行两个实例的提升非常明显。 </p> 
+ <p> 高可用方案<br> 因为单机运行了多个MySQL实例，所以不能采用主机层面的HA策略，比如heartbeat。因为当一个MySQL实例出现问题时，无法将整个机器切 换。所以必须改为MySQL实例级别的HA策略，我们采用了自己开发的MySQL访问层来解决HA的问题，当某个实例出问题时，只切换一个实例，对于应用 来说，这一层是透明的。<br> MySQL单机多实例方案的优点<br> 1.节省成本，虽然采用Flash存储的成本比较高，但是如果可以缩减机器的数量，考虑到节省电力和机房使用的成本，还是比单机单实例的方案更便宜。<br> 2.提升利用率，利用NUMA特性，将MySQL实例绑定在不同的CPU节点，不仅提高了CPU利用率，同时解决了MySQL对多核CPU的利用率问题。<br> 3.提升用户体验，采用Flash存储技术，大幅度降低IO响应时间，有助于提升用户的体验。<br> –EOF–<br> 关于NUMA可以参考这篇文章：NUMA与Intel新一代Xeon处理器 </p> 
+</div>
+                                                    <div class="ad-wrap" style="margin-top: 12px;">
+                                                                </div>
+                                            </div>
+                    <div class="ui hidden divider"></div>
+                    <p style="text-align:center;">
+                                                    本文转载自：http://www.hellodb.net/tag/numa
+                                            </p>
+                </div>
+
+                                <div class="ui basic center aligned segment action">
+                    <div class="ui huge buttons">
+                                                    <a class="ui green button donate" donate="" data-id="415226" data-obj-type="16344358" data-subject="MySQL单机多实例方案" data-donater="" data-author="658658" data-return-url="https://my.oschina.net/u/658658/blog/415226" data-notify-url="https://my.oschina.net/action/donate/paySuccess">                                 <i class="yen icon"></i>打赏</a>
+                                                <a class="ui basic button like article-like " data-id="415226">
+                            <i class="thumbs up outline icon"></i>点赞 (<span data-article-like-count="">0</span>)
+                        </a>
+                        <a class="ui basic button collect-btn hover" data-id="415226" data-user-id="658658" data-obj-type="3" data-max="99" data-tag-required="" data-current-user-id="" data-recommend-tags="NUMA"><i class="star outline icon"></i>收藏 (<span data-collect-count="" data-id="415226" data-obj-type="3">0</span>)</a>
+                        <div class="ui basic dropdown share button bdsharebuttonbox reset dropdown-share bdshare-button-style0-16" data-tag="share-blog" tabindex="0" data-bd-bind="1548832352874">
+                            <i class="share icon"></i> <span>分享</span>
+                            <div class="menu" tabindex="-1">
+                                <a class="item" data-cmd="tsina"><i class="weibo icon"></i>微博</a>
+                                <a class="item" data-cmd="sqq"><i class="qq icon"></i>QQ</a>
+                                <a class="item" data-cmd="weixin"><i class="weixin icon"></i>微信</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="ui basic segment">
+                        <a class="ban" style="cursor: pointer" ban-report="" data-id="415226" data-obj-type="3" data-url="https://my.oschina.net/u/658658/blog/415226">
+                            <i class="flag red icon"></i>举报</a>
+                    </div>
+                </div>
+
+                                                    <div class="reward-list hide">
+                        <div class="reward-list-title">
+                            共有 <span id="reward-num"></span> 人打赏支持<span id="donate_money"></span>
+                        </div>
+                                                <div class="donate-user-list" id="donate_user_list"></div>
+                    </div>
+                
+                                <div class="around-articles-wrap">
+                                                            <div class="around-item around-left">
+                        <i class="angle left icon"></i>
+                        <span class="text">上一篇：</span>
+                        <a class="link" href="https://my.oschina.net/u/658658/blog/415244">Git客户端（Windows系统）的使用 </a>
+                    </div>
+                    
+                                                            <div class="around-item around-right">
+                        <span class="text">下一篇：</span>
+                        <a class="link" href="https://my.oschina.net/u/658658/blog/415223">NUMA架构的CPU -- 你真的用好了么？</a>
+                        <i class="angle right icon"></i>
+                    </div>
+                                    </div>
+
+                                <div class="ui info message author-card">
+                    <div class="ui items">
+                        <div class="item author-card-item">
+                            <a class="ui avatar tiny image" href="https://my.oschina.net/u/658658">
+                                                        <div class="osc-avatar large-portrait _80x80" title="天天顺利" data-user-id="658658">
+                <img src="./MySQL单机多实例方案 - 天天顺利的个人空间 - 开源中国_files/658658_200.png" alt="天天顺利" title="天天顺利">
+            </div>
+                                        </a>
+                            <div class="content author-card-info">
+                                <div class="author-header clearfix">
+                                                                        <h3 class="author-name"><a class="__user" href="https://my.oschina.net/u/658658">天天顺利</a></h3>
+                                                                                                        </div>
+                                <div class="ui horizontal list">
+                                    <div class="item">粉丝 43</div>
+                                    <div class="item">博文 167</div>
+                                    <div class="item">码字总数 73007</div>
+                                    <div class="item">作品 0</div>
+                                </div>
+                                <div class="ui hidden fitted clearing divider"></div>
+                                                                                                    <div class="ui horizontal list">
+                                                                                    <div class="item"><i class="map marker alternate icon"></i> 海淀</div>
+                                                                                                                            <div class="item"><i class="address card outline icon"></i> 技术主管 </div>
+                                                                            </div>
+                                                                                                    <div class="ui hidden fitted clearing divider"></div>
+                                                                                                                    <a class="ui green compact button follow-btn" data-user-id="658658" data-follow-status="1"><i class="heart outline icon"></i><span class="text">关注</span></a>
+                                                                                                            <a class="ui green basic compact button send-message-btn" data-user-id="658658" data-user-name="天天顺利"><i class="envelope outline icon"></i>私信</a>
+                                                                        <a class="ui green basic compact button" href="https://www.oschina.net/question/ask?user=658658" target="_blank"><i class="comment outline icon"></i>提问</a>
+                                                            </div>
+                            <div class="content panel-skills-radar" style="">
+                                <div class="skills-radar">
+                                    <div class="radar-wrap" radar="" data-user-id="658658" data-skills-num="5" data-detail-url="https://my.oschina.net/u/658658/radar" data-container=".panel-skills-radar">
+                                        <div class="radar-map" style="position: relative;"><canvas width="280" height="122" style="width: 280px; height: 122px;"></canvas></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                                                            </div>
+                        <div class="ui basic segment article-list">
+                <div class="scroll-tab hidden-scroll">
+                    <div class="ui green pointing secondary massive menu spaceBlog-tab">
+                        <a class="active item" data-tab="relArticleList">相关文章</a>
+                        <a class="item" data-tab="newArticleList">最新文章</a>
+                    </div>
+                </div>
+                <div class="ui basic segment active tab article-list" data-tab="relArticleList" id="relArticleList">
+                                          
+
+    <div class="ui very relaxed items list-container blog-detail-list-container">
+                                    <div class="item blog-item">
+                    <div class="content">
+                        <a class="header" href="http://blog.51cto.com/rangochen/1397319" target="_blank" title="Linux NUMA：非统一内存访问架构">Linux NUMA：非统一内存访问架构</a>
+                        <div class="description">
+                            <p class="line-clamp">1 关于NUMA NUMA,即Non-Uniform Memory Access Architecture，非统一内存访问架构。NUMA模式是一种分布式存储器访问方式，处理器可以同时访问不同的存储器地址，大幅度提高并行性。NUMA模式下...</p>
+                        </div>
+                        <div class="extra">
+                            <div class="ui horizontal list">
+                                <div class="item">guzhoujiexing</div>
+                                <div class="item">2018/06/26</div>
+
+                                <div class="item"><i class="eye icon"></i> 0</div>
+                                <div class="item"><i class="comment outline icon"></i> 0</div>
+                            </div>
+                        </div>
+                    </div>
+                                                        </div>
+                                                <div class="item blog-item">
+                    <div class="content">
+                        <a class="header" href="https://yq.aliyun.com/articles/617257" target="_blank" title="Mysql 数据库单机多实例部署手记">Mysql 数据库单机多实例部署手记</a>
+                        <div class="description">
+                            <p class="line-clamp">最近的研发机器需要部署多个环境，包括数据库。为了管理方便考虑将mysql数据库进行隔离，即采用单机多实例部署的方式。 找了会资料发现用的人也不是太多，一般的生产环境为了充分发挥机器性能...</p>
+                        </div>
+                        <div class="extra">
+                            <div class="ui horizontal list">
+                                <div class="item">美码师</div>
+                                <div class="item">2015/09/08</div>
+
+                                <div class="item"><i class="eye icon"></i> 0</div>
+                                <div class="item"><i class="comment outline icon"></i> 0</div>
+                            </div>
+                        </div>
+                    </div>
+                                                                <div class="images">
+                            <a class="ui small image" href="https://yq.aliyun.com/articles/617257" target="_blank" title="Mysql 数据库单机多实例部署手记">
+                                <img src="./MySQL单机多实例方案 - 天天顺利的个人空间 - 开源中国_files/ea05bdbe8141de2e96f2b3de848ab1ca99639411.jpeg" alt="" data-img-render="" style="width: 100%; height: auto;">
+                            </a>
+                        </div>
+                                    </div>
+                                                <div class="item blog-item">
+                    <div class="content">
+                        <a class="header" href="https://www.oschina.net/question/3659723_2264645" target="_blank" title="mysql 单机多实例配置">mysql 单机多实例配置</a>
+                        <div class="description">
+                            <p class="line-clamp">@big_cat 你好，想跟你请教个问题：mysql单机多实例配置，我按你的操作，但是mysqld_multi start 一直没法使mysql跑起来</p>
+                        </div>
+                        <div class="extra">
+                            <div class="ui horizontal list">
+                                <div class="item">炯炯哥</div>
+                                <div class="item">2017/08/24</div>
+
+                                <div class="item"><i class="eye icon"></i> 56</div>
+                                <div class="item"><i class="comment outline icon"></i> 1</div>
+                            </div>
+                        </div>
+                    </div>
+                                                        </div>
+                                                <div class="item blog-item">
+                    <div class="content">
+                        <a class="header" href="http://www.jianshu.com/p/d5c5b0ea8f9d" target="_blank" title="阿里云数据库 MySQL 5.7 单机版发布，看看适合你吗？">阿里云数据库 MySQL 5.7 单机版发布，看看适合你吗？</a>
+                        <div class="description">
+                            <p class="line-clamp">众所周知，阿里云数据库RDS（包括MySQL或SQL Server）不便宜，总听到有人说：不如买一台ECS服务器自建MySQL！价格便宜多了！ 1.jpg 首先，我不是这么认为的：原因有： RDS是高可用的，包括一...</p>
+                        </div>
+                        <div class="extra">
+                            <div class="ui horizontal list">
+                                <div class="item">小宙</div>
+                                <div class="item">2017/12/07</div>
+
+                                <div class="item"><i class="eye icon"></i> 0</div>
+                                <div class="item"><i class="comment outline icon"></i> 0</div>
+                            </div>
+                        </div>
+                    </div>
+                                                                <div class="images">
+                            <a class="ui small image" href="http://www.jianshu.com/p/d5c5b0ea8f9d" target="_blank" title="阿里云数据库 MySQL 5.7 单机版发布，看看适合你吗？">
+                                <img src="./MySQL单机多实例方案 - 天天顺利的个人空间 - 开源中国_files/e6ded4400cb91e67fb0e1afd38d2212c7d4aecf4.jpg" alt="" data-img-render="" style="width: 100%; height: auto;">
+                            </a>
+                        </div>
+                                    </div>
+                                                <div class="item blog-item">
+                    <div class="content">
+                        <a class="header" href="https://yq.aliyun.com/articles/588452" target="_blank" title="Ubuntu 16.04下搭建基于携程Apollo（阿波罗）配置中心单机模式">Ubuntu 16.04下搭建基于携程Apollo（阿波罗）配置中心单机模式</a>
+                        <div class="description">
+                            <p class="line-clamp">官网：https://github.com/ctripcorp/apollo Wiki：https://github.com/ctripcorp/apollo/wiki（一切的集成方式和使用方法都在这里） Issues：https://github.com/ctripcorp/apollo/issues（......</p>
+                        </div>
+                        <div class="extra">
+                            <div class="ui horizontal list">
+                                <div class="item">easonjim</div>
+                                <div class="item">2017/10/10</div>
+
+                                <div class="item"><i class="eye icon"></i> 0</div>
+                                <div class="item"><i class="comment outline icon"></i> 0</div>
+                            </div>
+                        </div>
+                    </div>
+                                                        </div>
+                        </div>
+    <div class="page-load-status">
+        <p class="infinite-scroll-request">
+            <i class="ui active small inline loader" style="display: none;"></i>
+        </p>
+        <p class="infinite-scroll-last">没有更多内容</p>
+        <p class="infinite-scroll-error">加载失败，请刷新页面</p>
+    </div>
+    <a class="ui fluid button load-more-button">加载更多</a>
+                <p class="pagination" style="display: none;">
+            <a class="rel-pagination pagination__next" style="display: none" href="https://my.oschina.net/u/658658/blog/widgets/_blog_detail_list_rel?obj=415226&amp;p=2&amp;type=ajax">下一页</a>
+        </p>
+                    </div>
+                <div class="ui basic segment tab article-list" data-tab="newArticleList" id="newArticleList">
+                                          
+
+    <div class="ui very relaxed items list-container blog-detail-list-container">
+                                                        <div class="item blog-item">
+                        <div class="content">
+                            <a class="header" href="https://my.oschina.net/u/2842177/blog/3007452" target="_blank" title="ubuntu 下修改MySQL 的root用户密码">ubuntu 下修改MySQL 的root用户密码</a>
+                            <div class="description">
+                                <p class="line-clamp">ubuntu 下修改MySQL 的root用户密码 环境：Ubuntu 16.04 ； Mysql 5.7问题：mysql root登录密码 忘记了 1.登录MySQL $ mysql -u root -p 　　输入密码，如果登录成功下面的就不用看了；如果提...</p>
+                            </div>
+                            <div class="extra">
+                                <div class="ui horizontal list">
+                                    <div class="item">west_coast</div>
+                                    <div class="item">4分钟前</div>
+
+                                    <div class="item"><i class="eye icon"></i> 0</div>
+                                    <div class="item"><i class="comment outline icon"></i> 0</div>
+                                                                    </div>
+                            </div>
+                        </div>
+                                                                            <div class="images">
+                                <a class="ui small image" href="https://my.oschina.net/u/2842177/blog/3007452" target="_blank" title="ubuntu 下修改MySQL 的root用户密码">
+                                    <img src="./MySQL单机多实例方案 - 天天顺利的个人空间 - 开源中国_files/copycode.gif" alt="" data-img-render="" style="width: 100%; height: 100%; object-fit: fill;">
+                                </a>
+                            </div>
+                                            </div>
+                                                                                    <div class="item blog-item">
+                        <div class="content">
+                            <a class="header" href="https://my.oschina.net/u/3847203/blog/3007451" target="_blank" title="centos7 docker 安装">centos7 docker 安装</a>
+                            <div class="description">
+                                <p class="line-clamp">切记是root权限下操作一下所有操作查看你当前的内核版本 uname -r yum update 卸载旧版本(如果安装过旧版本的话) yum remove docker  docker-common docker-selinux docker-engine 安装需要...</p>
+                            </div>
+                            <div class="extra">
+                                <div class="ui horizontal list">
+                                    <div class="item">Java搬砖工程师</div>
+                                    <div class="item">7分钟前</div>
+
+                                    <div class="item"><i class="eye icon"></i> 0</div>
+                                    <div class="item"><i class="comment outline icon"></i> 0</div>
+                                                                    </div>
+                            </div>
+                        </div>
+                                                                            <div class="images">
+                                <a class="ui small image" href="https://my.oschina.net/u/3847203/blog/3007451" target="_blank" title="centos7 docker 安装">
+                                    <img src="./MySQL单机多实例方案 - 天天顺利的个人空间 - 开源中国_files/078460b5a519806581c6fb2ae043c2b02d0.jpg" alt="" data-img-render="" style="width: auto; height: 100%;">
+                                </a>
+                            </div>
+                                            </div>
+                                                                                    <div class="item blog-item">
+                        <div class="content">
+                            <a class="header" href="https://my.oschina.net/u/3367404/blog/3007447" target="_blank" title="Linux—CentOS7.4-DNS一（搭建DNS服务器）">Linux—CentOS7.4-DNS一（搭建DNS服务器）</a>
+                            <div class="description">
+                                <p class="line-clamp">Linux—CentOS7.4-DNS一（搭建DNS服务器） 0行云流水00人评论37838人阅读2018-01-12 15:40:14 相关概念： 正向解析：将域名解析成IP地址 反向解析：将IP地址解析成域名 环境：linux服务器一台...</p>
+                            </div>
+                            <div class="extra">
+                                <div class="ui horizontal list">
+                                    <div class="item">linjin200</div>
+                                    <div class="item">14分钟前</div>
+
+                                    <div class="item"><i class="eye icon"></i> 0</div>
+                                    <div class="item"><i class="comment outline icon"></i> 0</div>
+                                                                    </div>
+                            </div>
+                        </div>
+                                                                            <div class="images">
+                                <a class="ui small image" href="https://my.oschina.net/u/3367404/blog/3007447" target="_blank" title="Linux—CentOS7.4-DNS一（搭建DNS服务器）">
+                                    <img src="./MySQL单机多实例方案 - 天天顺利的个人空间 - 开源中国_files/9594a6b69459dce10b655d43c5b60184.jpg" alt="" data-img-render="" style="width: 100%; height: auto;">
+                                </a>
+                            </div>
+                                            </div>
+                                                                                    <div class="item blog-item">
+                        <div class="content">
+                            <a class="header" href="https://my.oschina.net/u/3862440/blog/3007442" target="_blank" title="rhel 7安装oracle 11gr2 rac 遇到的问题">rhel 7安装oracle 11gr2 rac 遇到的问题</a>
+                            <div class="description">
+                                <p class="line-clamp">rhel7 安装11g r2 rac的方法跟之前的还是有很大的区别，以至于遇到很多坑，这里汇总下： 1、共享磁盘udev 绑定方式 这个跟rhel7 之前的版本不一样，特别是磁盘uuid命令方式变化了很多，udev启...</p>
+                            </div>
+                            <div class="extra">
+                                <div class="ui horizontal list">
+                                    <div class="item">hnairdb</div>
+                                    <div class="item">20分钟前</div>
+
+                                    <div class="item"><i class="eye icon"></i> 0</div>
+                                    <div class="item"><i class="comment outline icon"></i> 0</div>
+                                                                    </div>
+                            </div>
+                        </div>
+                                                                    </div>
+                                                                                    <div class="item blog-item">
+                        <div class="content">
+                            <a class="header" href="https://my.oschina.net/u/3777515/blog/3007436" target="_blank" title="告诉你如何回答&quot;线上CPU100%排查&quot;面试问题">告诉你如何回答"线上CPU100%排查"面试问题</a>
+                            <div class="description">
+                                <p class="line-clamp">引言 不知道在大家面试中，有没有遇到这个问题： 生产服务器上部署了几个java程序，突然出现了CPU100%的异常告警，你如何定位出问题呢？ 这个问题分为两版回答！ 高调版 对不起，我是做研发的...</p>
+                            </div>
+                            <div class="extra">
+                                <div class="ui horizontal list">
+                                    <div class="item">moon888</div>
+                                    <div class="item">29分钟前</div>
+
+                                    <div class="item"><i class="eye icon"></i> 0</div>
+                                    <div class="item"><i class="comment outline icon"></i> 0</div>
+                                                                    </div>
+                            </div>
+                        </div>
+                                                                    </div>
+                                        </div>
+    <div class="page-load-status">
+        <p class="infinite-scroll-request">
+            <i class="ui active small inline loader" style="display: none"></i>
+        </p>
+        <p class="infinite-scroll-last">没有更多内容</p>
+        <p class="infinite-scroll-error">加载失败，请刷新页面</p>
+    </div>
+    <a class="ui fluid button load-more-button">加载更多</a>
+                <p class="pagination">
+            <a class="news-pagination pagination__next" style="display: none" href="https://my.oschina.net/u/658658/blog/widgets/_blog_detail_list_news?p=2&amp;type=ajax">下一页</a>
+        </p>
+                    </div>
+            </div>
+        </div>
+        <div class="two wide computer only column">
+                        <div class="ad-wrap">
+                                </div>
+                    </div>
+    </div>
+</div>
+
+
+<div class="ui mini delete-blog modal">
+    <div class="header">删除文章</div>
+    <div class="content">
+        <p>文章删除后无法恢复，确定取消删除此文章吗？</p>
+    </div>
+    <div class="actions">
+        <div class="ui cancel button">取消</div>
+        <div class="ui red ok button">确定</div>
+    </div>
+</div>
+<div class="ui mini recommend-self modal">
+    <div class="header">自荐文章</div>
+    <div class="content">
+        <p>亲，自荐的博客将通过私信方式通知管理员，优秀的博客文章审核通过后将在博客推荐列表中显示</p>
+    </div>
+    <div class="actions">
+        <div class="ui cancel button">取消</div>
+        <div class="ui red ok button">确定</div>
+    </div>
+</div>
+<div class="ui mini recommend-blog modal">
+    <div class="header">推荐文章</div>
+    <div class="content">
+        <p>确定推荐此文章吗？</p>
+    </div>
+    <div class="actions">
+        <div class="ui cancel button">取消</div>
+        <div class="ui green ok button">确定</div>
+    </div>
+</div>
+<div class="ui mini recommend-author modal">
+    <div class="header">推荐博主</div>
+    <div class="content">
+        <p>确定推荐此博主吗？</p>
+    </div>
+    <div class="actions">
+        <div class="ui cancel button">取消</div>
+        <div class="ui green ok button">确定</div>
+    </div>
+</div>
+
+<script type="text/javascript" src="./MySQL单机多实例方案 - 天天顺利的个人空间 - 开源中国_files/blog" defer="defer"></script>
+<script type="text/javascript" src="./MySQL单机多实例方案 - 天天顺利的个人空间 - 开源中国_files/space"></script>
+
+<script>
+    // 百度分享
+    window._bd_share_config = {
+        common : {
+            bdText : 'MySQL单机多实例方案 - 天天顺利的个人空间 - 开源中国',
+            bdDesc : 'MySQL单机多实例方案',
+            bdUrl  : 'https://my.oschina.net/u/658658/blog/415226',
+            bdPic  : ''
+        },
+        share : [{
+            bdSize : 16
+        }]
+    };
+    with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='https://static.oschina.net/new-osc/js/utils/plugins/bdshare_api/share.js?v='+~(-new Date()/36e5)];
+</script>
+                        <div name="detail_show_footer" data-traceid="detail_show" data-tracepid="detail_show_footer">
+                <style>
+    .float-adbox {display:none;position:fixed;left:15px;bottom:15px;z-index: 10001;}
+    .float-adbox .float-people {width: 180px;}
+    .float-adbox .close-left {position:absolute;top:10px;left:10px;cursor:pointer;}
+</style>
+<div class="float-adbox" style="display: block;">
+    <a href="https://gitee.com/gitee-stars/13?from=osc-gj" target="_blank">
+        <img alt="13_float_left_people" class="float-people" src="./MySQL单机多实例方案 - 天天顺利的个人空间 - 开源中国_files/86fd87c8d49b94194d2873ab971b6d1a168.jpg">
+        <img alt="13_float_left_close" class="close-left" src="./MySQL单机多实例方案 - 天天顺利的个人空间 - 开源中国_files/969618cc4eaaff952fc3d03a00d6e85cfdf.jpg">
+    </a>
+</div>
+<!-- <script src="https://www.oschina.net/public/bower_components/jquery/dist/jquery.min.js"></script> -->
+<script src="./MySQL单机多实例方案 - 天天顺利的个人空间 - 开源中国_files/js.cookie.min.js.下载"></script>
+<script>
+    (function () {
+        function loadScript(src, callback) {
+            var script = document.createElement('script'),
+                head = document.getElementsByTagName('head')[0];
+            script.type = 'text/javascript';
+            script.charset = 'UTF-8';
+            script.src = src;
+            if (script.addEventListener) {
+                script.addEventListener('load', function () {
+                    callback();
+                }, false);
+            } else if (script.attachEvent) {
+                script.attachEvent('onreadystatechange', function () {
+                    var target = window.event.srcElement;
+                    if (target.readyState == 'loaded') {
+                        callback();
+                    }
+                });
+            }
+            head.appendChild(script);
+        }
+        function loadAd() {
+            var leftPeople = $('.float-adbox');
+            var cookieName = 'visit-gitee-stars-bts-13-190108';
+            var isVisit = Cookies.get(cookieName);
+            if (isVisit == 1) {
+                leftPeople.hide();
+            } else {
+                leftPeople.show();
+            }
+            $('.close-left').on('click', function (e) {
+                e.preventDefault();
+                Cookies.set(cookieName, 1, { expires: 90, path: '/' });
+                leftPeople.slideUp();
+            });
+        }
+        if (window.jQuery) {
+            loadAd();
+        } else {
+            loadScript('https://www.oschina.net/public/bower_components/jquery/dist/jquery.min.js', function () {
+                loadAd();
+            });
+        }
+    })();
+</script>
+
+            </div>
+            
+            </div>
+        </div>
+
+                <div id="footer" class="ui vertical footer segment mb-hide">
+    <div class="ui container">
+        <div class="ui grid">
+            <div class="eight wide mobile four wide tablet four wide computer column">
+                <h4 class="ui header">开源中国社区</h4>
+                <div class="ui link list">
+                    <a class="item" href="https://www.oschina.net/home/aboutosc" target="_blank">关于我们</a>
+                    <a class="item" href="https://www.oschina.net/home/aboutosc" target="_blank">联系我们</a>
+                    <a class="item" href="https://www.oschina.net/home/aboutosc#partners#" target="_blank">合作伙伴</a>
+                    <a class="item" href="https://www.oschina.net/openapi" target="_blank">Open API</a>
+                </div>
+            </div>
+            <div class="eight wide mobile four wide tablet four wide computer column">
+                <h4 class="ui header">在线工具</h4>
+                <div class="ui link list">
+                    <a class="item" href="https://gitee.com/?from=osc-bottom" target="_blank">码云 Gitee.com</a>
+                    <a class="item" href="https://gitee.com/enterprises?from=osc-bottom" target="_blank">企业研发管理</a>
+                    <a class="item" href="https://copycat.gitee.com/?from=osc-bottom" target="_blank">CopyCat-代码克隆检测</a>
+                    <a class="item" href="https://tool.oschina.net/" target="_blank">实用在线工具</a>
+                </div>
+            </div>
+            <div class="center aligned eight wide mobile two wide tablet two wide computer column">
+                <h4 class="ui header">微信公众号</h4>
+                <img src="./MySQL单机多实例方案 - 天天顺利的个人空间 - 开源中国_files/wechat_qrcode.jpg" alt="微信公众号">
+            </div>
+            <div class="center aligned eight wide mobile six wide tablet six wide computer column">
+                <h3 class="ui header">开源中国 APP</h3>
+                <p>聚合全网技术文章，根据你的阅读喜好进行个性推荐</p>
+                <a href="https://www.oschina.net/app" target="_blank" class="ui large primary button">下载 APP</a>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="copyright">
+    <div class="ui container">
+        <div class="ui clearing basic segment">
+            <div class="ui left floated horizontal link list">
+                <div class="item">©开源中国(OSChina.NET)</div>
+                <div class="item mb-hide">工信部</div>
+                <a class="item mb-hide" href="http://www.copu.org.cn/" target="_blank" title="开源软件推进联盟">开源软件推进联盟</a>
+                <div class="item mb-hide">指定官方社区</div>
+            </div>
+            <div class="ui right floated horizontal link list">
+                <div class="item mb-hide">深圳市奥思网络科技有限公司版权所有</div>
+                <a href="http://www.miitbeian.gov.cn/" target="_blank" class="item">粤ICP备12009483号-3</a>
+            </div>
+        </div>
+    </div>
+</div>    </div>
+                                                        <div class="back-to-top back-to-top-toggle" style="display: block;">
+        <div class="icon"><img src="./MySQL单机多实例方案 - 天天顺利的个人空间 - 开源中国_files/back-to-top.svg" alt="返回顶部"></div>
+        <div class="text">顶部</div>
+    </div>
+
+        <script src="./MySQL单机多实例方案 - 天天顺利的个人空间 - 开源中国_files/semantic.min.js.下载"></script>
+    <script src="./MySQL单机多实例方案 - 天天顺利的个人空间 - 开源中国_files/jweixin-1.2.0.js.下载"></script>
+                <script type="text/javascript" src="./MySQL单机多实例方案 - 天天顺利的个人空间 - 开源中国_files/space.ac70a291.js.下载"></script>                <script>
+    (function(){
+        var bp = document.createElement('script');
+        var curProtocol = window.location.protocol.split(':')[0];
+        if (curProtocol === 'https'){
+            bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+        }
+        else{
+            bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+        }
+        var s = document.getElementsByTagName("script")[0];
+        s.parentNode.insertBefore(bp, s);
+    })();
+</script>
+<script>
+    var _hmt = _hmt || [];
+    (function() {
+        var hm = document.createElement("script");
+        hm.src = "https://hm.baidu.com/hm.js?cb47adfe0fabd7059a2a90a495077efe";
+        var s = document.getElementsByTagName("script")[0];
+        s.parentNode.insertBefore(hm, s);
+    })();
+</script>
+    
+
+<!-- Generated by oschina (init:1[ms],page:221[ms],ip:58.214.215.145) //--><div id="yhqhadin" style="display:none;"></div></body></html>

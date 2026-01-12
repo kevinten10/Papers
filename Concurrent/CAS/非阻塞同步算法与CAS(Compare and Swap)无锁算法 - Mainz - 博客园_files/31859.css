@@ -1,0 +1,237 @@
+#about_body p{line-height:22px;}
+#tbCommentBody{height:120px;
+    border: 1px solid #C1C1C1;
+    border-radius: 4px 4px 4px 4px;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.16) inset;
+    padding:10px;
+}
+#tbCommentBody:focus{
+  border-color:rgba(82,168,236,0.75) !important;
+  box-shadow: 0 0 8px rgba(82,168,236,0.5);
+}
+#btn_comment_submit{
+      padding: 6px 20px;
+      color: white;
+      background: #3B8EDB;
+      border: none;
+      font-size: 12px;
+      font-family: Arial;
+      -webkit-box-align: center;
+      text-align: center;
+      box-sizing: border-box;
+      -webkit-appearance: push-button;
+      white-space: pre;
+      -webkit-border-radius: 4px;
+      -moz-border-radius: 4px;
+      -moz-box-shadow: 0 1px 0 white;
+      cursor: pointer;
+      -moz-box-shadow:0 2px 0 rgba(0,0,0,0.3);
+      -webkit-box-shadow:0 2px 0 rgba(0,0,0,0.3);
+      box-shadow:0 2px 0 rgba(0,0,0,0.3);
+}
+#btn_comment_submit:hover{background-color: #A82400;}
+.post{padding:6px 30px 20px 30px;}
+.c_b_p_desc{text-indent:0;font-weight:normal;font-size:14px;}
+.postTitle{font-weight:normal;border:0 none;}
+#main .post,.postText,.postTitle {font-family: 'Open Sans', Arial, 'Hiragino Sans GB', 'Microsoft YaHei';font-size:18px;line-height:28px;color:#747f8c;}
+.postText{color:#333332;}
+#cnblogs_post_body ol li {font-size: 0.8em;}
+#cnblogs_post_body ul li,#cnblogs_post_body ul li span{font-size:16px;}
+#main .post h5{font-weight:normal;margin:10px 0;}
+#main > h2,#myposts > h3{font-size:26px;font-weight:normal; color: #888;}
+#main > h2{margin-left:30px;}
+#main .post .postfoot{color:#ccc;}
+.postText p{padding-bottom:10px;}
+#header{box-shadow: 0 0 12px #000;height:58px;background:#747f8c;margin-bottom:4px;z-index: 9998;overflow:hidden;width: 100%;left: 0;top: 0; display:block; }
+#header h1{background:none no-repeat scroll 0 0 transparent;border-bottom:0 none;padding-bottom:20px;padding-top:15px;}
+#Header1_HeaderTitle{color:#7bb2d6;font-size:20px;text-shadow:0px 2px 3px #111;font-family:"Lucida Grande","Lucida Sans Unicode",Arial,Helvetica,Sans,FreeSans,Jamrul,Garuda;font-weight:200;} 
+#main .post h2 a{
+  font-size: 24px;
+  font-weight: normal;
+  line-height: 1em;
+  text-shadow: 1px 1px 0 #FFFFFF;
+  word-spacing: -1px;
+  font-family: "Lucida Grande",Helvetica,Arial,Verdana,sans-serif;
+  color:#33333332;
+}
+.blog_comment_body {
+margin-bottom: 10px;
+margin-top: 20px;
+font-size: 20px;
+}
+#main .post h2{margin-bottom: 30px;
+	background:url('//images.cnblogs.com/cnblogs_com/libaoheng/305804/o_br229512.link(en-us,MSDN.10).gif') no-repeat 0 2px;
+    padding-left:30px;padding-bottom:20px;border-bottom: 1px solid #eee;}
+#tagline{color:gray;font-size:11px;font-family:Verdana,Geneva,Arial,Helvetica,sans-serif;top:20px;}
+#header h1 a:hover{color:white;text-shadow:0px 2px 3px #111;}
+#rightmenu{padding-top: 38px;right:80px;}
+#rightmenu h3,p.date,#profile_block{color:#38485a}
+#rightmenu h3{font-weight:normal;border-bottom:none;}
+p.date{border-bottom: 1px solid #e6eaed;color:gray;font-weight:normal;}
+#main{border-right:none;margin-top:22px;left:60px;background-color:transparent;right:405px;}
+.tagcloud a:link,.tagcloud a:visited{color:#ccc;}
+.tagcloud a:hover{color:#51aded;}
+.tagcloud  {
+    -moz-border-bottom-colors: none;
+    -moz-border-image: none;
+    -moz-border-left-colors: none;
+    -moz-border-right-colors: none;
+    -moz-border-top-colors: none;
+   /* background: -moz-linear-gradient(270deg, #FCFCFC, #d7d7d7) repeat scroll 0 0 transparent;
+    background:-webkit-gradient(linear, 0 0, 0 bottom, from(#FCFCFC), to(#D7D7D7)); 
+    border-color: #E9E9E9 #E9E9E9 #F5F5F5;
+    border-radius: 5px 5px 5px 5px;
+    border-style: solid;
+    border-width: 0 1px 1px 1px;
+    box-shadow: 0 1px 1px rgba(0, 0, 0, 0.2);
+    text-shadow: 1px 1px 0 #FFFFFF;*/
+    padding: 15px;
+    color:#747f8c;
+   /*A subtle gradient in the background can improve the final aesthetics.*/
+    background: linear-gradient(to bottom, #f7f7f7 0%,#ffffff 100%);
+    
+    /*A hidden overflow is required in order to hide the :after element and only show it's shadow.*/
+    overflow: hidden;
+    
+    position: relative;
+    box-shadow: 0 1px 0 rgba(0,0,0,0.03) inset;
+}
+.tagcloud:after{
+    width: 100%;
+    height: 8px;
+    content: "";
+    
+    position: absolute;
+    left: 0;
+    top: -10px;
+    
+    /*This is where the magic happens: by using two border-radii, we can draw an ellipse. Play around with these values and see how this modifies the rendering.*/
+    border-radius: 520px / 8px;
+    box-shadow: 0 0 12px rgba(0,0,0,0.4);
+}
+#cbtn{
+ margin-top:100px; position:fixed; bottom:150px; right:7px; width:33px;
+ height:24px;}
+#gototop{position:fixed;bottom:80px;right:15px;width:25px;height:25px;z-index:18;}
+#gotosearch{position:fixed;bottom:115px;right:15px;width:25px;height:25px;z-index:18;}
+#gotocomments{position:fixed;bottom:40px;right:10px;width:35px;height:35px;z-index:18;}
+#comments h4{padding-bottom:10px;border-bottom:
+1px solid #EDEFF0;font-weight:normal;margin-top:40px;}
+/* #comments p{
+   padding: 20px 10px 20px 39px;
+   margin:10px 0 100px 0;
+    font-family: Verdana;
+    font-size: 16px;
+    line-height: 28px;
+    color:#555;
+   background:url(//images.cnblogs.com/cnblogs_com/Mainz/299977/o_left.gif) no-repeat scroll 0 0 transparent;
+}*/
+.comment_quote {
+  padding:5px;margin-left:30px;border:0 none;border-left: 2px solid #E0E3E9;
+}
+#cnblogs_post_body p {font-size:0.8em;}
+ #cnblogs_post_body h4 {
+    background-color: #51aded; 
+border-radius: 6px 6px 6px 6px;
+    box-shadow: 0 0 0 1px #ccd, 1px 1px 6px 1px rgba(10, 10, 0, 0.5);
+    color: #fff;
+    font-weight:normal;
+    font-size: 18px;
+    padding:10px;
+    line-height: 28px;
+    margin-bottom: 1.5em;
+    text-shadow: 2px 2px 3px #222222;
+}
+#commentform_title {color:black;font-weight:bold;font-size:14px;}
+#cnblogs_post_body a:visited,#cnblogs_post_body a:link{color:#51aded;text-decoration:underline;}
+#cnblogs_post_body a:hover{color:#FF4B33;}
+#comments h3{font-size: 22px;line-height: 42px;border-bottom:0 none;}
+#m_links li {float:left;margin-right:10px;}
+#author_profile .author_avatar {
+  border: 1px solid white;
+  box-shadow: #333 1px 1px 5px;
+  -moz-box-shadow: #333 1px 1px 5px;
+  -webkit-box-shadow: #333 1px 1px 5px;
+  padding:0;
+  margin-right:20px;
+}
+
+.tagcloud{margin-bottom:20px;}
+/*
+#MySignature{
+  border: 1px solid #999;
+  -webkit-box-shadow: 0 0 5px #666;
+  box-shadow: 0 0 5px #666;
+  background-color:#F5F5F5;
+}*/
+#comments h4 a {color: #CCC;margin-right: 5px;}
+#tagline a{color:#bababa;}
+#rightmenu li.recent_comment_body,#rightmenu li.recent_comment_author{color:#bbb;}
+body{font-family: 'Open Sans', Arial, 'Hiragino Sans GB', 'Microsoft YaHei';}
+.box embed{height:1px;}
+a:visited, a:active, a:link {color: #51aded;text-decoration: none;}
+a:hover{text-decoration: underline;}
+/*#main .post h2{background-color:#b0b2be; padding:10px;}*/
+ul#styles{margin-top:10px} 
+ul#styles li{float:left; width:5px; height:5px; line-height:5px; padding:2px;-moz-border-radius: 4px;-webkit-border-radius: 4px;border-radius:4px;  
+margin-left:0px; border:medium none; text-align:center; overflow:hidden; color:#fff; cursor:pointer} 
+ul#styles li#default{background-color:#6994B0;} 
+ul#styles li#gray{background-color:#545867} 
+ul#styles li#dark_blue{background-color:#10577D} 
+ul#styles li#light_blue{background-color:#578AA6} 
+ul#styles li#black{background-color:#030303} 
+ul#styles li#red{background-color:#B02121} 
+ul#styles li#dark_green{background-color:#6A946C} 
+ul#styles li#grass_green{background-color:#81922A} 
+#custom_nav {
+position: absolute;
+top: 15px;list-style: none;
+left: 380px;
+margin: 0 0 0 20px;
+padding: 2px 0 0 0;
+color: #777;
+}
+
+#custom_nav li {
+float: left;
+margin: 0 4px 0 0;
+display: list-item;
+font-size: 12px;
+line-height: 1;
+color: #777;
+}
+#custom_nav li a{color:#7BB2D6;display: block;padding: 6px 10px 7px 10px;}
+#custom_nav li a:hover{border-radius: 6px 6px 6px 6px; color: #FFFFFF;background-color:#777;text-decoration: none;}
+
+/*waterfall*/
+
+.column {
+    display: inline-block;
+    vertical-align: top;
+}
+.pic_a {
+    background-color: #FFFFFF;
+    display: block;
+    margin-bottom: 10px;
+    margin-right: 10px;
+    padding: 5px;
+    text-decoration: none;
+    -webkit-transition: opacity .4s ease-in-out;
+    -moz-transition: opacity .4s ease-in-out;
+    -o-transition: opacity .4s ease-in-out;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, .3);
+    -moz-box-shadow: 0 1px 3px rgba(0,0,0,.3);
+    -webkit-box-shadow: 0 1px 3px rgba(0, 0, 0, .3);
+    border-radius: 4px;
+}
+
+.pic_a img {
+    border: 0 none;
+    display: block;
+    margin: 0 auto 5px;
+    vertical-align: bottom;
+}
+.pic_a strong {
+    color: #333333;text-decoration:none;
+}
+.postFoot{border:0 none;}
