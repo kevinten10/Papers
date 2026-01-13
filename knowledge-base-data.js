@@ -1,4 +1,4 @@
-// 知识库数据结构 - 自动生成于 2026-01-12T16:59:24.023Z
+// 知识库数据结构 - 自动生成于 2026-01-13T03:30:38.615Z
 // 使用 generate-index.js 生成，请勿手动修改
 
 const knowledgeBase = {
@@ -773,9 +773,9 @@ const knowledgeBase = {
         "icon": "📄",
         "children": {
             "README.md": {
-                "title": "人脉资源管理",
-                "description": "本目录包含各类人脉资源对接和管理相关文档。",
-                "readTime": 4,
+                "title": "人脉与社交资源管理",
+                "description": "本目录包含商业人脉对接、校友资源管理以及互联网职场社交经验相关文档。",
+                "readTime": 7,
                 "tags": [
                     "人脉"
                 ],
@@ -784,8 +784,8 @@ const knowledgeBase = {
             },
             "互联网职场社交指南.md": {
                 "title": "互联网职场社交指南",
-                "description": "",
-                "readTime": 1,
+                "description": "1. **扁平化管理**: 层级少，沟通直接",
+                "readTime": 7,
                 "tags": [
                     "人脉"
                 ],
@@ -794,8 +794,8 @@ const knowledgeBase = {
             },
             "前领导关系维护指南.md": {
                 "title": "前领导关系维护指南",
-                "description": "",
-                "readTime": 1,
+                "description": "1. **职业跳槽**: 前领导是最佳的推荐人",
+                "readTime": 7,
                 "tags": [
                     "人脉"
                 ],
@@ -844,8 +844,8 @@ const knowledgeBase = {
             },
             "职场沟通协作指南.md": {
                 "title": "职场沟通协作指南",
-                "description": "",
-                "readTime": 1,
+                "description": "\"王总，昨天的任务完成了80%，今天继续优化性能。",
+                "readTime": 7,
                 "tags": [
                     "人脉"
                 ],
@@ -854,8 +854,8 @@ const knowledgeBase = {
             },
             "职场社交经验汇总.md": {
                 "title": "职场社交经验汇总",
-                "description": "",
-                "readTime": 1,
+                "description": "本汇总包含互联网行业职场社交的完整指南，涵盖前领导关系维护、上下级沟通、跨部门协作、人脉建设等核心领域。",
+                "readTime": 6,
                 "tags": [
                     "人脉"
                 ],
@@ -1006,6 +1006,16 @@ const knowledgeBase = {
                         ],
                         "path": "持续交卷/公众号文章/202601/2026-01-12-公众号.md",
                         "type": "markdown"
+                    },
+                    "2026-01-13-公众号.md": {
+                        "title": "2026-01-13 - 技术学习综合日报",
+                        "description": "title: 2026-01-13 - 技术学习综合日报",
+                        "readTime": 21,
+                        "tags": [
+                            "202601"
+                        ],
+                        "path": "持续交卷/公众号文章/202601/2026-01-13-公众号.md",
+                        "type": "markdown"
                     }
                 }
             },
@@ -1072,6 +1082,16 @@ const knowledgeBase = {
                         ],
                         "path": "持续交卷/算法/202601/0112-八股.md",
                         "type": "markdown"
+                    },
+                    "0113-八股.md": {
+                        "title": "Java并发",
+                        "description": "多线程环境下线程不安全问题的根本原因是Java内存模型（JMM）中的三大特性没有得到保证：",
+                        "readTime": 17,
+                        "tags": [
+                            "202601"
+                        ],
+                        "path": "持续交卷/算法/202601/0113-八股.md",
+                        "type": "markdown"
                     }
                 },
                 "rule.md": {
@@ -1127,6 +1147,16 @@ const knowledgeBase = {
                             "202601"
                         ],
                         "path": "持续交卷/英语资讯/202601/0112-EN.md",
+                        "type": "markdown"
+                    },
+                    "0113-EN.md": {
+                        "title": "EN",
+                        "description": "microservice 微服务",
+                        "readTime": 1,
+                        "tags": [
+                            "202601"
+                        ],
+                        "path": "持续交卷/英语资讯/202601/0113-EN.md",
                         "type": "markdown"
                     }
                 },
@@ -1191,6 +1221,16 @@ const knowledgeBase = {
                             "202601"
                         ],
                         "path": "持续交卷/阅读笔记/202601/0112-资讯.md",
+                        "type": "markdown"
+                    },
+                    "0113-资讯.md": {
+                        "title": "创业调研",
+                        "description": "大部分企业将AI嵌入既有流程，而不是购买全新软件",
+                        "readTime": 8,
+                        "tags": [
+                            "202601"
+                        ],
+                        "path": "持续交卷/阅读笔记/202601/0113-资讯.md",
                         "type": "markdown"
                     }
                 },
