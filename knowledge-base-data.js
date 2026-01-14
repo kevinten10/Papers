@@ -1,4 +1,4 @@
-// 知识库数据结构 - 自动生成于 2026-01-13T03:30:38.615Z
+// 知识库数据结构 - 自动生成于 2026-01-14T15:27:29.277Z
 // 使用 generate-index.js 生成，请勿手动修改
 
 const knowledgeBase = {
@@ -922,6 +922,17 @@ const knowledgeBase = {
                         ],
                         "path": "持续交卷/AI原理/202601/0112-AI.md",
                         "type": "markdown"
+                    },
+                    "0114-AI.md": {
+                        "title": "唐杰/杨植麟/林俊旸/姚顺雨罕见同台，“基模四杰”开聊中国AGI",
+                        "description": "https://mp.weixin.qq.com/s/IToXOrPJ-fi3B3sJQuxLpQ",
+                        "readTime": 2,
+                        "tags": [
+                            "202601",
+                            "AI"
+                        ],
+                        "path": "持续交卷/AI原理/202601/0114-AI.md",
+                        "type": "markdown"
                     }
                 },
                 "rule.md": {
@@ -1016,6 +1027,16 @@ const knowledgeBase = {
                         ],
                         "path": "持续交卷/公众号文章/202601/2026-01-13-公众号.md",
                         "type": "markdown"
+                    },
+                    "2026-01-14-公众号.md": {
+                        "title": "2026-01-14 - 技术学习综合日报",
+                        "description": "title: 2026-01-14 - 技术学习综合日报",
+                        "readTime": 19,
+                        "tags": [
+                            "202601"
+                        ],
+                        "path": "持续交卷/公众号文章/202601/2026-01-14-公众号.md",
+                        "type": "markdown"
                     }
                 }
             },
@@ -1092,6 +1113,16 @@ const knowledgeBase = {
                         ],
                         "path": "持续交卷/算法/202601/0113-八股.md",
                         "type": "markdown"
+                    },
+                    "0114-八股.md": {
+                        "title": "数据库",
+                        "description": "- **典型结构**：根节点 -> 中间节点(可选) -> 叶子节点",
+                        "readTime": 11,
+                        "tags": [
+                            "202601"
+                        ],
+                        "path": "持续交卷/算法/202601/0114-八股.md",
+                        "type": "markdown"
                     }
                 },
                 "rule.md": {
@@ -1157,6 +1188,46 @@ const knowledgeBase = {
                             "202601"
                         ],
                         "path": "持续交卷/英语资讯/202601/0113-EN.md",
+                        "type": "markdown"
+                    },
+                    "0114-EN.md": {
+                        "title": "EN",
+                        "description": "programmer 程序员",
+                        "readTime": 1,
+                        "tags": [
+                            "202601"
+                        ],
+                        "path": "持续交卷/英语资讯/202601/0114-EN.md",
+                        "type": "markdown"
+                    },
+                    "0114-单词学习.md": {
+                        "title": "单词学习笔记 - 2026年1月14日",
+                        "description": "**efficient**, enhance, exceeds, threshold",
+                        "readTime": 7,
+                        "tags": [
+                            "202601"
+                        ],
+                        "path": "持续交卷/英语资讯/202601/0114-单词学习.md",
+                        "type": "markdown"
+                    },
+                    "0114-复杂单词解释.md": {
+                        "title": "复杂单词详细解释 - 2026年1月14日",
+                        "description": "基于句子：*Our system will experience sudden traffic spikes, causing downstream systems to face sharply increased pressure, because Java applications start...",
+                        "readTime": 16,
+                        "tags": [
+                            "202601"
+                        ],
+                        "path": "持续交卷/英语资讯/202601/0114-复杂单词解释.md",
+                        "type": "markdown"
+                    },
+                    "0114-翻译练习.md": {
+                        "title": "英文翻译练习 - 2026年1月14日",
+                        "description": "我们的系统会有突增流量，造成下游系统压力陡增，因为java应用启动缓存，从而导致超时问题。",
+                        "readTime": 4,
+                        "tags": [
+                            "202601"
+                        ],
+                        "path": "持续交卷/英语资讯/202601/0114-翻译练习.md",
                         "type": "markdown"
                     }
                 },
@@ -1231,6 +1302,16 @@ const knowledgeBase = {
                             "202601"
                         ],
                         "path": "持续交卷/阅读笔记/202601/0113-资讯.md",
+                        "type": "markdown"
+                    },
+                    "0114-资讯.md": {
+                        "title": "AI",
+                        "description": "Baichuan-M3，在问诊能力、医疗幻觉控制等评测中排名第一，超越openai-5.2和人类医生",
+                        "readTime": 2,
+                        "tags": [
+                            "202601"
+                        ],
+                        "path": "持续交卷/阅读笔记/202601/0114-资讯.md",
                         "type": "markdown"
                     }
                 },
