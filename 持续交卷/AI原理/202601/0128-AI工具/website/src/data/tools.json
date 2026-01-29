@@ -1,0 +1,954 @@
+[
+  {
+    "id": "cursor",
+    "name": "Cursor",
+    "category": "IDE",
+    "developer": "Anysphere",
+    "versions": [
+      {
+        "type": "Global",
+        "pricing": "订阅制 ($20/mo)",
+        "models": "Composer-1 (Claude 3.5), GPT-4o, o1",
+        "link": "https://cursor.sh"
+      }
+    ],
+    "pros": [
+      "业内标杆，功能最全",
+      "Composer-1 模式多文件协同极强",
+      "Tab 补全极其流畅",
+      "支持本地知识库/Repo Index"
+    ],
+    "cons": ["价格昂贵 ($20/mo 起)", "国内访问偶尔需要网络环境优化", "计费模型变动频繁"],
+    "best_for": "日常主力开发、复杂架构重构与高频编码场景",
+    "fun_ranking": "夯",
+    "personal_experience": {
+      "rating": 5,
+      "insights": "目前最成熟的 AI 原生 IDE。Composer-1 带来的跨文件重构能力是其护城河。建议作为‘主 IDE’使用。",
+      "pitfalls": [
+        "不要让它一次性修改超过 10 个文件，容易出现逻辑漂移。",
+        "注意隐私策略，敏感项目建议关闭云端索引。"
+      ]
+    },
+    "swot": {
+      "S": "全流程开发辅助能力一流，生态位稳固",
+      "W": "订阅成本高，对大仓库索引偶尔占内存",
+      "O": "逐步演进为代码自治 Agent (Composer 进化)",
+      "T": "字节 Trae 与 GitHub Copilot Workspace 的激烈竞争"
+    },
+    "tags": ["推荐", "VS Code 系", "Agentic", "行业标杆"]
+  },
+  {
+    "id": "trae",
+    "name": "Trae",
+    "category": "IDE",
+    "developer": "字节跳动",
+    "versions": [
+      {
+        "type": "CN",
+        "pricing": "免费 (预览版)",
+        "models": "豆包 (Doubao), DeepSeek R1/V3",
+        "link": "https://trae.cn"
+      },
+      {
+        "type": "Global",
+        "pricing": "订阅制 ($20/mo)",
+        "models": "Claude 3.5, GPT-4o",
+        "link": "https://trae.sh"
+      }
+    ],
+    "pros": [
+      "Cursor 的强力平替",
+      "Solo 模式构建原型速度极快",
+      "国内版访问极速且免费",
+      "实时跟踪调试 (Solo) 体验好"
+    ],
+    "cons": ["预览版功能迭代快，偶有不稳", "生态插件丰富度略逊于 VS Code"],
+    "best_for": "快速原型验证 (MVP)、全栈开发与国内环境优先场景",
+    "fun_ranking": "夯",
+    "personal_experience": {
+      "rating": 4.5,
+      "insights": "写轻量级应用/原型时的首选。Solo 模式的‘生成→运行→修’闭环极大地缩短了反馈周期。期待后续与火山引擎的深度集成。",
+      "pitfalls": ["大型存量仓库的理解深度偶尔不及 Cursor。"]
+    },
+    "swot": {
+      "S": "字节背书，中文支持完美，国内版免费",
+      "W": "国际版差异化不明显，品牌认知尚在建立",
+      "O": "深度集成飞书/字节生态，成为国内企业首选",
+      "T": "Cursor 的降价压力与 GitHub Copilot 的市场占有率"
+    },
+    "tags": ["免费", "原型利器", "字节出品", "国产之光"]
+  },
+  {
+    "id": "qoder",
+    "name": "Qoder",
+    "category": "IDE",
+    "developer": "阿里巴巴",
+    "versions": [
+      {
+        "type": "CN",
+        "pricing": "订阅制 (有免费额度)",
+        "models": "通义千问 (Qwen-Coder)",
+        "link": "https://qoder.ai"
+      }
+    ],
+    "pros": ["Repo Wiki 功能极强，适合读代码", "后端逻辑理解深刻", "阿里生态集成好"],
+    "cons": ["补全响应偶尔有延迟", "插件生态较窄"],
+    "best_for": "中大型后端项目开发、存量代码逻辑梳理",
+    "fun_ranking": "稳",
+    "personal_experience": {
+      "rating": 4.5,
+      "insights": "它的 Repo Wiki 是亮点，能帮你快速理清复杂的业务链路。Qwen-Coder 在处理 Java/Go 等后端逻辑时表现优异。",
+      "pitfalls": ["初始化索引时间较长，需要耐心等待。"]
+    },
+    "swot": {
+      "S": "深度理解仓库逻辑，Qwen-Coder 编程能力强",
+      "W": "GUI 交互细腻度有待提升",
+      "O": "成为阿里云开发者生态的核心入口",
+      "T": "字节 Trae 的免费策略冲击"
+    },
+    "tags": ["后端推荐", "阿里出品", "大项目利器"]
+  },
+  {
+    "id": "windsurf",
+    "name": "Windsurf",
+    "category": "IDE",
+    "developer": "Codeium",
+    "versions": [
+      {
+        "type": "Global",
+        "pricing": "订阅制 ($15/mo)",
+        "models": "Cascade AI (SWE-1.5), Claude 3.5",
+        "link": "https://codeium.com/windsurf"
+      }
+    ],
+    "pros": ["Cascade 模式自主性极高", "SWE-1.5 索引速度极快", "价格比 Cursor 更有优势"],
+    "cons": ["界面美观度略逊于 Cursor", "中文支持一般"],
+    "best_for": "追求极致性能与高自主性改动的开发者",
+    "fun_ranking": "夯",
+    "personal_experience": {
+      "rating": 4.5,
+      "insights": "如果你厌倦了 Cursor 的‘卡顿’，Windsurf 的快会让你惊喜。它的 SWE-1.5 Agent 模式非常激进，适合快速重构。",
+      "pitfalls": ["Agent 权限较高，建议开启确认模式，防止大面积误删代码。"]
+    },
+    "swot": {
+      "S": "性能极佳，Agent 执行力强",
+      "W": "品牌知名度暂不如 Cursor",
+      "O": "通过更低的价格吸引 Cursor 存量用户",
+      "T": "大型厂商 (Google/AWS) 原生 IDE 的入场"
+    },
+    "tags": ["极速", "自主代理", "高性价比"]
+  },
+  {
+    "id": "zed",
+    "name": "Zed",
+    "category": "IDE",
+    "developer": "Zed Industries",
+    "used": false,
+    "versions": [
+      {
+        "type": "Global",
+        "pricing": "免费/Pro ($10/mo)",
+        "models": "Claude 3.5, GPT-4o",
+        "link": "https://zed.dev"
+      }
+    ],
+    "pros": ["Rust 编写，快到飞起", "极致简约，无内存负担", "原生支持多人实时协作"],
+    "cons": ["Windows 支持尚在完善", "AI 功能深度不及 Cursor"],
+    "best_for": "追求极致响应速度、讨厌 VS Code 臃肿的开发者",
+    "fun_ranking": "稳",
+    "personal_experience": {
+      "rating": 4,
+      "source": "调研",
+      "insights": "根据社区反馈，它是性能怪兽。如果你在处理几百万行的代码，Zed 的流畅度会让你感动。",
+      "pitfalls": ["插件生态还在建设中，部分 VS Code 常用插件可能缺失。"]
+    },
+    "swot": {
+      "S": "极致性能与多人协同优势",
+      "W": "生态尚浅，Windows 版成熟度一般",
+      "O": "成为高性能编程领域的标准编辑器",
+      "T": "VS Code 不断优化的性能改进"
+    },
+    "tags": ["极致性能", "Rust", "多人协作"]
+  },
+  {
+    "id": "replit",
+    "name": "Replit",
+    "category": "IDE",
+    "developer": "Replit",
+    "used": false,
+    "versions": [
+      {
+        "type": "Global",
+        "pricing": "订阅制 ($15/mo)",
+        "models": "Replit Agent",
+        "link": "https://replit.com"
+      }
+    ],
+    "pros": ["云端全栈开发环境", "一键部署，极其方便", "Agent 自动处理环境配置"],
+    "cons": ["国内访问慢", "不适合大型离线项目"],
+    "best_for": "快速全栈 Demo 演示、初学者练习",
+    "fun_ranking": "中",
+    "personal_experience": {
+      "rating": 4,
+      "source": "调研",
+      "insights": "根据用户反馈，Replit Agent 真的很聪明，它能帮你把一个想法从前端到后端全自动跑通并上线。",
+      "pitfalls": ["云端环境有存储限制，注意清理旧项目。"]
+    },
+    "swot": {
+      "S": "云端闭环体验，部署门槛极低",
+      "W": "本地开发体验较弱",
+      "O": "教育与 MVP 开发市场的统治地位",
+      "T": "GitHub Codespaces 与各厂商 Web IDE"
+    },
+    "tags": ["云端开发", "一键上线", "初学者友好"]
+  },
+  {
+    "id": "codebuddy",
+    "name": "Codebuddy",
+    "category": "IDE",
+    "developer": "腾讯",
+    "versions": [
+      {
+        "type": "CN",
+        "pricing": "便宜/订阅",
+        "models": "混元 (Hunyuan)",
+        "link": "https://codebuddy.tencent.com"
+      }
+    ],
+    "pros": ["与腾讯云轻量级开发环境集成好", "一键便捷部署能力强", "价格便宜"],
+    "cons": ["不支持多会话，效率极低", "优化较差，经常流程中断或失去响应"],
+    "best_for": "仅限完成开发后的简单部署、写技术教程页面",
+    "fun_ranking": "稳",
+    "personal_experience": {
+      "rating": 4,
+      "insights": "虽然对话体验一般，但它的部署能力非常便捷，适合需要快速上线的小型演示项目。",
+      "pitfalls": ["不要尝试在它里面进行复杂的逻辑重构，你会崩溃。"]
+    },
+    "swot": {
+      "S": "腾讯云生态原生集成",
+      "W": "交互设计与稳定性极差",
+      "O": "通过价格战吸引低端市场",
+      "T": "阿里 Qoder 与字节 Trae 的全面降维打击"
+    },
+    "tags": ["便捷部署", "云原生", "低价"]
+  },
+  {
+    "id": "kiro",
+    "name": "Kiro",
+    "category": "IDE",
+    "developer": "未知",
+    "versions": [
+      {
+        "type": "Global",
+        "pricing": "订阅制",
+        "models": "Spec-driven AI",
+        "link": "#"
+      }
+    ],
+    "pros": ["Spec 驱动，理论上规范性强", "适合复杂大型项目的从 0-1 构建"],
+    "cons": ["过于重量级", "生成的 Spec 太重，交付物庞大，不好调试修改"],
+    "best_for": "追求极致规范、大型复杂项目的初始阶段构建",
+    "fun_ranking": "中",
+    "personal_experience": {
+      "rating": 3,
+      "insights": "虽然 Spec 模式比较重，但在处理复杂业务系统的 0-1 架构搭建时，它的规范性确实有一定优势。",
+      "pitfalls": ["小心它生成的数千行冗余 Spec 文件。"]
+    },
+    "swot": {
+      "S": "高度规范化",
+      "W": "灵活性极差，上手门槛极高",
+      "O": "在极少数超大型国企/军工软件场景可能有用",
+      "T": "敏捷开发主流工具的排挤"
+    },
+    "tags": ["重量级", "架构利器", "Spec 驱动"]
+  },
+  {
+    "id": "claude-code",
+    "name": "Claude Code",
+    "category": "CLI",
+    "developer": "Anthropic",
+    "versions": [
+      {
+        "type": "Global",
+        "pricing": "按量计费 (极贵)",
+        "models": "Claude 3.5/4.5",
+        "link": "https://anthropic.com"
+      }
+    ],
+    "pros": ["推理能力天花板", "自主执行 Git/测试/构建任务", "上下文利用率极高"],
+    "cons": ["非常昂贵 (按 Token 计费)", "纯命令行界面，有门槛"],
+    "best_for": "解决极高难度的系统 Bug、大规模重构方案设计",
+    "fun_ranking": "夯",
+    "personal_experience": {
+      "rating": 5,
+      "insights": "当所有 IDE 都修不好的 Bug 出现时，请动用 Claude Code。它是目前最聪明的 AI Agent。只有在关键方案中才会使用。",
+      "pitfalls": ["务必监控 API 消耗，一不留神可能烧掉数十美金。"]
+    },
+    "swot": {
+      "S": "底层模型推理能力业内最强",
+      "W": "使用成本极高，非日常高频工具",
+      "O": "作为企业级‘高级工程师’辅助工具普及",
+      "T": "OpenAI Codex CLI 与 DeepSeek R1 的成本竞争"
+    },
+    "tags": ["高推理", "终端大神", "专业向"]
+  },
+  {
+    "id": "aider",
+    "name": "Aider",
+    "category": "CLI",
+    "developer": "Open Source",
+    "used": false,
+    "versions": [
+      {
+        "type": "Global",
+        "pricing": "开源免费 (自备 Key)",
+        "models": "支持所有主流 LLM",
+        "link": "https://aider.chat"
+      }
+    ],
+    "pros": ["开源界天花板，极其节省 Token", "Git 集成完美", "支持本地 Ollama 部署"],
+    "cons": ["需要自行管理 API Key", "纯命令行，新手不友好"],
+    "best_for": "极客用户、追求成本控制与 Git 流程自动化的开发者",
+    "fun_ranking": "夯",
+    "personal_experience": {
+      "rating": 5,
+      "source": "调研",
+      "insights": "根据社区反馈，Aider + DeepSeek R1 API 是目前性价比最高的编程组合。它的代码映射技术非常省钱。",
+      "pitfalls": ["需要学习它的专有命令，建议阅读 10 分钟文档再上手。"]
+    },
+    "swot": {
+      "S": "开源自由度高，算法优化节省成本",
+      "W": "无 GUI，学习曲线陡峭",
+      "O": "集成到更多 IDE 插件中作为底层引擎",
+      "T": "商业化 Agent (如 Claude Code) 的易用性挑战"
+    },
+    "tags": ["开源巅峰", "极致性价比", "隐私友好"]
+  },
+  {
+    "id": "opencode",
+    "name": "OpenCode",
+    "category": "CLI",
+    "developer": "Open Source",
+    "versions": [
+      {
+        "type": "Global",
+        "pricing": "开源免费",
+        "models": "MiniMax M2.1, GLM-4.7",
+        "link": "https://github.com/OpenCodeInterpreter"
+      }
+    ],
+    "pros": [
+      "支持多供应商集成 (MiniMax, GLM 等)",
+      "自主执行 Shell 与 Git 命令",
+      "深度集成 GitHub 工作流"
+    ],
+    "cons": ["配置门槛较高", "文档相对碎片化"],
+    "best_for": "需要高度定制化 AI Agent 外壳的开发者",
+    "fun_ranking": "稳",
+    "personal_experience": {
+      "rating": 4,
+      "insights": "它是 Aider 的强力竞争者，特别是在支持国产模型 API 方面非常友好。",
+      "pitfalls": ["初次配置多模型环境时可能会遇到依赖冲突。"]
+    },
+    "swot": {
+      "S": "多模型兼容性好，Agent 自治度高",
+      "W": "品牌知名度仍需提升",
+      "O": "成为国产模型出海的首选 CLI 容器",
+      "T": "Claude Code 的性能挤压"
+    },
+    "tags": ["多模型支持", "开源 Agent", "国产友好"]
+  },
+  {
+    "id": "gemini-cli",
+    "name": "Gemini CLI",
+    "category": "CLI",
+    "developer": "Google",
+    "versions": [
+      {
+        "type": "Global",
+        "pricing": "免费 (1000请求/天)",
+        "models": "Gemini 2.5 Pro",
+        "link": "https://github.com/google-gemini/gemini-cli"
+      }
+    ],
+    "pros": [
+      "业界最慷慨的免费额度 (1000/天)",
+      "100万token超长上下文",
+      "内置Google搜索集成",
+      "完全开源 (Apache 2.0)"
+    ],
+    "cons": ["推理能力不如Claude Code", "复杂工程任务规划能力有限"],
+    "best_for": "长上下文资料消化、方案调研、日常高频任务",
+    "fun_ranking": "夯",
+    "personal_experience": {
+      "rating": 4.5,
+      "insights": "免费额度非常充足，适合日常调研和总结。长上下文能力在处理大型文档时很有优势。",
+      "pitfalls": ["高峰期可能响应较慢", "复杂代码重构建议用更强的模型兜底。"]
+    },
+    "swot": {
+      "S": "免费额度业界最高，与Google生态深度集成",
+      "W": "复杂推理任务能力有限",
+      "O": "成为开发者日常CLI工具的标准选择",
+      "T": "其他厂商免费策略的竞争"
+    },
+    "tags": ["免费首选", "长上下文", "Google出品"]
+  },
+  {
+    "id": "qwen-cli",
+    "name": "Qwen CLI",
+    "category": "CLI",
+    "developer": "阿里巴巴",
+    "versions": [
+      {
+        "type": "CN/Global",
+        "pricing": "免费 (2000请求/天)",
+        "models": "Qwen3-Coder (235B)",
+        "link": "https://github.com/QwenLM/qwen-cli"
+      }
+    ],
+    "pros": [
+      "2000请求/天免费额度",
+      "针对中文和代码任务深度优化",
+      "支持连接任何OpenAI兼容API",
+      "可通过OpenRouter使用其他模型"
+    ],
+    "cons": ["默认模型深度推理能力有限", "继承了Gemini CLI的一些UI问题"],
+    "best_for": "中文语境下的日常开发、中小项目辅助",
+    "fun_ranking": "稳",
+    "personal_experience": {
+      "rating": 4,
+      "insights": "中文开发场景下体验很好，免费额度充足。适合日常编码辅助和文档查询。",
+      "pitfalls": ["复杂任务建议切换到更强的模型", "注意免费额度的日常使用节奏。"]
+    },
+    "swot": {
+      "S": "中文优化好，免费额度高，模型选择灵活",
+      "W": "品牌知名度待提升",
+      "O": "成为中文开发者的首选CLI工具",
+      "T": "DeepSeek CLI的竞争"
+    },
+    "tags": ["中文优化", "免费额度高", "阿里出品"]
+  },
+  {
+    "id": "cline",
+    "name": "Cline",
+    "category": "CLI",
+    "developer": "Open Source",
+    "used": false,
+    "versions": [
+      {
+        "type": "Global",
+        "pricing": "开源免费 (自备API Key)",
+        "models": "支持Claude、GPT、本地模型等",
+        "link": "https://github.com/cline/cline"
+      }
+    ],
+    "pros": [
+      "完全开源免费 (Apache 2.0)",
+      "VS Code/JetBrains扩展形式",
+      "支持任意LLM (Claude、OpenAI、本地模型等)",
+      "人在环中的审批系统",
+      "支持MCP创建自定义工具"
+    ],
+    "cons": ["需要自带API密钥", "学习曲线较陡", "配置相对复杂"],
+    "best_for": "VS Code用户希望获得类似Aider的自主能力",
+    "fun_ranking": "稳",
+    "personal_experience": {
+      "rating": 4,
+      "source": "调研",
+      "insights": "根据用户反馈，作为VS Code插件使用很方便，支持多种模型。适合不想离开IDE环境的开发者。",
+      "pitfalls": ["初次配置需要耐心", "建议先阅读文档了解配置方式。"]
+    },
+    "swot": {
+      "S": "开源免费，IDE集成好，模型选择灵活",
+      "W": "配置门槛较高",
+      "O": "成为VS Code生态中最流行的AI编码助手",
+      "T": "GitHub Copilot等商业工具的竞争"
+    },
+    "tags": ["开源免费", "VS Code插件", "多模型支持"]
+  },
+  {
+    "id": "deepseek-family",
+    "name": "DeepSeek 家族",
+    "category": "LLM",
+    "developer": "深度求索",
+    "versions": [
+      {
+        "type": "CN/Global",
+        "pricing": "按量计费 (极低)",
+        "models": "DeepSeek R1, V3",
+        "link": "https://deepseek.com"
+      }
+    ],
+    "pros": ["推理能力比肩 o1，价格仅为百分之一", "对中文语境理解深刻", "完全开源权重"],
+    "cons": ["官方 API 高峰期偶尔不稳定", "Web 端功能较简陋"],
+    "best_for": "硬核逻辑推理、低成本 API 调用、日常搜索资料",
+    "fun_ranking": "夯",
+    "personal_experience": {
+      "rating": 5,
+      "insights": "2025 年的‘价格屠夫’与‘技术黑马’。它是目前所有国产大模型中编程能力最强的。日常主要用于搜索资料和底层算力。",
+      "pitfalls": ["建议通过第三方平台 (如 OpenRouter/火山引擎) 使用其 API 以获得更高稳定性。"]
+    },
+    "swot": {
+      "S": "性价比极致，推理模型架构领先",
+      "W": "算力储备与稳定性仍有提升空间",
+      "O": "通过开源权重统治中小型企业私有化市场",
+      "T": "美国出口限制带来的算力挑战"
+    },
+    "tags": ["国产之光", "极致性价比", "推理强"]
+  },
+  {
+    "id": "gpt-family",
+    "name": "OpenAI GPT 家族",
+    "category": "LLM",
+    "developer": "OpenAI",
+    "versions": [
+      {
+        "type": "Global",
+        "pricing": "订阅制 ($20/mo)",
+        "models": "GPT-4o, o1, o3-mini",
+        "link": "https://openai.com"
+      }
+    ],
+    "pros": ["行业定义者，生态最全", "o1/o3 系列推理能力极强", "API 稳定性全球领先"],
+    "cons": ["价格昂贵", "对国内开发者风控较严"],
+    "best_for": "前沿技术探索、高可靠性生产环境、通用逻辑任务",
+    "fun_ranking": "夯",
+    "personal_experience": {
+      "rating": 5,
+      "insights": "虽然 Claude 3.5 在编程上很强，但 GPT-4o 的全能性和 o1 的深度思考依然是不可替代的。",
+      "pitfalls": ["小心 API 账单，特别是启用 o1 推理模型时。"]
+    },
+    "swot": {
+      "S": "品牌霸主地位，算力与数据优势",
+      "W": "响应速度偶尔不及轻量模型",
+      "O": "通过 Sora 等多模态进一步统治市场",
+      "T": "Anthropic 与 DeepSeek 的双重夹击"
+    },
+    "tags": ["行业鼻祖", "全能王者", "o1 推理"]
+  },
+  {
+    "id": "claude-family",
+    "name": "Anthropic Claude 家族",
+    "category": "LLM",
+    "developer": "Anthropic",
+    "versions": [
+      {
+        "type": "Global",
+        "pricing": "订阅制 ($20/mo)",
+        "models": "Claude 3.5 Sonnet, 4.5",
+        "link": "https://claude.ai"
+      }
+    ],
+    "pros": ["代码审美业内最高", "幻觉率极低", "Artifacts 交互体验极佳"],
+    "cons": ["风控极其严格", "订阅额度较紧"],
+    "best_for": "高难度编码、系统架构设计、前端样式预览",
+    "fun_ranking": "夯",
+    "personal_experience": {
+      "rating": 5,
+      "insights": "写出来的代码最像人写的。Artifacts 预览前端代码的效果目前无敌。",
+      "pitfalls": ["务必使用纯净网络，避免账号被封。"]
+    },
+    "swot": {
+      "S": "编程与逻辑推理能力公认最强",
+      "W": "市场覆盖面不及 OpenAI",
+      "O": "通过更强的代码自治能力差异化竞争",
+      "T": "GPT o-series 的逻辑追赶"
+    },
+    "tags": ["编程最强", "低幻觉", "代码审美"]
+  },
+  {
+    "id": "gemini-family",
+    "name": "Google Gemini 家族",
+    "category": "LLM",
+    "developer": "Google",
+    "versions": [
+      {
+        "type": "Global",
+        "pricing": "免费额度/订阅",
+        "models": "Gemini 1.5 Pro, 2.0 Flash",
+        "link": "https://gemini.google.com"
+      }
+    ],
+    "pros": ["百万级上下文窗口", "2.0 Flash 响应极快", "与谷歌生态集成紧密"],
+    "cons": ["中文表达偶尔有‘翻译腔’", "部分地区访问不稳定"],
+    "best_for": "长文档分析、多模态搜索、快速原型调研",
+    "fun_ranking": "稳",
+    "personal_experience": {
+      "rating": 4.5,
+      "insights": "Gemini 2.0 Flash 的速度让人惊艳。处理超长技术手册时，它的上下文优势是唯一的。",
+      "pitfalls": ["代码细节上可能需要手动纠偏。"]
+    },
+    "swot": {
+      "S": "超长上下文，谷歌搜索增强",
+      "W": "指令遵循度偶有波动",
+      "O": "深度集成 Android 与 Workspace 占据终端",
+      "T": "OpenAI 与 Anthropic 的性能竞争"
+    },
+    "tags": ["长上下文", "谷歌出品", "多模态"]
+  },
+  {
+    "id": "minimax-family",
+    "name": "MiniMax 家族",
+    "category": "LLM",
+    "developer": "名创必应",
+    "versions": [
+      {
+        "type": "CN",
+        "pricing": "按量计费 (极低)",
+        "models": "abab 6.5, M2.1",
+        "link": "https://www.minimaxir.com"
+      }
+    ],
+    "pros": ["MOE 架构性能优异", "在 Go/Rust 等后端语言逻辑上表现突出", "响应极快"],
+    "cons": ["品牌知名度尚在建立", "API 额度管理较简陋"],
+    "best_for": "后端重逻辑处理、国产替代方案、高性能 API 接入",
+    "fun_ranking": "稳",
+    "personal_experience": {
+      "rating": 4.5,
+      "insights": "它是目前国产模型中在后端编程逻辑上最稳的。M2.1 的推理速度非常快。",
+      "pitfalls": ["文档中有部分接口参数说明不够清晰。"]
+    },
+    "swot": {
+      "S": "MOE 架构技术领先，后端能力强",
+      "W": "开发者生态建设稍慢",
+      "O": "通过火山引擎等渠道占据企业级市场",
+      "T": "DeepSeek 的低价竞争"
+    },
+    "tags": ["后端强项", "MOE 架构", "国产黑马"]
+  },
+  {
+    "id": "kimi-family",
+    "name": "Kimi 家族",
+    "category": "LLM",
+    "developer": "月之暗面",
+    "versions": [
+      {
+        "type": "CN",
+        "pricing": "免费/算力包",
+        "models": "Kimi-v1, Kimi-k1.5",
+        "link": "https://kimi.ai"
+      }
+    ],
+    "pros": ["长文本处理极致细腻", "联网搜索与资料整合能力强", "品牌好感度高"],
+    "cons": ["纯代码生成能力中规中矩", "多文件协同逻辑较弱"],
+    "best_for": "长篇研报分析、中文资料综述、日常调研",
+    "fun_ranking": "稳",
+    "personal_experience": {
+      "rating": 4.5,
+      "insights": "读超长 PDF 首选 Kimi。它的搜索结果整合得非常像人类写的综述。",
+      "pitfalls": ["不要用它写太复杂的系统底层驱动。"]
+    },
+    "swot": {
+      "S": "长文本领域心智占领，搜索能力强",
+      "W": "编程能力非核心优势",
+      "O": "深耕国内垂直行业办公助手",
+      "T": "大厂通义、豆包的长文本追赶"
+    },
+    "tags": ["长文本", "国产之光", "搜索增强"]
+  },
+  {
+    "id": "grok-family",
+    "name": "Grok 家族",
+    "category": "LLM",
+    "developer": "xAI",
+    "versions": [
+      {
+        "type": "Global",
+        "pricing": "订阅制/API",
+        "models": "Grok-2, Grok-3 (Preview)",
+        "link": "https://x.ai"
+      }
+    ],
+    "pros": ["实时接入 X 平台数据，获取技术趋势极快", "推理能力稳居第一梯队", "无审查/低审查风格"],
+    "cons": ["国内访问困难", "API 调用成本较高"],
+    "best_for": "获取最新框架动态、解决硬核算法问题、个性化对话",
+    "fun_ranking": "夯",
+    "personal_experience": {
+      "rating": 4.5,
+      "insights": "Grok-3 在 HumanEval 等榜单的表现预示了它的恐怖潜力。实时获取推特上的技术快讯是它唯一的绝活。",
+      "pitfalls": ["回答风格有时过于直白，不适合正式商务文档。"]
+    },
+    "swot": {
+      "S": "实时数据优势，马斯克光环",
+      "W": "合规性在某些地区存在挑战",
+      "O": "深度集成至特斯拉/X 生态",
+      "T": "OpenAI 与 Google 的全方位围堵"
+    },
+    "tags": ["实时数据", "硬核推理", "xAI"]
+  },
+  {
+    "id": "qwen-family",
+    "name": "通义千问 (Qwen) 家族",
+    "category": "LLM",
+    "developer": "阿里巴巴",
+    "versions": [
+      {
+        "type": "CN/Global",
+        "pricing": "免费/按量计费",
+        "models": "Qwen3-235B, Qwen-Coder, Qwen-VL",
+        "link": "https://tongyi.aliyun.com"
+      }
+    ],
+    "pros": [
+      "中文理解和生成能力顶尖",
+      "Qwen-Coder 代码能力优秀",
+      "多模态能力强 (文本/图像/代码)",
+      "免费额度充足"
+    ],
+    "cons": ["复杂推理任务略逊于 Claude", "部分高级功能需订阅"],
+    "best_for": "中文内容创作、代码生成、日常对话、图像理解",
+    "fun_ranking": "夯",
+    "personal_experience": {
+      "rating": 4.5,
+      "insights": "日常使用最多的国产模型。生成图片、海报等中文内容效果很好。Qwen-Coder 在编程任务上表现优异。",
+      "pitfalls": ["建议固定一套风格词来减少返工", "复杂推理任务建议用 Claude 兜底。"]
+    },
+    "swot": {
+      "S": "中文能力顶尖，多模态全面，生态丰富",
+      "W": "国际影响力待提升",
+      "O": "成为中文世界的默认 AI 助手",
+      "T": "DeepSeek 和字节豆包的竞争"
+    },
+    "tags": ["中文顶尖", "多模态", "阿里出品"]
+  },
+  {
+    "id": "doubao-family",
+    "name": "豆包 (Doubao) 家族",
+    "category": "LLM",
+    "developer": "字节跳动",
+    "versions": [
+      {
+        "type": "CN",
+        "pricing": "免费/按量计费",
+        "models": "Doubao-pro, Doubao-lite, Doubao-vision",
+        "link": "https://www.doubao.com"
+      }
+    ],
+    "pros": [
+      "与字节生态深度集成 (抖音/飞书)",
+      "响应速度快",
+      "中文对话自然流畅",
+      "免费额度充足"
+    ],
+    "cons": ["代码能力不如专业编程模型", "深度推理任务有限"],
+    "best_for": "日常对话、内容创作、图像生成、字节生态内使用",
+    "fun_ranking": "稳",
+    "personal_experience": {
+      "rating": 4,
+      "insights": "日常使用很方便，特别是生成图片和海报。与字节产品的集成度高，适合在抖音、飞书等场景使用。",
+      "pitfalls": ["编程任务建议切换到 Qwen-Coder 或 Claude", "注意免费额度的使用节奏。"]
+    },
+    "swot": {
+      "S": "字节生态集成，用户基数大，响应快",
+      "W": "技术深度不如专业模型",
+      "O": "成为字节系产品的默认 AI 入口",
+      "T": "阿里通义和百度文心的竞争"
+    },
+    "tags": ["字节出品", "生态集成", "日常助手"]
+  },
+  {
+    "id": "glm-family",
+    "name": "智谱 GLM 家族",
+    "category": "LLM",
+    "developer": "智谱 AI",
+    "versions": [
+      {
+        "type": "CN",
+        "pricing": "免费/按量计费",
+        "models": "GLM-4, GLM-4-Vision, CodeGeeX",
+        "link": "https://chatglm.cn"
+      }
+    ],
+    "pros": [
+      "清华技术背景，学术能力强",
+      "中文理解和生成优秀",
+      "CodeGeeX 代码补全能力强",
+      "开源模型可本地部署"
+    ],
+    "cons": ["复杂推理任务能力有限", "产品化程度不如大厂"],
+    "best_for": "学术研究、中文写作、代码补全、私有化部署",
+    "fun_ranking": "稳",
+    "personal_experience": {
+      "rating": 4,
+      "insights": "学术场景下表现不错，中文写作能力很好。CodeGeeX 作为编程助手很实用。开源版本可以本地部署，隐私友好。",
+      "pitfalls": ["复杂业务逻辑建议用更强的模型", "API 稳定性偶尔有波动。"]
+    },
+    "swot": {
+      "S": "学术背景强，开源友好，中文优秀",
+      "W": "商业化能力待加强",
+      "O": "成为学术和企业私有化部署的首选",
+      "T": "大厂模型的开源竞争"
+    },
+    "tags": ["清华出品", "学术强", "开源友好"]
+  },
+  {
+    "id": "notebooklm-app",
+    "name": "NotebookLM 官网",
+    "category": "APP",
+    "developer": "Google",
+    "versions": [
+      {
+        "type": "Global",
+        "pricing": "免费",
+        "models": "Gemini 1.5 Pro",
+        "link": "https://notebooklm.google.com"
+      }
+    ],
+    "pros": ["零幻觉阅读", "音频简报惊艳", "支持长文档深度摘要"],
+    "cons": ["不支持中文音频"],
+    "best_for": "快速消化新技术文档、论文研读",
+    "fun_ranking": "夯",
+    "personal_experience": {
+      "rating": 5,
+      "insights": "学习新技术的效率神器。建议将官网加入收藏夹，调研必备。",
+      "pitfalls": ["仅限上传的源文件内容。"]
+    },
+    "swot": {
+      "S": "基于事实生成，零幻觉",
+      "W": "多模态导出尚早",
+      "O": "学术助手首选",
+      "T": "各类文档分析插件"
+    },
+    "tags": ["学习神器", "谷歌出品", "零幻觉"]
+  },
+  {
+    "id": "claude-cowork",
+    "name": "Claude Cowork",
+    "category": "DESKTOP",
+    "developer": "Anthropic",
+    "versions": [
+      {
+        "type": "Global",
+        "pricing": "订阅制 ($20/mo)",
+        "models": "Claude 3.5 Sonnet",
+        "link": "https://claude.ai"
+      }
+    ],
+    "pros": [
+      "深度集成操作系统",
+      "支持文件拖拽和本地处理",
+      "强大的上下文理解能力",
+      "支持多模态输入"
+    ],
+    "cons": ["需要稳定的网络连接", "仅限 Global 版本", "价格较高"],
+    "best_for": "本地文件处理、桌面自动化、日常办公辅助",
+    "fun_ranking": "夯",
+    "personal_experience": {
+      "rating": 4.5,
+      "insights": "桌面端的 AI 助手新体验，可以直接处理本地文件和文件夹，非常适合日常办公场景。",
+      "pitfalls": ["注意文件隐私，敏感文件建议先脱敏。"]
+    },
+    "swot": {
+      "S": "原生桌面体验，本地文件处理能力强",
+      "W": "网络依赖性强，离线功能有限",
+      "O": "成为桌面 AI 助手的标杆产品",
+      "T": "微软 Copilot 和苹果 Apple Intelligence 的竞争"
+    },
+    "tags": ["桌面助手", "文件处理", "办公自动化"]
+  },
+  {
+    "id": "clawdbot",
+    "name": "Clawdbot",
+    "category": "DESKTOP",
+    "developer": "Clawdbot Inc",
+    "versions": [
+      {
+        "type": "Global",
+        "pricing": "免费/订阅 ($10/mo)",
+        "models": "GPT-4, Claude 3",
+        "link": "https://clawdbot.com"
+      }
+    ],
+    "pros": [
+      "轻量级桌面应用",
+      "支持快捷键快速唤起",
+      "可自定义工作流",
+      "跨平台支持"
+    ],
+    "cons": ["功能相对简单", "中文支持一般", "社区较小"],
+    "best_for": "快速问答、轻量级自动化、开发者辅助",
+    "fun_ranking": "稳",
+    "personal_experience": {
+      "rating": 4,
+      "insights": "轻量级的桌面 AI 工具，快捷键唤起很方便，适合快速查询和简单任务。",
+      "pitfalls": ["复杂任务处理能力有限，适合简单场景。"]
+    },
+    "swot": {
+      "S": "轻量快速，跨平台支持好",
+      "W": "功能深度不及 Claude Cowork",
+      "O": "通过插件生态扩展功能",
+      "T": "大厂同类产品竞争"
+    },
+    "tags": ["轻量级", "快捷键", "跨平台"]
+  },
+  {
+    "id": "chatgpt-desktop",
+    "name": "ChatGPT Desktop",
+    "category": "DESKTOP",
+    "developer": "OpenAI",
+    "versions": [
+      {
+        "type": "Global",
+        "pricing": "免费/Plus ($20/mo)",
+        "models": "GPT-4o, GPT-4, o1",
+        "link": "https://openai.com/chatgpt"
+      }
+    ],
+    "pros": [
+      "官方原生应用",
+      "支持语音对话",
+      "与网页版数据同步",
+      "快捷键快速访问"
+    ],
+    "cons": ["功能与网页版差异不大", "部分功能仅限 Plus 用户", "国内访问需网络环境"],
+    "best_for": "日常对话、快速查询、语音交互",
+    "fun_ranking": "夯",
+    "personal_experience": {
+      "rating": 4.5,
+      "insights": "官方桌面版体验流畅，语音对话功能很实用，适合日常使用。",
+      "pitfalls": ["如果已有网页版使用习惯，桌面版提升有限。"]
+    },
+    "swot": {
+      "S": "官方出品，与生态深度集成",
+      "W": "功能创新度一般",
+      "O": "成为桌面 AI 的默认入口",
+      "T": "其他桌面 AI 工具的分流"
+    },
+    "tags": ["官方应用", "语音对话", "生态集成"]
+  },
+  {
+    "id": "poe-desktop",
+    "name": "Poe Desktop",
+    "category": "DESKTOP",
+    "developer": "Quora",
+    "versions": [
+      {
+        "type": "Global",
+        "pricing": "免费/订阅 ($20/mo)",
+        "models": "GPT-4, Claude 3, Gemini 等",
+        "link": "https://poe.com"
+      }
+    ],
+    "pros": [
+      "多模型一站式访问",
+      "支持自定义机器人",
+      "社区机器人丰富",
+      "跨平台同步"
+    ],
+    "cons": ["部分高级功能需订阅", "界面稍显复杂", "响应速度偶有延迟"],
+    "best_for": "多模型对比、自定义 AI 机器人、社区探索",
+    "fun_ranking": "稳",
+    "personal_experience": {
+      "rating": 4,
+      "insights": "一个应用访问多个大模型，对比测试很方便，自定义机器人功能也很实用。",
+      "pitfalls": ["免费版有使用限制，重度使用建议订阅。"]
+    },
+    "swot": {
+      "S": "多模型聚合，社区生态活跃",
+      "W": "作为中间层，差异化不够明显",
+      "O": "成为 AI 应用商店",
+      "T": "各模型官方客户端的竞争"
+    },
+    "tags": ["多模型", "自定义机器人", "社区"]
+  }
+]

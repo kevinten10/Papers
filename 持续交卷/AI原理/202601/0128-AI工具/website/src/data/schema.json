@@ -1,0 +1,31 @@
+{
+  "tool": {
+    "id": "string",
+    "name": "string",
+    "category": "IDE | CLI | LLM | APP",
+    "developer": "string",
+    "pricing": {
+      "model": "Free | Subscription | Pay-as-you-go",
+      "plans": [
+        {
+          "name": "string",
+          "price": "string",
+          "features": ["string"]
+        }
+      ]
+    },
+    "pros": ["string"],
+    "cons": ["string"],
+    "best_for": "string",
+    "personal_experience": {
+      "rating": "number (1-5)",
+      "insights": "string",
+      "pitfalls": ["string"]
+    },
+    "links": {
+      "official": "url",
+      "tutorial": "url"
+    },
+    "tags": ["string"]
+  }
+}

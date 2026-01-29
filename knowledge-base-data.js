@@ -1,4 +1,4 @@
-// 知识库数据结构 - 自动生成于 2026-01-12T16:56:19.769Z
+// 知识库数据结构 - 自动生成于 2026-01-28T14:45:31.815Z
 // 使用 generate-index.js 生成，请勿手动修改
 
 const knowledgeBase = {
@@ -773,9 +773,9 @@ const knowledgeBase = {
         "icon": "📄",
         "children": {
             "README.md": {
-                "title": "人脉资源管理",
-                "description": "本目录包含各类人脉资源对接和管理相关文档。",
-                "readTime": 4,
+                "title": "人脉与社交资源管理",
+                "description": "本目录包含商业人脉对接、校友资源管理以及互联网职场社交经验相关文档。",
+                "readTime": 7,
                 "tags": [
                     "人脉"
                 ],
@@ -784,8 +784,8 @@ const knowledgeBase = {
             },
             "互联网职场社交指南.md": {
                 "title": "互联网职场社交指南",
-                "description": "",
-                "readTime": 1,
+                "description": "1. **扁平化管理**: 层级少，沟通直接\r",
+                "readTime": 8,
                 "tags": [
                     "人脉"
                 ],
@@ -794,8 +794,8 @@ const knowledgeBase = {
             },
             "前领导关系维护指南.md": {
                 "title": "前领导关系维护指南",
-                "description": "",
-                "readTime": 1,
+                "description": "1. **职业跳槽**: 前领导是最佳的推荐人\r",
+                "readTime": 8,
                 "tags": [
                     "人脉"
                 ],
@@ -844,8 +844,8 @@ const knowledgeBase = {
             },
             "职场沟通协作指南.md": {
                 "title": "职场沟通协作指南",
-                "description": "",
-                "readTime": 1,
+                "description": "\"王总，昨天的任务完成了80%，今天继续优化性能。\r",
+                "readTime": 8,
                 "tags": [
                     "人脉"
                 ],
@@ -854,8 +854,8 @@ const knowledgeBase = {
             },
             "职场社交经验汇总.md": {
                 "title": "职场社交经验汇总",
-                "description": "",
-                "readTime": 1,
+                "description": "本汇总包含互联网行业职场社交的完整指南，涵盖前领导关系维护、上下级沟通、跨部门协作、人脉建设等核心领域。\r",
+                "readTime": 7,
                 "tags": [
                     "人脉"
                 ],
@@ -889,14 +889,14 @@ const knowledgeBase = {
         "children": {
             "AI原理": {
                 "202512": {
-                    "1229-RAG.md": {
-                        "title": "1229-RAG",
+                    "1229-RAG_DOING.md": {
+                        "title": "1229-RAG_DOING",
                         "description": "1. 分块时，不是完全按照原文进行分块。通过重叠参数（Overlap），在块的信息中加入一些辅助信息，避免关键信息被切断\r",
                         "readTime": 2,
                         "tags": [
                             "持续交卷\\AI原理\\202512"
                         ],
-                        "path": "持续交卷/AI原理/202512/1229-RAG.md",
+                        "path": "持续交卷/AI原理/202512/1229-RAG_DOING.md",
                         "type": "markdown"
                     }
                 },
@@ -922,6 +922,326 @@ const knowledgeBase = {
                         ],
                         "path": "持续交卷/AI原理/202601/0112-AI.md",
                         "type": "markdown"
+                    },
+                    "0114-AI.md": {
+                        "title": "唐杰/杨植麟/林俊旸/姚顺雨罕见同台，“基模四杰”开聊中国AGI",
+                        "description": "https://mp.weixin.qq.com/s/IToXOrPJ-fi3B3sJQuxLpQ\r",
+                        "readTime": 2,
+                        "tags": [
+                            "持续交卷\\AI原理\\202601",
+                            "AI"
+                        ],
+                        "path": "持续交卷/AI原理/202601/0114-AI.md",
+                        "type": "markdown"
+                    },
+                    "0116-模型微调.md": {
+                        "title": "模型微调",
+                        "description": "大家在日常使用Deepseek-R1或者是阿里新发布的Qwen3模型，他们的模型都是能力很强，所提供的API服也都可以满足大家的日常或者是公司开发所需。但大家也可以想一个简单的问题几个简单的问题，如下：\r",
+                        "readTime": 1,
+                        "tags": [
+                            "持续交卷\\AI原理\\202601"
+                        ],
+                        "path": "持续交卷/AI原理/202601/0116-模型微调.md",
+                        "type": "markdown"
+                    },
+                    "0118-GeminiCli.md": {
+                        "title": "Gemini CLI 使用技巧指南",
+                        "description": "- [基本安装和配置](#基本安装和配置)\r",
+                        "readTime": 21,
+                        "tags": [
+                            "基本安装和配置)",
+                            "自动命令模式)",
+                            "thinking推理模式)",
+                            "中文模式优化)",
+                            "效率提升技巧)",
+                            "自定义配置)",
+                            "最佳实践)",
+                            "!/bin/bash"
+                        ],
+                        "path": "持续交卷/AI原理/202601/0118-GeminiCli.md",
+                        "type": "markdown"
+                    },
+                    "0120-AGUI.md": {
+                        "title": "AG-UI 技术调研及与 A2UI 的差异分析",
+                        "description": "**AG-UI (Agent-User Interaction Protocol)** 是一个开源的、轻量级的、基于事件的协议，旨在标准化 AI 代理如何连接到面向用户的应用程序。\r",
+                        "readTime": 12,
+                        "tags": [
+                            "持续交卷\\AI原理\\202601"
+                        ],
+                        "path": "持续交卷/AI原理/202601/0120-AGUI.md",
+                        "type": "markdown"
+                    },
+                    "0121-Cursor.md": {
+                        "title": "Cursor vs 网页版AI工具对比分析",
+                        "description": "- **上下文理解**：Cursor能理解整个项目的代码结构、依赖关系和架构\r",
+                        "readTime": 3,
+                        "tags": [
+                            "持续交卷\\AI原理\\202601"
+                        ],
+                        "path": "持续交卷/AI原理/202601/0121-Cursor.md",
+                        "type": "markdown"
+                    },
+                    "0121-NanoBanana.md": {
+                        "title": "Gemini NanoBanana AI 使用指南 - PPT 素材生成",
+                        "description": "NanoBanana 是基于 Google Gemini AI 的高级图像编辑和生成工具，提供以下核心功能：\r",
+                        "readTime": 19,
+                        "tags": [
+                            "003366),",
+                            "4A90E2),"
+                        ],
+                        "path": "持续交卷/AI原理/202601/0121-NanoBanana.md",
+                        "type": "markdown"
+                    },
+                    "0121-NotebookLM.md": {
+                        "title": "🤖 NotebookLM vs Cursor：AI工具对比与使用指南",
+                        "description": "- [工具概述](#工具概述)\r",
+                        "readTime": 14,
+                        "tags": [
+                            "工具概述)",
+                            "核心区别对比)",
+                            "notebooklm详细介绍)",
+                            "cursor详细介绍)",
+                            "使用场景选择)",
+                            "实际应用案例)",
+                            "最佳实践建议)"
+                        ],
+                        "path": "持续交卷/AI原理/202601/0121-NotebookLM.md",
+                        "type": "markdown"
+                    },
+                    "0121-Sora.md": {
+                        "title": "Sora 使用指南与提示词宝典",
+                        "description": "Sora 是 OpenAI 开发的先进视频生成模型，能够根据文本描述创建高质量的视频内容。它可以生成各种场景、动作和风格的视频，是AI视频创作的强大工具。\r",
+                        "readTime": 12,
+                        "tags": [
+                            "持续交卷\\AI原理\\202601"
+                        ],
+                        "path": "持续交卷/AI原理/202601/0121-Sora.md",
+                        "type": "markdown"
+                    },
+                    "0122-AI_Native.md": {
+                        "title": "AI Native 系统解析",
+                        "description": "AI Native系统是一种全新的软件开发范式，它将人工智能作为开发过程的核心伙伴，而不是仅仅作为辅助工具。在这种系统中，开发人员不再专注于编写每一行代码的具体实现，而是专注于定义清晰的需求规范和成功标准，让AI来生成、优化和维护代码。\r",
+                        "readTime": 5,
+                        "tags": [
+                            "持续交卷\\AI原理\\202601",
+                            "AI"
+                        ],
+                        "path": "持续交卷/AI原理/202601/0122-AI_Native.md",
+                        "type": "markdown"
+                    },
+                    "0122-AI_Native_Product.md": {
+                        "title": "AI Native产品解析",
+                        "description": "AI Native产品是指那些从产品设计阶段就深度整合人工智能能力的产品。与传统产品简单\"加上AI功能\"不同，AI Native产品将AI能力作为产品的核心要素，从根本上重新设计产品形态、用户体验和价值创造方式。\r",
+                        "readTime": 127,
+                        "tags": [
+                            "持续交卷\\AI原理\\202601",
+                            "AI"
+                        ],
+                        "path": "持续交卷/AI原理/202601/0122-AI_Native_Product.md",
+                        "type": "markdown"
+                    },
+                    "0122-CLI.md": {
+                        "title": "AI编程工具调研报告 (2026年1月)",
+                        "description": "基于2026年1月最新市场情况，对市面上的AI编程工具进行全面调研。涵盖用户正在使用的10个工具，并补充其他主流工具的详细信息。\r",
+                        "readTime": 12,
+                        "tags": [
+                            "持续交卷\\AI原理\\202601"
+                        ],
+                        "path": "持续交卷/AI原理/202601/0122-CLI.md",
+                        "type": "markdown"
+                    },
+                    "0122-VibeCoding.md": {
+                        "title": "Vibe Coding 面试攻略：1.5小时从0到1完成Demo",
+                        "description": "Vibe Coding是一种利用AI编程助手进行高效开发的思维模式，强调开发者对架构和规划的控制，AI负责具体实现，通过结构化prompt和增量迭代实现高质量代码。",
+                        "readTime": 14,
+                        "tags": [
+                            "持续交卷\\AI原理\\202601"
+                        ],
+                        "path": "持续交卷/AI原理/202601/0122-VibeCoding.md",
+                        "type": "markdown"
+                    },
+                    "0122-多AI角色.md": {
+                        "title": "多AI角色系统解析",
+                        "description": "多AI角色系统（Multi-Agent AI System）是指在一个智能系统中同时运行多个具有不同专业能力、性格特征和行为模式的AI代理（Agent），它们能够相互协作、竞争或辩论来完成复杂任务。这种设计灵感来源于人类社会的分工合作模式，通过模拟不同角色的思维方式来提升整体系统的智能水平。",
+                        "readTime": 10,
+                        "tags": [
+                            "持续交卷\\AI原理\\202601",
+                            "AI"
+                        ],
+                        "path": "持续交卷/AI原理/202601/0122-多AI角色.md",
+                        "type": "markdown"
+                    },
+                    "0126-FreeModel.md": {
+                        "title": "0126-FreeModel",
+                        "description": "> 目标：把你列出的 “free 清单” 拆成 **工具层（体验/工作流）× 模型层（能力）× 免费层（配额/限制/隐私）**，最后输出一个你能直接用的选型结论。\r",
+                        "readTime": 37,
+                        "tags": [
+                            "持续交卷\\AI原理\\202601"
+                        ],
+                        "path": "持续交卷/AI原理/202601/0126-FreeModel.md",
+                        "type": "markdown"
+                    },
+                    "0126-LLM对比.md": {
+                        "title": "0126-LLM对比",
+                        "description": "",
+                        "readTime": 1,
+                        "tags": [
+                            "持续交卷\\AI原理\\202601"
+                        ],
+                        "path": "持续交卷/AI原理/202601/0126-LLM对比.md",
+                        "type": "markdown"
+                    },
+                    "0127-clawdbot.md": {
+                        "title": "Clawdbot (现更名为 Moltbot) 深度调研报告",
+                        "description": "**Clawdbot**（2026年1月更名为 **Moltbot**）是一个开源的、运行在本地设备上的**个人 AI 助手**。它由 Peter Steinberger (@steipete) 开发，旨在打破传统 AI 聊天机器人（如 ChatGPT、Claude 网页版）的限制，让 AI 真正拥...",
+                        "readTime": 6,
+                        "tags": [
+                            "持续交卷\\AI原理\\202601"
+                        ],
+                        "path": "持续交卷/AI原理/202601/0127-clawdbot.md",
+                        "type": "markdown"
+                    },
+                    "0127-推荐原理.md": {
+                        "title": "算法推荐",
+                        "description": "1. **数据准备 (Data Engineering)**：\r",
+                        "readTime": 6,
+                        "tags": [
+                            "持续交卷\\AI原理\\202601"
+                        ],
+                        "path": "持续交卷/AI原理/202601/0127-推荐原理.md",
+                        "type": "markdown"
+                    },
+                    "0128-AI工具": {
+                        "Agentic_Development_2026.pdf": {
+                            "title": "Agentic_Development_2026",
+                            "path": "持续交卷/AI原理/202601/0128-AI工具/Agentic_Development_2026.pdf",
+                            "type": "pdf",
+                            "description": "PDF 文档",
+                            "readTime": 10,
+                            "tags": [
+                                "PDF"
+                            ]
+                        },
+                        "调研": {
+                            "PLAN2.md": {
+                                "title": "PLAN2",
+                                "description": "",
+                                "readTime": 1,
+                                "tags": [
+                                    "持续交卷\\AI原理\\202601\\0128-AI工具\\调研"
+                                ],
+                                "path": "持续交卷/AI原理/202601/0128-AI工具/调研/PLAN2.md",
+                                "type": "markdown"
+                            },
+                            "PLAN3.md": {
+                                "title": "PLAN3",
+                                "description": "补充之前各个工具用到的各个大模型的能力对比，比如价格、性能、使用场景等\r",
+                                "readTime": 1,
+                                "tags": [
+                                    "持续交卷\\AI原理\\202601\\0128-AI工具\\调研"
+                                ],
+                                "path": "持续交卷/AI原理/202601/0128-AI工具/调研/PLAN3.md",
+                                "type": "markdown"
+                            },
+                            "README.md": {
+                                "title": "README",
+                                "description": "我计划写一份AI工具的使用体验和使用教程。\r",
+                                "readTime": 4,
+                                "tags": [
+                                    "持续交卷\\AI原理\\202601\\0128-AI工具\\调研"
+                                ],
+                                "path": "持续交卷/AI原理/202601/0128-AI工具/调研/README.md",
+                                "type": "markdown"
+                            },
+                            "使用指南2_gpt.md": {
+                                "title": "使用指南2_gpt",
+                                "description": "<!-- markdownlint-disable MD041 -->\r",
+                                "readTime": 16,
+                                "tags": [
+                                    "持续交卷\\AI原理\\202601\\0128-AI工具\\调研"
+                                ],
+                                "path": "持续交卷/AI原理/202601/0128-AI工具/调研/使用指南2_gpt.md",
+                                "type": "markdown"
+                            },
+                            "使用指南_claude.md": {
+                                "title": "AI工具使用体验与教程",
+                                "description": "本文档记录我在实际工作中使用过的AI工具,包括AI IDE、AI CLI、AI模型和网站等。这些工具在不同场景下各有优劣,我会根据搜索到的最新信息进行补充和修正。\r",
+                                "readTime": 29,
+                                "tags": [
+                                    "ai-ide)",
+                                    "ai-cli工具)",
+                                    "ai模型网站工具)",
+                                    "ai视频工具)",
+                                    "ai-3d模型工具)"
+                                ],
+                                "path": "持续交卷/AI原理/202601/0128-AI工具/调研/使用指南_claude.md",
+                                "type": "markdown"
+                            },
+                            "使用指南_gemini.md": {
+                                "title": "使用指南_gemini",
+                                "description": "太棒了！你这份清单涵盖了目前 AI 开发领域最前沿的工具。作为 2026 年的 AI 协作伙伴，我根据最新的行业动态和技术演进，对你的使用体验进行了深度补充和修正。\r",
+                                "readTime": 8,
+                                "tags": [
+                                    "持续交卷\\AI原理\\202601\\0128-AI工具\\调研"
+                                ],
+                                "path": "持续交卷/AI原理/202601/0128-AI工具/调研/使用指南_gemini.md",
+                                "type": "markdown"
+                            },
+                            "使用指南_gpt.md": {
+                                "title": "AI工具使用指南（基于个人体验的可落地手册）",
+                                "description": "> **定位**：这是一份面向“日常工作/学习场景”的 AI 工具组合使用指南，基于你的真实体验做结构化整理，并补齐：功能模块表格、操作流程示意图、案例、SWOT、场景评估与优化建议。\r",
+                                "readTime": 26,
+                                "tags": [
+                                    "1-快速开始怎么选工具)",
+                                    "2-工具全景功能模块总览表)",
+                                    "3-ai-ide-使用指南)",
+                                    "4-ai-cli-使用指南)",
+                                    "5-ai-模型网站垂类工具使用指南)",
+                                    "6-操作流程示意图mermaid)",
+                                    "7-实际应用案例可复用脚本)",
+                                    "8-任务规划制作落地-todolist含时间节点与优先级)",
+                                    "9-swot-分析)",
+                                    "10-使用场景评估场景--工具组合)",
+                                    "11-优化建议效率质量成本安全)",
+                                    "附录-a通用提示词模板prompt-pack)",
+                                    "附录-b交付前检查清单)"
+                                ],
+                                "path": "持续交卷/AI原理/202601/0128-AI工具/调研/使用指南_gpt.md",
+                                "type": "markdown"
+                            },
+                            "使用指南_openai.md": {
+                                "title": "使用指南_openai",
+                                "description": "下面是基于你提供的初稿、我查到的资料与用户实际使用反馈（含社区讨论和工具对比）整理出的 **2025–2026 AI 工具体验和评测补充版**。内容覆盖你列的工具，并补充了主流对比与其它值得关注的 AI IDE/CLI/模型等。\r",
+                                "readTime": 15,
+                                "tags": [
+                                    "持续交卷\\AI原理\\202601\\0128-AI工具\\调研"
+                                ],
+                                "path": "持续交卷/AI原理/202601/0128-AI工具/调研/使用指南_openai.md",
+                                "type": "markdown"
+                            },
+                            "范式革命与战术赋能：AI开发工具选型指南与实战手册.pdf": {
+                                "title": "范式革命与战术赋能：AI开发工具选型指南与实战手册",
+                                "path": "持续交卷/AI原理/202601/0128-AI工具/调研/范式革命与战术赋能：AI开发工具选型指南与实战手册.pdf",
+                                "type": "pdf",
+                                "description": "PDF 文档",
+                                "readTime": 10,
+                                "tags": [
+                                    "PDF"
+                                ]
+                            }
+                        },
+                        "需求": {
+                            "需求1.md": {
+                                "title": "AI工具教学网站",
+                                "description": "现在，我想搭建一个AI工具的教学网站，帮助团队中的其他成员学习AI工具相关的知识。\r",
+                                "readTime": 2,
+                                "tags": [
+                                    "持续交卷\\AI原理\\202601\\0128-AI工具\\需求"
+                                ],
+                                "path": "持续交卷/AI原理/202601/0128-AI工具/需求/需求1.md",
+                                "type": "markdown"
+                            }
+                        }
                     }
                 },
                 "rule.md": {
@@ -1006,6 +1326,77 @@ const knowledgeBase = {
                         ],
                         "path": "持续交卷/公众号文章/202601/2026-01-12-公众号.md",
                         "type": "markdown"
+                    },
+                    "2026-01-13-公众号.md": {
+                        "title": "2026-01-13 - 技术学习综合日报",
+                        "description": "title: 2026-01-13 - 技术学习综合日报\r",
+                        "readTime": 22,
+                        "tags": [
+                            "持续交卷\\公众号文章\\202601"
+                        ],
+                        "path": "持续交卷/公众号文章/202601/2026-01-13-公众号.md",
+                        "type": "markdown"
+                    },
+                    "2026-01-14-公众号.md": {
+                        "title": "2026-01-14 - 技术学习综合日报",
+                        "description": "title: 2026-01-14 - 技术学习综合日报\r",
+                        "readTime": 19,
+                        "tags": [
+                            "持续交卷\\公众号文章\\202601"
+                        ],
+                        "path": "持续交卷/公众号文章/202601/2026-01-14-公众号.md",
+                        "type": "markdown"
+                    },
+                    "2026-01-15-公众号.md": {
+                        "title": "2026-01-15 - 技术出海、语言学习与算法实践",
+                        "description": "title: 2026-01-15 - 技术出海、语言学习与算法实践\r",
+                        "readTime": 18,
+                        "tags": [
+                            "持续交卷\\公众号文章\\202601"
+                        ],
+                        "path": "持续交卷/公众号文章/202601/2026-01-15-公众号.md",
+                        "type": "markdown"
+                    },
+                    "2026-01-16-公众号.md": {
+                        "title": "2026-01-16 - AI技术发展与模型微调实践的深度分析",
+                        "description": "title: 2026-01-16 - AI技术发展与模型微调实践的深度分析\r",
+                        "readTime": 5,
+                        "tags": [
+                            "持续交卷\\公众号文章\\202601"
+                        ],
+                        "path": "持续交卷/公众号文章/202601/2026-01-16-公众号.md",
+                        "type": "markdown"
+                    },
+                    "2026-01-18-公众号.md": {
+                        "title": "2026-01-18 - 技术学习周刊：算法精进与AI工具探索",
+                        "description": "title: 2026-01-18 - 技术学习周刊：算法精进与AI工具探索\r",
+                        "readTime": 13,
+                        "tags": [
+                            "持续交卷\\公众号文章\\202601"
+                        ],
+                        "path": "持续交卷/公众号文章/202601/2026-01-18-公众号.md",
+                        "type": "markdown"
+                    },
+                    "2026-01-20-公众号.md": {
+                        "title": "2026-01-20 - 技术创业与AI创新探索",
+                        "description": "title: 2026-01-20 - 技术创业与AI创新探索\r",
+                        "readTime": 26,
+                        "tags": [
+                            "持续交卷\\公众号文章\\202601"
+                        ],
+                        "path": "持续交卷/公众号文章/202601/2026-01-20-公众号.md",
+                        "type": "markdown"
+                    },
+                    "2026-01-21-公众号.md": {
+                        "title": "2026-01-21 - 技术学习日报：架构设计、算法优化与AI工具探索",
+                        "description": "title: 2026-01-21 - 技术学习日报：架构设计、算法优化与AI工具探索\r",
+                        "readTime": 56,
+                        "tags": [
+                            "003366),",
+                            "4A90E2),"
+                        ],
+                        "path": "持续交卷/公众号文章/202601/2026-01-21-公众号.md",
+                        "type": "markdown"
                     }
                 }
             },
@@ -1023,7 +1414,7 @@ const knowledgeBase = {
             },
             "文章处理prompt.md": {
                 "title": "文章处理prompt",
-                "description": "参考@持续交卷/文章处理rule.md ，处理@持续交卷/阅读笔记/202601/0107-资讯.md ，进行think，使用todolist规划任务\r",
+                "description": "1. 参考@持续交卷/文章处理rule.md ，处理@持续交卷/阅读笔记/202601/0107-资讯.md ，进行think，使用todolist规划任务\r",
                 "readTime": 1,
                 "tags": [
                     "持续交卷"
@@ -1072,6 +1463,76 @@ const knowledgeBase = {
                         ],
                         "path": "持续交卷/算法/202601/0112-八股.md",
                         "type": "markdown"
+                    },
+                    "0113-八股.md": {
+                        "title": "Java并发",
+                        "description": "多线程环境下线程不安全问题的根本原因是Java内存模型（JMM）中的三大特性没有得到保证：\r",
+                        "readTime": 17,
+                        "tags": [
+                            "持续交卷\\算法\\202601"
+                        ],
+                        "path": "持续交卷/算法/202601/0113-八股.md",
+                        "type": "markdown"
+                    },
+                    "0114-八股.md": {
+                        "title": "数据库",
+                        "description": "- **典型结构**：根节点 -> 中间节点(可选) -> 叶子节点\r",
+                        "readTime": 11,
+                        "tags": [
+                            "持续交卷\\算法\\202601"
+                        ],
+                        "path": "持续交卷/算法/202601/0114-八股.md",
+                        "type": "markdown"
+                    },
+                    "0118-八股-xhs.md": {
+                        "title": "小红书题整理 - 思路总结",
+                        "description": "**核心思路**：使用滑动窗口算法维护一个无重复字符的窗口，通过左右指针动态调整窗口范围。\r",
+                        "readTime": 294,
+                        "tags": [
+                            "持续交卷\\算法\\202601"
+                        ],
+                        "path": "持续交卷/算法/202601/0118-八股-xhs.md",
+                        "type": "markdown"
+                    },
+                    "0118-思路总结.md": {
+                        "title": "小红书题整理 - 核心思路总结",
+                        "description": "**问题本质**：在一个字符串中找到最长的连续子串，该子串中所有字符都不重复。\r",
+                        "readTime": 50,
+                        "tags": [
+                            "持续交卷\\算法\\202601"
+                        ],
+                        "path": "持续交卷/算法/202601/0118-思路总结.md",
+                        "type": "markdown"
+                    },
+                    "0120-八股.md": {
+                        "title": "DDD领域驱动设计面试八股文",
+                        "description": "**问题分析**：考察对DDD基本概念的理解，这是DDD面试的入门问题。\r",
+                        "readTime": 25,
+                        "tags": [
+                            "持续交卷\\算法\\202601"
+                        ],
+                        "path": "持续交卷/算法/202601/0120-八股.md",
+                        "type": "markdown"
+                    },
+                    "0121-CR考试.md": {
+                        "title": "Java代码评审知识点整理",
+                        "description": "**问题描述**: 使用Thread.sleep()进行限流控制\r",
+                        "readTime": 171,
+                        "tags": [
+                            "持续交卷\\算法\\202601"
+                        ],
+                        "path": "持续交卷/算法/202601/0121-CR考试.md",
+                        "type": "markdown"
+                    },
+                    "0121-八股.md": {
+                        "title": "2026-01-21 八股文：高拓展性、高可维护性系统架构设计",
+                        "description": "掌握设计高拓展性、高可维护性系统架构的核心原则和技术方案。通过理解架构设计模式，提升系统设计能力和技术选型水平。\r",
+                        "readTime": 14,
+                        "tags": [
+                            "持续交卷\\算法\\202601"
+                        ],
+                        "path": "持续交卷/算法/202601/0121-八股.md",
+                        "type": "markdown"
                     }
                 },
                 "rule.md": {
@@ -1082,6 +1543,16 @@ const knowledgeBase = {
                         "持续交卷\\算法"
                     ],
                     "path": "持续交卷/算法/rule.md",
+                    "type": "markdown"
+                },
+                "八股集合.md": {
+                    "title": "后端八股文集合",
+                    "description": "系统整理后端开发面试中常见的理论知识点，涵盖数据库、网络、系统设计、编程语言、框架等核心领域。通过理解底层原理，提升技术深度和面试竞争力。\r",
+                    "readTime": 8,
+                    "tags": [
+                        "持续交卷\\算法"
+                    ],
+                    "path": "持续交卷/算法/八股集合.md",
                     "type": "markdown"
                 }
             },
@@ -1128,6 +1599,86 @@ const knowledgeBase = {
                         ],
                         "path": "持续交卷/英语资讯/202601/0112-EN.md",
                         "type": "markdown"
+                    },
+                    "0113-EN.md": {
+                        "title": "EN",
+                        "description": "microservice 微服务\r",
+                        "readTime": 1,
+                        "tags": [
+                            "持续交卷\\英语资讯\\202601"
+                        ],
+                        "path": "持续交卷/英语资讯/202601/0113-EN.md",
+                        "type": "markdown"
+                    },
+                    "0114-EN.md": {
+                        "title": "EN",
+                        "description": "programmer 程序员\r",
+                        "readTime": 1,
+                        "tags": [
+                            "持续交卷\\英语资讯\\202601"
+                        ],
+                        "path": "持续交卷/英语资讯/202601/0114-EN.md",
+                        "type": "markdown"
+                    },
+                    "0114-单词学习.md": {
+                        "title": "单词学习笔记 - 2026年1月14日",
+                        "description": "**efficient**, enhance, exceeds, threshold\r",
+                        "readTime": 7,
+                        "tags": [
+                            "持续交卷\\英语资讯\\202601"
+                        ],
+                        "path": "持续交卷/英语资讯/202601/0114-单词学习.md",
+                        "type": "markdown"
+                    },
+                    "0114-复杂单词解释.md": {
+                        "title": "复杂单词详细解释 - 2026年1月14日",
+                        "description": "基于句子：*Our system will experience sudden traffic spikes, causing downstream systems to face sharply increased pressure, because Java applications start...",
+                        "readTime": 17,
+                        "tags": [
+                            "持续交卷\\英语资讯\\202601"
+                        ],
+                        "path": "持续交卷/英语资讯/202601/0114-复杂单词解释.md",
+                        "type": "markdown"
+                    },
+                    "0114-翻译练习.md": {
+                        "title": "英文翻译练习 - 2026年1月14日",
+                        "description": "我们的系统会有突增流量，造成下游系统压力陡增，因为java应用启动缓存，从而导致超时问题。\r",
+                        "readTime": 4,
+                        "tags": [
+                            "持续交卷\\英语资讯\\202601"
+                        ],
+                        "path": "持续交卷/英语资讯/202601/0114-翻译练习.md",
+                        "type": "markdown"
+                    },
+                    "0115-EN.md": {
+                        "title": "EN",
+                        "description": "monitoring 监控\r",
+                        "readTime": 8,
+                        "tags": [
+                            "持续交卷\\英语资讯\\202601"
+                        ],
+                        "path": "持续交卷/英语资讯/202601/0115-EN.md",
+                        "type": "markdown"
+                    },
+                    "0120-EN.md": {
+                        "title": "基础编程概念详解 (Basic Programming Concepts in Detail)",
+                        "description": "**定义**: 变量是用来存储数据值的内存位置，每个变量都有一个名称和数据类型。\r",
+                        "readTime": 15,
+                        "tags": [
+                            "持续交卷\\英语资讯\\202601"
+                        ],
+                        "path": "持续交卷/英语资讯/202601/0120-EN.md",
+                        "type": "markdown"
+                    },
+                    "0121-EN_DDD.md": {
+                        "title": "DDD English Quick Guide (10分钟速成)",
+                        "description": "**定义**: A software development approach focusing on modeling software to match business domain according to domain experts' input.\r",
+                        "readTime": 11,
+                        "tags": [
+                            "持续交卷\\英语资讯\\202601"
+                        ],
+                        "path": "持续交卷/英语资讯/202601/0121-EN_DDD.md",
+                        "type": "markdown"
                     }
                 },
                 "rule.md": {
@@ -1138,6 +1689,26 @@ const knowledgeBase = {
                         "持续交卷\\英语资讯"
                     ],
                     "path": "持续交卷/英语资讯/rule.md",
+                    "type": "markdown"
+                },
+                "学习网站.md": {
+                    "title": "软件工程英语学习网站推荐",
+                    "description": "- **MDN Web Docs** (<https://developer.mozilla.org/>)\r",
+                    "readTime": 5,
+                    "tags": [
+                        "持续交卷\\英语资讯"
+                    ],
+                    "path": "持续交卷/英语资讯/学习网站.md",
+                    "type": "markdown"
+                },
+                "知识集合.md": {
+                    "title": "后端工程师英语知识集合",
+                    "description": "- Variable (变量)\r",
+                    "readTime": 19,
+                    "tags": [
+                        "持续交卷\\英语资讯"
+                    ],
+                    "path": "持续交卷/英语资讯/知识集合.md",
                     "type": "markdown"
                 }
             },
@@ -1191,6 +1762,76 @@ const knowledgeBase = {
                             "持续交卷\\阅读笔记\\202601"
                         ],
                         "path": "持续交卷/阅读笔记/202601/0112-资讯.md",
+                        "type": "markdown"
+                    },
+                    "0113-资讯.md": {
+                        "title": "创业调研",
+                        "description": "大部分企业将AI嵌入既有流程，而不是购买全新软件\r",
+                        "readTime": 9,
+                        "tags": [
+                            "持续交卷\\阅读笔记\\202601"
+                        ],
+                        "path": "持续交卷/阅读笔记/202601/0113-资讯.md",
+                        "type": "markdown"
+                    },
+                    "0114-资讯.md": {
+                        "title": "AI",
+                        "description": "Baichuan-M3，在问诊能力、医疗幻觉控制等评测中排名第一，超越openai-5.2和人类医生\r",
+                        "readTime": 2,
+                        "tags": [
+                            "持续交卷\\阅读笔记\\202601"
+                        ],
+                        "path": "持续交卷/阅读笔记/202601/0114-资讯.md",
+                        "type": "markdown"
+                    },
+                    "0115-资讯.md": {
+                        "title": "出海",
+                        "description": "互利互通，跨品牌设备交互\r",
+                        "readTime": 1,
+                        "tags": [
+                            "持续交卷\\阅读笔记\\202601"
+                        ],
+                        "path": "持续交卷/阅读笔记/202601/0115-资讯.md",
+                        "type": "markdown"
+                    },
+                    "0116-资讯.md": {
+                        "title": "AI",
+                        "description": "杭州六小龙：2024年底至2025年初提出的概念，指杭州聚焦机器人、人工智能、游戏开发、脑机接口等领域的六家前沿科技企业：\r",
+                        "readTime": 1,
+                        "tags": [
+                            "持续交卷\\阅读笔记\\202601"
+                        ],
+                        "path": "持续交卷/阅读笔记/202601/0116-资讯.md",
+                        "type": "markdown"
+                    },
+                    "0120-资讯.md": {
+                        "title": "创业",
+                        "description": "全球AI领域估值最高的初创公司之一\r",
+                        "readTime": 6,
+                        "tags": [
+                            "持续交卷\\阅读笔记\\202601"
+                        ],
+                        "path": "持续交卷/阅读笔记/202601/0120-资讯.md",
+                        "type": "markdown"
+                    },
+                    "0121-资讯.md": {
+                        "title": "政策",
+                        "description": "手术机器人、远程医疗、脑机接口\r",
+                        "readTime": 2,
+                        "tags": [
+                            "持续交卷\\阅读笔记\\202601"
+                        ],
+                        "path": "持续交卷/阅读笔记/202601/0121-资讯.md",
+                        "type": "markdown"
+                    },
+                    "0122-资讯.md": {
+                        "title": "AI资讯 - 2025年1月22日",
+                        "description": "百度文心App内测多人Agent群聊功能，可在同一个群里调用多个AI角色协作，适用于脑暴、办公、家庭等场景，聚焦任务型AI协作体验。",
+                        "readTime": 12,
+                        "tags": [
+                            "持续交卷\\阅读笔记\\202601"
+                        ],
+                        "path": "持续交卷/阅读笔记/202601/0122-资讯.md",
                         "type": "markdown"
                     }
                 },
