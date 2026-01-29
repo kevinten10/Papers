@@ -1,4 +1,4 @@
-// 知识库数据结构 - 自动生成于 2026-01-21T11:41:55.063Z
+// 知识库数据结构 - 自动生成于 2026-01-29T14:28:28.557Z
 // 使用 generate-index.js 生成，请勿手动修改
 
 const knowledgeBase = {
@@ -1017,6 +1017,335 @@ const knowledgeBase = {
                         ],
                         "path": "持续交卷/AI原理/202601/0121-Sora.md",
                         "type": "markdown"
+                    },
+                    "0122-AI_Native.md": {
+                        "title": "AI Native 系统解析",
+                        "description": "AI Native系统是一种全新的软件开发范式，它将人工智能作为开发过程的核心伙伴，而不是仅仅作为辅助工具。在这种系统中，开发人员不再专注于编写每一行代码的具体实现，而是专注于定义清晰的需求规范和成功标准，让AI来生成、优化和维护代码。",
+                        "readTime": 5,
+                        "tags": [
+                            "202601",
+                            "AI"
+                        ],
+                        "path": "持续交卷/AI原理/202601/0122-AI_Native.md",
+                        "type": "markdown"
+                    },
+                    "0122-AI_Native_Product.md": {
+                        "title": "AI Native产品解析",
+                        "description": "AI Native产品是指那些从产品设计阶段就深度整合人工智能能力的产品。与传统产品简单\"加上AI功能\"不同，AI Native产品将AI能力作为产品的核心要素，从根本上重新设计产品形态、用户体验和价值创造方式。",
+                        "readTime": 127,
+                        "tags": [
+                            "202601",
+                            "AI"
+                        ],
+                        "path": "持续交卷/AI原理/202601/0122-AI_Native_Product.md",
+                        "type": "markdown"
+                    },
+                    "0122-CLI.md": {
+                        "title": "AI编程工具调研报告 (2026年1月)",
+                        "description": "基于2026年1月最新市场情况，对市面上的AI编程工具进行全面调研。涵盖用户正在使用的10个工具，并补充其他主流工具的详细信息。",
+                        "readTime": 11,
+                        "tags": [
+                            "202601"
+                        ],
+                        "path": "持续交卷/AI原理/202601/0122-CLI.md",
+                        "type": "markdown"
+                    },
+                    "0122-VibeCoding.md": {
+                        "title": "Vibe Coding 面试攻略：1.5小时从0到1完成Demo",
+                        "description": "Vibe Coding是一种利用AI编程助手进行高效开发的思维模式，强调开发者对架构和规划的控制，AI负责具体实现，通过结构化prompt和增量迭代实现高质量代码。",
+                        "readTime": 14,
+                        "tags": [
+                            "202601"
+                        ],
+                        "path": "持续交卷/AI原理/202601/0122-VibeCoding.md",
+                        "type": "markdown"
+                    },
+                    "0122-多AI角色.md": {
+                        "title": "多AI角色系统解析",
+                        "description": "多AI角色系统（Multi-Agent AI System）是指在一个智能系统中同时运行多个具有不同专业能力、性格特征和行为模式的AI代理（Agent），它们能够相互协作、竞争或辩论来完成复杂任务。这种设计灵感来源于人类社会的分工合作模式，通过模拟不同角色的思维方式来提升整体系统的智能水平。",
+                        "readTime": 10,
+                        "tags": [
+                            "202601",
+                            "AI"
+                        ],
+                        "path": "持续交卷/AI原理/202601/0122-多AI角色.md",
+                        "type": "markdown"
+                    },
+                    "0126-FreeModel.md": {
+                        "title": "0126-FreeModel",
+                        "description": "> 目标：把你列出的 “free 清单” 拆成 **工具层（体验/工作流）× 模型层（能力）× 免费层（配额/限制/隐私）**，最后输出一个你能直接用的选型结论。",
+                        "readTime": 37,
+                        "tags": [
+                            "202601"
+                        ],
+                        "path": "持续交卷/AI原理/202601/0126-FreeModel.md",
+                        "type": "markdown"
+                    },
+                    "0127-clawdbot.md": {
+                        "title": "Clawdbot (现更名为 Moltbot) 深度调研报告",
+                        "description": "**Clawdbot**（2026年1月更名为 **Moltbot**）是一个开源的、运行在本地设备上的**个人 AI 助手**。它由 Peter Steinberger (@steipete) 开发，旨在打破传统 AI 聊天机器人（如 ChatGPT、Claude 网页版）的限制，让 AI 真正拥...",
+                        "readTime": 6,
+                        "tags": [
+                            "202601"
+                        ],
+                        "path": "持续交卷/AI原理/202601/0127-clawdbot.md",
+                        "type": "markdown"
+                    },
+                    "0127-推荐原理.md": {
+                        "title": "算法推荐",
+                        "description": "1. **数据准备 (Data Engineering)**：",
+                        "readTime": 6,
+                        "tags": [
+                            "202601"
+                        ],
+                        "path": "持续交卷/AI原理/202601/0127-推荐原理.md",
+                        "type": "markdown"
+                    },
+                    "0128-AI工具": {
+                        "AI工具全书-2026交付版.md": {
+                            "title": "AI 工具全书：2026 深度集成与实战教学版",
+                            "description": "> **项目定位**：业内最详尽、最实操的 AI 工具组合使用指南，基于 20+ 份深度调研文档、用户真实反馈与 2026 年最新行业数据构建。",
+                            "readTime": 8,
+                            "tags": [
+                                "0128-AI工具",
+                                "AI"
+                            ],
+                            "path": "持续交卷/AI原理/202601/0128-AI工具/AI工具全书-2026交付版.md",
+                            "type": "markdown"
+                        },
+                        "Agentic_Development_2026.pdf": {
+                            "title": "Agentic_Development_2026",
+                            "path": "持续交卷/AI原理/202601/0128-AI工具/Agentic_Development_2026.pdf",
+                            "type": "pdf",
+                            "description": "PDF 文档",
+                            "readTime": 10,
+                            "tags": [
+                                "PDF"
+                            ]
+                        },
+                        "CHANGELOG.md": {
+                            "title": "变更日志",
+                            "description": "所有项目的显著变更都将记录在此文件中。",
+                            "readTime": 4,
+                            "tags": [
+                                "0128-AI工具"
+                            ],
+                            "path": "持续交卷/AI原理/202601/0128-AI工具/CHANGELOG.md",
+                            "type": "markdown"
+                        },
+                        "CONTRIBUTING.md": {
+                            "title": "贡献指南",
+                            "description": "感谢您对 AI 工具全书项目的关注！我们欢迎所有形式的贡献，包括但不限于：",
+                            "readTime": 8,
+                            "tags": [
+                                "0128-AI工具"
+                            ],
+                            "path": "持续交卷/AI原理/202601/0128-AI工具/CONTRIBUTING.md",
+                            "type": "markdown"
+                        },
+                        "README.md": {
+                            "title": "AI 工具全书 - 2026 深度集成与实战教学版",
+                            "description": "[![Vue 3](https://img.shields.io/badge/Vue-3.5.13-4FC08D?logo=vue.js)](https://vuejs.org/)",
+                            "readTime": 7,
+                            "tags": [
+                                "0128-AI工具"
+                            ],
+                            "path": "持续交卷/AI原理/202601/0128-AI工具/README.md",
+                            "type": "markdown"
+                        },
+                        "website": {
+                            "README.md": {
+                                "title": "AI 工具教学网站 - 开发文档",
+                                "description": "基于 Vue 3 + Vite + Tailwind CSS 构建的 AI 工具选型与教学平台。",
+                                "readTime": 11,
+                                "tags": [
+                                    "website"
+                                ],
+                                "path": "持续交卷/AI原理/202601/0128-AI工具/website/README.md",
+                                "type": "markdown"
+                            }
+                        },
+                        "调研": {
+                            "AI工具全景图谱.md": {
+                                "title": "AI 工具全景图谱（2026年1月版）",
+                                "description": "> **文档定位**：系统性梳理当前 AI 工具生态，建立统一的分类体系和对比框架",
+                                "readTime": 14,
+                                "tags": [
+                                    "调研",
+                                    "AI"
+                                ],
+                                "path": "持续交卷/AI原理/202601/0128-AI工具/调研/AI工具全景图谱.md",
+                                "type": "markdown"
+                            },
+                            "PLAN2.md": {
+                                "title": "PLAN2",
+                                "description": "",
+                                "readTime": 1,
+                                "tags": [
+                                    "调研"
+                                ],
+                                "path": "持续交卷/AI原理/202601/0128-AI工具/调研/PLAN2.md",
+                                "type": "markdown"
+                            },
+                            "PLAN3.md": {
+                                "title": "PLAN3",
+                                "description": "补充之前各个工具用到的各个大模型的能力对比，比如价格、性能、使用场景等",
+                                "readTime": 1,
+                                "tags": [
+                                    "调研"
+                                ],
+                                "path": "持续交卷/AI原理/202601/0128-AI工具/调研/PLAN3.md",
+                                "type": "markdown"
+                            },
+                            "PLAN4.md": {
+                                "title": "PLAN4",
+                                "description": "1. 添加github图标和链接：https://github.com/kevinten10",
+                                "readTime": 1,
+                                "tags": [
+                                    "调研"
+                                ],
+                                "path": "持续交卷/AI原理/202601/0128-AI工具/调研/PLAN4.md",
+                                "type": "markdown"
+                            },
+                            "README.md": {
+                                "title": "AI 工具使用体验与教程",
+                                "description": "> **文档定位**：基于真实使用体验的 AI 工具选型指南与实战手册",
+                                "readTime": 11,
+                                "tags": [
+                                    "调研"
+                                ],
+                                "path": "持续交卷/AI原理/202601/0128-AI工具/调研/README.md",
+                                "type": "markdown"
+                            },
+                            "使用指南2_gpt.md": {
+                                "title": "使用指南2_gpt",
+                                "description": "<!-- markdownlint-disable MD041 -->",
+                                "readTime": 15,
+                                "tags": [
+                                    "调研"
+                                ],
+                                "path": "持续交卷/AI原理/202601/0128-AI工具/调研/使用指南2_gpt.md",
+                                "type": "markdown"
+                            },
+                            "使用指南_claude.md": {
+                                "title": "AI工具使用体验与教程",
+                                "description": "本文档记录我在实际工作中使用过的AI工具,包括AI IDE、AI CLI、AI模型和网站等。这些工具在不同场景下各有优劣,我会根据搜索到的最新信息进行补充和修正。",
+                                "readTime": 27,
+                                "tags": [
+                                    "ai-ide)",
+                                    "ai-cli工具)",
+                                    "ai模型网站工具)",
+                                    "ai视频工具)",
+                                    "ai-3d模型工具)"
+                                ],
+                                "path": "持续交卷/AI原理/202601/0128-AI工具/调研/使用指南_claude.md",
+                                "type": "markdown"
+                            },
+                            "使用指南_gemini.md": {
+                                "title": "使用指南_gemini",
+                                "description": "太棒了！你这份清单涵盖了目前 AI 开发领域最前沿的工具。作为 2026 年的 AI 协作伙伴，我根据最新的行业动态和技术演进，对你的使用体验进行了深度补充和修正。",
+                                "readTime": 8,
+                                "tags": [
+                                    "调研"
+                                ],
+                                "path": "持续交卷/AI原理/202601/0128-AI工具/调研/使用指南_gemini.md",
+                                "type": "markdown"
+                            },
+                            "使用指南_gpt.md": {
+                                "title": "AI工具使用指南（基于个人体验的可落地手册）",
+                                "description": "> **定位**：这是一份面向“日常工作/学习场景”的 AI 工具组合使用指南，基于你的真实体验做结构化整理，并补齐：功能模块表格、操作流程示意图、案例、SWOT、场景评估与优化建议。",
+                                "readTime": 25,
+                                "tags": [
+                                    "1-快速开始怎么选工具)",
+                                    "2-工具全景功能模块总览表)",
+                                    "3-ai-ide-使用指南)",
+                                    "4-ai-cli-使用指南)",
+                                    "5-ai-模型网站垂类工具使用指南)",
+                                    "6-操作流程示意图mermaid)",
+                                    "7-实际应用案例可复用脚本)",
+                                    "8-任务规划制作落地-todolist含时间节点与优先级)",
+                                    "9-swot-分析)",
+                                    "10-使用场景评估场景--工具组合)",
+                                    "11-优化建议效率质量成本安全)",
+                                    "附录-a通用提示词模板prompt-pack)",
+                                    "附录-b交付前检查清单)"
+                                ],
+                                "path": "持续交卷/AI原理/202601/0128-AI工具/调研/使用指南_gpt.md",
+                                "type": "markdown"
+                            },
+                            "使用指南_openai.md": {
+                                "title": "使用指南_openai",
+                                "description": "下面是基于你提供的初稿、我查到的资料与用户实际使用反馈（含社区讨论和工具对比）整理出的 **2025–2026 AI 工具体验和评测补充版**。内容覆盖你列的工具，并补充了主流对比与其它值得关注的 AI IDE/CLI/模型等。",
+                                "readTime": 14,
+                                "tags": [
+                                    "调研"
+                                ],
+                                "path": "持续交卷/AI原理/202601/0128-AI工具/调研/使用指南_openai.md",
+                                "type": "markdown"
+                            },
+                            "工具选型决策指南.md": {
+                                "title": "AI 工具选型决策指南",
+                                "description": "> **文档定位**：提供可落地的工具选型决策流程，帮助快速找到最适合的 AI 工具组合",
+                                "readTime": 12,
+                                "tags": [
+                                    "调研"
+                                ],
+                                "path": "持续交卷/AI原理/202601/0128-AI工具/调研/工具选型决策指南.md",
+                                "type": "markdown"
+                            },
+                            "范式革命与战术赋能：AI开发工具选型指南与实战手册.pdf": {
+                                "title": "范式革命与战术赋能：AI开发工具选型指南与实战手册",
+                                "path": "持续交卷/AI原理/202601/0128-AI工具/调研/范式革命与战术赋能：AI开发工具选型指南与实战手册.pdf",
+                                "type": "pdf",
+                                "description": "PDF 文档",
+                                "readTime": 10,
+                                "tags": [
+                                    "PDF"
+                                ]
+                            }
+                        },
+                        "需求": {
+                            "需求1.md": {
+                                "title": "AI工具教学网站",
+                                "description": "现在，我想搭建一个AI工具的教学网站，帮助团队中的其他成员学习AI工具相关的知识。",
+                                "readTime": 2,
+                                "tags": [
+                                    "需求"
+                                ],
+                                "path": "持续交卷/AI原理/202601/0128-AI工具/需求/需求1.md",
+                                "type": "markdown"
+                            },
+                            "需求2.md": {
+                                "title": "需求2",
+                                "description": "",
+                                "readTime": 1,
+                                "tags": [
+                                    "需求"
+                                ],
+                                "path": "持续交卷/AI原理/202601/0128-AI工具/需求/需求2.md",
+                                "type": "markdown"
+                            }
+                        }
+                    },
+                    "0129-supabase-公众号版.md": {
+                        "title": "2026-01-29 - Supabase开源BaaS平台完全指南",
+                        "description": "title: 2026-01-29 - Supabase开源BaaS平台完全指南",
+                        "readTime": 31,
+                        "tags": [
+                            "202601"
+                        ],
+                        "path": "持续交卷/AI原理/202601/0129-supabase-公众号版.md",
+                        "type": "markdown"
+                    },
+                    "0129-supabase.md": {
+                        "title": "Supabase 使用指南",
+                        "description": "Supabase 是一个开源的后端即服务(BaaS)平台，提供完整的 Postgres 数据库、认证、实时订阅、存储和 Edge Functions 等功能。它被称为\"开源的 Firebase 替代品\"。",
+                        "readTime": 25,
+                        "tags": [
+                            "202601"
+                        ],
+                        "path": "持续交卷/AI原理/202601/0129-supabase.md",
+                        "type": "markdown"
                     }
                 },
                 "rule.md": {
@@ -1171,6 +1500,36 @@ const knowledgeBase = {
                             "4A90E2),"
                         ],
                         "path": "持续交卷/公众号文章/202601/2026-01-21-公众号.md",
+                        "type": "markdown"
+                    },
+                    "2026-01-22-公众号.md": {
+                        "title": "2026-01-22 - AI编程与开发范式深度解析",
+                        "description": "title: 2026-01-22 - AI编程与开发范式深度解析",
+                        "readTime": 20,
+                        "tags": [
+                            "202601"
+                        ],
+                        "path": "持续交卷/公众号文章/202601/2026-01-22-公众号.md",
+                        "type": "markdown"
+                    },
+                    "2026-01-26-公众号.md": {
+                        "title": "2026-01-26 - AI编程工具选型指南与行业资讯洞察",
+                        "description": "title: 2026-01-26 - AI编程工具选型指南与行业资讯洞察",
+                        "readTime": 29,
+                        "tags": [
+                            "202601"
+                        ],
+                        "path": "持续交卷/公众号文章/202601/2026-01-26-公众号.md",
+                        "type": "markdown"
+                    },
+                    "2026-01-27-公众号.md": {
+                        "title": "2026-01-27 - 推荐系统原理与本地AI助手技术洞察",
+                        "description": "title: 2026-01-27 - 推荐系统原理与本地AI助手技术洞察",
+                        "readTime": 14,
+                        "tags": [
+                            "202601"
+                        ],
+                        "path": "持续交卷/公众号文章/202601/2026-01-27-公众号.md",
                         "type": "markdown"
                     }
                 }
@@ -1597,6 +1956,16 @@ const knowledgeBase = {
                             "202601"
                         ],
                         "path": "持续交卷/阅读笔记/202601/0121-资讯.md",
+                        "type": "markdown"
+                    },
+                    "0126-资讯.md": {
+                        "title": "AI资讯 - 2025年1月22日",
+                        "description": "百度文心App内测多人Agent群聊功能，可在同一个群里调用多个AI角色协作，适用于脑暴、办公、家庭等场景，聚焦任务型AI协作体验。",
+                        "readTime": 12,
+                        "tags": [
+                            "202601"
+                        ],
+                        "path": "持续交卷/阅读笔记/202601/0126-资讯.md",
                         "type": "markdown"
                     }
                 },
