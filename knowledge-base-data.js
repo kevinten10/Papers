@@ -1,4 +1,4 @@
-// 知识库数据结构 - 自动生成于 2026-02-03T15:36:58.456Z
+// 知识库数据结构 - 自动生成于 2026-02-03T15:46:15.124Z
 // 使用 generate-index.js 生成，请勿手动修改
 
 const knowledgeBase = {
@@ -1563,6 +1563,26 @@ const knowledgeBase = {
                         ],
                         "path": "持续交卷/公众号文章/202602/2026-02-01-公众号.md",
                         "type": "markdown"
+                    },
+                    "2026-02-02-公众号.md": {
+                        "title": "2026-02-02 - 技术学习日报：算法精解与AI系统设计",
+                        "description": "title: 2026-02-02 - 技术学习日报：算法精解与AI系统设计",
+                        "readTime": 22,
+                        "tags": [
+                            "202602"
+                        ],
+                        "path": "持续交卷/公众号文章/202602/2026-02-02-公众号.md",
+                        "type": "markdown"
+                    },
+                    "2026-02-03-公众号.md": {
+                        "title": "2026-02-03 - 技术架构思考：MCP与Claude Skills的定位与设计",
+                        "description": "title: 2026-02-03 - 技术架构思考：MCP与Claude Skills的定位与设计",
+                        "readTime": 7,
+                        "tags": [
+                            "202602"
+                        ],
+                        "path": "持续交卷/公众号文章/202602/2026-02-03-公众号.md",
+                        "type": "markdown"
                     }
                 }
             },
@@ -1741,6 +1761,86 @@ const knowledgeBase = {
                             "多模态能力对比)"
                         ],
                         "path": "持续交卷/算法/202602/0201-mm.md",
+                        "type": "markdown"
+                    },
+                    "0202-al-公众号版.md": {
+                        "title": "2026-02-02 - AI网关日志收集系统设计",
+                        "description": "title: 2026-02-02 - AI网关日志收集系统设计",
+                        "readTime": 25,
+                        "tags": [
+                            "202602"
+                        ],
+                        "path": "持续交卷/算法/202602/0202-al-公众号版.md",
+                        "type": "markdown"
+                    },
+                    "0202-al.md": {
+                        "title": "AI网关日志收集系统设计",
+                        "description": "> 更新日期：2025年2月3日",
+                        "readTime": 43,
+                        "tags": [
+                            "一核心挑战与指标)",
+                            "二系统架构)",
+                            "三数据模型)",
+                            "四技术选型)",
+                            "五核心模块设计)",
+                            "六高可用设计)",
+                            "七性能优化)",
+                            "八成本控制)",
+                            "九agent可观测性)",
+                            "十mq设计与资源隔离)",
+                            "十一总结)"
+                        ],
+                        "path": "持续交卷/算法/202602/0202-al.md",
+                        "type": "markdown"
+                    },
+                    "0202-fr-公众号版.md": {
+                        "title": "2026-02-02 - AI系统设计关键问题深度解析",
+                        "description": "title: 2026-02-02 - AI系统设计关键问题深度解析",
+                        "readTime": 13,
+                        "tags": [
+                            "202602"
+                        ],
+                        "path": "持续交卷/算法/202602/0202-fr-公众号版.md",
+                        "type": "markdown"
+                    },
+                    "0202-fr.md": {
+                        "title": "AI系统设计关键问题",
+                        "description": "首Token响应时间（Time To First Token）由四个主要阶段组成：",
+                        "readTime": 35,
+                        "tags": [
+                            "202602"
+                        ],
+                        "path": "持续交卷/算法/202602/0202-fr.md",
+                        "type": "markdown"
+                    },
+                    "0202-tl-公众号版.md": {
+                        "title": "2026-02-02 - 算法题目精解：字符串处理与限流算法",
+                        "description": "title: 2026-02-02 - 算法题目精解：字符串处理与限流算法",
+                        "readTime": 7,
+                        "tags": [
+                            "202602"
+                        ],
+                        "path": "持续交卷/算法/202602/0202-tl-公众号版.md",
+                        "type": "markdown"
+                    },
+                    "0202-tl.md": {
+                        "title": "算法题目精简版",
+                        "description": "**问题**：从字符串中提取所有整数（含负数），返回最大值",
+                        "readTime": 4,
+                        "tags": [
+                            "202602"
+                        ],
+                        "path": "持续交卷/算法/202602/0202-tl.md",
+                        "type": "markdown"
+                    },
+                    "0203-jk.md": {
+                        "title": "0203-jk",
+                        "description": "现在有了claude skills，mcp还有必要吗？",
+                        "readTime": 4,
+                        "tags": [
+                            "202602"
+                        ],
+                        "path": "持续交卷/算法/202602/0203-jk.md",
                         "type": "markdown"
                     }
                 },
