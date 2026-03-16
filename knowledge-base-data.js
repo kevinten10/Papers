@@ -1,4 +1,4 @@
-// 知识库数据结构 - 自动生成于 2026-02-03T15:46:15.124Z
+// 知识库数据结构 - 自动生成于 2026-03-16T10:08:16.346Z
 // 使用 generate-index.js 生成，请勿手动修改
 
 const knowledgeBase = {
@@ -1345,6 +1345,48 @@ const knowledgeBase = {
                             "202601"
                         ],
                         "path": "持续交卷/AI原理/202601/0129-supabase.md",
+                        "type": "markdown"
+                    }
+                },
+                "202603": {
+                    "0310-AICoding-社媒版.md": {
+                        "title": "Vibe Coding 翻车补救 — 多平台发布版",
+                        "description": "> 定位：独立成文的精华版，保留核心框架和金句，引导读者收藏转发。约 2500 字。",
+                        "readTime": 21,
+                        "tags": [
+                            "AICoding",
+                            "VibeCoding",
+                            "ClaudeCode",
+                            "Cursor",
+                            "AI编程",
+                            "程序员",
+                            "开发者工具",
+                            "编程干货",
+                            "AI工具",
+                            "效率提升"
+                        ],
+                        "path": "持续交卷/AI原理/202603/0310-AICoding-社媒版.md",
+                        "type": "markdown"
+                    },
+                    "0310-AICoding.md": {
+                        "title": "Vibe Coding 翻车后怎么办？大型项目的补救策略与工程化实践",
+                        "description": "title: Vibe Coding 翻车后怎么办？大型项目的补救策略与工程化实践",
+                        "readTime": 71,
+                        "tags": [
+                            "202603",
+                            "AI"
+                        ],
+                        "path": "持续交卷/AI原理/202603/0310-AICoding.md",
+                        "type": "markdown"
+                    },
+                    "SESSION-GUIDE.md": {
+                        "title": "会话指导文件 — 2026-03-11 AI Coding 文章生成",
+                        "description": "> 本文件记录本次 Claude Code 会话的完整产出，供后续会话参考。",
+                        "readTime": 8,
+                        "tags": [
+                            "202603"
+                        ],
+                        "path": "持续交卷/AI原理/202603/SESSION-GUIDE.md",
                         "type": "markdown"
                     }
                 },
