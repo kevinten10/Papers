@@ -12,7 +12,13 @@
     <meta property="og:url" content="https://kevinten10.github.io/Papers/navigation.html"/>
     <link rel="canonical" href="https://kevinten10.github.io/Papers/navigation.html"/>
     <link rel="stylesheet" href="assets/css/main.css"/>
+    <link rel="stylesheet" href="assets/css/enhanced.css"/>
     <style>
+        /* Page entry animation */
+        #one { animation: kh-fadeInUp 0.6s cubic-bezier(0.22,1,0.36,1) 0.1s both; }
+        .nav-grid { animation: kh-fadeInUp 0.6s cubic-bezier(0.22,1,0.36,1) 0.2s both; }
+        .recent-updates { animation: kh-fadeInUp 0.6s cubic-bezier(0.22,1,0.36,1) 0.35s both; }
+
         .nav-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
@@ -21,11 +27,13 @@
         }
 
         .nav-card {
-            background: linear-gradient(135deg, rgba(255,255,255,0.1), rgba(255,255,255,0.05));
-            border-radius: 15px;
+            background: var(--kh-bg-glass, rgba(255,255,255,0.06));
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border-radius: var(--kh-radius, 14px);
             padding: 2em;
-            border: 2px solid rgba(73, 191, 157, 0.2);
-            transition: all 0.4s ease;
+            border: 1px solid var(--kh-border, rgba(73,191,157,0.15));
+            transition: all 0.45s cubic-bezier(0.22, 1, 0.36, 1);
             position: relative;
             overflow: hidden;
         }
@@ -36,14 +44,17 @@
             top: 0;
             left: 0;
             right: 0;
-            height: 5px;
-            background: linear-gradient(90deg, #49bf9d, #64b5f6, #81c784);
+            height: 3px;
+            background: linear-gradient(90deg, var(--kh-primary, #49bf9d), var(--kh-accent, #64b5f6), var(--kh-accent2, #ce93d8));
+            opacity: 0.7;
+            transition: opacity 0.3s;
         }
+        .nav-card:hover::before { opacity: 1; }
 
         .nav-card:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 20px 40px rgba(73, 191, 157, 0.3);
-            border-color: #49bf9d;
+            transform: translateY(-8px);
+            box-shadow: 0 20px 50px rgba(73, 191, 157, 0.2);
+            border-color: var(--kh-border-hover, rgba(73,191,157,0.4));
         }
 
         .nav-icon {
@@ -89,18 +100,33 @@
         .nav-button {
             background: linear-gradient(135deg, #49bf9d, #3a9d7a);
             color: white;
-            padding: 0.8em 1.5em;
+            padding: 0.75em 1.5em;
             border: none;
-            border-radius: 25px;
+            border-radius: var(--kh-radius-pill, 50px);
             text-decoration: none;
-            display: inline-block;
-            transition: all 0.3s ease;
-            font-weight: bold;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.3em;
+            transition: all 0.35s cubic-bezier(0.22, 1, 0.36, 1);
+            font-family: var(--kh-font-display, sans-serif);
+            font-weight: 600;
+            font-size: 0.9em;
+            position: relative;
+            overflow: hidden;
         }
+        .nav-button::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(135deg, rgba(255,255,255,0.15), transparent);
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+        .nav-button:hover::after { opacity: 1; }
 
         .nav-button:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 20px rgba(73, 191, 157, 0.4);
+            transform: translateY(-3px);
+            box-shadow: 0 8px 28px rgba(73, 191, 157, 0.35);
             color: white;
         }
 
@@ -209,7 +235,7 @@
         </div>
     </section>
 
-    <div class="nav-grid">
+    <div class="nav-grid kh-reveal">
         <!-- 智能知识库 -->
         <div class="nav-card">
             <span class="nav-icon">🚀</span>

@@ -5,79 +5,179 @@
     <meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no"/>
     <link rel="stylesheet" href="assets/css/main.css"/>
+    <link rel="stylesheet" href="assets/css/enhanced.css"/>
     <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/highlight.js@11.9.0/lib/highlight.min.js"></script>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@11.9.0/styles/github-dark.min.css">
     <style>
         .article-content {
-            max-width: 900px;
+            max-width: 820px;
             margin: 0 auto;
-            padding: 2em;
-            background: rgba(255,255,255,0.05);
-            border-radius: 8px;
-            line-height: 1.8;
+            padding: 2.5em;
+            background: var(--kh-bg-glass);
+            backdrop-filter: blur(8px);
+            border-radius: var(--kh-radius);
+            border: 1px solid var(--kh-border);
+            line-height: 1.9;
+            font-size: 1.02em;
+            animation: kh-fadeInUp 0.6s cubic-bezier(0.22,1,0.36,1) 0.2s both;
         }
         .article-content h1, .article-content h2, .article-content h3 {
-            color: #49bf9d;
-            border-bottom: 2px solid #49bf9d;
+            font-family: var(--kh-font-display);
+            color: var(--kh-primary);
+            border-bottom: 2px solid var(--kh-border);
             padding-bottom: 0.5em;
+            margin-top: 1.8em;
         }
+        .article-content h1 { font-size: 1.7em; letter-spacing: -0.02em; }
+        .article-content h2 { font-size: 1.35em; }
+        .article-content h3 { font-size: 1.15em; border-bottom: 1px solid var(--kh-border); }
+        .article-content p { margin-bottom: 1.2em; color: var(--kh-text); }
+        .article-content a { color: var(--kh-primary); text-decoration: underline; text-underline-offset: 3px; }
+        .article-content a:hover { color: var(--kh-accent); }
         .article-content pre {
-            background: rgba(0,0,0,0.3);
-            padding: 1em;
-            border-radius: 5px;
+            background: rgba(0,0,0,0.35);
+            padding: 1.2em;
+            border-radius: 10px;
             overflow-x: auto;
+            border: 1px solid rgba(255,255,255,0.06);
+            margin: 1.5em 0;
         }
         .article-content code {
-            background: rgba(0,0,0,0.2);
-            padding: 0.2em 0.4em;
-            border-radius: 3px;
-            font-family: 'Courier New', monospace;
+            background: rgba(0,0,0,0.25);
+            padding: 0.2em 0.45em;
+            border-radius: 4px;
+            font-family: var(--kh-font-mono);
+            font-size: 0.88em;
+        }
+        .article-content pre code {
+            background: transparent;
+            padding: 0;
+            font-size: 0.85em;
         }
         .article-content blockquote {
-            border-left: 4px solid #49bf9d;
-            padding-left: 1em;
-            margin-left: 0;
+            border-left: 3px solid var(--kh-primary);
+            padding: 0.8em 1.2em;
+            margin: 1.5em 0;
+            background: rgba(73,191,157,0.05);
+            border-radius: 0 8px 8px 0;
             font-style: italic;
-            color: #ccc;
+            color: rgba(255,255,255,0.75);
         }
+        .article-content img {
+            max-width: 100%;
+            border-radius: 10px;
+            margin: 1em 0;
+        }
+        .article-content table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1.5em 0;
+        }
+        .article-content th, .article-content td {
+            padding: 0.7em 1em;
+            border: 1px solid var(--kh-border);
+            text-align: left;
+        }
+        .article-content th {
+            background: rgba(73,191,157,0.1);
+            color: var(--kh-primary);
+            font-weight: 600;
+        }
+
         .back-nav {
             position: fixed;
             top: 20px;
             right: 20px;
-            background: #49bf9d;
-            color: white;
+            background: var(--kh-bg-glass);
+            backdrop-filter: blur(12px);
+            color: var(--kh-primary);
             padding: 10px 20px;
-            border-radius: 5px;
+            border-radius: var(--kh-radius-pill);
             text-decoration: none;
             z-index: 1000;
+            border: 1px solid var(--kh-border);
+            font-family: var(--kh-font-display);
+            font-weight: 600;
+            font-size: 0.85em;
+            transition: all 0.35s cubic-bezier(0.22, 1, 0.36, 1);
         }
         .back-nav:hover {
-            background: #3a9d7a;
-            color: white;
+            background: rgba(73,191,157,0.15);
+            border-color: var(--kh-border-hover);
+            color: var(--kh-primary);
+            transform: translateY(-2px);
         }
         .loading {
             text-align: center;
-            padding: 2em;
-            color: #49bf9d;
+            padding: 3em;
+            color: var(--kh-primary);
+            animation: kh-fadeIn 0.5s ease;
         }
         .error {
             text-align: center;
-            padding: 2em;
-            color: #ff6b6b;
+            padding: 3em;
+            color: var(--kh-error);
         }
         .article-meta {
-            background: rgba(73, 191, 157, 0.1);
-            padding: 1em;
-            border-radius: 5px;
+            background: var(--kh-bg-glass);
+            backdrop-filter: blur(8px);
+            padding: 1.2em 1.5em;
+            border-radius: var(--kh-radius);
             margin-bottom: 2em;
-            border-left: 4px solid #49bf9d;
+            border-left: 3px solid var(--kh-primary);
+            border: 1px solid var(--kh-border);
+            border-left: 3px solid var(--kh-primary);
+            animation: kh-fadeInUp 0.5s cubic-bezier(0.22,1,0.36,1) 0.1s both;
+        }
+        .article-meta h3 {
+            font-family: var(--kh-font-display);
+            margin-bottom: 0.3em;
+        }
+        .article-meta p {
+            font-size: 0.85em;
+            color: var(--kh-text-dim);
+        }
+
+        /* Back to top button */
+        .back-top {
+            position: fixed;
+            bottom: 2em;
+            right: 2em;
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            background: var(--kh-bg-glass);
+            backdrop-filter: blur(12px);
+            border: 1px solid var(--kh-border);
+            color: var(--kh-primary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            opacity: 0;
+            transform: translateY(10px);
+            transition: all 0.3s;
+            z-index: 999;
+            font-size: 1.2em;
+            text-decoration: none;
+        }
+        .back-top.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        .back-top:hover {
+            background: rgba(73,191,157,0.15);
+            border-color: var(--kh-border-hover);
+            color: var(--kh-primary);
         }
     </style>
 </head>
 <body class="is-preload">
 
-<a href="articles.html" class="back-nav">← 返回文章列表</a>
+<div class="kh-progress-bar" id="reading-progress" style="width:0"></div>
+<a href="articles.html" class="back-nav">&larr; 返回文章列表</a>
+<a href="#" class="back-top" id="back-top">&uarr;</a>
 
 <!-- Header -->
 <header id="header">
@@ -190,6 +290,23 @@ function loadArticle(filePath) {
             showError(`加载失败: ${error.message}`);
         });
 }
+
+// Reading progress bar
+window.addEventListener('scroll', function() {
+    var scrollTop = window.scrollY;
+    var docHeight = document.documentElement.scrollHeight - window.innerHeight;
+    var progress = docHeight > 0 ? (scrollTop / docHeight) * 100 : 0;
+    document.getElementById('reading-progress').style.width = progress + '%';
+
+    var backTop = document.getElementById('back-top');
+    if (scrollTop > 400) { backTop.classList.add('visible'); }
+    else { backTop.classList.remove('visible'); }
+});
+
+document.getElementById('back-top').addEventListener('click', function(e) {
+    e.preventDefault();
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+});
 
 function showError(message) {
     document.getElementById('loading').style.display = 'none';

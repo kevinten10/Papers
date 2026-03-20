@@ -1,0 +1,280 @@
+/* ============================================================
+   Enhanced Design System for Kevin's Knowledge Hub
+   Layered on top of Strata template (main.css)
+   ============================================================ */
+
+/* --- Google Fonts --- */
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=Noto+Sans+SC:wght@300;400;500;700&family=JetBrains+Mono:wght@400;500&display=swap');
+
+/* --- Design Tokens --- */
+:root {
+    --kh-primary: #49bf9d;
+    --kh-primary-dark: #3a9d7a;
+    --kh-primary-glow: rgba(73, 191, 157, 0.35);
+    --kh-accent: #64b5f6;
+    --kh-accent2: #ce93d8;
+    --kh-warn: #ffb74d;
+    --kh-success: #81c784;
+    --kh-error: #e57373;
+    --kh-bg-deep: #0a0e17;
+    --kh-bg-card: rgba(255, 255, 255, 0.04);
+    --kh-bg-glass: rgba(255, 255, 255, 0.06);
+    --kh-border: rgba(73, 191, 157, 0.15);
+    --kh-border-hover: rgba(73, 191, 157, 0.4);
+    --kh-text: rgba(255, 255, 255, 0.88);
+    --kh-text-dim: rgba(255, 255, 255, 0.55);
+    --kh-font-display: 'Outfit', 'Noto Sans SC', sans-serif;
+    --kh-font-body: 'Noto Sans SC', 'Outfit', -apple-system, sans-serif;
+    --kh-font-mono: 'JetBrains Mono', 'Fira Code', monospace;
+    --kh-radius: 14px;
+    --kh-radius-lg: 20px;
+    --kh-radius-pill: 50px;
+    --kh-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+    --kh-shadow-glow: 0 8px 40px var(--kh-primary-glow);
+}
+
+/* --- Typography Override --- */
+body, input, select, textarea {
+    font-family: var(--kh-font-body) !important;
+}
+
+h1, h2, h3, h4, h5, h6,
+.major h2, .category-title, .nav-title {
+    font-family: var(--kh-font-display) !important;
+    letter-spacing: -0.02em;
+}
+
+code, pre, .article-content code {
+    font-family: var(--kh-font-mono) !important;
+}
+
+/* --- Scrollbar --- */
+::-webkit-scrollbar { width: 6px; height: 6px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb {
+    background: rgba(73, 191, 157, 0.25);
+    border-radius: 3px;
+}
+::-webkit-scrollbar-thumb:hover { background: rgba(73, 191, 157, 0.45); }
+
+/* --- Selection --- */
+::selection {
+    background: rgba(73, 191, 157, 0.3);
+    color: #fff;
+}
+
+/* --- Grain Overlay (subtle texture) --- */
+body::after {
+    content: '';
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 9999;
+    opacity: 0.025;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+    background-repeat: repeat;
+    background-size: 200px 200px;
+}
+
+/* --- Entry Animations --- */
+@keyframes kh-fadeInUp {
+    from { opacity: 0; transform: translateY(24px); }
+    to   { opacity: 1; transform: translateY(0); }
+}
+@keyframes kh-fadeIn {
+    from { opacity: 0; }
+    to   { opacity: 1; }
+}
+@keyframes kh-scaleIn {
+    from { opacity: 0; transform: scale(0.92); }
+    to   { opacity: 1; transform: scale(1); }
+}
+@keyframes kh-slideRight {
+    from { opacity: 0; transform: translateX(-20px); }
+    to   { opacity: 1; transform: translateX(0); }
+}
+@keyframes kh-glow-pulse {
+    0%, 100% { box-shadow: 0 0 20px rgba(73,191,157,0.15); }
+    50%      { box-shadow: 0 0 35px rgba(73,191,157,0.3); }
+}
+@keyframes kh-gradient-shift {
+    0%   { background-position: 0% 50%; }
+    50%  { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
+/* Staggered reveal utility — add to parent, children animate in */
+.kh-reveal > * {
+    opacity: 0;
+    animation: kh-fadeInUp 0.6s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+.kh-reveal > *:nth-child(1)  { animation-delay: 0.05s; }
+.kh-reveal > *:nth-child(2)  { animation-delay: 0.10s; }
+.kh-reveal > *:nth-child(3)  { animation-delay: 0.15s; }
+.kh-reveal > *:nth-child(4)  { animation-delay: 0.20s; }
+.kh-reveal > *:nth-child(5)  { animation-delay: 0.25s; }
+.kh-reveal > *:nth-child(6)  { animation-delay: 0.30s; }
+.kh-reveal > *:nth-child(7)  { animation-delay: 0.35s; }
+.kh-reveal > *:nth-child(8)  { animation-delay: 0.40s; }
+.kh-reveal > *:nth-child(9)  { animation-delay: 0.45s; }
+.kh-reveal > *:nth-child(10) { animation-delay: 0.50s; }
+
+.kh-fade-in {
+    animation: kh-fadeIn 0.8s ease forwards;
+}
+
+/* --- Glass Card --- */
+.kh-glass {
+    background: var(--kh-bg-glass);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid var(--kh-border);
+    border-radius: var(--kh-radius);
+    transition: all 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.kh-glass:hover {
+    border-color: var(--kh-border-hover);
+    box-shadow: var(--kh-shadow);
+    transform: translateY(-4px);
+}
+
+/* --- Gradient Buttons --- */
+.kh-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5em;
+    padding: 0.7em 1.6em;
+    border-radius: var(--kh-radius-pill);
+    font-family: var(--kh-font-display);
+    font-weight: 600;
+    font-size: 0.9em;
+    text-decoration: none;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+    transition: all 0.35s cubic-bezier(0.22, 1, 0.36, 1);
+    position: relative;
+    overflow: hidden;
+}
+.kh-btn::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, rgba(255,255,255,0.15), transparent);
+    opacity: 0;
+    transition: opacity 0.35s;
+}
+.kh-btn:hover::before { opacity: 1; }
+.kh-btn:hover {
+    transform: translateY(-3px);
+    box-shadow: var(--kh-shadow-glow);
+    color: #fff;
+}
+
+.kh-btn-primary {
+    background: linear-gradient(135deg, var(--kh-primary), var(--kh-primary-dark));
+}
+.kh-btn-accent {
+    background: linear-gradient(135deg, var(--kh-accent), #42a5f5);
+}
+.kh-btn-outline {
+    background: transparent;
+    border: 1.5px solid var(--kh-border-hover);
+    color: var(--kh-primary);
+}
+.kh-btn-outline:hover {
+    background: rgba(73, 191, 157, 0.1);
+}
+
+/* --- Tags / Badges --- */
+.kh-tag {
+    display: inline-block;
+    padding: 0.25em 0.7em;
+    border-radius: 10px;
+    font-size: 0.78em;
+    font-weight: 500;
+    background: rgba(73, 191, 157, 0.12);
+    color: var(--kh-primary);
+    border: 1px solid rgba(73, 191, 157, 0.15);
+    transition: all 0.25s;
+}
+.kh-tag:hover {
+    background: rgba(73, 191, 157, 0.22);
+    transform: translateY(-1px);
+}
+
+/* --- Stats Card --- */
+.kh-stat {
+    text-align: center;
+    padding: 1.5em;
+    background: var(--kh-bg-glass);
+    border: 1px solid var(--kh-border);
+    border-radius: var(--kh-radius);
+    backdrop-filter: blur(8px);
+}
+.kh-stat-number {
+    font-family: var(--kh-font-display);
+    font-size: 2.2em;
+    font-weight: 700;
+    color: var(--kh-primary);
+    line-height: 1;
+    margin-bottom: 0.3em;
+}
+.kh-stat-label {
+    font-size: 0.85em;
+    color: var(--kh-text-dim);
+}
+
+/* --- Top Bar Gradient (for pages without sidebar header) --- */
+.kh-topbar-gradient {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, var(--kh-primary), var(--kh-accent), var(--kh-accent2), var(--kh-primary));
+    background-size: 300% 100%;
+    animation: kh-gradient-shift 6s ease infinite;
+    z-index: 9998;
+}
+
+/* --- Reading Progress Bar --- */
+.kh-progress-bar {
+    position: fixed;
+    top: 0; left: 0;
+    height: 3px;
+    background: linear-gradient(90deg, var(--kh-primary), var(--kh-accent));
+    z-index: 9998;
+    transition: width 0.1s linear;
+    box-shadow: 0 0 8px var(--kh-primary-glow);
+}
+
+/* --- Enhanced Sidebar Header --- */
+#header h1 {
+    font-family: var(--kh-font-display) !important;
+    font-weight: 300 !important;
+    letter-spacing: 0 !important;
+    line-height: 1.5 !important;
+}
+#header h1 strong {
+    font-weight: 700 !important;
+    background: linear-gradient(135deg, var(--kh-primary), var(--kh-accent));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+/* --- Enhanced Footer --- */
+#footer .icons a {
+    transition: all 0.3s cubic-bezier(0.22, 1, 0.36, 1) !important;
+}
+#footer .icons a:hover {
+    color: var(--kh-primary) !important;
+    transform: translateY(-3px);
+}
+
+/* --- Responsive Polish --- */
+@media (max-width: 768px) {
+    :root {
+        --kh-radius: 10px;
+        --kh-radius-lg: 14px;
+    }
+}
