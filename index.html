@@ -23,6 +23,90 @@
     <link rel="canonical" href="https://kevinten10.github.io/Papers/"/>
     <link rel="icon" type="image/x-icon" href="favicon.ico"/>
     <link rel="stylesheet" href="assets/css/main.css"/>
+    <link rel="stylesheet" href="assets/css/enhanced.css"/>
+    <style>
+        /* Hero section entry animation */
+        #one { animation: kh-fadeInUp 0.7s cubic-bezier(0.22,1,0.36,1) 0.1s both; }
+        #two { animation: kh-fadeInUp 0.7s cubic-bezier(0.22,1,0.36,1) 0.25s both; }
+        #three { animation: kh-fadeInUp 0.7s cubic-bezier(0.22,1,0.36,1) 0.4s both; }
+
+        /* Tech stack badges */
+        .kh-tech-badge {
+            display: inline-block;
+            padding: 0.35em 0.9em;
+            border-radius: 20px;
+            font-size: 0.85em;
+            font-weight: 500;
+            color: #fff;
+            transition: all 0.3s cubic-bezier(0.22,1,0.36,1);
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+        .kh-tech-badge:hover {
+            transform: translateY(-2px) scale(1.05);
+            box-shadow: 0 4px 16px rgba(0,0,0,0.3);
+        }
+
+        /* Work item cards */
+        .work-item {
+            border-radius: var(--kh-radius) !important;
+            border: 1px solid var(--kh-border) !important;
+            backdrop-filter: blur(8px);
+            position: relative;
+            overflow: hidden;
+        }
+        .work-item::after {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, var(--kh-primary), var(--kh-accent));
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+        .work-item:hover::after { opacity: 1; }
+        .work-item:hover {
+            border-color: var(--kh-border-hover) !important;
+            box-shadow: 0 12px 40px rgba(73,191,157,0.15);
+            transform: translateY(-6px);
+        }
+
+        /* Quick nav links */
+        .kh-quick-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.4em;
+            padding: 0.5em 1.2em;
+            border-radius: var(--kh-radius-pill);
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 0.88em;
+            transition: all 0.3s cubic-bezier(0.22,1,0.36,1);
+            border: 1px solid;
+        }
+        .kh-quick-link:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0,0,0,0.2);
+        }
+
+        /* CTA button enhancement */
+        .button.primary {
+            font-family: var(--kh-font-display) !important;
+            font-weight: 600 !important;
+            letter-spacing: 0.02em;
+            border-radius: var(--kh-radius-pill) !important;
+        }
+
+        /* Section tech tag */
+        .kh-skill-tag {
+            display: inline-block;
+            padding: 0.2em 0.6em;
+            border-radius: 8px;
+            font-size: 0.78em;
+            font-weight: 500;
+            margin-right: 0.3em;
+            margin-bottom: 0.3em;
+        }
+    </style>
 </head>
 <body class="is-preload">
 
@@ -45,19 +129,19 @@
             <h2>🚀 每天至少一小时阅读学术和业界论文<br/>
                 📚 持续学习相关程序知识</h2>
         </header>
-        <div style="background: rgba(73, 191, 157, 0.1); padding: 1.5em; border-radius: 8px; border-left: 4px solid #49bf9d; margin: 1.5em 0;">
-            <p><strong>技术栈覆盖：</strong></p>
-            <div style="display: flex; flex-wrap: wrap; gap: 0.5em; margin-top: 1em;">
-                <span style="background: #49bf9d; color: white; padding: 0.3em 0.8em; border-radius: 15px; font-size: 0.9em;">☕ Java</span>
-                <span style="background: #49bf9d; color: white; padding: 0.3em 0.8em; border-radius: 15px; font-size: 0.9em;">📊 BigData</span>
-                <span style="background: #49bf9d; color: white; padding: 0.3em 0.8em; border-radius: 15px; font-size: 0.9em;">🔄 Concurrent</span>
-                <span style="background: #49bf9d; color: white; padding: 0.3em 0.8em; border-radius: 15px; font-size: 0.9em;">🌐 Distribute</span>
-                <span style="background: #49bf9d; color: white; padding: 0.3em 0.8em; border-radius: 15px; font-size: 0.9em;">💾 Database</span>
-                <span style="background: #49bf9d; color: white; padding: 0.3em 0.8em; border-radius: 15px; font-size: 0.9em;">🐳 Docker</span>
-                <span style="background: #49bf9d; color: white; padding: 0.3em 0.8em; border-radius: 15px; font-size: 0.9em;">🐧 Linux</span>
-                <span style="background: #49bf9d; color: white; padding: 0.3em 0.8em; border-radius: 15px; font-size: 0.9em;">🏗️ 架构设计</span>
-                <span style="background: #49bf9d; color: white; padding: 0.3em 0.8em; border-radius: 15px; font-size: 0.9em;">💼 职业发展</span>
-                <span style="background: #49bf9d; color: white; padding: 0.3em 0.8em; border-radius: 15px; font-size: 0.9em;">🌍 English</span>
+        <div class="kh-glass" style="padding: 1.5em; margin: 1.5em 0; border-left: 3px solid var(--kh-primary);">
+            <p style="font-family: var(--kh-font-display); font-weight: 600; margin-bottom: 0.8em;">技术栈覆盖</p>
+            <div style="display: flex; flex-wrap: wrap; gap: 0.5em;" class="kh-reveal">
+                <span class="kh-tech-badge" style="background: linear-gradient(135deg, #49bf9d, #3a9d7a);">☕ Java</span>
+                <span class="kh-tech-badge" style="background: linear-gradient(135deg, #64b5f6, #42a5f5);">📊 BigData</span>
+                <span class="kh-tech-badge" style="background: linear-gradient(135deg, #81c784, #66bb6a);">🔄 Concurrent</span>
+                <span class="kh-tech-badge" style="background: linear-gradient(135deg, #ce93d8, #ab47bc);">🌐 Distribute</span>
+                <span class="kh-tech-badge" style="background: linear-gradient(135deg, #ffb74d, #ffa726);">💾 Database</span>
+                <span class="kh-tech-badge" style="background: linear-gradient(135deg, #4dd0e1, #26c6da);">🐳 Docker</span>
+                <span class="kh-tech-badge" style="background: linear-gradient(135deg, #90a4ae, #78909c);">🐧 Linux</span>
+                <span class="kh-tech-badge" style="background: linear-gradient(135deg, #e57373, #ef5350);">🏗️ 架构设计</span>
+                <span class="kh-tech-badge" style="background: linear-gradient(135deg, #7986cb, #5c6bc0);">🤖 AI/ML</span>
+                <span class="kh-tech-badge" style="background: linear-gradient(135deg, #a1887f, #8d6e63);">🌍 English</span>
             </div>
         </div>
         <ul class="actions" style="display: flex; gap: 1em; flex-wrap: wrap; justify-content: center;">
@@ -65,11 +149,11 @@
         </ul>
         
         <div style="margin-top: 2em; text-align: center;">
-            <p style="color: rgba(255,255,255,0.8); margin-bottom: 1em;">或选择直接访问：</p>
-            <div style="display: flex; gap: 1em; flex-wrap: wrap; justify-content: center;">
-                <a href="knowledge-base.html" style="color: #49bf9d; text-decoration: none; padding: 0.5em 1em; background: rgba(73, 191, 157, 0.1); border-radius: 20px; transition: all 0.3s ease;">🚀 智能知识库</a>
-                <a href="articles.html" style="color: #64b5f6; text-decoration: none; padding: 0.5em 1em; background: rgba(100, 181, 246, 0.1); border-radius: 20px; transition: all 0.3s ease;">📖 传统浏览</a>
-                <a href="viewer.html" style="color: #81c784; text-decoration: none; padding: 0.5em 1em; background: rgba(129, 199, 132, 0.1); border-radius: 20px; transition: all 0.3s ease;">📄 阅读器</a>
+            <p style="color: var(--kh-text-dim); margin-bottom: 1em; font-size: 0.9em;">或选择直接访问</p>
+            <div style="display: flex; gap: 0.8em; flex-wrap: wrap; justify-content: center;">
+                <a href="knowledge-base.html" class="kh-quick-link" style="color: #49bf9d; background: rgba(73,191,157,0.08); border-color: rgba(73,191,157,0.2);">🚀 智能知识库</a>
+                <a href="articles.html" class="kh-quick-link" style="color: #64b5f6; background: rgba(100,181,246,0.08); border-color: rgba(100,181,246,0.2);">📖 传统浏览</a>
+                <a href="knowledge-graph.html" class="kh-quick-link" style="color: #ce93d8; background: rgba(206,147,216,0.08); border-color: rgba(206,147,216,0.2);">🌌 知识图谱</a>
             </div>
         </div>
     </section>
@@ -83,9 +167,9 @@
                 <h3 style="color: #49bf9d;">☕ Java工程师</h3>
                 <p>Java8函数式编程、SpringCloud微服务、Netty高并发编程、SSM框架源码深度解析</p>
                 <div style="margin-top: 1em;">
-                    <span style="background: rgba(73, 191, 157, 0.2); color: #49bf9d; padding: 0.2em 0.5em; border-radius: 10px; font-size: 0.8em; margin-right: 0.5em;">Spring</span>
-                    <span style="background: rgba(73, 191, 157, 0.2); color: #49bf9d; padding: 0.2em 0.5em; border-radius: 10px; font-size: 0.8em; margin-right: 0.5em;">Netty</span>
-                    <span style="background: rgba(73, 191, 157, 0.2); color: #49bf9d; padding: 0.2em 0.5em; border-radius: 10px; font-size: 0.8em;">JVM</span>
+                    <span class="kh-skill-tag" style="background: rgba(73,191,157,0.12); color: var(--kh-primary);">Spring</span>
+                    <span class="kh-skill-tag" style="background: rgba(73,191,157,0.12); color: var(--kh-primary);">Netty</span>
+                    <span class="kh-skill-tag" style="background: rgba(73,191,157,0.12); color: var(--kh-primary);">JVM</span>
                 </div>
             </article>
             <article class="col-6 col-12-xsmall work-item" style="background: linear-gradient(135deg, rgba(255,255,255,0.08), rgba(255,255,255,0.02)); border-radius: 8px; padding: 1em; border: 1px solid rgba(73, 191, 157, 0.2); transition: all 0.3s ease;">
@@ -93,9 +177,9 @@
                 <h3 style="color: #49bf9d;">📊 大数据工程师</h3>
                 <p>Hadoop生态系统、Spark实时计算、Flink流处理、ELK日志分析、Linux平台运维</p>
                 <div style="margin-top: 1em;">
-                    <span style="background: rgba(73, 191, 157, 0.2); color: #49bf9d; padding: 0.2em 0.5em; border-radius: 10px; font-size: 0.8em; margin-right: 0.5em;">Spark</span>
-                    <span style="background: rgba(73, 191, 157, 0.2); color: #49bf9d; padding: 0.2em 0.5em; border-radius: 10px; font-size: 0.8em; margin-right: 0.5em;">Flink</span>
-                    <span style="background: rgba(73, 191, 157, 0.2); color: #49bf9d; padding: 0.2em 0.5em; border-radius: 10px; font-size: 0.8em;">Hadoop</span>
+                    <span class="kh-skill-tag" style="background: rgba(73,191,157,0.12); color: var(--kh-primary);">Spark</span>
+                    <span class="kh-skill-tag" style="background: rgba(73,191,157,0.12); color: var(--kh-primary);">Flink</span>
+                    <span class="kh-skill-tag" style="background: rgba(73,191,157,0.12); color: var(--kh-primary);">Hadoop</span>
                 </div>
             </article>
             <article class="col-6 col-12-xsmall work-item" style="background: linear-gradient(135deg, rgba(255,255,255,0.08), rgba(255,255,255,0.02)); border-radius: 8px; padding: 1em; border: 1px solid rgba(73, 191, 157, 0.2); transition: all 0.3s ease;">
@@ -103,9 +187,9 @@
                 <h3 style="color: #49bf9d;">🌟 多语言探索</h3>
                 <p>Kotlin、Scala、Golang、C#、PHP、Python、C++ 等多种编程语言实践</p>
                 <div style="margin-top: 1em;">
-                    <span style="background: rgba(73, 191, 157, 0.2); color: #49bf9d; padding: 0.2em 0.5em; border-radius: 10px; font-size: 0.8em; margin-right: 0.5em;">Kotlin</span>
-                    <span style="background: rgba(73, 191, 157, 0.2); color: #49bf9d; padding: 0.2em 0.5em; border-radius: 10px; font-size: 0.8em; margin-right: 0.5em;">Golang</span>
-                    <span style="background: rgba(73, 191, 157, 0.2); color: #49bf9d; padding: 0.2em 0.5em; border-radius: 10px; font-size: 0.8em;">Python</span>
+                    <span class="kh-skill-tag" style="background: rgba(73,191,157,0.12); color: var(--kh-primary);">Kotlin</span>
+                    <span class="kh-skill-tag" style="background: rgba(73,191,157,0.12); color: var(--kh-primary);">Golang</span>
+                    <span class="kh-skill-tag" style="background: rgba(73,191,157,0.12); color: var(--kh-primary);">Python</span>
                 </div>
             </article>
             <article class="col-6 col-12-xsmall work-item" style="background: linear-gradient(135deg, rgba(255,255,255,0.08), rgba(255,255,255,0.02)); border-radius: 8px; padding: 1em; border: 1px solid rgba(73, 191, 157, 0.2); transition: all 0.3s ease;">
@@ -113,9 +197,9 @@
                 <h3 style="color: #49bf9d;">🔍 JDK源码研究</h3>
                 <p>深入研究Java核心源码，从基础到高级，全面掌握JVM内部机制</p>
                 <div style="margin-top: 1em;">
-                    <span style="background: rgba(73, 191, 157, 0.2); color: #49bf9d; padding: 0.2em 0.5em; border-radius: 10px; font-size: 0.8em; margin-right: 0.5em;">JDK源码</span>
-                    <span style="background: rgba(73, 191, 157, 0.2); color: #49bf9d; padding: 0.2em 0.5em; border-radius: 10px; font-size: 0.8em; margin-right: 0.5em;">并发包</span>
-                    <span style="background: rgba(73, 191, 157, 0.2); color: #49bf9d; padding: 0.2em 0.5em; border-radius: 10px; font-size: 0.8em;">集合框架</span>
+                    <span class="kh-skill-tag" style="background: rgba(73,191,157,0.12); color: var(--kh-primary);">JDK源码</span>
+                    <span class="kh-skill-tag" style="background: rgba(73,191,157,0.12); color: var(--kh-primary);">并发包</span>
+                    <span class="kh-skill-tag" style="background: rgba(73,191,157,0.12); color: var(--kh-primary);">集合框架</span>
                 </div>
             </article>
             <article class="col-6 col-12-xsmall work-item" style="background: linear-gradient(135deg, rgba(255,255,255,0.08), rgba(255,255,255,0.02)); border-radius: 8px; padding: 1em; border: 1px solid rgba(73, 191, 157, 0.2); transition: all 0.3s ease;">
@@ -123,9 +207,9 @@
                 <h3 style="color: #49bf9d;">🧮 算法与AI</h3>
                 <p>LeetCode刷题、剑指Offer、机器学习算法、人工智能技术研究</p>
                 <div style="margin-top: 1em;">
-                    <span style="background: rgba(73, 191, 157, 0.2); color: #49bf9d; padding: 0.2em 0.5em; border-radius: 10px; font-size: 0.8em; margin-right: 0.5em;">算法</span>
-                    <span style="background: rgba(73, 191, 157, 0.2); color: #49bf9d; padding: 0.2em 0.5em; border-radius: 10px; font-size: 0.8em; margin-right: 0.5em;">机器学习</span>
-                    <span style="background: rgba(73, 191, 157, 0.2); color: #49bf9d; padding: 0.2em 0.5em; border-radius: 10px; font-size: 0.8em;">AI</span>
+                    <span class="kh-skill-tag" style="background: rgba(73,191,157,0.12); color: var(--kh-primary);">算法</span>
+                    <span class="kh-skill-tag" style="background: rgba(73,191,157,0.12); color: var(--kh-primary);">机器学习</span>
+                    <span class="kh-skill-tag" style="background: rgba(73,191,157,0.12); color: var(--kh-primary);">AI</span>
                 </div>
             </article>
             <article class="col-6 col-12-xsmall work-item" style="background: linear-gradient(135deg, rgba(255,255,255,0.08), rgba(255,255,255,0.02)); border-radius: 8px; padding: 1em; border: 1px solid rgba(73, 191, 157, 0.2); transition: all 0.3s ease;">
@@ -133,9 +217,9 @@
                 <h3 style="color: #49bf9d;">💻 计算机基础</h3>
                 <p>计算机组成原理、编译原理、操作系统、计算机网络四大基础学科深度学习</p>
                 <div style="margin-top: 1em;">
-                    <span style="background: rgba(73, 191, 157, 0.2); color: #49bf9d; padding: 0.2em 0.5em; border-radius: 10px; font-size: 0.8em; margin-right: 0.5em;">操作系统</span>
-                    <span style="background: rgba(73, 191, 157, 0.2); color: #49bf9d; padding: 0.2em 0.5em; border-radius: 10px; font-size: 0.8em; margin-right: 0.5em;">网络</span>
-                    <span style="background: rgba(73, 191, 157, 0.2); color: #49bf9d; padding: 0.2em 0.5em; border-radius: 10px; font-size: 0.8em;">编译原理</span>
+                    <span class="kh-skill-tag" style="background: rgba(73,191,157,0.12); color: var(--kh-primary);">操作系统</span>
+                    <span class="kh-skill-tag" style="background: rgba(73,191,157,0.12); color: var(--kh-primary);">网络</span>
+                    <span class="kh-skill-tag" style="background: rgba(73,191,157,0.12); color: var(--kh-primary);">编译原理</span>
                 </div>
             </article>
         </div>
