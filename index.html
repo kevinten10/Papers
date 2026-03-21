@@ -1,12 +1,7 @@
 <!DOCTYPE HTML>
-<!--
-	Strata by HTML5 UP
-	html5up.net | @ajlkn
-	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
--->
 <html>
 <head>
-    <title>kevinten's papers</title>
+    <title>Kevin's Knowledge Base</title>
     <meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no"/>
     <meta name="description" content="Kevin的个人技术知识库，涵盖Java、大数据、并发编程、分布式系统等技术领域，持续学习与分享"/>
@@ -15,97 +10,20 @@
     <meta property="og:title" content="Kevin's Advanced Knowledge Base"/>
     <meta property="og:description" content="个人技术知识库 - 每天至少一小时阅读学术和业界论文，持续学习相关程序知识"/>
     <meta property="og:image" content="images/avatar.jpg"/>
-    <meta property="og:url" content="https://kevinten10.github.io/Papers/"/>
+    <meta property="og:url" content="https://paper.rxcloud.group/"/>
     <meta property="og:type" content="website"/>
     <meta name="twitter:card" content="summary_large_image"/>
     <meta name="twitter:title" content="Kevin's Advanced Knowledge Base"/>
     <meta name="twitter:description" content="个人技术知识库 - 持续学习与分享"/>
-    <link rel="canonical" href="https://kevinten10.github.io/Papers/"/>
+    <link rel="canonical" href="https://paper.rxcloud.group/"/>
     <link rel="icon" type="image/x-icon" href="favicon.ico"/>
     <link rel="stylesheet" href="assets/css/main.css"/>
     <link rel="stylesheet" href="assets/css/enhanced.css"/>
     <style>
-        /* Hero section entry animation */
-        #one { animation: kh-fadeInUp 0.7s cubic-bezier(0.22,1,0.36,1) 0.1s both; }
-        #two { animation: kh-fadeInUp 0.7s cubic-bezier(0.22,1,0.36,1) 0.25s both; }
-        #three { animation: kh-fadeInUp 0.7s cubic-bezier(0.22,1,0.36,1) 0.4s both; }
-
-        /* Tech stack badges */
-        .kh-tech-badge {
-            display: inline-block;
-            padding: 0.35em 0.9em;
-            border-radius: 20px;
-            font-size: 0.85em;
-            font-weight: 500;
-            color: #fff;
-            transition: all 0.3s cubic-bezier(0.22,1,0.36,1);
-            border: 1px solid rgba(255,255,255,0.1);
-        }
-        .kh-tech-badge:hover {
-            transform: translateY(-2px) scale(1.05);
-            box-shadow: 0 4px 16px rgba(0,0,0,0.3);
-        }
-
-        /* Work item cards */
-        .work-item {
-            border-radius: var(--kh-radius) !important;
-            border: 1px solid var(--kh-border) !important;
-            backdrop-filter: blur(8px);
-            position: relative;
-            overflow: hidden;
-        }
-        .work-item::after {
-            content: '';
-            position: absolute;
-            top: 0; left: 0; right: 0;
-            height: 3px;
-            background: linear-gradient(90deg, var(--kh-primary), var(--kh-accent));
-            opacity: 0;
-            transition: opacity 0.3s;
-        }
-        .work-item:hover::after { opacity: 1; }
-        .work-item:hover {
-            border-color: var(--kh-border-hover) !important;
-            box-shadow: 0 12px 40px rgba(73,191,157,0.15);
-            transform: translateY(-6px);
-        }
-
-        /* Quick nav links */
-        .kh-quick-link {
-            display: inline-flex;
-            align-items: center;
-            gap: 0.4em;
-            padding: 0.5em 1.2em;
-            border-radius: var(--kh-radius-pill);
-            text-decoration: none;
-            font-weight: 500;
-            font-size: 0.88em;
-            transition: all 0.3s cubic-bezier(0.22,1,0.36,1);
-            border: 1px solid;
-        }
-        .kh-quick-link:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(0,0,0,0.2);
-        }
-
-        /* CTA button enhancement */
-        .button.primary {
-            font-family: var(--kh-font-display) !important;
-            font-weight: 600 !important;
-            letter-spacing: 0.02em;
-            border-radius: var(--kh-radius-pill) !important;
-        }
-
-        /* Section tech tag */
-        .kh-skill-tag {
-            display: inline-block;
-            padding: 0.2em 0.6em;
-            border-radius: 8px;
-            font-size: 0.78em;
-            font-weight: 500;
-            margin-right: 0.3em;
-            margin-bottom: 0.3em;
-        }
+        /* Page-specific staggered entry */
+        #one   { animation: kh-fadeInUp 0.7s var(--kh-ease) 0.1s both; }
+        #two   { animation: kh-fadeInUp 0.7s var(--kh-ease) 0.25s both; }
+        #three { animation: kh-fadeInUp 0.7s var(--kh-ease) 0.4s both; }
     </style>
 </head>
 <body class="is-preload">
@@ -123,132 +41,129 @@
 <!-- Main -->
 <div id="main">
 
-    <!-- One -->
+    <!-- Hero -->
     <section id="one">
         <header class="major">
-            <h2>🚀 每天至少一小时阅读学术和业界论文<br/>
-                📚 持续学习相关程序知识</h2>
+            <h2>每天至少一小时阅读学术和业界论文<br/>
+                持续学习相关程序知识</h2>
         </header>
+
         <div class="kh-glass" style="padding: 1.5em; margin: 1.5em 0; border-left: 3px solid var(--kh-primary);">
-            <p style="font-family: var(--kh-font-display); font-weight: 600; margin-bottom: 0.8em;">技术栈覆盖</p>
-            <div style="display: flex; flex-wrap: wrap; gap: 0.5em;" class="kh-reveal">
-                <span class="kh-tech-badge" style="background: linear-gradient(135deg, #49bf9d, #3a9d7a);">☕ Java</span>
-                <span class="kh-tech-badge" style="background: linear-gradient(135deg, #64b5f6, #42a5f5);">📊 BigData</span>
-                <span class="kh-tech-badge" style="background: linear-gradient(135deg, #81c784, #66bb6a);">🔄 Concurrent</span>
-                <span class="kh-tech-badge" style="background: linear-gradient(135deg, #ce93d8, #ab47bc);">🌐 Distribute</span>
-                <span class="kh-tech-badge" style="background: linear-gradient(135deg, #ffb74d, #ffa726);">💾 Database</span>
-                <span class="kh-tech-badge" style="background: linear-gradient(135deg, #4dd0e1, #26c6da);">🐳 Docker</span>
-                <span class="kh-tech-badge" style="background: linear-gradient(135deg, #90a4ae, #78909c);">🐧 Linux</span>
-                <span class="kh-tech-badge" style="background: linear-gradient(135deg, #e57373, #ef5350);">🏗️ 架构设计</span>
-                <span class="kh-tech-badge" style="background: linear-gradient(135deg, #7986cb, #5c6bc0);">🤖 AI/ML</span>
-                <span class="kh-tech-badge" style="background: linear-gradient(135deg, #a1887f, #8d6e63);">🌍 English</span>
+            <p style="font-family: var(--kh-font-display); font-weight: 600; margin-bottom: 0.8em; color: var(--kh-text-bright);">技术栈覆盖</p>
+            <div class="kh-flex-wrap kh-reveal">
+                <span class="kh-tech-badge" style="background: linear-gradient(135deg, var(--kh-cat-java), #d97706);">Java</span>
+                <span class="kh-tech-badge" style="background: linear-gradient(135deg, var(--kh-cat-bigdata), #2563eb);">BigData</span>
+                <span class="kh-tech-badge" style="background: linear-gradient(135deg, var(--kh-cat-concurrent), #059669);">Concurrent</span>
+                <span class="kh-tech-badge" style="background: linear-gradient(135deg, var(--kh-cat-distribute), #7c3aed);">Distribute</span>
+                <span class="kh-tech-badge" style="background: linear-gradient(135deg, var(--kh-cat-database), #ea580c);">Database</span>
+                <span class="kh-tech-badge" style="background: linear-gradient(135deg, var(--kh-cat-docker), #0891b2);">Docker</span>
+                <span class="kh-tech-badge" style="background: linear-gradient(135deg, var(--kh-cat-linux), #64748b);">Linux</span>
+                <span class="kh-tech-badge" style="background: linear-gradient(135deg, var(--kh-cat-arch), #dc2626);">架构设计</span>
+                <span class="kh-tech-badge" style="background: linear-gradient(135deg, var(--kh-cat-ai), #6366f1);">AI/ML</span>
+                <span class="kh-tech-badge" style="background: linear-gradient(135deg, var(--kh-cat-reactive), #db2777);">Reactive</span>
             </div>
         </div>
+
         <ul class="actions" style="display: flex; gap: 1em; flex-wrap: wrap; justify-content: center;">
-            <li><a href="navigation.html" class="button primary" style="background: linear-gradient(135deg, #49bf9d, #3a9d7a); border: none; box-shadow: 0 4px 12px rgba(73, 191, 157, 0.3); font-size: 1.1em; padding: 0.8em 2em;">🎯 进入知识中心</a></li>
+            <li><a href="navigation.html" class="button primary" style="font-size: 1.1em; padding: 0.8em 2em;">进入知识中心</a></li>
         </ul>
-        
+
         <div style="margin-top: 2em; text-align: center;">
-            <p style="color: var(--kh-text-dim); margin-bottom: 1em; font-size: 0.9em;">或选择直接访问</p>
+            <p style="color: var(--kh-text-dim); margin-bottom: 1em; font-size: 0.88em;">或选择直接访问</p>
             <div style="display: flex; gap: 0.8em; flex-wrap: wrap; justify-content: center;">
-                <a href="knowledge-base.html" class="kh-quick-link" style="color: #49bf9d; background: rgba(73,191,157,0.08); border-color: rgba(73,191,157,0.2);">🚀 智能知识库</a>
-                <a href="articles.html" class="kh-quick-link" style="color: #64b5f6; background: rgba(100,181,246,0.08); border-color: rgba(100,181,246,0.2);">📖 传统浏览</a>
-                <a href="knowledge-graph.html" class="kh-quick-link" style="color: #ce93d8; background: rgba(206,147,216,0.08); border-color: rgba(206,147,216,0.2);">🌌 知识图谱</a>
+                <a href="knowledge-base.html" class="kh-quick-link" style="color: var(--kh-primary); background: var(--kh-primary-subtle); border-color: rgba(73,191,157,0.2);">智能知识库</a>
+                <a href="articles.html" class="kh-quick-link" style="color: var(--kh-accent); background: rgba(129,140,248,0.08); border-color: rgba(129,140,248,0.2);">传统浏览</a>
+                <a href="knowledge-graph.html" class="kh-quick-link" style="color: var(--kh-accent2); background: rgba(244,114,182,0.08); border-color: rgba(244,114,182,0.2);">知识图谱</a>
             </div>
         </div>
     </section>
 
-    <!-- Two -->
+    <!-- Tech Domains -->
     <section id="two">
-        <h2>🎯 技术专长领域</h2>
+        <h2 class="kh-section-title">技术专长领域</h2>
         <div class="row">
-            <article class="col-6 col-12-xsmall work-item" style="background: linear-gradient(135deg, rgba(255,255,255,0.08), rgba(255,255,255,0.02)); border-radius: 8px; padding: 1em; border: 1px solid rgba(73, 191, 157, 0.2); transition: all 0.3s ease;">
+            <article class="col-6 col-12-xsmall kh-work-card" data-accent="java">
                 <a href="images/fulls/01.jpg" class="image fit thumb"><img src="images/thumbs/01.jpg" alt=""/></a>
-                <h3 style="color: #49bf9d;">☕ Java工程师</h3>
+                <h3 style="color: var(--kh-cat-java);">Java工程师</h3>
                 <p>Java8函数式编程、SpringCloud微服务、Netty高并发编程、SSM框架源码深度解析</p>
-                <div style="margin-top: 1em;">
-                    <span class="kh-skill-tag" style="background: rgba(73,191,157,0.12); color: var(--kh-primary);">Spring</span>
-                    <span class="kh-skill-tag" style="background: rgba(73,191,157,0.12); color: var(--kh-primary);">Netty</span>
-                    <span class="kh-skill-tag" style="background: rgba(73,191,157,0.12); color: var(--kh-primary);">JVM</span>
+                <div style="margin-top: 0.8em;">
+                    <span class="kh-skill-tag">Spring</span>
+                    <span class="kh-skill-tag">Netty</span>
+                    <span class="kh-skill-tag">JVM</span>
                 </div>
             </article>
-            <article class="col-6 col-12-xsmall work-item" style="background: linear-gradient(135deg, rgba(255,255,255,0.08), rgba(255,255,255,0.02)); border-radius: 8px; padding: 1em; border: 1px solid rgba(73, 191, 157, 0.2); transition: all 0.3s ease;">
+            <article class="col-6 col-12-xsmall kh-work-card" data-accent="bigdata">
                 <a href="images/fulls/02.jpg" class="image fit thumb"><img src="images/thumbs/02.jpg" alt=""/></a>
-                <h3 style="color: #49bf9d;">📊 大数据工程师</h3>
+                <h3 style="color: var(--kh-cat-bigdata);">大数据工程师</h3>
                 <p>Hadoop生态系统、Spark实时计算、Flink流处理、ELK日志分析、Linux平台运维</p>
-                <div style="margin-top: 1em;">
-                    <span class="kh-skill-tag" style="background: rgba(73,191,157,0.12); color: var(--kh-primary);">Spark</span>
-                    <span class="kh-skill-tag" style="background: rgba(73,191,157,0.12); color: var(--kh-primary);">Flink</span>
-                    <span class="kh-skill-tag" style="background: rgba(73,191,157,0.12); color: var(--kh-primary);">Hadoop</span>
+                <div style="margin-top: 0.8em;">
+                    <span class="kh-skill-tag">Spark</span>
+                    <span class="kh-skill-tag">Flink</span>
+                    <span class="kh-skill-tag">Hadoop</span>
                 </div>
             </article>
-            <article class="col-6 col-12-xsmall work-item" style="background: linear-gradient(135deg, rgba(255,255,255,0.08), rgba(255,255,255,0.02)); border-radius: 8px; padding: 1em; border: 1px solid rgba(73, 191, 157, 0.2); transition: all 0.3s ease;">
+            <article class="col-6 col-12-xsmall kh-work-card" data-accent="distribute">
                 <a href="images/fulls/03.jpg" class="image fit thumb"><img src="images/thumbs/03.jpg" alt=""/></a>
-                <h3 style="color: #49bf9d;">🌟 多语言探索</h3>
+                <h3 style="color: var(--kh-cat-distribute);">多语言探索</h3>
                 <p>Kotlin、Scala、Golang、C#、PHP、Python、C++ 等多种编程语言实践</p>
-                <div style="margin-top: 1em;">
-                    <span class="kh-skill-tag" style="background: rgba(73,191,157,0.12); color: var(--kh-primary);">Kotlin</span>
-                    <span class="kh-skill-tag" style="background: rgba(73,191,157,0.12); color: var(--kh-primary);">Golang</span>
-                    <span class="kh-skill-tag" style="background: rgba(73,191,157,0.12); color: var(--kh-primary);">Python</span>
+                <div style="margin-top: 0.8em;">
+                    <span class="kh-skill-tag">Kotlin</span>
+                    <span class="kh-skill-tag">Golang</span>
+                    <span class="kh-skill-tag">Python</span>
                 </div>
             </article>
-            <article class="col-6 col-12-xsmall work-item" style="background: linear-gradient(135deg, rgba(255,255,255,0.08), rgba(255,255,255,0.02)); border-radius: 8px; padding: 1em; border: 1px solid rgba(73, 191, 157, 0.2); transition: all 0.3s ease;">
+            <article class="col-6 col-12-xsmall kh-work-card" data-accent="java">
                 <a href="images/fulls/04.jpg" class="image fit thumb"><img src="images/thumbs/04.jpg" alt=""/></a>
-                <h3 style="color: #49bf9d;">🔍 JDK源码研究</h3>
+                <h3 style="color: var(--kh-cat-java);">JDK源码研究</h3>
                 <p>深入研究Java核心源码，从基础到高级，全面掌握JVM内部机制</p>
-                <div style="margin-top: 1em;">
-                    <span class="kh-skill-tag" style="background: rgba(73,191,157,0.12); color: var(--kh-primary);">JDK源码</span>
-                    <span class="kh-skill-tag" style="background: rgba(73,191,157,0.12); color: var(--kh-primary);">并发包</span>
-                    <span class="kh-skill-tag" style="background: rgba(73,191,157,0.12); color: var(--kh-primary);">集合框架</span>
+                <div style="margin-top: 0.8em;">
+                    <span class="kh-skill-tag">JDK源码</span>
+                    <span class="kh-skill-tag">并发包</span>
+                    <span class="kh-skill-tag">集合框架</span>
                 </div>
             </article>
-            <article class="col-6 col-12-xsmall work-item" style="background: linear-gradient(135deg, rgba(255,255,255,0.08), rgba(255,255,255,0.02)); border-radius: 8px; padding: 1em; border: 1px solid rgba(73, 191, 157, 0.2); transition: all 0.3s ease;">
+            <article class="col-6 col-12-xsmall kh-work-card" data-accent="ai">
                 <a href="images/fulls/05.jpg" class="image fit thumb"><img src="images/thumbs/05.jpg" alt=""/></a>
-                <h3 style="color: #49bf9d;">🧮 算法与AI</h3>
+                <h3 style="color: var(--kh-cat-ai);">算法与AI</h3>
                 <p>LeetCode刷题、剑指Offer、机器学习算法、人工智能技术研究</p>
-                <div style="margin-top: 1em;">
-                    <span class="kh-skill-tag" style="background: rgba(73,191,157,0.12); color: var(--kh-primary);">算法</span>
-                    <span class="kh-skill-tag" style="background: rgba(73,191,157,0.12); color: var(--kh-primary);">机器学习</span>
-                    <span class="kh-skill-tag" style="background: rgba(73,191,157,0.12); color: var(--kh-primary);">AI</span>
+                <div style="margin-top: 0.8em;">
+                    <span class="kh-skill-tag">算法</span>
+                    <span class="kh-skill-tag">机器学习</span>
+                    <span class="kh-skill-tag">AI</span>
                 </div>
             </article>
-            <article class="col-6 col-12-xsmall work-item" style="background: linear-gradient(135deg, rgba(255,255,255,0.08), rgba(255,255,255,0.02)); border-radius: 8px; padding: 1em; border: 1px solid rgba(73, 191, 157, 0.2); transition: all 0.3s ease;">
+            <article class="col-6 col-12-xsmall kh-work-card" data-accent="arch">
                 <a href="images/fulls/06.jpg" class="image fit thumb"><img src="images/thumbs/06.jpg" alt=""/></a>
-                <h3 style="color: #49bf9d;">💻 计算机基础</h3>
+                <h3 style="color: var(--kh-cat-arch);">计算机基础</h3>
                 <p>计算机组成原理、编译原理、操作系统、计算机网络四大基础学科深度学习</p>
-                <div style="margin-top: 1em;">
-                    <span class="kh-skill-tag" style="background: rgba(73,191,157,0.12); color: var(--kh-primary);">操作系统</span>
-                    <span class="kh-skill-tag" style="background: rgba(73,191,157,0.12); color: var(--kh-primary);">网络</span>
-                    <span class="kh-skill-tag" style="background: rgba(73,191,157,0.12); color: var(--kh-primary);">编译原理</span>
+                <div style="margin-top: 0.8em;">
+                    <span class="kh-skill-tag">操作系统</span>
+                    <span class="kh-skill-tag">网络</span>
+                    <span class="kh-skill-tag">编译原理</span>
                 </div>
             </article>
         </div>
         <ul class="actions">
-            <li><a href="articles.html" class="button primary" style="background: linear-gradient(135deg, #49bf9d, #3a9d7a); border: none; box-shadow: 0 4px 12px rgba(73, 191, 157, 0.3);">🚀 查看所有文章</a></li>
+            <li><a href="articles.html" class="button primary">查看所有文章</a></li>
         </ul>
     </section>
 
-    <!-- Three -->
+    <!-- Contact / Community -->
     <section id="three">
-        <h2>志同道合、一起进步</h2>
+        <h2 class="kh-section-title">志同道合、一起进步</h2>
         <p>如果你感兴趣，欢迎加入reware开源，reware的宗旨是"源码解析与重构：Java框架与中间件的实现"，通过阅读源码，重构实现框架。
             学习类库设计思路与架构，掌握更深层的知识运用。</p>
         <div class="row">
             <div class="col-8 col-12-small">
                 <form method="post" action="#">
                     <div class="row gtr-uniform gtr-50">
-                        <div class="col-6 col-12-xsmall"><input type="text" name="name" id="name" placeholder="Name"/>
-                        </div>
-                        <div class="col-6 col-12-xsmall"><input type="email" name="email" id="email"
-                                                                placeholder="Email"/></div>
-                        <div class="col-12"><textarea name="message" id="message" placeholder="Message"
-                                                      rows="4"></textarea></div>
+                        <div class="col-6 col-12-xsmall"><input type="text" name="name" id="name" placeholder="Name"/></div>
+                        <div class="col-6 col-12-xsmall"><input type="email" name="email" id="email" placeholder="Email"/></div>
+                        <div class="col-12"><textarea name="message" id="message" placeholder="Message" rows="4"></textarea></div>
                     </div>
                 </form>
-                <ul class="actions">
-                    <a href="https://github.com/reware-frame">
-                    <li><input type="submit" value="Send Message"/></li>
-                    </a>
+                <ul class="actions" style="margin-top: 1.5em;">
+                    <li><a href="https://github.com/reware-frame" class="button primary">访问 Reware 开源</a></li>
                 </ul>
             </div>
             <div class="col-4 col-12-small">
@@ -256,338 +171,16 @@
                     <li>
                         <h3 class="icon fa-home"><span class="label">Address</span></h3>
                         Shanghai, China<br/>
-                        Wuxi, Jiangsu<br/>
-                    </li>
-                    <li>
-                        <h3 class="icon fa-mobile"><span class="label">Phone</span></h3>
-                        000-000-0000
+                        Wuxi, Jiangsu
                     </li>
                     <li>
                         <h3 class="icon fa-envelope-o"><span class="label">Email</span></h3>
-                        <a href="#">wshten@gmail.com</a>
+                        <a href="mailto:wshten@gmail.com">wshten@gmail.com</a>
                     </li>
                 </ul>
             </div>
         </div>
     </section>
-
-    <!-- Four -->
-    <!--
-        <section id="four">
-            <h2>Elements</h2>
-
-            <section>
-                <h4>Text</h4>
-                <p>This is <b>bold</b> and this is <strong>strong</strong>. This is <i>italic</i> and this is <em>emphasized</em>.
-                This is <sup>superscript</sup> text and this is <sub>subscript</sub> text.
-                This is <u>underlined</u> and this is code: <code>for (;;) { ... }</code>. Finally, <a href="#">this is a link</a>.</p>
-                <hr />
-                <header>
-                    <h4>Heading with a Subtitle</h4>
-                    <p>Lorem ipsum dolor sit amet nullam id egestas urna aliquam</p>
-                </header>
-                <p>Nunc lacinia ante nunc ac lobortis. Interdum adipiscing gravida odio porttitor sem non mi integer non faucibus ornare mi ut ante amet placerat aliquet. Volutpat eu sed ante lacinia sapien lorem accumsan varius montes viverra nibh in adipiscing blandit tempus accumsan.</p>
-                <header>
-                    <h5>Heading with a Subtitle</h5>
-                    <p>Lorem ipsum dolor sit amet nullam id egestas urna aliquam</p>
-                </header>
-                <p>Nunc lacinia ante nunc ac lobortis. Interdum adipiscing gravida odio porttitor sem non mi integer non faucibus ornare mi ut ante amet placerat aliquet. Volutpat eu sed ante lacinia sapien lorem accumsan varius montes viverra nibh in adipiscing blandit tempus accumsan.</p>
-                <hr />
-                <h2>Heading Level 2</h2>
-                <h3>Heading Level 3</h3>
-                <h4>Heading Level 4</h4>
-                <h5>Heading Level 5</h5>
-                <h6>Heading Level 6</h6>
-                <hr />
-                <h5>Blockquote</h5>
-                <blockquote>Fringilla nisl. Donec accumsan interdum nisi, quis tincidunt felis sagittis eget tempus euismod. Vestibulum ante ipsum primis in faucibus vestibulum. Blandit adipiscing eu felis iaculis volutpat ac adipiscing accumsan faucibus. Vestibulum ante ipsum primis in faucibus lorem ipsum dolor sit amet nullam adipiscing eu felis.</blockquote>
-                <h5>Preformatted</h5>
-                <pre><code>i = 0;
-
-while (!deck.isInOrder()) {
-print 'Iteration ' + i;
-deck.shuffle();
-i++;
-}
-
-print 'It took ' + i + ' iterations to sort the deck.';</code></pre>
-            </section>
-
-            <section>
-                <h4>Lists</h4>
-                <div class="row">
-                    <div class="col-6 col-12-xsmall">
-                        <h5>Unordered</h5>
-                        <ul>
-                            <li>Dolor pulvinar etiam magna etiam.</li>
-                            <li>Sagittis adipiscing lorem eleifend.</li>
-                            <li>Felis enim feugiat dolore viverra.</li>
-                        </ul>
-                        <h5>Alternate</h5>
-                        <ul class="alt">
-                            <li>Dolor pulvinar etiam magna etiam.</li>
-                            <li>Sagittis adipiscing lorem eleifend.</li>
-                            <li>Felis enim feugiat dolore viverra.</li>
-                        </ul>
-                    </div>
-                    <div class="col-6 col-12-xsmall">
-                        <h5>Ordered</h5>
-                        <ol>
-                            <li>Dolor pulvinar etiam magna etiam.</li>
-                            <li>Etiam vel felis at lorem sed viverra.</li>
-                            <li>Felis enim feugiat dolore viverra.</li>
-                            <li>Dolor pulvinar etiam magna etiam.</li>
-                            <li>Etiam vel felis at lorem sed viverra.</li>
-                            <li>Felis enim feugiat dolore viverra.</li>
-                        </ol>
-                        <h5>Icons</h5>
-                        <ul class="icons">
-                            <li><a href="#" class="icon fa-twitter"><span class="label">Twitter</span></a></li>
-                            <li><a href="#" class="icon fa-facebook"><span class="label">Facebook</span></a></li>
-                            <li><a href="#" class="icon fa-instagram"><span class="label">Instagram</span></a></li>
-                            <li><a href="#" class="icon fa-github"><span class="label">Github</span></a></li>
-                            <li><a href="#" class="icon fa-dribbble"><span class="label">Dribbble</span></a></li>
-                            <li><a href="#" class="icon fa-tumblr"><span class="label">Tumblr</span></a></li>
-                        </ul>
-                    </div>
-                </div>
-                <h5>Actions</h5>
-                <ul class="actions">
-                    <li><a href="#" class="button primary">Default</a></li>
-                    <li><a href="#" class="button">Default</a></li>
-                </ul>
-                <ul class="actions small">
-                    <li><a href="#" class="button primary small">Small</a></li>
-                    <li><a href="#" class="button small">Small</a></li>
-                </ul>
-                <div class="row">
-                    <div class="col-6 col-12-small">
-                        <ul class="actions stacked">
-                            <li><a href="#" class="button primary">Default</a></li>
-                            <li><a href="#" class="button">Default</a></li>
-                        </ul>
-                    </div>
-                    <div class="col-6 col-12-small">
-                        <ul class="actions stacked">
-                            <li><a href="#" class="button primary small">Small</a></li>
-                            <li><a href="#" class="button small">Small</a></li>
-                        </ul>
-                    </div>
-                    <div class="col-6 col-12-small">
-                        <ul class="actions stacked">
-                            <li><a href="#" class="button primary fit">Default</a></li>
-                            <li><a href="#" class="button fit">Default</a></li>
-                        </ul>
-                    </div>
-                    <div class="col-6 col-12-small">
-                        <ul class="actions stacked">
-                            <li><a href="#" class="button primary small fit">Small</a></li>
-                            <li><a href="#" class="button small fit">Small</a></li>
-                        </ul>
-                    </div>
-                </div>
-            </section>
-
-            <section>
-                <h4>Table</h4>
-                <h5>Default</h5>
-                <div class="table-wrapper">
-                    <table>
-                        <thead>
-                            <tr>
-                                <th>Name</th>
-                                <th>Description</th>
-                                <th>Price</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td>Item One</td>
-                                <td>Ante turpis integer aliquet porttitor.</td>
-                                <td>29.99</td>
-                            </tr>
-                            <tr>
-                                <td>Item Two</td>
-                                <td>Vis ac commodo adipiscing arcu aliquet.</td>
-                                <td>19.99</td>
-                            </tr>
-                            <tr>
-                                <td>Item Three</td>
-                                <td> Morbi faucibus arcu accumsan lorem.</td>
-                                <td>29.99</td>
-                            </tr>
-                            <tr>
-                                <td>Item Four</td>
-                                <td>Vitae integer tempus condimentum.</td>
-                                <td>19.99</td>
-                            </tr>
-                            <tr>
-                                <td>Item Five</td>
-                                <td>Ante turpis integer aliquet porttitor.</td>
-                                <td>29.99</td>
-                            </tr>
-                        </tbody>
-                        <tfoot>
-                            <tr>
-                                <td colspan="2"></td>
-                                <td>100.00</td>
-                            </tr>
-                        </tfoot>
-                    </table>
-                </div>
-
-                <h5>Alternate</h5>
-                <div class="table-wrapper">
-                    <table class="alt">
-                        <thead>
-                            <tr>
-                                <th>Name</th>
-                                <th>Description</th>
-                                <th>Price</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td>Item One</td>
-                                <td>Ante turpis integer aliquet porttitor.</td>
-                                <td>29.99</td>
-                            </tr>
-                            <tr>
-                                <td>Item Two</td>
-                                <td>Vis ac commodo adipiscing arcu aliquet.</td>
-                                <td>19.99</td>
-                            </tr>
-                            <tr>
-                                <td>Item Three</td>
-                                <td> Morbi faucibus arcu accumsan lorem.</td>
-                                <td>29.99</td>
-                            </tr>
-                            <tr>
-                                <td>Item Four</td>
-                                <td>Vitae integer tempus condimentum.</td>
-                                <td>19.99</td>
-                            </tr>
-                            <tr>
-                                <td>Item Five</td>
-                                <td>Ante turpis integer aliquet porttitor.</td>
-                                <td>29.99</td>
-                            </tr>
-                        </tbody>
-                        <tfoot>
-                            <tr>
-                                <td colspan="2"></td>
-                                <td>100.00</td>
-                            </tr>
-                        </tfoot>
-                    </table>
-                </div>
-            </section>
-
-            <section>
-                <h4>Buttons</h4>
-                <ul class="actions">
-                    <li><a href="#" class="button primary">Primary</a></li>
-                    <li><a href="#" class="button">Default</a></li>
-                </ul>
-                <ul class="actions">
-                    <li><a href="#" class="button large">Large</a></li>
-                    <li><a href="#" class="button">Default</a></li>
-                    <li><a href="#" class="button small">Small</a></li>
-                </ul>
-                <ul class="actions fit">
-                    <li><a href="#" class="button primary fit">Fit</a></li>
-                    <li><a href="#" class="button fit">Fit</a></li>
-                </ul>
-                <ul class="actions fit small">
-                    <li><a href="#" class="button primary fit small">Fit + Small</a></li>
-                    <li><a href="#" class="button fit small">Fit + Small</a></li>
-                </ul>
-                <ul class="actions">
-                    <li><a href="#" class="button primary icon fa-download">Icon</a></li>
-                    <li><a href="#" class="button icon fa-download">Icon</a></li>
-                </ul>
-                <ul class="actions">
-                    <li><span class="button primary disabled">Primary</span></li>
-                    <li><span class="button disabled">Default</span></li>
-                </ul>
-            </section>
-
-            <section>
-                <h4>Form</h4>
-                <form method="post" action="#">
-                    <div class="row gtr-uniform gtr-50">
-                        <div class="col-6 col-12-xsmall">
-                            <input type="text" name="demo-name" id="demo-name" value="" placeholder="Name" />
-                        </div>
-                        <div class="col-6 col-12-xsmall">
-                            <input type="email" name="demo-email" id="demo-email" value="" placeholder="Email" />
-                        </div>
-                        <div class="col-12">
-                            <select name="demo-category" id="demo-category">
-                                <option value="">- Category -</option>
-                                <option value="1">Manufacturing</option>
-                                <option value="1">Shipping</option>
-                                <option value="1">Administration</option>
-                                <option value="1">Human Resources</option>
-                            </select>
-                        </div>
-                        <div class="col-4 col-12-small">
-                            <input type="radio" id="demo-priority-low" name="demo-priority" checked>
-                            <label for="demo-priority-low">Low Priority</label>
-                        </div>
-                        <div class="col-4 col-12-small">
-                            <input type="radio" id="demo-priority-normal" name="demo-priority">
-                            <label for="demo-priority-normal">Normal Priority</label>
-                        </div>
-                        <div class="col-4 col-12-small">
-                            <input type="radio" id="demo-priority-high" name="demo-priority">
-                            <label for="demo-priority-high">High Priority</label>
-                        </div>
-                        <div class="col-6 col-12-small">
-                            <input type="checkbox" id="demo-copy" name="demo-copy">
-                            <label for="demo-copy">Email me a copy of this message</label>
-                        </div>
-                        <div class="col-6 col-12-small">
-                            <input type="checkbox" id="demo-human" name="demo-human" checked>
-                            <label for="demo-human">I am a human and not a robot</label>
-                        </div>
-                        <div class="col-12">
-                            <textarea name="demo-message" id="demo-message" placeholder="Enter your message" rows="6"></textarea>
-                        </div>
-                        <div class="col-12">
-                            <ul class="actions">
-                                <li><input type="submit" value="Send Message" class="primary" /></li>
-                                <li><input type="reset" value="Reset" /></li>
-                            </ul>
-                        </div>
-                    </div>
-                </form>
-            </section>
-
-            <section>
-                <h4>Image</h4>
-                <h5>Fit</h5>
-                <div class="box alt">
-                    <div class="row gtr-50 gtr-uniform">
-                        <div class="col-12"><span class="image fit"><img src="images/fulls/05.jpg" alt="" /></span></div>
-                        <div class="col-4"><span class="image fit"><img src="images/thumbs/01.jpg" alt="" /></span></div>
-                        <div class="col-4"><span class="image fit"><img src="images/thumbs/02.jpg" alt="" /></span></div>
-                        <div class="col-4"><span class="image fit"><img src="images/thumbs/03.jpg" alt="" /></span></div>
-                        <div class="col-4"><span class="image fit"><img src="images/thumbs/04.jpg" alt="" /></span></div>
-                        <div class="col-4"><span class="image fit"><img src="images/thumbs/05.jpg" alt="" /></span></div>
-                        <div class="col-4"><span class="image fit"><img src="images/thumbs/06.jpg" alt="" /></span></div>
-                        <div class="col-4"><span class="image fit"><img src="images/thumbs/03.jpg" alt="" /></span></div>
-                        <div class="col-4"><span class="image fit"><img src="images/thumbs/02.jpg" alt="" /></span></div>
-                        <div class="col-4"><span class="image fit"><img src="images/thumbs/01.jpg" alt="" /></span></div>
-                    </div>
-                </div>
-                <h5>Left &amp; Right</h5>
-                <p><span class="image left"><img src="images/avatar.jpg" alt="" /></span>Fringilla nisl. Donec accumsan interdum nisi, quis tincidunt felis sagittis eget. tempus euismod. Vestibulum ante ipsum primis in faucibus vestibulum. Blandit adipiscing eu felis iaculis volutpat ac adipiscing accumsan eu faucibus. Integer ac pellentesque praesent tincidunt felis sagittis eget. tempus euismod. Vestibulum ante ipsum primis in faucibus vestibulum. Blandit adipiscing eu felis iaculis volutpat ac adipiscing accumsan eu faucibus. Integer ac pellentesque praesent. Donec accumsan interdum nisi, quis tincidunt felis sagittis eget. tempus euismod. Vestibulum ante ipsum primis in faucibus vestibulum. Blandit adipiscing eu felis iaculis volutpat ac adipiscing accumsan eu faucibus. Integer ac pellentesque praesent tincidunt felis sagittis eget. tempus euismod. Vestibulum ante ipsum primis in faucibus vestibulum. Blandit adipiscing eu felis iaculis volutpat ac adipiscing accumsan eu faucibus. Integer ac pellentesque praesent.</p>
-                <p><span class="image right"><img src="images/avatar.jpg" alt="" /></span>Fringilla nisl. Donec accumsan interdum nisi, quis tincidunt felis sagittis eget. tempus euismod. Vestibulum ante ipsum primis in faucibus vestibulum. Blandit adipiscing eu felis iaculis volutpat ac adipiscing accumsan eu faucibus. Integer ac pellentesque praesent tincidunt felis sagittis eget. tempus euismod. Vestibulum ante ipsum primis in faucibus vestibulum. Blandit adipiscing eu felis iaculis volutpat ac adipiscing accumsan eu faucibus. Integer ac pellentesque praesent. Donec accumsan interdum nisi, quis tincidunt felis sagittis eget. tempus euismod. Vestibulum ante ipsum primis in faucibus vestibulum. Blandit adipiscing eu felis iaculis volutpat ac adipiscing accumsan eu faucibus. Integer ac pellentesque praesent tincidunt felis sagittis eget. tempus euismod. Vestibulum ante ipsum primis in faucibus vestibulum. Blandit adipiscing eu felis iaculis volutpat ac adipiscing accumsan eu faucibus. Integer ac pellentesque praesent.</p>
-            </section>
-
-        </section>
-    -->
 
 </div>
 
@@ -595,14 +188,12 @@ print 'It took ' + i + ' iterations to sort the deck.';</code></pre>
 <footer id="footer">
     <div class="inner">
         <ul class="icons">
-            <li><a href="https://github.com/kevinten10" class="icon fa-twitter"><span class="label">Twitter</span></a></li>
             <li><a href="https://github.com/kevinten10" class="icon fa-github"><span class="label">Github</span></a></li>
-            <li><a href="https://github.com/kevinten10" class="icon fa-dribbble"><span class="label">Dribbble</span></a></li>
-            <li><a href="https://github.com/kevinten10" class="icon fa-envelope-o"><span class="label">Email</span></a></li>
+            <li><a href="mailto:wshten@gmail.com" class="icon fa-envelope-o"><span class="label">Email</span></a></li>
         </ul>
         <ul class="copyright">
             <li>&copy; kevinten10</li>
-            <li>Design: <a href="https://github.com/kevinten10">kevinten10</a></li>
+            <li><a href="https://paper.rxcloud.group">paper.rxcloud.group</a></li>
         </ul>
     </div>
 </footer>

@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project Overview
 
-A personal technical knowledge base website (Chinese/English) deployed as a static site. Contains 150+ Markdown articles on Java, concurrency, databases, distributed systems, reactive programming, AI, and more. The site is served via GitHub Pages at `papers.kevinten10.com`.
+A personal technical knowledge base website (Chinese/English) deployed as a static site. Contains 170+ Markdown articles on Java, concurrency, databases, distributed systems, reactive programming, AI, and more. The site is deployed via Vercel at `paper.rxcloud.group`.
 
 ## Commands
 
@@ -24,6 +24,7 @@ The site consists of standalone HTML pages with no build framework:
 - `index.html` — Landing page (based on HTML5 UP "Strata" template)
 - `navigation.html` — Navigation hub linking all pages
 - `knowledge-base.html` — AI-driven knowledge base with search/filter (reads data from `knowledge-base-data.js`)
+- `knowledge-graph.html` — Interactive D3.js force-directed knowledge graph visualization
 - `articles.html` — Traditional article browsing
 - `viewer.html` — Markdown article reader (renders `.md` files using Marked.js + Highlight.js)
 
@@ -42,13 +43,14 @@ Articles are organized in top-level directories by topic (e.g., `Concurrent/`, `
 
 ### Deployment
 
-- **CI/CD**: `.github/workflows/deploy.yml` — On push to `master`, runs `npm run generate-index` then deploys the entire repo to GitHub Pages via `peaceiris/actions-gh-pages`
-- **Vercel**: Also configured (`vercel.json` rewrites all routes to `index.html`)
-- **Custom domain**: `papers.kevinten10.com` (set in deploy workflow CNAME)
+- **Primary**: Vercel — Auto-deploys on push to `master`. Custom domain: `paper.rxcloud.group`
+- **CI/CD**: `.github/workflows/deploy.yml` — Also deploys to GitHub Pages via `peaceiris/actions-gh-pages`
+- **Config**: `vercel.json` — Routes `.html` files directly, falls back to `index.html`
 
 ### Frontend Assets
 
 - `assets/css/main.css` + `assets/sass/main.scss` — Styles (HTML5 UP template base)
+- `assets/css/enhanced.css` — Shared design system (dark theme, glass-morphism, animations, typography)
 - `assets/js/` — jQuery, Poptrox, and custom JS
 - `assets/fonts/` — FontAwesome
 

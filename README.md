@@ -2,10 +2,10 @@
 
 > 个人技术知识库 - 每天至少一小时阅读学术和业界论文，持续学习相关程序知识
 
-[![GitHub Pages](https://img.shields.io/badge/GitHub%20Pages-Live-brightgreen)](https://kevinten10.github.io/Papers/)
+[![Live Site](https://img.shields.io/badge/Site-Live-brightgreen)](https://paper.rxcloud.group)
 [![License](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE.txt)
 [![GitHub Actions](https://img.shields.io/github/actions/workflow/status/kevinten10/Papers/deploy.yml?label=Deploy)](https://github.com/kevinten10/Papers/actions)
-[![Articles](https://img.shields.io/badge/Articles-150+-orange.svg)](#)
+[![Articles](https://img.shields.io/badge/Articles-170+-orange.svg)](#)
 [![Tech Stack](https://img.shields.io/badge/Tech%20Stack-20+-purple.svg)](#)
 
 ## 🎯 项目简介
@@ -24,13 +24,14 @@
 ## 🌐 在线访问
 
 ### 主要入口
-- **🏠 首页**: [https://kevinten10.github.io/Papers/](https://kevinten10.github.io/Papers/)
-- **🎯 导航中心**: [https://kevinten10.github.io/Papers/navigation.html](https://kevinten10.github.io/Papers/navigation.html)
+- **🏠 首页**: [https://paper.rxcloud.group](https://paper.rxcloud.group)
+- **🎯 导航中心**: [https://paper.rxcloud.group/navigation.html](https://paper.rxcloud.group/navigation.html)
 
 ### 功能页面
-- **🚀 智能知识库**: [knowledge-base.html](https://kevinten10.github.io/Papers/knowledge-base.html)
-- **📚 传统浏览**: [articles.html](https://kevinten10.github.io/Papers/articles.html)
-- **📄 文章阅读器**: [viewer.html](https://kevinten10.github.io/Papers/viewer.html)
+- **🚀 智能知识库**: [knowledge-base.html](https://paper.rxcloud.group/knowledge-base.html)
+- **📚 传统浏览**: [articles.html](https://paper.rxcloud.group/articles.html)
+- **📄 文章阅读器**: [viewer.html](https://paper.rxcloud.group/viewer.html)
+- **🕸️ 知识图谱**: [knowledge-graph.html](https://paper.rxcloud.group/knowledge-graph.html)
 
 ## 📚 知识体系
 
@@ -66,9 +67,9 @@
 - **响应式设计** - 适配各种设备
 
 ### 部署方案
+- **Vercel** - 主要部署平台
 - **GitHub Actions** - 自动化CI/CD部署
-- **GitHub Pages** - 静态网站托管
-- **CDN加速** - 全球访问优化
+- **GitHub Pages** - 备用静态网站托管
 - **HTTPS安全** - 安全访问保障
 
 ## 🚀 快速开始
@@ -94,7 +95,7 @@ npx serve .
 
 1. **自动部署**: 推送到 `master` 分支时自动触发部署
 2. **手动部署**: 在GitHub仓库的Actions页面手动触发
-3. **自定义域名**: 支持配置自定义域名（已在workflow中配置为 `papers.kevinten10.com`）
+3. **自定义域名**: 已部署至 `paper.rxcloud.group`（Vercel托管）
 
 **部署状态**: 查看 [GitHub Actions](https://github.com/kevinten10/Papers/actions)
 
@@ -106,6 +107,7 @@ Papers/
 ├── knowledge-base.html      # 智能知识库
 ├── articles.html           # 传统文章浏览
 ├── viewer.html             # 文章阅读器
+├── knowledge-graph.html    # 知识图谱可视化
 ├── assets/                 # 静态资源
 │   ├── css/               # 样式文件
 │   ├── js/                # JavaScript文件
@@ -165,7 +167,7 @@ Papers/
 
 - **GitHub**: [@kevinten10](https://github.com/kevinten10)
 - **Email**: 596823919@qq.com
-- **Website**: [Knowledge Base](https://kevinten10.github.io/Papers/)
+- **Website**: [Knowledge Base](https://paper.rxcloud.group)
 
 ## 📄 许可证
 

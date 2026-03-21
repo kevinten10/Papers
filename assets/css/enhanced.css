@@ -1,39 +1,77 @@
 /* ============================================================
    Enhanced Design System for Kevin's Knowledge Hub
    Layered on top of Strata template (main.css)
+   v3.0 — "Luminous Depth" redesign
    ============================================================ */
 
 /* --- Google Fonts --- */
-@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=Noto+Sans+SC:wght@300;400;500;700&family=JetBrains+Mono:wght@400;500&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700;800&family=Noto+Sans+SC:wght@300;400;500;700&family=JetBrains+Mono:wght@400;500&display=swap');
 
 /* --- Design Tokens --- */
 :root {
+    /* Primary palette */
     --kh-primary: #49bf9d;
     --kh-primary-dark: #3a9d7a;
+    --kh-primary-light: #6cd4b2;
     --kh-primary-glow: rgba(73, 191, 157, 0.35);
-    --kh-accent: #64b5f6;
-    --kh-accent2: #ce93d8;
-    --kh-warn: #ffb74d;
-    --kh-success: #81c784;
-    --kh-error: #e57373;
-    --kh-bg-deep: #0a0e17;
-    --kh-bg-card: rgba(255, 255, 255, 0.04);
-    --kh-bg-glass: rgba(255, 255, 255, 0.06);
-    --kh-border: rgba(73, 191, 157, 0.15);
+    --kh-primary-subtle: rgba(73, 191, 157, 0.08);
+
+    /* Accents */
+    --kh-accent: #818cf8;
+    --kh-accent2: #f472b6;
+    --kh-warm: #fbbf24;
+    --kh-success: #34d399;
+    --kh-error: #fb7185;
+
+    /* Surfaces — layered depth */
+    --kh-bg-deep: #080c15;
+    --kh-bg-surface: #0e1221;
+    --kh-bg-card: rgba(255, 255, 255, 0.03);
+    --kh-bg-glass: rgba(255, 255, 255, 0.05);
+    --kh-bg-glass-hover: rgba(255, 255, 255, 0.08);
+
+    /* Borders */
+    --kh-border: rgba(255, 255, 255, 0.07);
     --kh-border-hover: rgba(73, 191, 157, 0.4);
+
+    /* Text */
     --kh-text: rgba(255, 255, 255, 0.88);
-    --kh-text-dim: rgba(255, 255, 255, 0.55);
-    --kh-font-display: 'Outfit', 'Noto Sans SC', sans-serif;
-    --kh-font-body: 'Noto Sans SC', 'Outfit', -apple-system, sans-serif;
+    --kh-text-dim: rgba(255, 255, 255, 0.5);
+    --kh-text-bright: #ffffff;
+
+    /* Typography */
+    --kh-font-display: 'Sora', 'Noto Sans SC', sans-serif;
+    --kh-font-body: 'Noto Sans SC', 'Sora', -apple-system, sans-serif;
     --kh-font-mono: 'JetBrains Mono', 'Fira Code', monospace;
-    --kh-radius: 14px;
-    --kh-radius-lg: 20px;
+
+    /* Spacing & Shape */
+    --kh-radius: 12px;
+    --kh-radius-lg: 18px;
     --kh-radius-pill: 50px;
-    --kh-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+
+    /* Shadows */
+    --kh-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
     --kh-shadow-glow: 0 8px 40px var(--kh-primary-glow);
+    --kh-shadow-inset: inset 0 1px 0 rgba(255, 255, 255, 0.04);
+
+    /* Category accent colors */
+    --kh-cat-java: #f59e0b;
+    --kh-cat-bigdata: #3b82f6;
+    --kh-cat-concurrent: #10b981;
+    --kh-cat-distribute: #8b5cf6;
+    --kh-cat-database: #f97316;
+    --kh-cat-docker: #06b6d4;
+    --kh-cat-linux: #94a3b8;
+    --kh-cat-arch: #ef4444;
+    --kh-cat-ai: #818cf8;
+    --kh-cat-reactive: #ec4899;
+
+    /* Easing */
+    --kh-ease: cubic-bezier(0.22, 1, 0.36, 1);
+    --kh-ease-bounce: cubic-bezier(0.34, 1.56, 0.64, 1);
 }
 
-/* --- Typography Override --- */
+/* --- Typography --- */
 body, input, select, textarea {
     font-family: var(--kh-font-body) !important;
 }
@@ -41,7 +79,7 @@ body, input, select, textarea {
 h1, h2, h3, h4, h5, h6,
 .major h2, .category-title, .nav-title {
     font-family: var(--kh-font-display) !important;
-    letter-spacing: -0.02em;
+    letter-spacing: -0.03em;
 }
 
 code, pre, .article-content code {
@@ -49,13 +87,13 @@ code, pre, .article-content code {
 }
 
 /* --- Scrollbar --- */
-::-webkit-scrollbar { width: 6px; height: 6px; }
+::-webkit-scrollbar { width: 5px; height: 5px; }
 ::-webkit-scrollbar-track { background: transparent; }
 ::-webkit-scrollbar-thumb {
-    background: rgba(73, 191, 157, 0.25);
-    border-radius: 3px;
+    background: rgba(73, 191, 157, 0.2);
+    border-radius: 10px;
 }
-::-webkit-scrollbar-thumb:hover { background: rgba(73, 191, 157, 0.45); }
+::-webkit-scrollbar-thumb:hover { background: rgba(73, 191, 157, 0.4); }
 
 /* --- Selection --- */
 ::selection {
@@ -63,22 +101,51 @@ code, pre, .article-content code {
     color: #fff;
 }
 
-/* --- Grain Overlay (subtle texture) --- */
+/* ============================================================
+   ATMOSPHERIC BACKGROUND
+   Three layers: gradient mesh → dot grid → grain
+   ============================================================ */
+
+/* Gradient mesh — creates luminous depth with colored blobs */
+body {
+    background: var(--kh-bg-deep) !important;
+    background-image:
+        radial-gradient(ellipse 80% 50% at 15% 50%, rgba(73,191,157,0.07) 0%, transparent 70%),
+        radial-gradient(ellipse 60% 80% at 80% 15%, rgba(129,140,248,0.05) 0%, transparent 60%),
+        radial-gradient(ellipse 70% 60% at 60% 85%, rgba(244,114,182,0.035) 0%, transparent 55%) !important;
+    color: var(--kh-text) !important;
+}
+
+/* Dot grid — subtle technical texture */
+body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 0;
+    opacity: 0.3;
+    background-image: radial-gradient(circle, rgba(73,191,157,0.15) 1px, transparent 1px);
+    background-size: 40px 40px;
+}
+
+/* Film grain — organic texture */
 body::after {
     content: '';
     position: fixed;
     inset: 0;
     pointer-events: none;
     z-index: 9999;
-    opacity: 0.025;
+    opacity: 0.02;
     background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
     background-repeat: repeat;
     background-size: 200px 200px;
 }
 
-/* --- Entry Animations --- */
+/* ============================================================
+   KEYFRAME ANIMATIONS
+   ============================================================ */
 @keyframes kh-fadeInUp {
-    from { opacity: 0; transform: translateY(24px); }
+    from { opacity: 0; transform: translateY(28px); }
     to   { opacity: 1; transform: translateY(0); }
 }
 @keyframes kh-fadeIn {
@@ -94,73 +161,117 @@ body::after {
     to   { opacity: 1; transform: translateX(0); }
 }
 @keyframes kh-glow-pulse {
-    0%, 100% { box-shadow: 0 0 20px rgba(73,191,157,0.15); }
-    50%      { box-shadow: 0 0 35px rgba(73,191,157,0.3); }
+    0%, 100% { box-shadow: 0 0 20px rgba(73,191,157,0.12); }
+    50%      { box-shadow: 0 0 40px rgba(73,191,157,0.25); }
 }
 @keyframes kh-gradient-shift {
     0%   { background-position: 0% 50%; }
     50%  { background-position: 100% 50%; }
     100% { background-position: 0% 50%; }
 }
+@keyframes kh-float {
+    0%, 100% { transform: translateY(0); }
+    50%      { transform: translateY(-6px); }
+}
+@keyframes kh-shimmer {
+    0%   { background-position: -200% 0; }
+    100% { background-position: 200% 0; }
+}
 
-/* Staggered reveal utility — add to parent, children animate in */
+/* Staggered reveal — add .kh-reveal to parent */
 .kh-reveal > * {
     opacity: 0;
-    animation: kh-fadeInUp 0.6s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+    animation: kh-fadeInUp 0.6s var(--kh-ease) forwards;
 }
-.kh-reveal > *:nth-child(1)  { animation-delay: 0.05s; }
-.kh-reveal > *:nth-child(2)  { animation-delay: 0.10s; }
-.kh-reveal > *:nth-child(3)  { animation-delay: 0.15s; }
-.kh-reveal > *:nth-child(4)  { animation-delay: 0.20s; }
-.kh-reveal > *:nth-child(5)  { animation-delay: 0.25s; }
-.kh-reveal > *:nth-child(6)  { animation-delay: 0.30s; }
-.kh-reveal > *:nth-child(7)  { animation-delay: 0.35s; }
-.kh-reveal > *:nth-child(8)  { animation-delay: 0.40s; }
-.kh-reveal > *:nth-child(9)  { animation-delay: 0.45s; }
-.kh-reveal > *:nth-child(10) { animation-delay: 0.50s; }
+.kh-reveal > *:nth-child(1)  { animation-delay: 0.06s; }
+.kh-reveal > *:nth-child(2)  { animation-delay: 0.12s; }
+.kh-reveal > *:nth-child(3)  { animation-delay: 0.18s; }
+.kh-reveal > *:nth-child(4)  { animation-delay: 0.24s; }
+.kh-reveal > *:nth-child(5)  { animation-delay: 0.30s; }
+.kh-reveal > *:nth-child(6)  { animation-delay: 0.36s; }
+.kh-reveal > *:nth-child(7)  { animation-delay: 0.42s; }
+.kh-reveal > *:nth-child(8)  { animation-delay: 0.48s; }
+.kh-reveal > *:nth-child(9)  { animation-delay: 0.54s; }
+.kh-reveal > *:nth-child(10) { animation-delay: 0.60s; }
 
 .kh-fade-in {
     animation: kh-fadeIn 0.8s ease forwards;
 }
 
-/* --- Glass Card --- */
+/* ============================================================
+   GLASS CARD COMPONENT
+   ============================================================ */
 .kh-glass {
     background: var(--kh-bg-glass);
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
     border: 1px solid var(--kh-border);
     border-radius: var(--kh-radius);
-    transition: all 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+    box-shadow: var(--kh-shadow-inset), 0 4px 24px rgba(0,0,0,0.15);
+    transition: all 0.4s var(--kh-ease);
 }
 .kh-glass:hover {
+    background: var(--kh-bg-glass-hover);
     border-color: var(--kh-border-hover);
-    box-shadow: var(--kh-shadow);
+    box-shadow: var(--kh-shadow-inset), var(--kh-shadow);
     transform: translateY(-4px);
 }
 
-/* --- Gradient Buttons --- */
+/* Elevated variant — sits higher in the z-stack */
+.kh-glass-elevated {
+    background: rgba(255, 255, 255, 0.07);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: var(--kh-radius);
+    box-shadow: var(--kh-shadow-inset), 0 12px 40px rgba(0,0,0,0.25);
+}
+
+/* Card with colored top edge */
+.kh-card-accent {
+    position: relative;
+    overflow: hidden;
+}
+.kh-card-accent::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, var(--kh-primary), var(--kh-accent));
+    opacity: 0.6;
+    transition: opacity 0.35s, height 0.35s;
+}
+.kh-card-accent:hover::before {
+    opacity: 1;
+    height: 3px;
+}
+
+/* ============================================================
+   BUTTONS
+   ============================================================ */
 .kh-btn {
     display: inline-flex;
     align-items: center;
     gap: 0.5em;
-    padding: 0.7em 1.6em;
+    padding: 0.75em 1.7em;
     border-radius: var(--kh-radius-pill);
     font-family: var(--kh-font-display);
     font-weight: 600;
-    font-size: 0.9em;
+    font-size: 0.88em;
     text-decoration: none;
     color: #fff;
     border: none;
     cursor: pointer;
-    transition: all 0.35s cubic-bezier(0.22, 1, 0.36, 1);
+    transition: all 0.35s var(--kh-ease);
     position: relative;
     overflow: hidden;
+    letter-spacing: 0.01em;
 }
 .kh-btn::before {
     content: '';
     position: absolute;
     inset: 0;
-    background: linear-gradient(135deg, rgba(255,255,255,0.15), transparent);
+    background: linear-gradient(135deg, rgba(255,255,255,0.18), transparent 60%);
     opacity: 0;
     transition: opacity 0.35s;
 }
@@ -170,12 +281,18 @@ body::after {
     box-shadow: var(--kh-shadow-glow);
     color: #fff;
 }
+.kh-btn:active {
+    transform: translateY(-1px);
+}
 
 .kh-btn-primary {
     background: linear-gradient(135deg, var(--kh-primary), var(--kh-primary-dark));
 }
 .kh-btn-accent {
-    background: linear-gradient(135deg, var(--kh-accent), #42a5f5);
+    background: linear-gradient(135deg, var(--kh-accent), #6366f1);
+}
+.kh-btn-warm {
+    background: linear-gradient(135deg, var(--kh-warm), #f59e0b);
 }
 .kh-btn-outline {
     background: transparent;
@@ -183,27 +300,52 @@ body::after {
     color: var(--kh-primary);
 }
 .kh-btn-outline:hover {
-    background: rgba(73, 191, 157, 0.1);
+    background: var(--kh-primary-subtle);
 }
 
-/* --- Tags / Badges --- */
+/* ============================================================
+   TAGS / BADGES
+   ============================================================ */
 .kh-tag {
     display: inline-block;
     padding: 0.25em 0.7em;
-    border-radius: 10px;
+    border-radius: 8px;
     font-size: 0.78em;
     font-weight: 500;
-    background: rgba(73, 191, 157, 0.12);
+    font-family: var(--kh-font-display);
+    background: var(--kh-primary-subtle);
     color: var(--kh-primary);
-    border: 1px solid rgba(73, 191, 157, 0.15);
-    transition: all 0.25s;
+    border: 1px solid rgba(73, 191, 157, 0.12);
+    transition: all 0.25s var(--kh-ease);
 }
 .kh-tag:hover {
-    background: rgba(73, 191, 157, 0.22);
+    background: rgba(73, 191, 157, 0.18);
     transform: translateY(-1px);
 }
 
-/* --- Stats Card --- */
+/* Tech badge — pill-shaped colored tag */
+.kh-tech-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3em;
+    padding: 0.35em 0.9em;
+    border-radius: 20px;
+    font-size: 0.82em;
+    font-weight: 500;
+    font-family: var(--kh-font-display);
+    color: #fff;
+    transition: all 0.3s var(--kh-ease);
+    border: 1px solid rgba(255,255,255,0.1);
+    box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+}
+.kh-tech-badge:hover {
+    transform: translateY(-2px) scale(1.04);
+    box-shadow: 0 6px 20px rgba(0,0,0,0.3);
+}
+
+/* ============================================================
+   STAT CARDS
+   ============================================================ */
 .kh-stat {
     text-align: center;
     padding: 1.5em;
@@ -211,48 +353,217 @@ body::after {
     border: 1px solid var(--kh-border);
     border-radius: var(--kh-radius);
     backdrop-filter: blur(8px);
+    transition: all 0.35s var(--kh-ease);
+}
+.kh-stat:hover {
+    border-color: rgba(73, 191, 157, 0.2);
+    transform: translateY(-2px);
 }
 .kh-stat-number {
     font-family: var(--kh-font-display);
-    font-size: 2.2em;
-    font-weight: 700;
+    font-size: 2.4em;
+    font-weight: 800;
     color: var(--kh-primary);
     line-height: 1;
-    margin-bottom: 0.3em;
+    margin-bottom: 0.25em;
+    letter-spacing: -0.03em;
 }
 .kh-stat-label {
-    font-size: 0.85em;
+    font-size: 0.82em;
     color: var(--kh-text-dim);
+    font-weight: 400;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
 }
 
-/* --- Top Bar Gradient (for pages without sidebar header) --- */
+/* Stats grid */
+.kh-stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(110px, 1fr));
+    gap: 1em;
+}
+
+/* ============================================================
+   NAVIGATION CARD (used on navigation.html)
+   ============================================================ */
+.kh-nav-card {
+    background: var(--kh-bg-glass);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border-radius: var(--kh-radius-lg);
+    padding: 2em;
+    border: 1px solid var(--kh-border);
+    transition: all 0.45s var(--kh-ease);
+    position: relative;
+    overflow: hidden;
+}
+.kh-nav-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, var(--kh-primary), var(--kh-accent), var(--kh-accent2));
+    opacity: 0.5;
+    transition: opacity 0.35s, height 0.35s;
+}
+.kh-nav-card:hover::before {
+    opacity: 1;
+    height: 3px;
+}
+.kh-nav-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 24px 60px rgba(0, 0, 0, 0.35), 0 0 40px rgba(73,191,157,0.08);
+    border-color: var(--kh-border-hover);
+    background: var(--kh-bg-glass-hover);
+}
+.kh-nav-card .nav-icon {
+    font-size: 2.5em;
+    display: block;
+    margin-bottom: 0.5em;
+    filter: drop-shadow(0 4px 8px rgba(0,0,0,0.3));
+}
+.kh-nav-card .nav-title {
+    color: var(--kh-primary);
+    font-family: var(--kh-font-display);
+    font-size: 1.2em;
+    font-weight: 700;
+    margin-bottom: 0.6em;
+    letter-spacing: -0.02em;
+}
+
+/* ============================================================
+   WORK / ARTICLE CARDS
+   ============================================================ */
+.kh-work-card {
+    background: var(--kh-bg-glass);
+    backdrop-filter: blur(8px);
+    border-radius: var(--kh-radius) !important;
+    border: 1px solid var(--kh-border) !important;
+    padding: 1.2em;
+    position: relative;
+    overflow: hidden;
+    transition: all 0.4s var(--kh-ease);
+}
+.kh-work-card::after {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, var(--kh-primary), var(--kh-accent));
+    opacity: 0;
+    transition: opacity 0.35s;
+}
+.kh-work-card:hover::after { opacity: 1; }
+.kh-work-card:hover {
+    border-color: var(--kh-border-hover) !important;
+    box-shadow: 0 16px 48px rgba(73,191,157,0.12);
+    transform: translateY(-6px);
+}
+
+/* Skill tag — small inline label */
+.kh-skill-tag {
+    display: inline-block;
+    padding: 0.18em 0.55em;
+    border-radius: 6px;
+    font-size: 0.75em;
+    font-weight: 500;
+    font-family: var(--kh-font-display);
+    margin-right: 0.25em;
+    margin-bottom: 0.25em;
+    background: var(--kh-primary-subtle);
+    color: var(--kh-primary);
+    border: 1px solid rgba(73,191,157,0.1);
+}
+
+/* ============================================================
+   QUICK LINKS
+   ============================================================ */
+.kh-quick-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4em;
+    padding: 0.5em 1.2em;
+    border-radius: var(--kh-radius-pill);
+    text-decoration: none;
+    font-family: var(--kh-font-display);
+    font-weight: 500;
+    font-size: 0.88em;
+    transition: all 0.3s var(--kh-ease);
+    border: 1px solid;
+}
+.kh-quick-link:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 24px rgba(0,0,0,0.25);
+}
+
+/* ============================================================
+   TOP BAR & PROGRESS
+   ============================================================ */
 .kh-topbar-gradient {
     position: fixed;
     top: 0; left: 0; right: 0;
-    height: 3px;
+    height: 2px;
     background: linear-gradient(90deg, var(--kh-primary), var(--kh-accent), var(--kh-accent2), var(--kh-primary));
     background-size: 300% 100%;
-    animation: kh-gradient-shift 6s ease infinite;
+    animation: kh-gradient-shift 8s ease infinite;
     z-index: 9998;
 }
 
-/* --- Reading Progress Bar --- */
 .kh-progress-bar {
     position: fixed;
     top: 0; left: 0;
-    height: 3px;
+    height: 2px;
     background: linear-gradient(90deg, var(--kh-primary), var(--kh-accent));
     z-index: 9998;
-    transition: width 0.1s linear;
-    box-shadow: 0 0 8px var(--kh-primary-glow);
+    transition: width 0.12s linear;
+    box-shadow: 0 0 10px var(--kh-primary-glow);
 }
 
-/* --- Enhanced Sidebar Header --- */
+/* ============================================================
+   BACK NAVIGATION (floating pill button)
+   ============================================================ */
+.kh-back-nav {
+    position: fixed;
+    top: 18px;
+    right: 18px;
+    background: rgba(14, 18, 33, 0.85);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    color: var(--kh-primary);
+    padding: 0.6em 1.3em;
+    border-radius: var(--kh-radius-pill);
+    text-decoration: none;
+    z-index: 1000;
+    border: 1px solid var(--kh-border);
+    font-family: var(--kh-font-display);
+    font-weight: 600;
+    font-size: 0.82em;
+    transition: all 0.35s var(--kh-ease);
+    box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+}
+.kh-back-nav:hover {
+    background: rgba(73,191,157,0.12);
+    border-color: var(--kh-border-hover);
+    color: var(--kh-primary);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 28px rgba(73,191,157,0.15);
+}
+
+/* ============================================================
+   SIDEBAR (#header) — Enhanced Strata sidebar
+   ============================================================ */
+#header {
+    background-color: rgba(8, 12, 21, 0.95) !important;
+    background-image:
+        radial-gradient(ellipse at 50% 80%, rgba(73,191,157,0.08) 0%, transparent 60%) !important;
+}
+
 #header h1 {
     font-family: var(--kh-font-display) !important;
     font-weight: 300 !important;
-    letter-spacing: 0 !important;
-    line-height: 1.5 !important;
+    letter-spacing: -0.01em !important;
+    line-height: 1.6 !important;
+    font-size: 0.95em !important;
 }
 #header h1 strong {
     font-weight: 700 !important;
@@ -262,63 +573,71 @@ body::after {
     background-clip: text;
 }
 
-/* --- Enhanced Footer --- */
+/* Avatar glow ring */
+#header .avatar {
+    position: relative;
+}
+#header .avatar img {
+    border: 2px solid rgba(73,191,157,0.3) !important;
+    box-shadow: 0 0 24px rgba(73,191,157,0.15);
+    transition: all 0.4s var(--kh-ease);
+}
+#header .avatar:hover img {
+    border-color: var(--kh-primary) !important;
+    box-shadow: 0 0 36px rgba(73,191,157,0.3);
+}
+
+/* ============================================================
+   FOOTER — Enhanced
+   ============================================================ */
+#footer {
+    color: var(--kh-text-dim);
+}
 #footer .icons a {
-    transition: all 0.3s cubic-bezier(0.22, 1, 0.36, 1) !important;
+    transition: all 0.3s var(--kh-ease) !important;
 }
 #footer .icons a:hover {
     color: var(--kh-primary) !important;
     transform: translateY(-3px);
 }
 
-/* --- Dark Theme Override for Strata Template --- */
-/* Strata defaults to body { background: #fff } which makes
-   all glass-morphism & white-alpha text invisible. Override
-   to a dark canvas so the entire design system works. */
-
-body {
-    background: var(--kh-bg-deep) !important;
-    color: var(--kh-text) !important;
-}
-
+/* ============================================================
+   DARK THEME OVERRIDES — Strata template compatibility
+   ============================================================ */
 #main {
     color: var(--kh-text);
 }
-
 #main > section {
     border-top-color: var(--kh-border) !important;
 }
-
 #main p, #main li, #main span, #main td {
     color: var(--kh-text);
 }
-
 #main h1, #main h2, #main h3, #main h4, #main h5, #main h6 {
-    color: #fff;
+    color: var(--kh-text-bright);
 }
-
 #main strong, #main b {
-    color: #fff;
+    color: var(--kh-text-bright);
     font-weight: 600;
 }
-
 #main a {
     color: var(--kh-primary);
+    transition: color 0.25s;
 }
-
 #main a:hover {
     color: var(--kh-accent);
 }
 
 header.major h2 {
-    color: #fff !important;
+    color: var(--kh-text-bright) !important;
+    font-weight: 700 !important;
+    letter-spacing: -0.03em;
 }
 
-/* Strata template borders & rules — dark-compatible */
+/* Template borders */
 hr, #main > section {
     border-color: var(--kh-border) !important;
 }
-
 hr.major {
     border-color: var(--kh-border) !important;
 }
@@ -326,37 +645,148 @@ hr.major {
 blockquote {
     border-left-color: var(--kh-primary) !important;
     color: var(--kh-text-dim);
+    background: var(--kh-primary-subtle);
+    padding: 1em 1.2em;
+    border-radius: 0 var(--kh-radius) var(--kh-radius) 0;
 }
 
-/* Form elements on dark background */
+/* Form elements */
 input[type="text"],
 input[type="email"],
 input[type="search"],
 input[type="password"],
 textarea,
 select {
-    background: rgba(255, 255, 255, 0.06) !important;
+    background: rgba(255, 255, 255, 0.05) !important;
     border-color: var(--kh-border) !important;
     color: var(--kh-text) !important;
+    border-radius: var(--kh-radius) !important;
+    transition: all 0.3s var(--kh-ease);
 }
-
 input[type="text"]:focus,
 input[type="email"]:focus,
 input[type="search"]:focus,
 textarea:focus {
     border-color: var(--kh-primary) !important;
-    box-shadow: 0 0 12px var(--kh-primary-glow);
+    box-shadow: 0 0 16px rgba(73,191,157,0.2);
+    background: rgba(255, 255, 255, 0.07) !important;
 }
 
-/* Footer on dark background (outside header sidebar) */
-#footer {
-    color: var(--kh-text-dim);
+/* Submit buttons */
+input[type="submit"],
+button.primary,
+.button.primary {
+    background: linear-gradient(135deg, var(--kh-primary), var(--kh-primary-dark)) !important;
+    border: none !important;
+    border-radius: var(--kh-radius-pill) !important;
+    font-family: var(--kh-font-display) !important;
+    font-weight: 600 !important;
+    letter-spacing: 0.01em;
+    box-shadow: 0 4px 16px rgba(73,191,157,0.25);
+    transition: all 0.35s var(--kh-ease) !important;
+}
+input[type="submit"]:hover,
+button.primary:hover,
+.button.primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 28px rgba(73,191,157,0.35) !important;
 }
 
-/* --- Responsive Polish --- */
+/* ============================================================
+   CATEGORY-SPECIFIC ACCENT COLORS
+   Apply to parent: data-accent="java" etc.
+   ============================================================ */
+[data-accent="java"]    { --card-accent: var(--kh-cat-java); }
+[data-accent="bigdata"] { --card-accent: var(--kh-cat-bigdata); }
+[data-accent="concurrent"] { --card-accent: var(--kh-cat-concurrent); }
+[data-accent="distribute"] { --card-accent: var(--kh-cat-distribute); }
+[data-accent="database"] { --card-accent: var(--kh-cat-database); }
+[data-accent="docker"]  { --card-accent: var(--kh-cat-docker); }
+[data-accent="linux"]   { --card-accent: var(--kh-cat-linux); }
+[data-accent="arch"]    { --card-accent: var(--kh-cat-arch); }
+[data-accent="ai"]      { --card-accent: var(--kh-cat-ai); }
+[data-accent="reactive"] { --card-accent: var(--kh-cat-reactive); }
+
+/* ============================================================
+   UTILITY CLASSES
+   ============================================================ */
+.kh-text-gradient {
+    background: linear-gradient(135deg, var(--kh-primary), var(--kh-accent));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.kh-section-title {
+    font-family: var(--kh-font-display);
+    font-weight: 700;
+    font-size: 1.4em;
+    color: var(--kh-text-bright);
+    letter-spacing: -0.02em;
+    margin-bottom: 1.2em;
+    padding-bottom: 0.8em;
+    border-bottom: 2px solid var(--kh-border);
+    position: relative;
+}
+.kh-section-title::after {
+    content: '';
+    position: absolute;
+    bottom: -2px;
+    left: 0;
+    width: 60px;
+    height: 2px;
+    background: linear-gradient(90deg, var(--kh-primary), transparent);
+}
+
+.kh-divider {
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--kh-border), transparent);
+    border: none;
+    margin: 2em 0;
+}
+
+/* Flex/grid helpers */
+.kh-flex-center {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.kh-flex-wrap {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5em;
+}
+.kh-grid-2 {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 1.5em;
+}
+.kh-grid-3 {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 1.5em;
+}
+
+/* ============================================================
+   RESPONSIVE
+   ============================================================ */
+@media (max-width: 980px) {
+    .kh-nav-card { padding: 1.5em; }
+    .kh-stat-number { font-size: 1.8em; }
+}
+
 @media (max-width: 768px) {
     :root {
         --kh-radius: 10px;
         --kh-radius-lg: 14px;
     }
+    body::before { opacity: 0.15; }
+    .kh-stats-grid { grid-template-columns: repeat(2, 1fr); }
+    .kh-grid-2, .kh-grid-3 { grid-template-columns: 1fr; }
+}
+
+@media (max-width: 480px) {
+    .kh-back-nav { font-size: 0.75em; padding: 0.5em 1em; }
+    .kh-nav-card { padding: 1.2em; }
+    .kh-btn { padding: 0.6em 1.2em; font-size: 0.82em; }
 }
