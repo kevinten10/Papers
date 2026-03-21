@@ -1893,8 +1893,4 @@ const knowledgeBase = {
     }
 };
 
-// 初始化知识库
-document.addEventListener('DOMContentLoaded', function() {
-    initializeKnowledgeBase();
-    setupEventListeners();
-});
+// 知识库数据已加载，初始化由 knowledge-base.html 负责

@@ -271,6 +271,88 @@ body::after {
     transform: translateY(-3px);
 }
 
+/* --- Dark Theme Override for Strata Template --- */
+/* Strata defaults to body { background: #fff } which makes
+   all glass-morphism & white-alpha text invisible. Override
+   to a dark canvas so the entire design system works. */
+
+body {
+    background: var(--kh-bg-deep) !important;
+    color: var(--kh-text) !important;
+}
+
+#main {
+    color: var(--kh-text);
+}
+
+#main > section {
+    border-top-color: var(--kh-border) !important;
+}
+
+#main p, #main li, #main span, #main td {
+    color: var(--kh-text);
+}
+
+#main h1, #main h2, #main h3, #main h4, #main h5, #main h6 {
+    color: #fff;
+}
+
+#main strong, #main b {
+    color: #fff;
+    font-weight: 600;
+}
+
+#main a {
+    color: var(--kh-primary);
+}
+
+#main a:hover {
+    color: var(--kh-accent);
+}
+
+header.major h2 {
+    color: #fff !important;
+}
+
+/* Strata template borders & rules — dark-compatible */
+hr, #main > section {
+    border-color: var(--kh-border) !important;
+}
+
+hr.major {
+    border-color: var(--kh-border) !important;
+}
+
+blockquote {
+    border-left-color: var(--kh-primary) !important;
+    color: var(--kh-text-dim);
+}
+
+/* Form elements on dark background */
+input[type="text"],
+input[type="email"],
+input[type="search"],
+input[type="password"],
+textarea,
+select {
+    background: rgba(255, 255, 255, 0.06) !important;
+    border-color: var(--kh-border) !important;
+    color: var(--kh-text) !important;
+}
+
+input[type="text"]:focus,
+input[type="email"]:focus,
+input[type="search"]:focus,
+textarea:focus {
+    border-color: var(--kh-primary) !important;
+    box-shadow: 0 0 12px var(--kh-primary-glow);
+}
+
+/* Footer on dark background (outside header sidebar) */
+#footer {
+    color: var(--kh-text-dim);
+}
+
 /* --- Responsive Polish --- */
 @media (max-width: 768px) {
     :root {
