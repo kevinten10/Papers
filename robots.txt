@@ -1,5 +1,5 @@
 # Robots.txt for Kevin's Knowledge Base
-# https://kevinten10.github.io/Papers/
+# https://paper.rxcloud.group
 
 User-agent: *
 Allow: /
@@ -33,4 +33,4 @@ Disallow: /.github/
 Disallow: /node_modules/
 
 # Sitemap
-Sitemap: https://kevinten10.github.io/Papers/sitemap.xml
+Sitemap: https://paper.rxcloud.group/sitemap.xml

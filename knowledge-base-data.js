@@ -1,4 +1,4 @@
-// 知识库数据结构 - 自动生成于 2026-03-21T15:10:12.936Z
+// 知识库数据结构 - 自动生成于 2026-03-21T16:28:52.799Z
 // 使用 generate-index.js 生成，请勿手动修改
 
 const knowledgeBase = {
@@ -1641,9 +1641,9 @@ const knowledgeBase = {
                 }
             },
             "文章处理prompt.md": {
-                "title": "文章处理prompt",
-                "description": "1. 参考@持续交卷/文章处理rule.md ，处理@持续交卷/阅读笔记/202601/0107-资讯.md ，进行think，使用todolist规划任务",
-                "readTime": 1,
+                "title": "文章处理统一入口",
+                "description": "将待处理的文章路径替换到下方 prompt 中，直接发给 AI 即可。AI 会自动完成分级、路由、处理。",
+                "readTime": 4,
                 "tags": [
                     "持续交卷"
                 ],
@@ -1658,6 +1658,18 @@ const knowledgeBase = {
                     "`"
                 ],
                 "path": "持续交卷/文章处理rule.md",
+                "type": "markdown"
+            },
+            "社媒分发rule.md": {
+                "title": "社媒分发规则 — 多平台内容发布工作流",
+                "description": "本文档定义了将 `持续交卷` 项目中的深度文章分发到多个社交媒体平台的标准化工作流。",
+                "readTime": 18,
+                "tags": [
+                    "标签1",
+                    "标签2",
+                    "标签3"
+                ],
+                "path": "持续交卷/社媒分发rule.md",
                 "type": "markdown"
             },
             "算法": {

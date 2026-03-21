@@ -6,40 +6,48 @@
 
   <!-- 主页 -->
   <url>
-    <loc>https://kevinten10.github.io/Papers/</loc>
-    <lastmod>2026-01-12</lastmod>
+    <loc>https://paper.rxcloud.group/</loc>
+    <lastmod>2026-03-22</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
 
   <!-- 导航中心 -->
   <url>
-    <loc>https://kevinten10.github.io/Papers/navigation.html</loc>
-    <lastmod>2026-01-12</lastmod>
+    <loc>https://paper.rxcloud.group/navigation.html</loc>
+    <lastmod>2026-03-22</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.9</priority>
   </url>
 
   <!-- 智能知识库 -->
   <url>
-    <loc>https://kevinten10.github.io/Papers/knowledge-base.html</loc>
-    <lastmod>2026-01-12</lastmod>
+    <loc>https://paper.rxcloud.group/knowledge-base.html</loc>
+    <lastmod>2026-03-22</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
   </url>
 
+  <!-- 知识图谱 -->
+  <url>
+    <loc>https://paper.rxcloud.group/knowledge-graph.html</loc>
+    <lastmod>2026-03-22</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
   <!-- 传统文章浏览 -->
   <url>
-    <loc>https://kevinten10.github.io/Papers/articles.html</loc>
-    <lastmod>2026-01-12</lastmod>
+    <loc>https://paper.rxcloud.group/articles.html</loc>
+    <lastmod>2026-03-22</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
 
   <!-- 文章阅读器 -->
   <url>
-    <loc>https://kevinten10.github.io/Papers/viewer.html</loc>
-    <lastmod>2026-01-12</lastmod>
+    <loc>https://paper.rxcloud.group/viewer.html</loc>
+    <lastmod>2026-03-22</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>

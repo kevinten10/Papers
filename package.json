@@ -21,7 +21,7 @@
     "type": "git",
     "url": "https://github.com/kevinten10/Papers.git"
   },
-  "homepage": "https://kevinten10.github.io/Papers/",
+  "homepage": "https://paper.rxcloud.group",
   "dependencies": {},
   "devDependencies": {
     "serve": "^14.2.1"

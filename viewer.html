@@ -20,7 +20,7 @@
             border: 1px solid var(--kh-border);
             line-height: 1.9;
             font-size: 1.02em;
-            animation: kh-fadeInUp 0.6s cubic-bezier(0.22,1,0.36,1) 0.2s both;
+            animation: kh-fadeInUp 0.6s var(--kh-ease) 0.2s both;
         }
         .article-content h1, .article-content h2, .article-content h3 {
             font-family: var(--kh-font-display);
@@ -85,29 +85,7 @@
             font-weight: 600;
         }
 
-        .back-nav {
-            position: fixed;
-            top: 20px;
-            right: 20px;
-            background: var(--kh-bg-glass);
-            backdrop-filter: blur(12px);
-            color: var(--kh-primary);
-            padding: 10px 20px;
-            border-radius: var(--kh-radius-pill);
-            text-decoration: none;
-            z-index: 1000;
-            border: 1px solid var(--kh-border);
-            font-family: var(--kh-font-display);
-            font-weight: 600;
-            font-size: 0.85em;
-            transition: all 0.35s cubic-bezier(0.22, 1, 0.36, 1);
-        }
-        .back-nav:hover {
-            background: rgba(73,191,157,0.15);
-            border-color: var(--kh-border-hover);
-            color: var(--kh-primary);
-            transform: translateY(-2px);
-        }
+        /* back-nav now uses .kh-back-nav from enhanced.css */
         .loading {
             text-align: center;
             padding: 3em;
@@ -128,7 +106,7 @@
             border-left: 3px solid var(--kh-primary);
             border: 1px solid var(--kh-border);
             border-left: 3px solid var(--kh-primary);
-            animation: kh-fadeInUp 0.5s cubic-bezier(0.22,1,0.36,1) 0.1s both;
+            animation: kh-fadeInUp 0.5s var(--kh-ease) 0.1s both;
         }
         .article-meta h3 {
             font-family: var(--kh-font-display);
@@ -144,11 +122,12 @@
             position: fixed;
             bottom: 2em;
             right: 2em;
-            width: 44px;
-            height: 44px;
+            width: 40px;
+            height: 40px;
             border-radius: 50%;
-            background: var(--kh-bg-glass);
-            backdrop-filter: blur(12px);
+            background: rgba(14, 18, 33, 0.85);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
             border: 1px solid var(--kh-border);
             color: var(--kh-primary);
             display: flex;
@@ -157,26 +136,28 @@
             cursor: pointer;
             opacity: 0;
             transform: translateY(10px);
-            transition: all 0.3s;
+            transition: all 0.3s var(--kh-ease);
             z-index: 999;
-            font-size: 1.2em;
+            font-size: 1em;
             text-decoration: none;
+            box-shadow: 0 4px 16px rgba(0,0,0,0.3);
         }
         .back-top.visible {
             opacity: 1;
             transform: translateY(0);
         }
         .back-top:hover {
-            background: rgba(73,191,157,0.15);
+            background: rgba(73,191,157,0.12);
             border-color: var(--kh-border-hover);
             color: var(--kh-primary);
+            transform: translateY(-2px);
         }
     </style>
 </head>
 <body class="is-preload">
 
 <div class="kh-progress-bar" id="reading-progress" style="width:0"></div>
-<a href="articles.html" class="back-nav">&larr; 返回文章列表</a>
+<a href="articles.html" class="kh-back-nav">← 返回文章列表</a>
 <a href="#" class="back-top" id="back-top">&uarr;</a>
 
 <!-- Header -->
@@ -314,7 +295,7 @@ function showError(message) {
     document.getElementById('error').innerHTML = `
         <h3>❌ 文章加载失败</h3>
         <p>${message}</p>
-        <p><a href="articles.html" style="color: #49bf9d;">返回文章列表</a></p>
+        <p><a href="articles.html" style="color: var(--kh-primary);">返回文章列表</a></p>
     `;
 }
 </script>
