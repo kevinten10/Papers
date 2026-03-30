@@ -8,3 +8,7 @@ package-lock.json
 职业发展
 .superpowers/
 .vercel
+
+# IDE and tools
+.claude/
+.playwright-mcp/
