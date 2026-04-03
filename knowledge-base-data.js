@@ -1,4 +1,4 @@
-// 知识库数据结构 - 自动生成于 2026-03-30T15:18:06.311Z
+// 知识库数据结构 - 自动生成于 2026-04-03T12:01:16.299Z
 // 使用 generate-index.js 生成，请勿手动修改
 
 const knowledgeBase = {
@@ -2041,6 +2041,18 @@ const knowledgeBase = {
                             "202601"
                         ],
                         "path": "持续交卷/英语资讯/202601/0121-EN_DDD.md",
+                        "type": "markdown"
+                    }
+                },
+                "202603": {
+                    "0303-TED.md": {
+                        "title": "0303-TED",
+                        "description": "",
+                        "readTime": 1,
+                        "tags": [
+                            "202603"
+                        ],
+                        "path": "持续交卷/英语资讯/202603/0303-TED.md",
                         "type": "markdown"
                     }
                 },
