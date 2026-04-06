@@ -1,4 +1,4 @@
-// 知识库数据结构 - 自动生成于 2026-04-03T12:01:16.299Z
+// 知识库数据结构 - 自动生成于 2026-04-06T14:56:53.226Z
 // 使用 generate-index.js 生成，请勿手动修改
 
 const knowledgeBase = {
@@ -6,6 +6,17 @@ const knowledgeBase = {
         "icon": "📝",
         "children": {
             "Artificial": {
+                "3台破笔记本组了一个24小时不休息的AI团队.md": {
+                    "title": "3台破笔记本，我组了一个24小时不休息的AI团队",
+                    "description": "家里三台吃灰的旧笔记本，我舍不得扔。",
+                    "readTime": 5,
+                    "tags": [
+                        "Artificial",
+                        "AI"
+                    ],
+                    "path": "博客文章/Artificial/3台破笔记本组了一个24小时不休息的AI团队.md",
+                    "type": "markdown"
+                },
                 "Prophet": {
                     "(1条消息)时间序列模型Prophet使用详细讲解 - anshuai_aw1的博客 - CSDN博客.pdf": {
                         "title": "(1条消息)时间序列模型Prophet使用详细讲解 - anshuai_aw1的博客 - CSDN博客",
