@@ -6,6 +6,7 @@
   "scripts": {
     "generate-index": "node generate-index.js",
     "build": "npm run generate-index",
+    "test": "node --test",
     "serve": "npx serve . -p 8000",
     "dev": "npm run build && npm run serve"
   },

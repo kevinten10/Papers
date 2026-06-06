@@ -1,210 +1,159 @@
 <!DOCTYPE HTML>
-<html>
+<html lang="zh-CN">
 <head>
     <title>Kevin's Knowledge Base</title>
     <meta charset="utf-8"/>
-    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no"/>
-    <meta name="description" content="Kevin的个人技术知识库，涵盖Java、大数据、并发编程、分布式系统等技术领域，持续学习与分享"/>
-    <meta name="keywords" content="Java, 并发编程, 大数据, 分布式系统, 技术博客, 知识库, 编程学习"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <meta name="description" content="Kevin 的个人技术知识库，收录技术文章、论文研读、源码分析和学习笔记。"/>
+    <meta name="keywords" content="Kevin, Papers, Knowledge Base, Java, Big Data, Architecture"/>
     <meta name="author" content="Kevin Ten"/>
-    <meta property="og:title" content="Kevin's Advanced Knowledge Base"/>
-    <meta property="og:description" content="个人技术知识库 - 每天至少一小时阅读学术和业界论文，持续学习相关程序知识"/>
+    <meta property="og:title" content="Kevin's Knowledge Base"/>
+    <meta property="og:description" content="一个搜索优先、内容优先的个人技术知识库。"/>
     <meta property="og:image" content="images/avatar.jpg"/>
-    <meta property="og:url" content="https://paper.rxcloud.group/"/>
+    <meta property="og:url" content="https://kevinten10.github.io/Papers/"/>
     <meta property="og:type" content="website"/>
-    <meta name="twitter:card" content="summary_large_image"/>
-    <meta name="twitter:title" content="Kevin's Advanced Knowledge Base"/>
-    <meta name="twitter:description" content="个人技术知识库 - 持续学习与分享"/>
-    <link rel="canonical" href="https://paper.rxcloud.group/"/>
-    <link rel="icon" type="image/x-icon" href="favicon.ico"/>
-    <link rel="stylesheet" href="assets/css/main.css"/>
-    <link rel="stylesheet" href="assets/css/enhanced.css"/>
-    <style>
-        /* Page-specific staggered entry */
-        #one   { animation: kh-fadeInUp 0.7s var(--kh-ease) 0.1s both; }
-        #two   { animation: kh-fadeInUp 0.7s var(--kh-ease) 0.25s both; }
-        #three { animation: kh-fadeInUp 0.7s var(--kh-ease) 0.4s both; }
-    </style>
+    <link rel="canonical" href="https://kevinten10.github.io/Papers/"/>
+    <link rel="stylesheet" href="assets/css/kb-modern.css?v=3.0.0"/>
 </head>
-<body class="is-preload">
-
-<!-- Header -->
-<header id="header">
-    <div class="inner">
-        <a href="#" class="image avatar"><img src="images/avatar.jpg" alt=""/></a>
-        <h1><strong>I am Kevin</strong>, this is a plan<br/>
-            reading industry academic papers<br/>
-            one hour every morning.</h1>
-    </div>
-</header>
-
-<!-- Main -->
-<div id="main">
-
-    <!-- Hero -->
-    <section id="one">
-        <header class="major">
-            <h2>每天至少一小时阅读学术和业界论文<br/>
-                持续学习相关程序知识</h2>
-        </header>
-
-        <div class="kh-glass" style="padding: 1.5em; margin: 1.5em 0; border-left: 3px solid var(--kh-primary);">
-            <p style="font-family: var(--kh-font-display); font-weight: 600; margin-bottom: 0.8em; color: var(--kh-text-bright);">技术栈覆盖</p>
-            <div class="kh-flex-wrap kh-reveal">
-                <span class="kh-tech-badge" style="background: linear-gradient(135deg, var(--kh-cat-java), #d97706);">Java</span>
-                <span class="kh-tech-badge" style="background: linear-gradient(135deg, var(--kh-cat-bigdata), #2563eb);">BigData</span>
-                <span class="kh-tech-badge" style="background: linear-gradient(135deg, var(--kh-cat-concurrent), #059669);">Concurrent</span>
-                <span class="kh-tech-badge" style="background: linear-gradient(135deg, var(--kh-cat-distribute), #7c3aed);">Distribute</span>
-                <span class="kh-tech-badge" style="background: linear-gradient(135deg, var(--kh-cat-database), #ea580c);">Database</span>
-                <span class="kh-tech-badge" style="background: linear-gradient(135deg, var(--kh-cat-docker), #0891b2);">Docker</span>
-                <span class="kh-tech-badge" style="background: linear-gradient(135deg, var(--kh-cat-linux), #64748b);">Linux</span>
-                <span class="kh-tech-badge" style="background: linear-gradient(135deg, var(--kh-cat-arch), #dc2626);">架构设计</span>
-                <span class="kh-tech-badge" style="background: linear-gradient(135deg, var(--kh-cat-ai), #6366f1);">AI/ML</span>
-                <span class="kh-tech-badge" style="background: linear-gradient(135deg, var(--kh-cat-reactive), #db2777);">Reactive</span>
-            </div>
+<body class="kb-modern">
+<div class="kb-shell">
+    <header class="kb-topbar">
+        <div class="kb-topbar__inner">
+            <a class="kb-brand" href="index.html" aria-label="Kevin KB home">
+                <span class="kb-brand__mark">K</span>
+                <span class="kb-brand__text">
+                    <span class="kb-brand__name">Kevin KB</span>
+                    <span class="kb-brand__meta">Reading, systems, engineering notes</span>
+                </span>
+            </a>
+            <nav class="kb-nav" aria-label="Primary">
+                <a href="index.html" aria-current="page">Home</a>
+                <a href="navigation.html">Hub</a>
+                <a href="knowledge-base.html">Knowledge Base</a>
+                <a href="articles.html">Articles</a>
+                <a href="https://github.com/kevinten10/Papers" target="_blank" rel="noopener">GitHub</a>
+            </nav>
         </div>
+    </header>
 
-        <ul class="actions" style="display: flex; gap: 1em; flex-wrap: wrap; justify-content: center;">
-            <li><a href="navigation.html" class="button primary" style="font-size: 1.1em; padding: 0.8em 2em;">进入知识中心</a></li>
-        </ul>
-
-        <div style="margin-top: 2em; text-align: center;">
-            <p style="color: var(--kh-text-dim); margin-bottom: 1em; font-size: 0.88em;">或选择直接访问</p>
-            <div style="display: flex; gap: 0.8em; flex-wrap: wrap; justify-content: center;">
-                <a href="knowledge-base.html" class="kh-quick-link" style="color: var(--kh-primary); background: var(--kh-primary-subtle); border-color: rgba(73,191,157,0.2);">智能知识库</a>
-                <a href="articles.html" class="kh-quick-link" style="color: var(--kh-accent); background: rgba(129,140,248,0.08); border-color: rgba(129,140,248,0.2);">传统浏览</a>
-                <a href="knowledge-graph.html" class="kh-quick-link" style="color: var(--kh-accent2); background: rgba(244,114,182,0.08); border-color: rgba(244,114,182,0.2);">知识图谱</a>
-            </div>
-        </div>
-    </section>
-
-    <!-- Tech Domains -->
-    <section id="two">
-        <h2 class="kh-section-title">技术专长领域</h2>
-        <div class="row">
-            <article class="col-6 col-12-xsmall kh-work-card" data-accent="java">
-                <a href="images/fulls/01.jpg" class="image fit thumb"><img src="images/thumbs/01.jpg" alt=""/></a>
-                <h3 style="color: var(--kh-cat-java);">Java工程师</h3>
-                <p>Java8函数式编程、SpringCloud微服务、Netty高并发编程、SSM框架源码深度解析</p>
-                <div style="margin-top: 0.8em;">
-                    <span class="kh-skill-tag">Spring</span>
-                    <span class="kh-skill-tag">Netty</span>
-                    <span class="kh-skill-tag">JVM</span>
+    <main class="kb-main">
+        <div class="kb-container">
+            <section class="kb-hero">
+                <div class="kb-kicker">Kevin's Advanced Knowledge Base</div>
+                <h1>A quiet technical library for long-term learning.</h1>
+                <p>Daily reading notes, papers, source-code analysis, and engineering practice collected into a static knowledge product. Search first, read comfortably, keep the archive maintainable.</p>
+                <div class="kb-hero__actions">
+                    <a class="kb-button kb-button--primary" href="knowledge-base.html">Open knowledge base</a>
+                    <a class="kb-button" href="navigation.html">Choose a reading path</a>
                 </div>
-            </article>
-            <article class="col-6 col-12-xsmall kh-work-card" data-accent="bigdata">
-                <a href="images/fulls/02.jpg" class="image fit thumb"><img src="images/thumbs/02.jpg" alt=""/></a>
-                <h3 style="color: var(--kh-cat-bigdata);">大数据工程师</h3>
-                <p>Hadoop生态系统、Spark实时计算、Flink流处理、ELK日志分析、Linux平台运维</p>
-                <div style="margin-top: 0.8em;">
-                    <span class="kh-skill-tag">Spark</span>
-                    <span class="kh-skill-tag">Flink</span>
-                    <span class="kh-skill-tag">Hadoop</span>
-                </div>
-            </article>
-            <article class="col-6 col-12-xsmall kh-work-card" data-accent="distribute">
-                <a href="images/fulls/03.jpg" class="image fit thumb"><img src="images/thumbs/03.jpg" alt=""/></a>
-                <h3 style="color: var(--kh-cat-distribute);">多语言探索</h3>
-                <p>Kotlin、Scala、Golang、C#、PHP、Python、C++ 等多种编程语言实践</p>
-                <div style="margin-top: 0.8em;">
-                    <span class="kh-skill-tag">Kotlin</span>
-                    <span class="kh-skill-tag">Golang</span>
-                    <span class="kh-skill-tag">Python</span>
-                </div>
-            </article>
-            <article class="col-6 col-12-xsmall kh-work-card" data-accent="java">
-                <a href="images/fulls/04.jpg" class="image fit thumb"><img src="images/thumbs/04.jpg" alt=""/></a>
-                <h3 style="color: var(--kh-cat-java);">JDK源码研究</h3>
-                <p>深入研究Java核心源码，从基础到高级，全面掌握JVM内部机制</p>
-                <div style="margin-top: 0.8em;">
-                    <span class="kh-skill-tag">JDK源码</span>
-                    <span class="kh-skill-tag">并发包</span>
-                    <span class="kh-skill-tag">集合框架</span>
-                </div>
-            </article>
-            <article class="col-6 col-12-xsmall kh-work-card" data-accent="ai">
-                <a href="images/fulls/05.jpg" class="image fit thumb"><img src="images/thumbs/05.jpg" alt=""/></a>
-                <h3 style="color: var(--kh-cat-ai);">算法与AI</h3>
-                <p>LeetCode刷题、剑指Offer、机器学习算法、人工智能技术研究</p>
-                <div style="margin-top: 0.8em;">
-                    <span class="kh-skill-tag">算法</span>
-                    <span class="kh-skill-tag">机器学习</span>
-                    <span class="kh-skill-tag">AI</span>
-                </div>
-            </article>
-            <article class="col-6 col-12-xsmall kh-work-card" data-accent="arch">
-                <a href="images/fulls/06.jpg" class="image fit thumb"><img src="images/thumbs/06.jpg" alt=""/></a>
-                <h3 style="color: var(--kh-cat-arch);">计算机基础</h3>
-                <p>计算机组成原理、编译原理、操作系统、计算机网络四大基础学科深度学习</p>
-                <div style="margin-top: 0.8em;">
-                    <span class="kh-skill-tag">操作系统</span>
-                    <span class="kh-skill-tag">网络</span>
-                    <span class="kh-skill-tag">编译原理</span>
-                </div>
-            </article>
-        </div>
-        <ul class="actions">
-            <li><a href="articles.html" class="button primary">查看所有文章</a></li>
-        </ul>
-    </section>
-
-    <!-- Contact / Community -->
-    <section id="three">
-        <h2 class="kh-section-title">志同道合、一起进步</h2>
-        <p>如果你感兴趣，欢迎加入reware开源，reware的宗旨是"源码解析与重构：Java框架与中间件的实现"，通过阅读源码，重构实现框架。
-            学习类库设计思路与架构，掌握更深层的知识运用。</p>
-        <div class="row">
-            <div class="col-8 col-12-small">
-                <form method="post" action="#">
-                    <div class="row gtr-uniform gtr-50">
-                        <div class="col-6 col-12-xsmall"><input type="text" name="name" id="name" placeholder="Name"/></div>
-                        <div class="col-6 col-12-xsmall"><input type="email" name="email" id="email" placeholder="Email"/></div>
-                        <div class="col-12"><textarea name="message" id="message" placeholder="Message" rows="4"></textarea></div>
+                <div class="kb-stats" aria-label="Knowledge base statistics">
+                    <div class="kb-stat">
+                        <span class="kb-stat__value" id="kbStatDocs">0</span>
+                        <span class="kb-stat__label">Documents indexed</span>
                     </div>
-                </form>
-                <ul class="actions" style="margin-top: 1.5em;">
-                    <li><a href="https://github.com/reware-frame" class="button primary">访问 Reware 开源</a></li>
-                </ul>
-            </div>
-            <div class="col-4 col-12-small">
-                <ul class="labeled-icons">
-                    <li>
-                        <h3 class="icon fa-home"><span class="label">Address</span></h3>
-                        Shanghai, China<br/>
-                        Wuxi, Jiangsu
-                    </li>
-                    <li>
-                        <h3 class="icon fa-envelope-o"><span class="label">Email</span></h3>
-                        <a href="mailto:wshten@gmail.com">wshten@gmail.com</a>
-                    </li>
-                </ul>
-            </div>
-        </div>
-    </section>
+                    <div class="kb-stat">
+                        <span class="kb-stat__value" id="kbStatCategories">0</span>
+                        <span class="kb-stat__label">Top categories</span>
+                    </div>
+                    <div class="kb-stat">
+                        <span class="kb-stat__value" id="kbStatTags">0</span>
+                        <span class="kb-stat__label">Tags extracted</span>
+                    </div>
+                    <div class="kb-stat">
+                        <span class="kb-stat__value" id="kbStatHours">0</span>
+                        <span class="kb-stat__label">Estimated hours</span>
+                    </div>
+                </div>
+            </section>
 
+            <section class="kb-section">
+                <div class="kb-section__head">
+                    <div>
+                        <h2>Main workflows</h2>
+                        <p>Three stable ways into the same archive.</p>
+                    </div>
+                </div>
+                <div class="kb-grid kb-grid--3">
+                    <a class="kb-card kb-card--link" href="knowledge-base.html">
+                        <div class="kb-card__eyebrow">Search</div>
+                        <h3>Knowledge base</h3>
+                        <p>Use the modern docs view for global search, category filters, file format filters, and direct document actions.</p>
+                    </a>
+                    <a class="kb-card kb-card--link" href="articles.html">
+                        <div class="kb-card__eyebrow">Read</div>
+                        <h3>Markdown articles</h3>
+                        <p>Browse the Markdown subset as a focused reading queue, with the same search and category model.</p>
+                    </a>
+                    <a class="kb-card kb-card--link" href="navigation.html">
+                        <div class="kb-card__eyebrow">Orient</div>
+                        <h3>Knowledge hub</h3>
+                        <p>Start from a curated map of the system: product entry, article browser, reader, and repository source.</p>
+                    </a>
+                </div>
+            </section>
+
+            <section class="kb-section">
+                <div class="kb-section__head">
+                    <div>
+                        <h2>Core areas</h2>
+                        <p>The library spans backend engineering, data systems, architecture, and career practice.</p>
+                    </div>
+                </div>
+                <div class="kb-grid kb-grid--3">
+                    <article class="kb-card kb-image-card">
+                        <img src="images/thumbs/01.jpg" alt="Java engineering notes preview"/>
+                        <div class="kb-image-card__body">
+                            <div class="kb-card__eyebrow">Backend</div>
+                            <h3>Java and JVM</h3>
+                            <p>JDK notes, JVM internals, concurrency, source-code reading, and framework design.</p>
+                        </div>
+                    </article>
+                    <article class="kb-card kb-image-card">
+                        <img src="images/thumbs/02.jpg" alt="Data systems notes preview"/>
+                        <div class="kb-image-card__body">
+                            <div class="kb-card__eyebrow">Data</div>
+                            <h3>Big data systems</h3>
+                            <p>Hadoop, Spark, Flink, Google papers, storage systems, and data engineering practice.</p>
+                        </div>
+                    </article>
+                    <article class="kb-card kb-image-card">
+                        <img src="images/thumbs/04.jpg" alt="Architecture notes preview"/>
+                        <div class="kb-image-card__body">
+                            <div class="kb-card__eyebrow">Systems</div>
+                            <h3>Architecture</h3>
+                            <p>Distributed systems, service design, storage choices, and operational thinking.</p>
+                        </div>
+                    </article>
+                </div>
+            </section>
+
+            <section class="kb-section">
+                <div class="kb-section__head">
+                    <div>
+                        <h2>Recent index sample</h2>
+                        <p>A small slice from the generated knowledge index.</p>
+                    </div>
+                    <a class="kb-button" href="knowledge-base.html">View all</a>
+                </div>
+                <ul class="kb-mini-list" id="kbRecentDocs"></ul>
+            </section>
+        </div>
+    </main>
+
+    <footer class="kb-footer">
+        <div class="kb-footer__inner">
+            <span>Kevin's Knowledge Base</span>
+            <span>Built as a static, generated, searchable documentation site.</span>
+        </div>
+    </footer>
 </div>
 
-<!-- Footer -->
-<footer id="footer">
-    <div class="inner">
-        <ul class="icons">
-            <li><a href="https://github.com/kevinten10" class="icon fa-github"><span class="label">Github</span></a></li>
-            <li><a href="mailto:wshten@gmail.com" class="icon fa-envelope-o"><span class="label">Email</span></a></li>
-        </ul>
-        <ul class="copyright">
-            <li>&copy; kevinten10</li>
-            <li><a href="https://paper.rxcloud.group">paper.rxcloud.group</a></li>
-        </ul>
-    </div>
-</footer>
-
-<!-- Scripts -->
-<script src="assets/js/jquery.min.js"></script>
-<script src="assets/js/jquery.poptrox.min.js"></script>
-<script src="assets/js/browser.min.js"></script>
-<script src="assets/js/breakpoints.min.js"></script>
-<script src="assets/js/util.js"></script>
-<script src="assets/js/main.js"></script>
-
+<script src="knowledge-base-data.js?v=2.1.1"></script>
+<script src="assets/js/kb-modern.js?v=3.0.0"></script>
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    KBModern.setupHomeStats();
+});
+</script>
 </body>
 </html>

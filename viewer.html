@@ -1,304 +1,61 @@
 <!DOCTYPE HTML>
-<html>
+<html lang="zh-CN">
 <head>
-    <title>Kevin's Knowledge Base - Article Viewer</title>
+    <title>Kevin KB Reader</title>
     <meta charset="utf-8"/>
-    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no"/>
-    <link rel="stylesheet" href="assets/css/main.css"/>
-    <link rel="stylesheet" href="assets/css/enhanced.css"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <meta name="description" content="Kevin KB Markdown reader."/>
+    <link rel="stylesheet" href="assets/css/kb-modern.css?v=3.0.0"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@11.9.0/styles/github-dark.min.css"/>
     <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/highlight.js@11.9.0/lib/highlight.min.js"></script>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@11.9.0/styles/github-dark.min.css">
-    <style>
-        .article-content {
-            max-width: 820px;
-            margin: 0 auto;
-            padding: 2.5em;
-            background: var(--kh-bg-glass);
-            backdrop-filter: blur(8px);
-            border-radius: var(--kh-radius);
-            border: 1px solid var(--kh-border);
-            line-height: 1.9;
-            font-size: 1.02em;
-            animation: kh-fadeInUp 0.6s var(--kh-ease) 0.2s both;
-        }
-        .article-content h1, .article-content h2, .article-content h3 {
-            font-family: var(--kh-font-display);
-            color: var(--kh-primary);
-            border-bottom: 2px solid var(--kh-border);
-            padding-bottom: 0.5em;
-            margin-top: 1.8em;
-        }
-        .article-content h1 { font-size: 1.7em; letter-spacing: -0.02em; }
-        .article-content h2 { font-size: 1.35em; }
-        .article-content h3 { font-size: 1.15em; border-bottom: 1px solid var(--kh-border); }
-        .article-content p { margin-bottom: 1.2em; color: var(--kh-text); }
-        .article-content a { color: var(--kh-primary); text-decoration: underline; text-underline-offset: 3px; }
-        .article-content a:hover { color: var(--kh-accent); }
-        .article-content pre {
-            background: rgba(0,0,0,0.35);
-            padding: 1.2em;
-            border-radius: 10px;
-            overflow-x: auto;
-            border: 1px solid rgba(255,255,255,0.06);
-            margin: 1.5em 0;
-        }
-        .article-content code {
-            background: rgba(0,0,0,0.25);
-            padding: 0.2em 0.45em;
-            border-radius: 4px;
-            font-family: var(--kh-font-mono);
-            font-size: 0.88em;
-        }
-        .article-content pre code {
-            background: transparent;
-            padding: 0;
-            font-size: 0.85em;
-        }
-        .article-content blockquote {
-            border-left: 3px solid var(--kh-primary);
-            padding: 0.8em 1.2em;
-            margin: 1.5em 0;
-            background: rgba(73,191,157,0.05);
-            border-radius: 0 8px 8px 0;
-            font-style: italic;
-            color: rgba(255,255,255,0.75);
-        }
-        .article-content img {
-            max-width: 100%;
-            border-radius: 10px;
-            margin: 1em 0;
-        }
-        .article-content table {
-            width: 100%;
-            border-collapse: collapse;
-            margin: 1.5em 0;
-        }
-        .article-content th, .article-content td {
-            padding: 0.7em 1em;
-            border: 1px solid var(--kh-border);
-            text-align: left;
-        }
-        .article-content th {
-            background: rgba(73,191,157,0.1);
-            color: var(--kh-primary);
-            font-weight: 600;
-        }
-
-        /* back-nav now uses .kh-back-nav from enhanced.css */
-        .loading {
-            text-align: center;
-            padding: 3em;
-            color: var(--kh-primary);
-            animation: kh-fadeIn 0.5s ease;
-        }
-        .error {
-            text-align: center;
-            padding: 3em;
-            color: var(--kh-error);
-        }
-        .article-meta {
-            background: var(--kh-bg-glass);
-            backdrop-filter: blur(8px);
-            padding: 1.2em 1.5em;
-            border-radius: var(--kh-radius);
-            margin-bottom: 2em;
-            border-left: 3px solid var(--kh-primary);
-            border: 1px solid var(--kh-border);
-            border-left: 3px solid var(--kh-primary);
-            animation: kh-fadeInUp 0.5s var(--kh-ease) 0.1s both;
-        }
-        .article-meta h3 {
-            font-family: var(--kh-font-display);
-            margin-bottom: 0.3em;
-        }
-        .article-meta p {
-            font-size: 0.85em;
-            color: var(--kh-text-dim);
-        }
-
-        /* Back to top button */
-        .back-top {
-            position: fixed;
-            bottom: 2em;
-            right: 2em;
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            background: rgba(14, 18, 33, 0.85);
-            backdrop-filter: blur(16px);
-            -webkit-backdrop-filter: blur(16px);
-            border: 1px solid var(--kh-border);
-            color: var(--kh-primary);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            opacity: 0;
-            transform: translateY(10px);
-            transition: all 0.3s var(--kh-ease);
-            z-index: 999;
-            font-size: 1em;
-            text-decoration: none;
-            box-shadow: 0 4px 16px rgba(0,0,0,0.3);
-        }
-        .back-top.visible {
-            opacity: 1;
-            transform: translateY(0);
-        }
-        .back-top:hover {
-            background: rgba(73,191,157,0.12);
-            border-color: var(--kh-border-hover);
-            color: var(--kh-primary);
-            transform: translateY(-2px);
-        }
-    </style>
 </head>
-<body class="is-preload">
-
-<div class="kh-progress-bar" id="reading-progress" style="width:0"></div>
-<a href="articles.html" class="kh-back-nav">← 返回文章列表</a>
-<a href="#" class="back-top" id="back-top">&uarr;</a>
-
-<!-- Header -->
-<header id="header">
-    <div class="inner">
-        <a href="index.html" class="image avatar"><img src="images/avatar.jpg" alt=""/></a>
-        <h1><strong>Article Viewer</strong><br/>
-            文章阅读器<br/>
-            支持 Markdown 渲染</h1>
+<body class="kb-modern">
+<header class="kb-topbar">
+    <div class="kb-topbar__inner">
+        <a class="kb-brand" href="index.html" aria-label="Kevin KB home">
+            <span class="kb-brand__mark">K</span>
+            <span class="kb-brand__text">
+                <span class="kb-brand__name">Kevin KB Reader</span>
+                <span class="kb-brand__meta">Focused Markdown reading</span>
+            </span>
+        </a>
+        <nav class="kb-nav" aria-label="Primary">
+            <a href="index.html">Home</a>
+            <a href="knowledge-base.html">Knowledge Base</a>
+            <a href="articles.html">Articles</a>
+        </nav>
     </div>
 </header>
 
-<!-- Main -->
-<div id="main">
-    <div class="article-meta">
-        <h3 id="article-title">正在加载文章...</h3>
-        <p id="article-path"></p>
+<main class="kb-reader-shell">
+    <div class="kb-actions">
+        <a class="kb-button" href="knowledge-base.html">Back to knowledge base</a>
+        <a class="kb-button kb-button--ghost" href="articles.html">Browse articles</a>
     </div>
-    
-    <div id="loading" class="loading">
-        <h3>📖 正在加载文章内容...</h3>
-        <p>请稍候</p>
-    </div>
-    
-    <div id="error" class="error" style="display: none;">
-        <h3>❌ 文章加载失败</h3>
-        <p>无法加载指定的文章，请检查文件路径是否正确。</p>
-    </div>
-    
-    <div id="article-content" class="article-content" style="display: none;">
-        <!-- 文章内容将在这里显示 -->
-    </div>
-</div>
+    <header class="kb-reader-head">
+        <div class="kb-kicker">Markdown reader</div>
+        <h1 id="viewerTitle">Loading article</h1>
+        <div class="kb-reader-meta">
+            <span id="viewerPath">Resolving file path...</span>
+        </div>
+    </header>
+    <div class="kb-status" id="viewerStatus">Loading Markdown content...</div>
+    <article class="kb-reader-content" id="viewerContent" hidden></article>
+</main>
 
-<!-- Footer -->
-<footer id="footer">
-    <div class="inner">
-        <ul class="icons">
-            <li><a href="https://github.com/kevinten10" class="icon fa-github"><span class="label">Github</span></a></li>
-            <li><a href="mailto:596823919@qq.com" class="icon fa-envelope-o"><span class="label">Email</span></a></li>
-        </ul>
-        <ul class="copyright">
-            <li>&copy; kevinten10</li>
-            <li>Knowledge Base Viewer</li>
-        </ul>
+<footer class="kb-footer">
+    <div class="kb-footer__inner">
+        <span>Kevin's Knowledge Base</span>
+        <span>Reader view for long technical notes.</span>
     </div>
 </footer>
 
-<!-- Scripts -->
-<script src="assets/js/jquery.min.js"></script>
-<script src="assets/js/browser.min.js"></script>
-<script src="assets/js/breakpoints.min.js"></script>
-<script src="assets/js/util.js"></script>
-<script src="assets/js/main.js"></script>
-
+<script src="assets/js/kb-modern.js?v=3.0.0"></script>
 <script>
-document.addEventListener('DOMContentLoaded', function() {
-    // 配置 marked
-    marked.setOptions({
-        highlight: function(code, lang) {
-            if (lang && hljs.getLanguage(lang)) {
-                return hljs.highlight(code, { language: lang }).value;
-            }
-            return hljs.highlightAuto(code).value;
-        },
-        breaks: true,
-        gfm: true
-    });
-
-    // 获取 URL 参数
-    const urlParams = new URLSearchParams(window.location.search);
-    const filePath = urlParams.get('file');
-    
-    if (!filePath) {
-        showError('未指定要查看的文章');
-        return;
-    }
-    
-    // 更新页面信息
-    document.getElementById('article-title').textContent = decodeURIComponent(filePath.split('/').pop().replace('.md', ''));
-    document.getElementById('article-path').textContent = `文件路径: ${filePath}`;
-    
-    // 加载文章内容
-    loadArticle(filePath);
+document.addEventListener('DOMContentLoaded', function () {
+    KBModern.setupViewer();
 });
-
-function loadArticle(filePath) {
-    fetch(filePath)
-        .then(response => {
-            if (!response.ok) {
-                throw new Error(`HTTP ${response.status}: ${response.statusText}`);
-            }
-            return response.text();
-        })
-        .then(content => {
-            // 隐藏加载提示
-            document.getElementById('loading').style.display = 'none';
-            
-            // 渲染 Markdown
-            const htmlContent = marked.parse(content);
-            document.getElementById('article-content').innerHTML = htmlContent;
-            document.getElementById('article-content').style.display = 'block';
-            
-            // 高亮代码块
-            document.querySelectorAll('pre code').forEach((block) => {
-                hljs.highlightElement(block);
-            });
-        })
-        .catch(error => {
-            console.error('加载文章失败:', error);
-            showError(`加载失败: ${error.message}`);
-        });
-}
-
-// Reading progress bar
-window.addEventListener('scroll', function() {
-    var scrollTop = window.scrollY;
-    var docHeight = document.documentElement.scrollHeight - window.innerHeight;
-    var progress = docHeight > 0 ? (scrollTop / docHeight) * 100 : 0;
-    document.getElementById('reading-progress').style.width = progress + '%';
-
-    var backTop = document.getElementById('back-top');
-    if (scrollTop > 400) { backTop.classList.add('visible'); }
-    else { backTop.classList.remove('visible'); }
-});
-
-document.getElementById('back-top').addEventListener('click', function(e) {
-    e.preventDefault();
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-});
-
-function showError(message) {
-    document.getElementById('loading').style.display = 'none';
-    document.getElementById('error').style.display = 'block';
-    document.getElementById('error').innerHTML = `
-        <h3>❌ 文章加载失败</h3>
-        <p>${message}</p>
-        <p><a href="articles.html" style="color: var(--kh-primary);">返回文章列表</a></p>
-    `;
-}
 </script>
-
 </body>
 </html>
