@@ -13,7 +13,7 @@
     <meta property="og:url" content="https://paper.rxcloud.group/"/>
     <meta property="og:type" content="website"/>
     <link rel="canonical" href="https://paper.rxcloud.group/"/>
-    <link rel="stylesheet" href="assets/css/kb-modern.css?v=3.0.0"/>
+    <link rel="stylesheet" href="assets/css/kb-modern.css?v=3.3.0"/>
 </head>
 <body class="kb-modern">
 <a class="kb-skip-link" href="#main">Skip to content</a>
@@ -39,56 +39,81 @@
 
     <main class="kb-main" id="main">
         <div class="kb-container">
-            <section class="kb-hero">
-                <div class="kb-kicker">Kevin's Advanced Knowledge Base</div>
-                <h1>A quiet technical library for long-term learning.</h1>
-                <p>Daily reading notes, papers, source-code analysis, and engineering practice collected into a static knowledge product. Search first, read comfortably, keep the archive maintainable.</p>
-                <div class="kb-hero__actions">
-                    <a class="kb-button kb-button--primary" href="knowledge-base.html">Open knowledge base</a>
-                    <a class="kb-button" href="navigation.html">Choose a reading path</a>
-                </div>
-                <div class="kb-stats" aria-label="Knowledge base statistics">
-                    <div class="kb-stat">
-                        <span class="kb-stat__value" id="kbStatDocs">0</span>
-                        <span class="kb-stat__label">Documents indexed</span>
+            <section class="kb-hero kb-home-hero">
+                <div class="kb-home-hero__copy">
+                    <h1>Kevin's Knowledge Base</h1>
+                    <p>A calm, searchable archive for engineering notes, papers, source-code reading, and long-term learning.</p>
+                    <form class="kb-home-search" id="kbHomeSearchForm" action="knowledge-base.html" role="search">
+                        <label class="kb-sr-only" for="kbHomeSearchInput">Search the knowledge base</label>
+                        <input id="kbHomeSearchInput" name="q" type="search" placeholder="Search Java, Spark, 架构, 论文..." autocomplete="off"/>
+                        <button class="kb-button kb-button--primary" type="submit">Search</button>
+                    </form>
+                    <div class="kb-home-suggestions" aria-label="Suggested searches">
+                        <a href="knowledge-base.html?q=Java">Java</a>
+                        <a href="knowledge-base.html?q=Spark">Spark</a>
+                        <a href="knowledge-base.html?q=架构">架构</a>
+                        <a href="knowledge-base.html?q=论文">论文</a>
                     </div>
-                    <div class="kb-stat">
-                        <span class="kb-stat__value" id="kbStatCategories">0</span>
-                        <span class="kb-stat__label">Top categories</span>
-                    </div>
-                    <div class="kb-stat">
-                        <span class="kb-stat__value" id="kbStatTags">0</span>
-                        <span class="kb-stat__label">Tags extracted</span>
-                    </div>
-                    <div class="kb-stat">
-                        <span class="kb-stat__value" id="kbStatHours">0</span>
-                        <span class="kb-stat__label">Estimated hours</span>
+                    <div class="kb-hero__actions">
+                        <a class="kb-button" href="knowledge-base.html">Browse all documents</a>
+                        <a class="kb-button kb-button--ghost" href="navigation.html">Reading paths</a>
                     </div>
                 </div>
+                <aside class="kb-home-panel" aria-label="Knowledge base statistics">
+                    <div class="kb-home-panel__title">Library index</div>
+                    <dl class="kb-home-metrics">
+                        <div>
+                            <dt>Documents</dt>
+                            <dd id="kbStatDocs">0</dd>
+                        </div>
+                        <div>
+                            <dt>Categories</dt>
+                            <dd id="kbStatCategories">0</dd>
+                        </div>
+                        <div>
+                            <dt>Tags</dt>
+                            <dd id="kbStatTags">0</dd>
+                        </div>
+                        <div>
+                            <dt>Hours</dt>
+                            <dd id="kbStatHours">0</dd>
+                        </div>
+                    </dl>
+                    <div class="kb-home-panel__note">Generated from Markdown, PDF, Word, and nested Chinese paths.</div>
+                </aside>
             </section>
 
             <section class="kb-section">
                 <div class="kb-section__head">
                     <div>
-                        <h2>Main workflows</h2>
-                        <p>Three stable ways into the same archive.</p>
+                        <h2>Start here</h2>
+                        <p>Three practical routes into the same archive.</p>
                     </div>
                 </div>
-                <div class="kb-grid kb-grid--3">
-                    <a class="kb-card kb-card--link" href="knowledge-base.html">
-                        <div class="kb-card__eyebrow">Search</div>
-                        <h3>Knowledge base</h3>
-                        <p>Use the modern docs view for global search, category filters, file format filters, and direct document actions.</p>
+                <div class="kb-path-list">
+                    <a class="kb-path-row" href="knowledge-base.html">
+                        <span class="kb-path-row__index">01</span>
+                        <span class="kb-path-row__body">
+                            <strong>Search the full archive</strong>
+                            <span>Global search, category filters, file type filters, and direct document actions.</span>
+                        </span>
+                        <span class="kb-path-row__action">Open</span>
                     </a>
-                    <a class="kb-card kb-card--link" href="articles.html">
-                        <div class="kb-card__eyebrow">Read</div>
-                        <h3>Markdown articles</h3>
-                        <p>Browse the Markdown subset as a focused reading queue, with the same search and category model.</p>
+                    <a class="kb-path-row" href="articles.html">
+                        <span class="kb-path-row__index">02</span>
+                        <span class="kb-path-row__body">
+                            <strong>Read Markdown articles</strong>
+                            <span>A focused queue for long-form notes that can open in the reader.</span>
+                        </span>
+                        <span class="kb-path-row__action">Read</span>
                     </a>
-                    <a class="kb-card kb-card--link" href="navigation.html">
-                        <div class="kb-card__eyebrow">Orient</div>
-                        <h3>Knowledge hub</h3>
-                        <p>Start from a curated map of the system: product entry, article browser, reader, and repository source.</p>
+                    <a class="kb-path-row" href="navigation.html">
+                        <span class="kb-path-row__index">03</span>
+                        <span class="kb-path-row__body">
+                            <strong>Choose a reading path</strong>
+                            <span>A curated hub for product entry, article browser, reader, and source repository.</span>
+                        </span>
+                        <span class="kb-path-row__action">Map</span>
                     </a>
                 </div>
             </section>
@@ -131,12 +156,12 @@
             <section class="kb-section">
                 <div class="kb-section__head">
                     <div>
-                        <h2>Recent index sample</h2>
-                        <p>A small slice from the generated knowledge index.</p>
+                        <h2>Recently indexed</h2>
+                        <p>A live slice from the generated knowledge index.</p>
                     </div>
                     <a class="kb-button" href="knowledge-base.html">View all</a>
                 </div>
-                <ul class="kb-mini-list" id="kbRecentDocs"></ul>
+                <ul class="kb-mini-list kb-mini-list--rich" id="kbRecentDocs"></ul>
             </section>
         </div>
     </main>
@@ -149,8 +174,8 @@
     </footer>
 </div>
 
-<script src="knowledge-base-data.js?v=2.1.1"></script>
-<script src="assets/js/kb-modern.js?v=3.0.0"></script>
+<script src="knowledge-base-data.js?v=3.3.0"></script>
+<script src="assets/js/kb-modern.js?v=3.3.0"></script>
 <script>
 document.addEventListener('DOMContentLoaded', function () {
     KBModern.setupHomeStats();

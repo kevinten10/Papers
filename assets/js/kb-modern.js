@@ -296,16 +296,32 @@
   function renderRecent(docs) {
     const container = document.getElementById('kbRecentDocs');
     if (!container) return;
+    const isRich = container.classList.contains('kb-mini-list--rich');
     container.innerHTML = docs.slice(0, 7).map((doc) => `
       <li>
         <a href="${docHref(doc)}">
-          <strong>${escapeHtml(doc.title)}</strong>
-          <span>${escapeHtml(doc.category)} · ${escapeHtml(typeLabel(doc.type))}</span>
+          <span>
+            <strong>${escapeHtml(doc.title)}</strong>
+            <span class="kb-mini-list__meta">${escapeHtml([doc.category].concat(doc.trail || []).filter(Boolean).join(' / ') || 'Uncategorized')}</span>
+          </span>
+          ${isRich ? `<span class="kb-mini-list__type">${escapeHtml(typeLabel(doc.type))}</span>` : `<span>${escapeHtml(typeLabel(doc.type))}</span>`}
         </a>
       </li>
     `).join('');
   }
 
+  function setupHomeSearch() {
+    const form = document.getElementById('kbHomeSearchForm');
+    const input = document.getElementById('kbHomeSearchInput');
+    if (!form || !input) return;
+    form.addEventListener('submit', (event) => {
+      event.preventDefault();
+      const query = input.value.trim();
+      const params = new URLSearchParams();
+      if (query) params.set('q', query);
+      window.location.href = 'knowledge-base.html' + (params.toString() ? '?' + params.toString() : '');
+    });
+  }
   function setupSearch() {
     const input = document.getElementById('kbSearchInput');
     if (!input) return;
@@ -375,6 +391,7 @@
     const docs = collectDocs();
     renderStats(docs);
     renderRecent(docs);
+    setupHomeSearch();
   }
 
   function setupArticles() {
