@@ -62,6 +62,29 @@ body.kb-modern mark {
   padding: 0 2px;
 }
 
+.kb-modern :focus-visible {
+  outline: 3px solid rgba(29, 78, 216, 0.35);
+  outline-offset: 2px;
+}
+
+.kb-skip-link {
+  position: fixed;
+  left: 16px;
+  top: 12px;
+  z-index: 100;
+  transform: translateY(-150%);
+  background: var(--kb-ink);
+  color: #fff;
+  border-radius: var(--kb-radius);
+  padding: 8px 12px;
+  font-weight: 700;
+}
+
+.kb-skip-link:focus {
+  transform: translateY(0);
+  color: #fff;
+}
+
 .kb-shell {
   min-height: 100vh;
 }

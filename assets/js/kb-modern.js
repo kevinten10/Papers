@@ -4,7 +4,9 @@
     category: 'all',
     type: 'all',
     sort: 'default',
-    query: ''
+    query: '',
+    pageSize: 60,
+    limit: 60
   };
 
   function getKnowledgeBase() {
@@ -192,6 +194,7 @@
       const button = event.target.closest('[data-category]');
       if (!button) return;
       state.category = button.dataset.category || 'all';
+      state.limit = state.pageSize;
       container.querySelectorAll('.kb-filter').forEach((item) => item.classList.toggle('is-active', item === button));
       applyFilters();
     });
@@ -210,6 +213,7 @@
       const button = event.target.closest('[data-type]');
       if (!button) return;
       state.type = button.dataset.type || 'all';
+      state.limit = state.pageSize;
       container.querySelectorAll('.kb-chip').forEach((item) => item.classList.toggle('is-active', item === button));
       applyFilters();
     });
@@ -269,13 +273,23 @@
 
   function applyFilters() {
     const docs = sortedDocs(filteredDocs());
+    const visibleDocs = docs.slice(0, state.limit);
     const list = document.getElementById('kbDocList');
     const empty = document.getElementById('kbEmpty');
     const count = document.getElementById('kbResultCount');
-    if (count) count.textContent = `${docs.length} results`;
-    if (list) list.innerHTML = docs.map(docCard).join('');
+    const loadMore = document.getElementById('kbLoadMore');
+    if (count) {
+      count.textContent = docs.length > visibleDocs.length
+        ? `${docs.length} results, showing ${visibleDocs.length}`
+        : `${docs.length} results`;
+    }
+    if (list) list.innerHTML = visibleDocs.map(docCard).join('');
     if (empty) empty.hidden = docs.length !== 0;
     if (list) list.hidden = docs.length === 0;
+    if (loadMore) {
+      loadMore.hidden = docs.length <= visibleDocs.length;
+      loadMore.textContent = `Load ${Math.min(state.pageSize, docs.length - visibleDocs.length)} more`;
+    }
     updateUrlState();
   }
 
@@ -298,6 +312,7 @@
     input.value = state.query;
     input.addEventListener('input', () => {
       state.query = input.value || '';
+      state.limit = state.pageSize;
       applyFilters();
     });
   }
@@ -308,6 +323,16 @@
     select.value = state.sort;
     select.addEventListener('change', () => {
       state.sort = select.value || 'default';
+      state.limit = state.pageSize;
+      applyFilters();
+    });
+  }
+
+  function setupLoadMore() {
+    const button = document.getElementById('kbLoadMore');
+    if (!button) return;
+    button.addEventListener('click', () => {
+      state.limit += state.pageSize;
       applyFilters();
     });
   }
@@ -342,6 +367,7 @@
     renderRecent(state.docs);
     setupSearch();
     setupSort();
+    setupLoadMore();
     applyFilters();
   }
 
@@ -361,6 +387,7 @@
     renderTypeFilters(state.docs);
     setupSearch();
     setupSort();
+    setupLoadMore();
     applyFilters();
   }
 
