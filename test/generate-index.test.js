@@ -22,6 +22,36 @@ test('discovers top-level content directories beyond the preferred defaults', ()
     assert.deepEqual(dirs, ['Cache']);
 });
 
+test('ignores hidden and tooling directories even when they contain markdown', () => {
+    const rootDir = makeTempWorkspace();
+    fs.mkdirSync(path.join(rootDir, '.trae', 'documents'), { recursive: true });
+    fs.writeFileSync(path.join(rootDir, '.trae', 'documents', 'plan.md'), '# hidden plan', 'utf8');
+    fs.mkdirSync(path.join(rootDir, '.codebuddy', 'rules'), { recursive: true });
+    fs.writeFileSync(path.join(rootDir, '.codebuddy', 'rules', 'rule.md'), '# hidden rule', 'utf8');
+    fs.mkdirSync(path.join(rootDir, 'test'), { recursive: true });
+    fs.writeFileSync(path.join(rootDir, 'test', 'fixture.md'), '# fixture', 'utf8');
+    fs.mkdirSync(path.join(rootDir, '小红书'), { recursive: true });
+    fs.writeFileSync(path.join(rootDir, '小红书', '选题.md'), '# 选题\n\n可公开展示的内容', 'utf8');
+
+    const dirs = generator.discoverScanDirs(rootDir);
+
+    assert.deepEqual(dirs, ['小红书']);
+});
+
+test('keeps generated document paths posix for Chinese and spaced filenames', () => {
+    const rootDir = makeTempWorkspace();
+    const articleDir = path.join(rootDir, '知乎', 'AI Notes');
+    fs.mkdirSync(articleDir, { recursive: true });
+    fs.writeFileSync(path.join(articleDir, '复杂 文件.md'), '# 复杂 文件\n\n正文内容用于摘要', 'utf8');
+    fs.writeFileSync(path.join(articleDir, '报告 文件.pdf'), 'pdf', 'utf8');
+
+    const result = generator.scanDirectory('知乎', rootDir);
+
+    assert.equal(result['AI Notes']['复杂 文件.md'].path, '知乎/AI Notes/复杂 文件.md');
+    assert.equal(result['AI Notes']['报告 文件.pdf'].path, '知乎/AI Notes/报告 文件.pdf');
+    assert.equal(result['AI Notes']['报告 文件.pdf'].type, 'pdf');
+});
+
 test('extracts markdown metadata without CR characters or parent path leakage', () => {
     const rootDir = makeTempWorkspace();
     const articleDir = path.join(rootDir, '博客文章', 'BigData');

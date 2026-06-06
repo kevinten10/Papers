@@ -77,7 +77,15 @@
                                 <h2>Markdown articles</h2>
                                 <div class="kb-count" id="kbResultCount">0 results</div>
                             </div>
-                            <a class="kb-button" href="knowledge-base.html">All documents</a>
+                            <div class="kb-actions" style="margin-top: 0;">
+                                <select class="kb-select" id="kbSortSelect" aria-label="Sort articles">
+                                    <option value="default">Default order</option>
+                                    <option value="title">Title A-Z</option>
+                                    <option value="category">Category</option>
+                                    <option value="readTime">Longest read</option>
+                                </select>
+                                <a class="kb-button" href="knowledge-base.html">All documents</a>
+                            </div>
                         </div>
                         <div class="kb-doc-list" id="kbDocList"></div>
                         <div class="kb-empty" id="kbEmpty" hidden>
