@@ -90,14 +90,47 @@ npx serve .
 # 访问 http://localhost:8000
 ```
 
+### 本地开发与验证
+```bash
+# 运行生成器回归测试
+npm test
+
+# 重新扫描文档并生成知识库索引
+npm run build
+
+# 构建后本地预览
+npm run serve
+```
+
+生成器会自动发现仓库根目录下包含 `.md`、`.pdf`、`.docx`、`.doc` 的内容目录，并跳过 `.git`、`.github`、`assets`、`images`、`static`、`node_modules` 等非内容目录。Markdown 文档会通过 `viewer.html` 渲染，PDF/Word 文档会在知识库中直接打开原文件。
+
+### 界面维护原则
+- 当前界面采用 Calm Docs Product 方向：近白背景、克制边框、强搜索入口、清晰分类、可扫描文档列表和舒适阅读器。
+- 核心页面共用 `assets/css/kb-modern.css` 和 `assets/js/kb-modern.js`，避免在页面内继续堆叠内联渐变、表情图标和一次性样式。
+- `knowledge-base.html` 是主检索页，负责全量 Markdown/PDF/Word 文档搜索和筛选；`articles.html` 是 Markdown 优先的阅读列表；`viewer.html` 只负责长文阅读体验。
+- 新增页面时优先复用 `.kb-topbar`、`.kb-hero`、`.kb-card`、`.kb-panel`、`.kb-doc-card` 等组件，保持静态站点轻量可维护。
+
+### 新增内容流程
+1. 将文档放入合适的主题目录，例如 `Concurrent/`、`博客文章/`、`持续交卷/`，也可以新增一个顶层主题目录。
+2. Markdown 文件建议使用一级标题 `# 标题`，并在标题后放一段摘要文本；生成器会自动提取标题、摘要、阅读时间和标签。
+3. 执行 `npm test && npm run build`，确认 `knowledge-base-data.js` 和 `knowledge-base-snippet.html` 已更新。
+4. 本地启动 `npm run serve`，检查 `knowledge-base.html` 的搜索、过滤、文档打开和 `viewer.html` 的 Markdown 阅读体验。
+
 ### 部署到GitHub Pages
 项目已配置GitHub Actions自动部署：
 
 1. **自动部署**: 推送到 `master` 分支时自动触发部署
 2. **手动部署**: 在GitHub仓库的Actions页面手动触发
-3. **自定义域名**: 已部署至 `paper.rxcloud.group`（Vercel托管）
+3. **自定义域名**: 已部署至 `paper.rxcloud.group`
+4. **发布检查**: CI 会先运行 `npm test`，再执行 `npm run generate-index`，最后发布到 GitHub Pages 分支
 
 **部署状态**: 查看 [GitHub Actions](https://github.com/kevinten10/Papers/actions)
+
+### 常见问题
+- **知识库看不到新文档**: 确认文件扩展名是 `.md`、`.pdf`、`.docx` 或 `.doc`，并重新执行 `npm run build`。
+- **Markdown 阅读器加载失败**: 确认链接中的 `file` 参数对应仓库内真实路径，并通过本地服务器访问页面，不要直接双击 HTML 文件。
+- **中文路径显示异常**: 确认文件以 UTF-8 保存，并使用 Node.js 14+ 运行生成器。
+- **部署失败**: 先在本地运行 `npm test && npm run build`，再查看 GitHub Actions 日志中的测试、生成索引或 Pages 发布步骤。
 
 ### 文件结构
 ```

@@ -1,298 +1,119 @@
 <!DOCTYPE HTML>
-<html>
+<html lang="zh-CN">
 <head>
-    <title>Kevin's Knowledge Hub - 导航中心</title>
+    <title>Kevin KB Hub</title>
     <meta charset="utf-8"/>
-    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no"/>
-    <meta name="description" content="Kevin的知识中心导航 - 智能知识库、传统浏览、文章阅读器的统一入口"/>
-    <meta name="keywords" content="知识导航, 技术文档, 文章阅读器, 知识库"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <meta name="description" content="Kevin Knowledge Base navigation hub."/>
     <meta name="author" content="Kevin Ten"/>
-    <meta property="og:title" content="Kevin's Knowledge Hub - 导航中心"/>
-    <meta property="og:description" content="知识中心导航 - 智能知识库、传统浏览、文章阅读器的统一入口"/>
-    <meta property="og:url" content="https://paper.rxcloud.group/navigation.html"/>
-    <link rel="canonical" href="https://paper.rxcloud.group/navigation.html"/>
-    <link rel="stylesheet" href="assets/css/main.css"/>
-    <link rel="stylesheet" href="assets/css/enhanced.css"/>
-    <style>
-        /* Page entry sequence */
-        #one { animation: kh-fadeInUp 0.6s var(--kh-ease) 0.1s both; }
-        .nav-grid { animation: kh-fadeInUp 0.6s var(--kh-ease) 0.2s both; }
-        .recent-updates { animation: kh-fadeInUp 0.6s var(--kh-ease) 0.35s both; }
-        .tech-stack-section { animation: kh-fadeInUp 0.6s var(--kh-ease) 0.45s both; }
-
-        .nav-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 1.5em;
-            margin: 2em 0;
-        }
-
-        .nav-description {
-            color: var(--kh-text);
-            line-height: 1.7;
-            margin-bottom: 1.2em;
-            font-size: 0.92em;
-        }
-
-        .nav-features {
-            list-style: none;
-            padding: 0;
-            margin-bottom: 1.5em;
-        }
-        .nav-features li {
-            color: var(--kh-text-dim);
-            margin-bottom: 0.4em;
-            padding-left: 1.4em;
-            position: relative;
-            font-size: 0.88em;
-        }
-        .nav-features li::before {
-            content: '›';
-            position: absolute;
-            left: 0;
-            color: var(--kh-primary);
-            font-weight: 700;
-            font-size: 1.1em;
-        }
-
-        .nav-button {
-            display: inline-flex;
-            align-items: center;
-            gap: 0.35em;
-            padding: 0.65em 1.4em;
-            border-radius: var(--kh-radius-pill);
-            text-decoration: none;
-            color: white;
-            font-family: var(--kh-font-display);
-            font-weight: 600;
-            font-size: 0.85em;
-            transition: all 0.35s var(--kh-ease);
-            position: relative;
-            overflow: hidden;
-        }
-        .nav-button::after {
-            content: '';
-            position: absolute;
-            inset: 0;
-            background: linear-gradient(135deg, rgba(255,255,255,0.15), transparent);
-            opacity: 0;
-            transition: opacity 0.3s;
-        }
-        .nav-button:hover::after { opacity: 1; }
-        .nav-button:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 8px 28px rgba(0,0,0,0.35);
-            color: white;
-        }
-
-        .recent-updates {
-            background: var(--kh-bg-glass);
-            backdrop-filter: blur(8px);
-            border-radius: var(--kh-radius);
-            padding: 1.5em;
-            margin: 2.5em 0;
-            border: 1px solid var(--kh-border);
-        }
-
-        .update-item {
-            display: flex;
-            align-items: flex-start;
-            gap: 1em;
-            padding: 0.8em 0;
-            border-bottom: 1px solid var(--kh-border);
-        }
-        .update-item:last-child { border-bottom: none; }
-
-        .update-date {
-            background: linear-gradient(135deg, var(--kh-primary), var(--kh-primary-dark));
-            color: white;
-            padding: 0.25em 0.7em;
-            border-radius: 12px;
-            font-size: 0.75em;
-            font-family: var(--kh-font-display);
-            font-weight: 600;
-            white-space: nowrap;
-            flex-shrink: 0;
-        }
-    </style>
+    <meta property="og:title" content="Kevin KB Hub"/>
+    <meta property="og:description" content="Unified entry points for the knowledge base, article browser, reader, and repository."/>
+    <meta property="og:url" content="https://kevinten10.github.io/Papers/navigation.html"/>
+    <link rel="canonical" href="https://kevinten10.github.io/Papers/navigation.html"/>
+    <link rel="stylesheet" href="assets/css/kb-modern.css?v=3.0.0"/>
 </head>
-<body class="is-preload">
-
-<!-- Header -->
-<header id="header">
-    <div class="inner">
-        <a href="index.html" class="image avatar"><img src="images/avatar.jpg" alt=""/></a>
-        <h1><strong>Knowledge Hub</strong><br/>
-            技术知识导航中心<br/>
-            一站式学习平台</h1>
-    </div>
-</header>
-
-<!-- Main -->
-<div id="main">
-    <section id="one">
-        <header class="major">
-            <h2>选择你的学习方式</h2>
-        </header>
-        <p>提供多种浏览和学习方式，满足不同场景下的知识获取需求。从传统的分类浏览到AI驱动的智能推荐，总有一种适合你。</p>
-
-        <!-- Stats -->
-        <div class="kh-stats-grid" style="margin: 2em 0;">
-            <div class="kh-stat">
-                <div class="kh-stat-number">170+</div>
-                <div class="kh-stat-label">技术文章</div>
-            </div>
-            <div class="kh-stat">
-                <div class="kh-stat-number">10</div>
-                <div class="kh-stat-label">技术领域</div>
-            </div>
-            <div class="kh-stat">
-                <div class="kh-stat-number">38h</div>
-                <div class="kh-stat-label">阅读时长</div>
-            </div>
-            <div class="kh-stat">
-                <div class="kh-stat-number">89</div>
-                <div class="kh-stat-label">知识标签</div>
-            </div>
+<body class="kb-modern">
+<div class="kb-shell">
+    <header class="kb-topbar">
+        <div class="kb-topbar__inner">
+            <a class="kb-brand" href="index.html" aria-label="Kevin KB home">
+                <span class="kb-brand__mark">K</span>
+                <span class="kb-brand__text">
+                    <span class="kb-brand__name">Kevin KB Hub</span>
+                    <span class="kb-brand__meta">Choose the right view for the job</span>
+                </span>
+            </a>
+            <nav class="kb-nav" aria-label="Primary">
+                <a href="index.html">Home</a>
+                <a href="navigation.html" aria-current="page">Hub</a>
+                <a href="knowledge-base.html">Knowledge Base</a>
+                <a href="articles.html">Articles</a>
+                <a href="https://github.com/kevinten10/Papers" target="_blank" rel="noopener">GitHub</a>
+            </nav>
         </div>
-    </section>
+    </header>
 
-    <div class="nav-grid kh-reveal">
-        <!-- 智能知识库 -->
-        <div class="kh-nav-card">
-            <span class="nav-icon">🚀</span>
-            <h3 class="nav-title">智能知识库</h3>
-            <p class="nav-description">AI驱动的现代化知识管理系统，提供智能搜索、个性化推荐和交互式学习体验。</p>
-            <ul class="nav-features">
-                <li>智能全文搜索</li>
-                <li>分类树状导航</li>
-                <li>实时统计分析</li>
-                <li>Markdown渲染</li>
-            </ul>
-            <a href="knowledge-base.html" class="nav-button" style="background: linear-gradient(135deg, var(--kh-primary), var(--kh-primary-dark));">进入智能库 →</a>
-        </div>
+    <main class="kb-main">
+        <div class="kb-container">
+            <section class="kb-hero kb-hero--compact">
+                <div class="kb-kicker">Navigation hub</div>
+                <h1>Pick the mode that matches your reading intent.</h1>
+                <p>The same generated archive supports search, browsing, focused Markdown reading, and source-level maintenance.</p>
+                <div class="kb-stats">
+                    <div class="kb-stat">
+                        <span class="kb-stat__value" id="kbStatDocs">0</span>
+                        <span class="kb-stat__label">Documents</span>
+                    </div>
+                    <div class="kb-stat">
+                        <span class="kb-stat__value" id="kbStatCategories">0</span>
+                        <span class="kb-stat__label">Categories</span>
+                    </div>
+                    <div class="kb-stat">
+                        <span class="kb-stat__value" id="kbStatTags">0</span>
+                        <span class="kb-stat__label">Tags</span>
+                    </div>
+                    <div class="kb-stat">
+                        <span class="kb-stat__value" id="kbStatHours">0</span>
+                        <span class="kb-stat__label">Hours</span>
+                    </div>
+                </div>
+            </section>
 
-        <!-- 传统文章浏览 -->
-        <div class="kh-nav-card">
-            <span class="nav-icon">📚</span>
-            <h3 class="nav-title">传统文章浏览</h3>
-            <p class="nav-description">经典的分类浏览方式，按技术领域整理，适合系统性学习和知识梳理。</p>
-            <ul class="nav-features">
-                <li>技术分类清晰</li>
-                <li>搜索过滤功能</li>
-                <li>标签系统</li>
-                <li>卡片布局</li>
-            </ul>
-            <a href="articles.html" class="nav-button" style="background: linear-gradient(135deg, var(--kh-accent), #6366f1);">传统浏览 →</a>
-        </div>
+            <section class="kb-section">
+                <div class="kb-grid kb-grid--2">
+                    <a class="kb-card kb-card--link" href="knowledge-base.html">
+                        <div class="kb-card__eyebrow">Primary</div>
+                        <h2>Knowledge base</h2>
+                        <p>Best for search, cross-format filtering, category scanning, and opening Markdown/PDF/Word documents.</p>
+                    </a>
+                    <a class="kb-card kb-card--link" href="articles.html">
+                        <div class="kb-card__eyebrow">Reading queue</div>
+                        <h2>Markdown articles</h2>
+                        <p>Best for reading generated Markdown notes in a calmer list without PDF and Word noise.</p>
+                    </a>
+                    <a class="kb-card kb-card--link" href="viewer.html">
+                        <div class="kb-card__eyebrow">Tool</div>
+                        <h2>Reader</h2>
+                        <p>The reader opens Markdown through a file parameter. Use it from any Markdown document card.</p>
+                    </a>
+                    <a class="kb-card kb-card--link" href="https://github.com/kevinten10/Papers" target="_blank" rel="noopener">
+                        <div class="kb-card__eyebrow">Source</div>
+                        <h2>GitHub repository</h2>
+                        <p>Review the generated index, document folders, deployment workflow, and maintenance scripts.</p>
+                    </a>
+                </div>
+            </section>
 
-        <!-- 知识图谱 -->
-        <div class="kh-nav-card">
-            <span class="nav-icon">🌌</span>
-            <h3 class="nav-title">知识图谱</h3>
-            <p class="nav-description">交互式力导向图可视化，探索知识体系中文章与分类的关联关系。</p>
-            <ul class="nav-features">
-                <li>D3.js 力导向图</li>
-                <li>节点拖拽与缩放</li>
-                <li>分类筛选与搜索</li>
-                <li>文章详情面板</li>
-            </ul>
-            <a href="knowledge-graph.html" class="nav-button" style="background: linear-gradient(135deg, var(--kh-cat-distribute), #6d28d9);">探索图谱 →</a>
+            <section class="kb-section">
+                <div class="kb-section__head">
+                    <div>
+                        <h2>Recommended flow</h2>
+                        <p>Start broad, narrow down, then read deeply.</p>
+                    </div>
+                </div>
+                <ul class="kb-link-list">
+                    <li><a href="knowledge-base.html"><strong>1. Search the generated library</strong><span>Use title, tag, topic, or path terms.</span></a></li>
+                    <li><a href="knowledge-base.html"><strong>2. Filter by category or format</strong><span>Separate Markdown reading from PDFs and Word files.</span></a></li>
+                    <li><a href="articles.html"><strong>3. Continue in the article view</strong><span>Keep a lighter Markdown-only reading flow.</span></a></li>
+                </ul>
+            </section>
         </div>
+    </main>
 
-        <!-- 文章阅读器 -->
-        <div class="kh-nav-card">
-            <span class="nav-icon">📄</span>
-            <h3 class="nav-title">文章阅读器</h3>
-            <p class="nav-description">专业的Markdown文章阅读器，支持代码高亮、数学公式和丰富的排版效果。</p>
-            <ul class="nav-features">
-                <li>Markdown完美渲染</li>
-                <li>代码语法高亮</li>
-                <li>阅读进度跟踪</li>
-                <li>暗色阅读模式</li>
-            </ul>
-            <a href="viewer.html" class="nav-button" style="background: linear-gradient(135deg, var(--kh-success), #059669);">阅读器 →</a>
+    <footer class="kb-footer">
+        <div class="kb-footer__inner">
+            <span>Kevin's Knowledge Base</span>
+            <span>Hub page for every major workflow.</span>
         </div>
-
-        <!-- GitHub仓库 -->
-        <div class="kh-nav-card">
-            <span class="nav-icon">🐙</span>
-            <h3 class="nav-title">GitHub仓库</h3>
-            <p class="nav-description">访问完整的源代码仓库，查看提交历史、下载资源文件和参与开源贡献。</p>
-            <ul class="nav-features">
-                <li>完整源码访问</li>
-                <li>版本历史记录</li>
-                <li>Issue讨论</li>
-                <li>Fork & Star</li>
-            </ul>
-            <a href="https://github.com/kevinten10/Papers" class="nav-button" target="_blank" style="background: linear-gradient(135deg, #6b7280, #4b5563);">访问GitHub →</a>
-        </div>
-    </div>
-
-    <!-- Recent Updates -->
-    <section class="recent-updates">
-        <h3 class="kh-section-title" style="margin-bottom: 0.8em; font-size: 1.1em;">最近更新</h3>
-        <div class="update-item">
-            <span class="update-date">2026-03</span>
-            <div>
-                <strong>知识图谱上线 & 全站视觉优化</strong>
-                <p style="margin: 0.3em 0 0; color: var(--kh-text-dim); font-size: 0.88em;">新增 D3.js 力导向图可视化，全站迁移至 Vercel + paper.rxcloud.group</p>
-            </div>
-        </div>
-        <div class="update-item">
-            <span class="update-date">2026-03</span>
-            <div>
-                <strong>AI Coding 内容专题</strong>
-                <p style="margin: 0.3em 0 0; color: var(--kh-text-dim); font-size: 0.88em;">AI编程系列文章 + 社媒分发内容生成</p>
-            </div>
-        </div>
-        <div class="update-item">
-            <span class="update-date">2026-01</span>
-            <div>
-                <strong>智能知识库系统上线</strong>
-                <p style="margin: 0.3em 0 0; color: var(--kh-text-dim); font-size: 0.88em;">全新的知识管理系统，支持全文搜索、标签过滤、智能分类</p>
-            </div>
-        </div>
-    </section>
-
-    <!-- Tech Stack -->
-    <section class="tech-stack-section" style="margin: 2em 0;">
-        <h3 class="kh-section-title" style="font-size: 1.1em;">技术栈覆盖</h3>
-        <div class="kh-flex-wrap">
-            <span class="kh-tech-badge" style="background: linear-gradient(135deg, var(--kh-cat-java), #d97706);">Java</span>
-            <span class="kh-tech-badge" style="background: linear-gradient(135deg, var(--kh-cat-bigdata), #2563eb);">Big Data</span>
-            <span class="kh-tech-badge" style="background: linear-gradient(135deg, var(--kh-cat-concurrent), #059669);">Concurrent</span>
-            <span class="kh-tech-badge" style="background: linear-gradient(135deg, var(--kh-cat-database), #ea580c);">Database</span>
-            <span class="kh-tech-badge" style="background: linear-gradient(135deg, var(--kh-cat-arch), #dc2626);">Architecture</span>
-            <span class="kh-tech-badge" style="background: linear-gradient(135deg, var(--kh-cat-docker), #0891b2);">Docker</span>
-            <span class="kh-tech-badge" style="background: linear-gradient(135deg, var(--kh-cat-linux), #64748b);">Linux</span>
-            <span class="kh-tech-badge" style="background: linear-gradient(135deg, var(--kh-cat-reactive), #db2777);">Reactive</span>
-            <span class="kh-tech-badge" style="background: linear-gradient(135deg, var(--kh-cat-ai), #6366f1);">AI/ML</span>
-            <span class="kh-tech-badge" style="background: linear-gradient(135deg, var(--kh-cat-distribute), #7c3aed);">Cloud</span>
-        </div>
-    </section>
+    </footer>
 </div>
 
-<!-- Footer -->
-<footer id="footer">
-    <div class="inner">
-        <ul class="icons">
-            <li><a href="https://github.com/kevinten10" class="icon fa-github"><span class="label">Github</span></a></li>
-            <li><a href="mailto:596823919@qq.com" class="icon fa-envelope-o"><span class="label">Email</span></a></li>
-        </ul>
-        <ul class="copyright">
-            <li>&copy; kevinten10</li>
-            <li><a href="https://paper.rxcloud.group">paper.rxcloud.group</a></li>
-        </ul>
-    </div>
-</footer>
-
-<!-- Scripts -->
-<script src="assets/js/jquery.min.js"></script>
-<script src="assets/js/browser.min.js"></script>
-<script src="assets/js/breakpoints.min.js"></script>
-<script src="assets/js/util.js"></script>
-<script src="assets/js/main.js"></script>
-
+<script src="knowledge-base-data.js?v=2.1.1"></script>
+<script src="assets/js/kb-modern.js?v=3.0.0"></script>
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    KBModern.setupHomeStats();
+});
+</script>
 </body>
 </html>

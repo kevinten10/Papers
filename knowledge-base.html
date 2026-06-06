@@ -1,686 +1,129 @@
 <!DOCTYPE HTML>
-<html>
+<html lang="zh-CN">
 <head>
-    <title>Kevin's Advanced Knowledge Base</title>
+    <title>Kevin's Knowledge Base</title>
     <meta charset="utf-8"/>
-    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no"/>
-    <meta name="description" content="Kevin的智能知识库 - AI驱动的现代化知识管理，支持全文搜索、标签过滤、智能分类"/>
-    <meta name="keywords" content="智能知识库, 全文搜索, 技术文档, AI搜索, 知识管理"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <meta name="description" content="Kevin 的个人技术知识库，提供 Markdown、PDF、Word 文档的搜索、筛选与阅读。"/>
+    <meta name="keywords" content="Kevin, knowledge base, 技术文档, Markdown, PDF, Word, Java, 大数据"/>
     <meta name="author" content="Kevin Ten"/>
-    <meta property="og:title" content="Kevin's Advanced Knowledge Base"/>
-    <meta property="og:description" content="AI驱动的现代化知识管理 - 支持全文搜索、标签过滤、智能分类"/>
-    <meta property="og:url" content="https://paper.rxcloud.group/knowledge-base.html"/>
-    <link rel="canonical" href="https://paper.rxcloud.group/knowledge-base.html"/>
-    <link rel="stylesheet" href="assets/css/main.css"/>
-    <link rel="stylesheet" href="assets/css/enhanced.css"/>
-    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/highlight.js@11.9.0/lib/highlight.min.js"></script>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@11.9.0/styles/github-dark.min.css">
-    <style>
-        :root {
-            --primary-color: var(--kh-primary);
-            --primary-dark: var(--kh-primary-dark);
-            --accent-color: var(--kh-accent);
-            --warning-color: var(--kh-warm);
-            --success-color: var(--kh-success);
-            --error-color: var(--kh-error);
-        }
-
-        .knowledge-dashboard {
-            display: grid;
-            grid-template-columns: 300px 1fr;
-            gap: 2em;
-            min-height: 100vh;
-        }
-
-        .sidebar {
-            background: var(--kh-bg-glass);
-            backdrop-filter: blur(12px);
-            border-radius: var(--kh-radius);
-            padding: 1.5em;
-            border: 1px solid var(--kh-border);
-            position: sticky;
-            top: 20px;
-            height: fit-content;
-            max-height: calc(100vh - 40px);
-            overflow-y: auto;
-            animation: kh-slideRight 0.5s cubic-bezier(0.22,1,0.36,1) 0.1s both;
-        }
-
-        .content-area {
-            background: rgba(255,255,255,0.02);
-            border-radius: var(--kh-radius);
-            padding: 2em;
-            border: 1px solid rgba(255,255,255,0.06);
-            animation: kh-fadeInUp 0.6s cubic-bezier(0.22,1,0.36,1) 0.15s both;
-        }
-
-        .search-advanced {
-            position: relative;
-            margin-bottom: 2em;
-        }
-
-        .search-input {
-            width: 100%;
-            padding: 1em 1em 1em 3em;
-            background: rgba(255,255,255,0.05);
-            border: 2px solid rgba(73, 191, 157, 0.3);
-            border-radius: 25px;
-            color: white;
-            font-size: 1em;
-            outline: none;
-            transition: all 0.3s ease;
-        }
-
-        .search-input:focus {
-            border-color: var(--primary-color);
-            box-shadow: 0 0 20px rgba(73, 191, 157, 0.3);
-        }
-
-        .search-icon {
-            position: absolute;
-            left: 1em;
-            top: 50%;
-            transform: translateY(-50%);
-            color: var(--primary-color);
-            font-size: 1.2em;
-        }
-
-        .filter-tags {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 0.5em;
-            margin-top: 1em;
-        }
-
-        .filter-tag {
-            background: rgba(73, 191, 157, 0.2);
-            color: var(--primary-color);
-            padding: 0.3em 0.8em;
-            border-radius: 15px;
-            font-size: 0.8em;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            border: 1px solid transparent;
-        }
-
-        .filter-tag:hover, .filter-tag.active {
-            background: var(--primary-color);
-            color: white;
-            transform: translateY(-2px);
-        }
-
-        .category-tree {
-            margin-top: 2em;
-        }
-
-        .tree-node {
-            margin-bottom: 0.5em;
-        }
-
-        .tree-toggle {
-            background: none;
-            border: none;
-            color: var(--primary-color);
-            cursor: pointer;
-            font-size: 1em;
-            padding: 0.5em;
-            border-radius: 5px;
-            transition: all 0.3s ease;
-            width: 100%;
-            text-align: left;
-        }
-
-        .tree-toggle:hover {
-            background: rgba(73, 191, 157, 0.1);
-        }
-
-        .tree-children {
-            margin-left: 1em;
-            border-left: 2px solid rgba(73, 191, 157, 0.2);
-            padding-left: 1em;
-            margin-top: 0.5em;
-        }
-
-        .tree-children.collapsed {
-            display: none;
-        }
-
-        .article-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
-            gap: 1.5em;
-            margin-top: 2em;
-        }
-
-        .article-card {
-            background: var(--kh-bg-glass);
-            backdrop-filter: blur(8px);
-            border-radius: var(--kh-radius);
-            padding: 1.5em;
-            border: 1px solid var(--kh-border);
-            transition: all 0.4s cubic-bezier(0.22, 1, 0.36, 1);
-            position: relative;
-            overflow: hidden;
-        }
-
-        .article-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 3px;
-            background: linear-gradient(90deg, var(--kh-primary), var(--kh-accent));
-            opacity: 0;
-            transition: opacity 0.3s;
-        }
-        .article-card:hover::before { opacity: 1; }
-
-        .article-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 12px 40px rgba(73, 191, 157, 0.15);
-            border-color: var(--kh-border-hover);
-        }
-
-        .article-title {
-            color: var(--primary-color);
-            font-size: 1.1em;
-            font-weight: bold;
-            margin-bottom: 0.8em;
-            line-height: 1.4;
-        }
-
-        .article-meta {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 1em;
-            font-size: 0.9em;
-            color: rgba(255,255,255,0.7);
-        }
-
-        .article-type {
-            background: var(--accent-color);
-            color: white;
-            padding: 0.2em 0.6em;
-            border-radius: 10px;
-            font-size: 0.8em;
-        }
-
-        .article-description {
-            color: rgba(255,255,255,0.8);
-            line-height: 1.6;
-            margin-bottom: 1em;
-        }
-
-        .article-tags {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 0.3em;
-            margin-bottom: 1em;
-        }
-
-        .article-tag {
-            background: rgba(73, 191, 157, 0.2);
-            color: var(--primary-color);
-            padding: 0.2em 0.5em;
-            border-radius: 8px;
-            font-size: 0.7em;
-        }
-
-        .article-actions {
-            display: flex;
-            gap: 0.5em;
-        }
-
-        .btn-read {
-            background: linear-gradient(135deg, var(--primary-color), var(--primary-dark));
-            color: white;
-            padding: 0.5em 1em;
-            border: none;
-            border-radius: 20px;
-            cursor: pointer;
-            text-decoration: none;
-            font-size: 0.9em;
-            transition: all 0.3s ease;
-        }
-
-        .btn-read:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(73, 191, 157, 0.4);
-            color: white;
-        }
-
-        .stats-overview {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 1em;
-            margin-bottom: 2em;
-        }
-
-        .stat-card {
-            background: var(--kh-bg-glass);
-            backdrop-filter: blur(8px);
-            border-radius: var(--kh-radius);
-            padding: 1.5em;
-            text-align: center;
-            border: 1px solid var(--kh-border);
-            transition: all 0.3s cubic-bezier(0.22,1,0.36,1);
-        }
-        .stat-card:hover {
-            border-color: var(--kh-border-hover);
-            transform: translateY(-2px);
-        }
-
-        .stat-number {
-            font-size: 2em;
-            font-weight: bold;
-            color: var(--primary-color);
-        }
-
-        .stat-label {
-            color: rgba(255,255,255,0.8);
-            margin-top: 0.5em;
-        }
-
-        .breadcrumb {
-            background: rgba(73, 191, 157, 0.1);
-            padding: 1em;
-            border-radius: 8px;
-            margin-bottom: 2em;
-            border-left: 4px solid var(--primary-color);
-        }
-
-        .loading-spinner {
-            display: inline-block;
-            width: 20px;
-            height: 20px;
-            border: 3px solid rgba(73, 191, 157, 0.3);
-            border-radius: 50%;
-            border-top-color: var(--primary-color);
-            animation: spin 1s ease-in-out infinite;
-        }
-
-        @keyframes spin {
-            to { transform: rotate(360deg); }
-        }
-
-        .no-results {
-            text-align: center;
-            padding: 3em;
-            color: rgba(255,255,255,0.6);
-        }
-
-        @media (max-width: 768px) {
-            .knowledge-dashboard {
-                grid-template-columns: 1fr;
-            }
-            
-            .sidebar {
-                position: relative;
-                top: 0;
-                max-height: none;
-            }
-        }
-    </style>
+    <meta property="og:title" content="Kevin's Knowledge Base"/>
+    <meta property="og:description" content="搜索优先、内容优先的个人技术知识库。"/>
+    <meta property="og:url" content="https://kevinten10.github.io/Papers/knowledge-base.html"/>
+    <link rel="canonical" href="https://kevinten10.github.io/Papers/knowledge-base.html"/>
+    <link rel="stylesheet" href="assets/css/kb-modern.css?v=3.0.0"/>
 </head>
-<body class="is-preload">
-
-<!-- Header -->
-<header id="header">
-    <div class="inner">
-        <a href="index.html" class="image avatar"><img src="images/avatar.jpg" alt=""/></a>
-        <h1><strong>Advanced Knowledge Base</strong><br/>
-            智能技术文档系统<br/>
-            AI驱动的学习平台</h1>
-    </div>
-</header>
-
-<!-- Main -->
-<div id="main">
-    <div class="breadcrumb">
-        <span>🏠 <a href="index.html" style="color: var(--primary-color);">首页</a></span>
-        <span> / </span>
-        <span>📚 高级知识库</span>
-    </div>
-
-    <div class="knowledge-dashboard">
-        <!-- 侧边栏 -->
-        <div class="sidebar">
-            <div class="search-advanced">
-                <div style="position: relative;">
-                    <span class="search-icon">🔍</span>
-                    <input type="text" id="advancedSearch" class="search-input" placeholder="智能搜索文章、技术栈、关键词...">
-                </div>
-                <div class="filter-tags" id="filterTags">
-                    <span class="filter-tag active" data-filter="all">全部</span>
-                    <span class="filter-tag" data-filter="java">Java</span>
-                    <span class="filter-tag" data-filter="bigdata">大数据</span>
-                    <span class="filter-tag" data-filter="concurrent">并发</span>
-                    <span class="filter-tag" data-filter="database">数据库</span>
-                    <span class="filter-tag" data-filter="architecture">架构</span>
-                    <span class="filter-tag" data-filter="ai">AI/ML</span>
-                </div>
-            </div>
-
-            <div class="category-tree" id="categoryTree">
-                <h4 style="color: var(--primary-color); margin-bottom: 1em;">📂 分类导航</h4>
-                <!-- 动态生成的分类树 -->
-            </div>
+<body class="kb-modern">
+<div class="kb-shell">
+    <header class="kb-topbar">
+        <div class="kb-topbar__inner">
+            <a class="kb-brand" href="index.html" aria-label="Kevin KB home">
+                <span class="kb-brand__mark">K</span>
+                <span class="kb-brand__text">
+                    <span class="kb-brand__name">Kevin KB</span>
+                    <span class="kb-brand__meta">Personal technical knowledge base</span>
+                </span>
+            </a>
+            <nav class="kb-nav" aria-label="Primary">
+                <a href="index.html">Home</a>
+                <a href="navigation.html">Hub</a>
+                <a href="knowledge-base.html" aria-current="page">Knowledge Base</a>
+                <a href="articles.html">Articles</a>
+                <a href="https://github.com/kevinten10/Papers" target="_blank" rel="noopener">GitHub</a>
+            </nav>
         </div>
+    </header>
 
-        <!-- 内容区域 -->
-        <div class="content-area">
-            <div class="stats-overview">
-                <div class="stat-card">
-                    <div class="stat-number" id="totalArticles">0</div>
-                    <div class="stat-label">📄 技术文章</div>
+    <main class="kb-main">
+        <div class="kb-container">
+            <section class="kb-hero kb-hero--compact">
+                <div class="kb-kicker">Calm docs product</div>
+                <h1>Search, filter, and read the whole library.</h1>
+                <p>216+ technical documents across Java, data systems, architecture, engineering practice, papers, and reading notes. The interface is optimized for finding the next useful source quickly.</p>
+                <div class="kb-stats" aria-label="Knowledge base statistics">
+                    <div class="kb-stat">
+                        <span class="kb-stat__value" id="kbStatDocs">0</span>
+                        <span class="kb-stat__label">Documents</span>
+                    </div>
+                    <div class="kb-stat">
+                        <span class="kb-stat__value" id="kbStatCategories">0</span>
+                        <span class="kb-stat__label">Top categories</span>
+                    </div>
+                    <div class="kb-stat">
+                        <span class="kb-stat__value" id="kbStatTags">0</span>
+                        <span class="kb-stat__label">Tags</span>
+                    </div>
+                    <div class="kb-stat">
+                        <span class="kb-stat__value" id="kbStatHours">0</span>
+                        <span class="kb-stat__label">Estimated hours</span>
+                    </div>
                 </div>
-                <div class="stat-card">
-                    <div class="stat-number" id="totalCategories">0</div>
-                    <div class="stat-label">📁 分类目录</div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-number" id="totalTags">0</div>
-                    <div class="stat-label">🏷️ 技术标签</div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-number" id="readingTime">0</div>
-                    <div class="stat-label">⏱️ 预计阅读(小时)</div>
-                </div>
-            </div>
+            </section>
 
-            <div id="loadingIndicator" style="text-align: center; padding: 2em;">
-                <div class="loading-spinner"></div>
-                <p style="margin-top: 1em; color: var(--primary-color);">正在加载知识库内容...</p>
-            </div>
+            <section class="kb-section">
+                <div class="kb-doc-layout">
+                    <aside class="kb-sidebar" aria-label="Filters">
+                        <div class="kb-panel">
+                            <div class="kb-panel__title">Search</div>
+                            <div class="kb-search">
+                                <input id="kbSearchInput" type="search" placeholder="Search title, tag, path, topic..." autocomplete="off"/>
+                            </div>
+                            <div class="kb-panel__title">Format</div>
+                            <div class="kb-chip-row" id="kbTypeFilters"></div>
+                        </div>
+                        <div class="kb-panel">
+                            <div class="kb-panel__title">Categories</div>
+                            <div class="kb-filter-list" id="kbCategoryFilters"></div>
+                        </div>
+                    </aside>
 
-            <div class="article-grid" id="articleGrid" style="display: none;">
-                <!-- 动态生成的文章卡片 -->
-            </div>
+                    <section aria-label="Documents">
+                        <div class="kb-results-head">
+                            <div>
+                                <h2>Documents</h2>
+                                <div class="kb-count" id="kbResultCount">0 results</div>
+                            </div>
+                            <a class="kb-button kb-button--ghost" href="navigation.html">Open hub</a>
+                        </div>
+                        <div class="kb-doc-list" id="kbDocList"></div>
+                        <div class="kb-empty" id="kbEmpty" hidden>
+                            No matching documents. Try a shorter keyword, another category, or the All format filter.
+                        </div>
+                    </section>
 
-            <div class="no-results" id="noResults" style="display: none;">
-                <h3>🔍 未找到匹配的内容</h3>
-                <p>尝试调整搜索关键词或筛选条件</p>
-            </div>
+                    <aside class="kb-aside" aria-label="Library context">
+                        <div class="kb-panel">
+                            <div class="kb-panel__title">Recent index</div>
+                            <ul class="kb-mini-list" id="kbRecentDocs"></ul>
+                        </div>
+                        <div class="kb-panel">
+                            <div class="kb-panel__title">Formats</div>
+                            <div class="kb-type-grid" id="kbTypeBreakdown"></div>
+                        </div>
+                        <div class="kb-panel">
+                            <div class="kb-panel__title">Reading model</div>
+                            <p>Markdown opens in the reading view. PDF and Word documents open directly from their original static paths.</p>
+                        </div>
+                    </aside>
+                </div>
+            </section>
         </div>
-    </div>
+    </main>
+
+    <footer class="kb-footer">
+        <div class="kb-footer__inner">
+            <span>Kevin's Knowledge Base</span>
+            <span>Static HTML, generated index, GitHub Pages ready.</span>
+        </div>
+    </footer>
 </div>
 
-<!-- Footer -->
-<footer id="footer">
-    <div class="inner">
-        <ul class="icons">
-            <li><a href="https://github.com/kevinten10" class="icon fa-github"><span class="label">Github</span></a></li>
-            <li><a href="mailto:596823919@qq.com" class="icon fa-envelope-o"><span class="label">Email</span></a></li>
-        </ul>
-        <ul class="copyright">
-            <li>&copy; kevinten10</li>
-            <li>Advanced Knowledge Base System</li>
-        </ul>
-    </div>
-</footer>
-
-<!-- Scripts -->
-<script src="assets/js/jquery.min.js"></script>
-<script src="assets/js/browser.min.js"></script>
-<script src="assets/js/breakpoints.min.js"></script>
-<script src="assets/js/util.js"></script>
-<script src="assets/js/main.js"></script>
-
-<script src="knowledge-base-data.js"></script>
-
+<script src="knowledge-base-data.js?v=2.1.1"></script>
+<script src="assets/js/kb-modern.js?v=3.0.0"></script>
 <script>
-document.addEventListener('DOMContentLoaded', function() {
-    if (typeof knowledgeBase === 'undefined') return;
-    initializeKnowledgeBase();
-    setupEventListeners();
+document.addEventListener('DOMContentLoaded', function () {
+    KBModern.setupKnowledgeBase();
 });
-
-// Recursively collect article leaf nodes from the auto-generated data.
-// A leaf article has a "path" and "type" property.
-function collectArticles(obj, category, breadcrumb) {
-    var articles = [];
-    if (!obj || typeof obj !== 'object') return articles;
-
-    Object.keys(obj).forEach(function(key) {
-        var val = obj[key];
-        if (!val || typeof val !== 'object') return;
-        if (val.path && val.type) {
-            articles.push({
-                title: val.title || key.replace(/\.md$/, ''),
-                path: val.path,
-                type: val.type,
-                description: val.description || '',
-                readTime: val.readTime || 5,
-                tags: val.tags || [],
-                category: category,
-                subcategory: breadcrumb
-            });
-        } else if (key !== 'icon') {
-            articles = articles.concat(collectArticles(val, category, key));
-        }
-    });
-    return articles;
-}
-
-function initializeKnowledgeBase() {
-    generateCategoryTree();
-    generateArticleGrid();
-    updateStatistics();
-
-    setTimeout(function() {
-        document.getElementById('loadingIndicator').style.display = 'none';
-        document.getElementById('articleGrid').style.display = 'grid';
-    }, 800);
-}
-
-function generateCategoryTree() {
-    var treeContainer = document.getElementById('categoryTree');
-    var treeHTML = '';
-
-    Object.keys(knowledgeBase).forEach(function(categoryName) {
-        var categoryData = knowledgeBase[categoryName];
-        if (!categoryData || typeof categoryData !== 'object') return;
-        var icon = categoryData.icon || '📁';
-        var children = categoryData.children || {};
-        var articleCount = collectArticles(children, categoryName, '').length;
-        var safeId = categoryName.replace(/[^a-zA-Z0-9\u4e00-\u9fff]/g, '_');
-
-        treeHTML += '<div class="tree-node">' +
-            '<button class="tree-toggle" onclick="toggleCategory(\'' + safeId + '\')">' +
-            icon + ' ' + categoryName + ' (' + articleCount + ') <span class="toggle-icon">▼</span>' +
-            '</button>' +
-            '<div class="tree-children" id="tree-' + safeId + '">';
-
-        Object.keys(children).forEach(function(subName) {
-            var subData = children[subName];
-            if (!subData || typeof subData !== 'object') return;
-            if (subData.path && subData.type) return;
-            var count = collectArticles(subData, categoryName, subName).length;
-            if (count === 0) return;
-            treeHTML += '<div class="tree-node">' +
-                '<button class="tree-toggle" onclick="filterByCategory(\'' +
-                categoryName.replace(/'/g, "\\'") + "', '" + subName.replace(/'/g, "\\'") + '\')">' +
-                '📂 ' + subName + ' (' + count + ')' +
-                '</button></div>';
-        });
-
-        treeHTML += '</div></div>';
-    });
-
-    treeContainer.innerHTML += treeHTML;
-}
-
-function generateArticleGrid() {
-    var gridContainer = document.getElementById('articleGrid');
-    var allArticles = [];
-
-    Object.keys(knowledgeBase).forEach(function(categoryName) {
-        var categoryData = knowledgeBase[categoryName];
-        if (!categoryData || typeof categoryData !== 'object') return;
-        var children = categoryData.children || {};
-        allArticles = allArticles.concat(collectArticles(children, categoryName, ''));
-    });
-
-    var html = '';
-    allArticles.forEach(function(article) {
-        var typeIcon = article.type === 'markdown' ? '📄' : (article.type === 'pdf' ? '📕' : '📁');
-        var tagsArr = article.tags || [];
-        var tagsHTML = tagsArr.map(function(tag) {
-            return '<span class="article-tag">' + tag + '</span>';
-        }).join('');
-        var desc = article.description || '';
-        var safeCat = (article.category || '').replace(/"/g, '&quot;');
-        var safeSub = (article.subcategory || '').replace(/"/g, '&quot;');
-        var safeTags = tagsArr.join(',').toLowerCase();
-
-        html += '<div class="article-card" data-category="' + safeCat +
-            '" data-subcategory="' + safeSub +
-            '" data-tags="' + safeTags + '">' +
-            '<div class="article-meta">' +
-            '<span class="article-type">' + typeIcon + ' ' + article.type + '</span>' +
-            '<span>⏱️ ' + article.readTime + '分钟</span></div>' +
-            '<h3 class="article-title">' + article.title + '</h3>' +
-            (desc ? '<p class="article-description">' + desc + '</p>' : '') +
-            '<div class="article-tags">' + tagsHTML + '</div>' +
-            '<div class="article-actions">' +
-            '<a href="viewer.html?file=' + encodeURIComponent(article.path) + '" class="btn-read">📖 阅读文章</a>' +
-            '</div></div>';
-    });
-
-    gridContainer.innerHTML = html;
-}
-
-function updateStatistics() {
-    var totalArticles = 0;
-    var totalCategories = 0;
-    var totalReadingTime = 0;
-    var tagSet = {};
-
-    Object.keys(knowledgeBase).forEach(function(categoryName) {
-        var categoryData = knowledgeBase[categoryName];
-        if (!categoryData || typeof categoryData !== 'object') return;
-        totalCategories++;
-        var children = categoryData.children || {};
-        var articles = collectArticles(children, categoryName, '');
-        totalArticles += articles.length;
-        articles.forEach(function(a) {
-            totalReadingTime += (a.readTime || 0);
-            (a.tags || []).forEach(function(tag) { tagSet[tag] = true; });
-        });
-    });
-
-    animateNumber('totalArticles', totalArticles);
-    animateNumber('totalCategories', totalCategories);
-    animateNumber('totalTags', Object.keys(tagSet).length);
-    animateNumber('readingTime', Math.round(totalReadingTime / 60));
-}
-
-function animateNumber(elementId, targetValue) {
-    var el = document.getElementById(elementId);
-    if (!el) return;
-    if (targetValue === 0) { el.textContent = '0'; return; }
-    var cur = 0;
-    var inc = Math.max(1, targetValue / 40);
-    var timer = setInterval(function() {
-        cur += inc;
-        if (cur >= targetValue) { cur = targetValue; clearInterval(timer); }
-        el.textContent = Math.floor(cur);
-    }, 25);
-}
-
-function setupEventListeners() {
-    var searchInput = document.getElementById('advancedSearch');
-    searchInput.addEventListener('input', debounce(performSearch, 300));
-
-    document.querySelectorAll('.filter-tag').forEach(function(tag) {
-        tag.addEventListener('click', function() {
-            document.querySelectorAll('.filter-tag').forEach(function(t) { t.classList.remove('active'); });
-            this.classList.add('active');
-            filterArticles(this.dataset.filter);
-        });
-    });
-}
-
-function debounce(func, wait) {
-    var timeout;
-    return function() {
-        var args = arguments;
-        var ctx = this;
-        clearTimeout(timeout);
-        timeout = setTimeout(function() { func.apply(ctx, args); }, wait);
-    };
-}
-
-function performSearch() {
-    var term = document.getElementById('advancedSearch').value.toLowerCase();
-    var cards = document.querySelectorAll('.article-card');
-    var visible = 0;
-
-    cards.forEach(function(card) {
-        var titleEl = card.querySelector('.article-title');
-        var descEl = card.querySelector('.article-description');
-        var title = titleEl ? titleEl.textContent.toLowerCase() : '';
-        var desc = descEl ? descEl.textContent.toLowerCase() : '';
-        var tags = card.dataset.tags || '';
-        var show = title.indexOf(term) !== -1 || desc.indexOf(term) !== -1 || tags.indexOf(term) !== -1;
-        card.style.display = show ? 'block' : 'none';
-        if (show) visible++;
-    });
-
-    document.getElementById('noResults').style.display = visible === 0 ? 'block' : 'none';
-    document.getElementById('articleGrid').style.display = visible === 0 ? 'none' : 'grid';
-}
-
-function filterArticles(filter) {
-    var cards = document.querySelectorAll('.article-card');
-    var visible = 0;
-
-    cards.forEach(function(card) {
-        var show = filter === 'all' ||
-                   card.dataset.category.toLowerCase().indexOf(filter) !== -1 ||
-                   (card.dataset.tags || '').indexOf(filter) !== -1;
-        card.style.display = show ? 'block' : 'none';
-        if (show) visible++;
-    });
-
-    document.getElementById('noResults').style.display = visible === 0 ? 'block' : 'none';
-    document.getElementById('articleGrid').style.display = visible === 0 ? 'none' : 'grid';
-}
-
-function toggleCategory(safeId) {
-    var el = document.getElementById('tree-' + safeId);
-    if (!el) return;
-    var btn = event.currentTarget;
-    var icon = btn.querySelector('.toggle-icon');
-    if (el.classList.contains('collapsed')) {
-        el.classList.remove('collapsed');
-        if (icon) icon.textContent = '▼';
-    } else {
-        el.classList.add('collapsed');
-        if (icon) icon.textContent = '▶';
-    }
-}
-
-function filterByCategory(category, subcategory) {
-    var cards = document.querySelectorAll('.article-card');
-    var visible = 0;
-
-    cards.forEach(function(card) {
-        var show = card.dataset.category === category;
-        if (subcategory) {
-            show = show && card.dataset.subcategory === subcategory;
-        }
-        card.style.display = show ? 'block' : 'none';
-        if (show) visible++;
-    });
-
-    document.getElementById('noResults').style.display = visible === 0 ? 'block' : 'none';
-    document.getElementById('articleGrid').style.display = visible === 0 ? 'none' : 'grid';
-}
 </script>
-
 </body>
 </html>

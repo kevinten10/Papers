@@ -8,7 +8,7 @@ const path = require('path');
 
 // 配置项
 const config = {
-    // 扫描的目录
+    // 优先展示的目录；除此之外会自动发现其他包含文档的顶层目录
     scanDirs: [
         '博客文章',
         'article',
@@ -67,19 +67,73 @@ const config = {
     }
 };
 
+function toPosixPath(filePath) {
+    return filePath.replace(/\\/g, '/');
+}
+
 /**
  * 检查是否应该忽略该路径
  */
-function shouldIgnore(filePath) {
-    return config.ignorePatterns.some(pattern => filePath.includes(pattern));
+function shouldIgnore(filePath, rootDir = '.') {
+    const rootPath = path.resolve(rootDir);
+    const absolutePath = path.resolve(rootPath, filePath);
+    const relativePath = path.relative(rootPath, absolutePath);
+    const segments = relativePath.split(/[\\/]+/).filter(Boolean);
+    return segments.some(segment => config.ignorePatterns.includes(segment));
 }
 
 /**
  * 获取文件类型
  */
 function getFileType(filePath) {
-    const ext = path.extname(filePath);
+    const ext = path.extname(filePath).toLowerCase();
     return config.fileTypes[ext] || 'unknown';
+}
+
+function hasIndexableFiles(dirPath, rootDir = '.') {
+    const rootPath = path.resolve(rootDir);
+    const absoluteDir = path.resolve(rootPath, dirPath);
+
+    if (!fs.existsSync(absoluteDir) || shouldIgnore(absoluteDir, rootPath)) {
+        return false;
+    }
+
+    const items = fs.readdirSync(absoluteDir, { withFileTypes: true });
+    for (const item of items) {
+        const itemPath = path.join(absoluteDir, item.name);
+        if (shouldIgnore(itemPath, rootPath)) {
+            continue;
+        }
+
+        if (item.isDirectory() && hasIndexableFiles(itemPath, rootPath)) {
+            return true;
+        }
+
+        if (item.isFile() && getFileType(item.name) !== 'unknown') {
+            return true;
+        }
+    }
+
+    return false;
+}
+
+function discoverScanDirs(rootDir = '.', preferredDirs = config.scanDirs) {
+    const rootPath = path.resolve(rootDir);
+    const discoveredDirs = fs.readdirSync(rootPath, { withFileTypes: true })
+        .filter(item => item.isDirectory())
+        .map(item => item.name)
+        .filter(dir => !shouldIgnore(dir, rootPath))
+        .filter(dir => hasIndexableFiles(dir, rootPath));
+
+    const preferred = preferredDirs
+        .filter(dir => discoveredDirs.includes(dir));
+
+    const preferredSet = new Set(preferred);
+    const remaining = discoveredDirs
+        .filter(dir => !preferredSet.has(dir))
+        .sort((a, b) => a.localeCompare(b, 'zh-Hans-CN'));
+
+    return [...preferred, ...remaining];
 }
 
 /**
@@ -88,14 +142,14 @@ function getFileType(filePath) {
 function extractMarkdownInfo(filePath) {
     try {
         const content = fs.readFileSync(filePath, 'utf-8');
-        const lines = content.split('\n').filter(line => line.trim());
+        const lines = content.split(/\n/).map(line => line.trim()).filter(Boolean);
 
         // 提取标题（第一个#开头的行）
         const titleLine = lines.find(line => line.startsWith('# '));
         const title = titleLine ? titleLine.replace('# ', '').trim() : path.basename(filePath, '.md');
 
         // 提取描述（第一个非空段落）
-        const description = lines.find(line => !line.startsWith('#') && line.trim().length > 10) || '';
+        const description = lines.find(line => !line.startsWith('#') && line.length > 10) || '';
 
         // 估算阅读时间（假设每分钟阅读200字）
         const wordCount = content.length / 2; // 中文字符数
@@ -104,14 +158,20 @@ function extractMarkdownInfo(filePath) {
         // 提取标签（从内容中查找#标签）
         const tags = [];
         const tagRegex = /#([^\s#]+)/g;
-        let match;
-        while ((match = tagRegex.exec(content)) !== null) {
-            tags.push(match[1]);
+        for (const line of lines) {
+            if (/^#{1,6}\s/.test(line)) {
+                continue;
+            }
+
+            let match;
+            while ((match = tagRegex.exec(line)) !== null) {
+                tags.push(match[1]);
+            }
         }
 
         // 如果没有标签，根据文件名和路径生成默认标签
         if (tags.length === 0) {
-            const dirName = path.dirname(filePath).split('/').pop();
+            const dirName = path.basename(path.dirname(filePath));
             const fileName = path.basename(filePath, '.md');
             tags.push(dirName);
 
@@ -146,30 +206,35 @@ function extractMarkdownInfo(filePath) {
  */
 function scanDirectory(dirPath, basePath = '') {
     const result = {};
-    const fullDirPath = path.join(basePath, dirPath);
+    const rootDir = basePath || '.';
+    const fullDirPath = path.resolve(rootDir, dirPath);
 
-    if (!fs.existsSync(fullDirPath) || shouldIgnore(fullDirPath)) {
+    if (!fs.existsSync(fullDirPath) || shouldIgnore(fullDirPath, rootDir)) {
         return result;
     }
 
     try {
-        const items = fs.readdirSync(fullDirPath);
+        const items = fs.readdirSync(fullDirPath, { withFileTypes: true })
+            .sort((a, b) => a.name.localeCompare(b.name, 'zh-Hans-CN'));
 
         for (const item of items) {
-            const itemPath = path.join(fullDirPath, item);
-            const stat = fs.statSync(itemPath);
+            const itemPath = path.join(fullDirPath, item.name);
 
-            if (stat.isDirectory()) {
+            if (shouldIgnore(itemPath, rootDir)) {
+                continue;
+            }
+
+            if (item.isDirectory()) {
                 // 递归扫描子目录
-                const subResult = scanDirectory(item, fullDirPath);
+                const subResult = scanDirectory(path.join(dirPath, item.name), rootDir);
                 if (Object.keys(subResult).length > 0) {
-                    result[item] = subResult;
+                    result[item.name] = subResult;
                 }
-            } else if (stat.isFile()) {
+            } else if (item.isFile()) {
                 const fileType = getFileType(itemPath);
                 if (fileType !== 'unknown') {
                     const fileName = path.basename(itemPath);
-                    const relativePath = path.relative('.', itemPath).replace(/\\/g, '/');
+                    const relativePath = toPosixPath(path.relative(path.resolve(rootDir), itemPath));
 
                     if (fileType === 'markdown') {
                         const info = extractMarkdownInfo(itemPath);
@@ -186,7 +251,7 @@ function scanDirectory(dirPath, basePath = '') {
                             type: fileType,
                             description: `${fileType.toUpperCase()} 文档`,
                             readTime: 10,
-                            tags: [fileType.toUpperCase()]
+                            tags: [path.basename(path.dirname(itemPath)), fileType.toUpperCase()]
                         };
                     }
                 }
@@ -199,10 +264,26 @@ function scanDirectory(dirPath, basePath = '') {
     return result;
 }
 
+function countKnowledgeFiles(obj) {
+    if (!obj || typeof obj !== 'object') {
+        return 0;
+    }
+
+    if (obj.path && obj.type) {
+        return 1;
+    }
+
+    return Object.values(obj).reduce((count, value) => count + countKnowledgeFiles(value), 0);
+}
+
 /**
  * 生成知识库数据结构
  */
-function generateKnowledgeBase() {
+function generateKnowledgeBase(options = {}) {
+    const rootDir = options.rootDir || '.';
+    const scanDirs = options.scanDirs || discoverScanDirs(rootDir);
+    const logger = options.logger || console;
+
     console.log('🔍 开始扫描知识库文件...');
 
     const knowledgeBase = {
@@ -211,9 +292,9 @@ function generateKnowledgeBase() {
     };
 
     // 扫描配置的目录
-    for (const dir of config.scanDirs) {
-        console.log(`📁 扫描目录: ${dir}`);
-        const categoryData = scanDirectory(dir);
+    for (const dir of scanDirs) {
+        logger.log(`📁 扫描目录: ${dir}`);
+        const categoryData = scanDirectory(dir, rootDir);
 
         if (Object.keys(categoryData).length > 0) {
             const categoryName = getCategoryDisplayName(dir);
@@ -224,7 +305,7 @@ function generateKnowledgeBase() {
         }
     }
 
-    console.log('✅ 知识库索引生成完成');
+    logger.log('✅ 知识库索引生成完成');
     return knowledgeBase;
 }
 
@@ -242,7 +323,21 @@ function getCategoryDisplayName(dirName) {
         'WebFlux': 'Spring WebFlux',
         '人脉': '人脉管理',
         '持续交卷': '持续学习',
-        '函数式编程': '函数式编程'
+        '函数式编程': '函数式编程',
+        'Cache': '缓存技术',
+        'Docker': '容器化',
+        'Linux': 'Linux',
+        'Mysql': 'MySQL',
+        'Rpc': 'RPC',
+        'AI+XX': 'AI实践',
+        'English': '英语学习',
+        'RAG': 'RAG',
+        '架构': '架构设计',
+        '后端': '后端',
+        '开发守则': '开发守则',
+        '管理者': '管理者',
+        '经验': '经验',
+        '商学院心理学': '商学院心理学'
     };
 
     return nameMap[dirName] || dirName;
@@ -255,13 +350,8 @@ function generateJavaScript(knowledgeBase) {
     const jsContent = `// 知识库数据结构 - 自动生成于 ${knowledgeBase.lastUpdated}
 // 使用 generate-index.js 生成，请勿手动修改
 
-const knowledgeBase = ${JSON.stringify(knowledgeBase.categories, null, 4)};
-
-// 初始化知识库
-document.addEventListener('DOMContentLoaded', function() {
-    initializeKnowledgeBase();
-    setupEventListeners();
-});
+var knowledgeBase = ${JSON.stringify(knowledgeBase, null, 4)};
+window.knowledgeBase = knowledgeBase;
 `;
 
     return jsContent;
@@ -273,7 +363,8 @@ document.addEventListener('DOMContentLoaded', function() {
 function generateHtmlSnippet(knowledgeBase) {
     const htmlContent = `<script>
 // 知识库数据结构 - 自动生成于 ${knowledgeBase.lastUpdated}
-const knowledgeBase = ${JSON.stringify(knowledgeBase.categories, null, 4)};
+var knowledgeBase = ${JSON.stringify(knowledgeBase, null, 4)};
+window.knowledgeBase = knowledgeBase;
 </script>`;
 
     return htmlContent;
@@ -297,22 +388,10 @@ function main() {
         console.log('📄 生成文件: knowledge-base-snippet.html');
 
         // 生成统计信息
-        let totalFiles = 0;
         let totalCategories = Object.keys(knowledgeBase.categories).length;
+        let totalFiles = countKnowledgeFiles(knowledgeBase.categories);
 
-        function countFiles(obj) {
-            if (Array.isArray(obj)) {
-                totalFiles += obj.length;
-            } else if (typeof obj === 'object') {
-                for (const key in obj) {
-                    countFiles(obj[key]);
-                }
-            }
-        }
-
-        countFiles(knowledgeBase.categories);
-
-        console.log('\\n📊 统计信息:');
+        console.log('\n📊 统计信息:');
         console.log(`   分类数量: ${totalCategories}`);
         console.log(`   文件总数: ${totalFiles}`);
         console.log(`   生成时间: ${knowledgeBase.lastUpdated}`);
@@ -332,5 +411,9 @@ module.exports = {
     generateKnowledgeBase,
     generateJavaScript,
     generateHtmlSnippet,
+    discoverScanDirs,
+    extractMarkdownInfo,
+    scanDirectory,
+    countKnowledgeFiles,
     config
 };
