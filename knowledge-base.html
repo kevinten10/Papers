@@ -83,7 +83,16 @@
                                 <h2>Documents</h2>
                                 <div class="kb-count" id="kbResultCount">0 results</div>
                             </div>
-                            <a class="kb-button kb-button--ghost" href="navigation.html">Open hub</a>
+                            <div class="kb-actions" style="margin-top: 0;">
+                                <select class="kb-select" id="kbSortSelect" aria-label="Sort documents">
+                                    <option value="default">Default order</option>
+                                    <option value="title">Title A-Z</option>
+                                    <option value="category">Category</option>
+                                    <option value="type">Format</option>
+                                    <option value="readTime">Longest read</option>
+                                </select>
+                                <a class="kb-button kb-button--ghost" href="navigation.html">Open hub</a>
+                            </div>
                         </div>
                         <div class="kb-doc-list" id="kbDocList"></div>
                         <div class="kb-empty" id="kbEmpty" hidden>

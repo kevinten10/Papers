@@ -3,6 +3,7 @@
     docs: [],
     category: 'all',
     type: 'all',
+    sort: 'default',
     query: ''
   };
 
@@ -83,7 +84,12 @@
 
   function docHref(doc) {
     if (doc.type === 'markdown') {
-      return 'viewer.html?file=' + encodeURIComponent(doc.path);
+      const params = new URLSearchParams();
+      params.set('file', doc.path);
+      if (typeof window !== 'undefined') {
+        params.set('returnTo', window.location.pathname.split('/').pop() + window.location.search);
+      }
+      return 'viewer.html?' + params.toString();
     }
     return encodeURI(doc.path);
   }
@@ -107,6 +113,18 @@
       doc.path,
       doc.type
     ].join(' ').toLowerCase();
+  }
+
+  function escapeRegExp(value) {
+    return String(value).replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+  }
+
+  function highlightText(value) {
+    const text = escapeHtml(value);
+    const query = state.query.trim();
+    if (!query) return text;
+    const pattern = new RegExp('(' + escapeRegExp(escapeHtml(query)) + ')', 'ig');
+    return text.replace(pattern, '<mark>$1</mark>');
   }
 
   function summarizeStats(docs) {
@@ -162,12 +180,12 @@
     if (!container) return;
     const counts = categoryStats(docs);
     const rows = [
-      `<button class="kb-filter is-active" data-category="all"><span>All documents</span><small>${docs.length}</small></button>`
+      `<button class="kb-filter${state.category === 'all' ? ' is-active' : ''}" data-category="all"><span>All documents</span><small>${docs.length}</small></button>`
     ];
     Object.entries(counts)
       .sort((a, b) => b[1] - a[1] || a[0].localeCompare(b[0], 'zh-Hans-CN'))
       .forEach(([name, count]) => {
-        rows.push(`<button class="kb-filter" data-category="${escapeHtml(name)}"><span>${escapeHtml(name)}</span><small>${count}</small></button>`);
+        rows.push(`<button class="kb-filter${state.category === name ? ' is-active' : ''}" data-category="${escapeHtml(name)}"><span>${escapeHtml(name)}</span><small>${count}</small></button>`);
       });
     container.innerHTML = rows.join('');
     container.addEventListener('click', (event) => {
@@ -186,7 +204,7 @@
     const types = ['all'].concat(Object.keys(stats.types).sort());
     container.innerHTML = types.map((type) => {
       const label = type === 'all' ? 'All' : typeLabel(type);
-      return `<button class="kb-chip${type === 'all' ? ' is-active' : ''}" data-type="${escapeHtml(type)}">${escapeHtml(label)}</button>`;
+      return `<button class="kb-chip${state.type === type ? ' is-active' : ''}" data-type="${escapeHtml(type)}">${escapeHtml(label)}</button>`;
     }).join('');
     container.addEventListener('click', (event) => {
       const button = event.target.closest('[data-type]');
@@ -210,8 +228,8 @@
             <span class="kb-badge">${escapeHtml(trail || 'Uncategorized')}</span>
             ${doc.readTime ? `<span class="kb-badge">${doc.readTime} min</span>` : ''}
           </div>
-          <h3>${escapeHtml(doc.title)}</h3>
-          <p>${escapeHtml(doc.description)}</p>
+          <h3>${highlightText(doc.title)}</h3>
+          <p>${highlightText(doc.description)}</p>
           <div class="kb-doc-card__tags">${tags}</div>
         </div>
         <div class="kb-doc-card__action">
@@ -231,8 +249,26 @@
     });
   }
 
+  function sortedDocs(docs) {
+    const copy = docs.slice();
+    const byTitle = (a, b) => a.title.localeCompare(b.title, 'zh-Hans-CN');
+    if (state.sort === 'title') {
+      return copy.sort(byTitle);
+    }
+    if (state.sort === 'type') {
+      return copy.sort((a, b) => typeLabel(a.type).localeCompare(typeLabel(b.type), 'en') || byTitle(a, b));
+    }
+    if (state.sort === 'category') {
+      return copy.sort((a, b) => a.category.localeCompare(b.category, 'zh-Hans-CN') || byTitle(a, b));
+    }
+    if (state.sort === 'readTime') {
+      return copy.sort((a, b) => (b.readTime || 0) - (a.readTime || 0) || byTitle(a, b));
+    }
+    return copy;
+  }
+
   function applyFilters() {
-    const docs = filteredDocs();
+    const docs = sortedDocs(filteredDocs());
     const list = document.getElementById('kbDocList');
     const empty = document.getElementById('kbEmpty');
     const count = document.getElementById('kbResultCount');
@@ -240,6 +276,7 @@
     if (list) list.innerHTML = docs.map(docCard).join('');
     if (empty) empty.hidden = docs.length !== 0;
     if (list) list.hidden = docs.length === 0;
+    updateUrlState();
   }
 
   function renderRecent(docs) {
@@ -258,19 +295,53 @@
   function setupSearch() {
     const input = document.getElementById('kbSearchInput');
     if (!input) return;
+    input.value = state.query;
     input.addEventListener('input', () => {
       state.query = input.value || '';
       applyFilters();
     });
   }
 
+  function setupSort() {
+    const select = document.getElementById('kbSortSelect');
+    if (!select) return;
+    select.value = state.sort;
+    select.addEventListener('change', () => {
+      state.sort = select.value || 'default';
+      applyFilters();
+    });
+  }
+
+  function readUrlState() {
+    if (typeof window === 'undefined') return;
+    const params = new URLSearchParams(window.location.search);
+    state.query = params.get('q') || '';
+    state.category = params.get('category') || 'all';
+    state.type = params.get('type') || 'all';
+    state.sort = params.get('sort') || 'default';
+  }
+
+  function updateUrlState() {
+    if (typeof window === 'undefined' || !window.history || !window.history.replaceState) return;
+    if (!document.getElementById('kbDocList')) return;
+    const params = new URLSearchParams();
+    if (state.query) params.set('q', state.query);
+    if (state.category !== 'all') params.set('category', state.category);
+    if (state.type !== 'all') params.set('type', state.type);
+    if (state.sort !== 'default') params.set('sort', state.sort);
+    const next = window.location.pathname.split('/').pop() + (params.toString() ? '?' + params.toString() : '');
+    window.history.replaceState(null, '', next);
+  }
+
   function setupKnowledgeBase() {
     state.docs = collectDocs();
+    readUrlState();
     renderStats(state.docs);
     renderCategoryFilters(state.docs);
     renderTypeFilters(state.docs);
     renderRecent(state.docs);
     setupSearch();
+    setupSort();
     applyFilters();
   }
 
@@ -283,10 +354,13 @@
   function setupArticles() {
     state.docs = collectDocs().filter((doc) => doc.type === 'markdown');
     if (!state.docs.length) state.docs = collectDocs();
+    readUrlState();
+    state.type = 'markdown';
     renderStats(state.docs);
     renderCategoryFilters(state.docs);
     renderTypeFilters(state.docs);
     setupSearch();
+    setupSort();
     applyFilters();
   }
 
@@ -297,6 +371,13 @@
     const pathEl = document.getElementById('viewerPath');
     const status = document.getElementById('viewerStatus');
     const content = document.getElementById('viewerContent');
+    const backLink = document.getElementById('viewerBack');
+    const returnTo = params.get('returnTo');
+
+    if (backLink && returnTo) {
+      backLink.href = returnTo;
+      backLink.textContent = 'Back to results';
+    }
 
     if (!file) {
       showViewerError('No Markdown file was specified.');
@@ -328,6 +409,7 @@
         if (window.hljs) {
           content.querySelectorAll('pre code').forEach((block) => window.hljs.highlightElement(block));
         }
+        buildReaderToc(content);
       })
       .catch((error) => {
         showViewerError('The article could not be loaded: ' + error.message);
@@ -348,6 +430,34 @@
       status.classList.add('kb-status--error');
       status.textContent = message;
     }
+  }
+
+  function slugifyHeading(text, index) {
+    return 'section-' + index + '-' + String(text || '')
+      .trim()
+      .toLowerCase()
+      .replace(/[^\p{L}\p{N}]+/gu, '-')
+      .replace(/^-+|-+$/g, '');
+  }
+
+  function buildReaderToc(content) {
+    const toc = document.getElementById('viewerToc');
+    if (!toc || !content) return;
+    const headings = Array.from(content.querySelectorAll('h2, h3')).slice(0, 24);
+    if (!headings.length) {
+      toc.hidden = true;
+      return;
+    }
+    headings.forEach((heading, index) => {
+      if (!heading.id) heading.id = slugifyHeading(heading.textContent, index);
+    });
+    toc.hidden = false;
+    toc.innerHTML = `
+      <div class="kb-panel__title">On this page</div>
+      <ol class="kb-toc-list">
+        ${headings.map((heading) => `<li class="kb-toc-list__${heading.tagName.toLowerCase()}"><a href="#${heading.id}">${escapeHtml(heading.textContent)}</a></li>`).join('')}
+      </ol>
+    `;
   }
 
   window.KBModern = {

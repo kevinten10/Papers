@@ -27,10 +27,16 @@ const config = {
         'node_modules',
         '.git',
         '.github',
+        '.superpowers',
+        '.vercel',
+        'test',
         'assets',
         'images',
+        'screenshots',
         'static'
     ],
+
+    ignoreDotDirectories: true,
 
     // 文件类型映射
     fileTypes: {
@@ -79,7 +85,10 @@ function shouldIgnore(filePath, rootDir = '.') {
     const absolutePath = path.resolve(rootPath, filePath);
     const relativePath = path.relative(rootPath, absolutePath);
     const segments = relativePath.split(/[\\/]+/).filter(Boolean);
-    return segments.some(segment => config.ignorePatterns.includes(segment));
+    return segments.some(segment =>
+        config.ignorePatterns.includes(segment) ||
+        (config.ignoreDotDirectories && segment.startsWith('.'))
+    );
 }
 
 /**

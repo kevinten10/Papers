@@ -30,7 +30,7 @@
 
 <main class="kb-reader-shell">
     <div class="kb-actions">
-        <a class="kb-button" href="knowledge-base.html">Back to knowledge base</a>
+        <a class="kb-button" id="viewerBack" href="knowledge-base.html">Back to knowledge base</a>
         <a class="kb-button kb-button--ghost" href="articles.html">Browse articles</a>
     </div>
     <header class="kb-reader-head">
@@ -41,7 +41,10 @@
         </div>
     </header>
     <div class="kb-status" id="viewerStatus">Loading Markdown content...</div>
-    <article class="kb-reader-content" id="viewerContent" hidden></article>
+    <div class="kb-reader-layout">
+        <aside class="kb-panel kb-reader-toc" id="viewerToc" hidden></aside>
+        <article class="kb-reader-content" id="viewerContent" hidden></article>
+    </div>
 </main>
 
 <footer class="kb-footer">
