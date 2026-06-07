@@ -8,11 +8,12 @@
     <meta name="author" content="Kevin Ten"/>
     <meta property="og:title" content="Kevin KB Hub"/>
     <meta property="og:description" content="Unified entry points for the knowledge base, article browser, reader, and repository."/>
-    <meta property="og:url" content="https://kevinten10.github.io/Papers/navigation.html"/>
-    <link rel="canonical" href="https://kevinten10.github.io/Papers/navigation.html"/>
-    <link rel="stylesheet" href="assets/css/kb-modern.css?v=3.0.0"/>
+    <meta property="og:url" content="https://paper.rxcloud.group/navigation.html"/>
+    <link rel="canonical" href="https://paper.rxcloud.group/navigation.html"/>
+    <link rel="stylesheet" href="assets/css/kb-modern.css?v=3.4.0"/>
 </head>
 <body class="kb-modern">
+<a class="kb-skip-link" href="#main">Skip to content</a>
 <div class="kb-shell">
     <header class="kb-topbar">
         <div class="kb-topbar__inner">
@@ -33,7 +34,7 @@
         </div>
     </header>
 
-    <main class="kb-main">
+    <main class="kb-main" id="main">
         <div class="kb-container">
             <section class="kb-hero kb-hero--compact">
                 <div class="kb-kicker">Navigation hub</div>
@@ -60,26 +61,44 @@
             </section>
 
             <section class="kb-section">
-                <div class="kb-grid kb-grid--2">
-                    <a class="kb-card kb-card--link" href="knowledge-base.html">
-                        <div class="kb-card__eyebrow">Primary</div>
-                        <h2>Knowledge base</h2>
-                        <p>Best for search, cross-format filtering, category scanning, and opening Markdown/PDF/Word documents.</p>
+                <div class="kb-section__head">
+                    <div>
+                        <h2>Choose a surface</h2>
+                        <p>Each view has one job. Start with search, then narrow into reading.</p>
+                    </div>
+                </div>
+                <div class="kb-path-list kb-path-list--hub">
+                    <a class="kb-path-row" href="knowledge-base.html">
+                        <span class="kb-path-row__index">Primary</span>
+                        <span class="kb-path-row__body">
+                            <strong>Knowledge base</strong>
+                            <span>Search the full Markdown/PDF/Word archive, filter by category or format, and open source documents directly.</span>
+                        </span>
+                        <span class="kb-path-row__action">Open</span>
                     </a>
-                    <a class="kb-card kb-card--link" href="articles.html">
-                        <div class="kb-card__eyebrow">Reading queue</div>
-                        <h2>Markdown articles</h2>
-                        <p>Best for reading generated Markdown notes in a calmer list without PDF and Word noise.</p>
+                    <a class="kb-path-row" href="articles.html">
+                        <span class="kb-path-row__index">Read</span>
+                        <span class="kb-path-row__body">
+                            <strong>Markdown articles</strong>
+                            <span>Use a quieter Markdown-only queue when the goal is reading rather than file triage.</span>
+                        </span>
+                        <span class="kb-path-row__action">Browse</span>
                     </a>
-                    <a class="kb-card kb-card--link" href="viewer.html">
-                        <div class="kb-card__eyebrow">Tool</div>
-                        <h2>Reader</h2>
-                        <p>The reader opens Markdown through a file parameter. Use it from any Markdown document card.</p>
+                    <a class="kb-path-row" href="viewer.html">
+                        <span class="kb-path-row__index">Tool</span>
+                        <span class="kb-path-row__body">
+                            <strong>Reader</strong>
+                            <span>Focused long-form reading with generated headings, code treatment, and return links from search results.</span>
+                        </span>
+                        <span class="kb-path-row__action">Reader</span>
                     </a>
-                    <a class="kb-card kb-card--link" href="https://github.com/kevinten10/Papers" target="_blank" rel="noopener">
-                        <div class="kb-card__eyebrow">Source</div>
-                        <h2>GitHub repository</h2>
-                        <p>Review the generated index, document folders, deployment workflow, and maintenance scripts.</p>
+                    <a class="kb-path-row" href="https://github.com/kevinten10/Papers" target="_blank" rel="noopener">
+                        <span class="kb-path-row__index">Source</span>
+                        <span class="kb-path-row__body">
+                            <strong>GitHub repository</strong>
+                            <span>Review the generated index, document folders, deployment workflow, and maintenance scripts.</span>
+                        </span>
+                        <span class="kb-path-row__action">GitHub</span>
                     </a>
                 </div>
             </section>
@@ -91,7 +110,7 @@
                         <p>Start broad, narrow down, then read deeply.</p>
                     </div>
                 </div>
-                <ul class="kb-link-list">
+                <ul class="kb-link-list kb-link-list--steps">
                     <li><a href="knowledge-base.html"><strong>1. Search the generated library</strong><span>Use title, tag, topic, or path terms.</span></a></li>
                     <li><a href="knowledge-base.html"><strong>2. Filter by category or format</strong><span>Separate Markdown reading from PDFs and Word files.</span></a></li>
                     <li><a href="articles.html"><strong>3. Continue in the article view</strong><span>Keep a lighter Markdown-only reading flow.</span></a></li>
@@ -108,8 +127,8 @@
     </footer>
 </div>
 
-<script src="knowledge-base-data.js?v=2.1.1"></script>
-<script src="assets/js/kb-modern.js?v=3.0.0"></script>
+<script src="knowledge-base-data.js?v=3.4.0"></script>
+<script src="assets/js/kb-modern.js?v=3.4.0"></script>
 <script>
 document.addEventListener('DOMContentLoaded', function () {
     KBModern.setupHomeStats();

@@ -4,7 +4,9 @@
     category: 'all',
     type: 'all',
     sort: 'default',
-    query: ''
+    query: '',
+    pageSize: 60,
+    limit: 60
   };
 
   function getKnowledgeBase() {
@@ -192,6 +194,7 @@
       const button = event.target.closest('[data-category]');
       if (!button) return;
       state.category = button.dataset.category || 'all';
+      state.limit = state.pageSize;
       container.querySelectorAll('.kb-filter').forEach((item) => item.classList.toggle('is-active', item === button));
       applyFilters();
     });
@@ -210,6 +213,7 @@
       const button = event.target.closest('[data-type]');
       if (!button) return;
       state.type = button.dataset.type || 'all';
+      state.limit = state.pageSize;
       container.querySelectorAll('.kb-chip').forEach((item) => item.classList.toggle('is-active', item === button));
       applyFilters();
     });
@@ -269,35 +273,74 @@
 
   function applyFilters() {
     const docs = sortedDocs(filteredDocs());
+    const visibleDocs = docs.slice(0, state.limit);
     const list = document.getElementById('kbDocList');
     const empty = document.getElementById('kbEmpty');
     const count = document.getElementById('kbResultCount');
-    if (count) count.textContent = `${docs.length} results`;
-    if (list) list.innerHTML = docs.map(docCard).join('');
+    const loadMore = document.getElementById('kbLoadMore');
+    const clearFilters = document.getElementById('kbClearFilters');
+    if (count) {
+      count.textContent = docs.length > visibleDocs.length
+        ? `${docs.length} results, showing ${visibleDocs.length}`
+        : `${docs.length} results`;
+    }
+    if (list) list.innerHTML = visibleDocs.map(docCard).join('');
     if (empty) empty.hidden = docs.length !== 0;
     if (list) list.hidden = docs.length === 0;
+    if (loadMore) {
+      loadMore.hidden = docs.length <= visibleDocs.length;
+      loadMore.textContent = `Load ${Math.min(state.pageSize, docs.length - visibleDocs.length)} more`;
+    }
+    if (clearFilters) {
+      clearFilters.hidden = !hasActiveFilters();
+    }
     updateUrlState();
+  }
+
+  function hasActiveFilters() {
+    return Boolean(state.query || state.category !== 'all' || state.type !== defaultTypeForPage() || state.sort !== 'default');
+  }
+
+  function defaultTypeForPage() {
+    return document.body.dataset.kbMode === 'articles' ? 'markdown' : 'all';
   }
 
   function renderRecent(docs) {
     const container = document.getElementById('kbRecentDocs');
     if (!container) return;
+    const isRich = container.classList.contains('kb-mini-list--rich');
     container.innerHTML = docs.slice(0, 7).map((doc) => `
       <li>
         <a href="${docHref(doc)}">
-          <strong>${escapeHtml(doc.title)}</strong>
-          <span>${escapeHtml(doc.category)} · ${escapeHtml(typeLabel(doc.type))}</span>
+          <span>
+            <strong>${escapeHtml(doc.title)}</strong>
+            <span class="kb-mini-list__meta">${escapeHtml([doc.category].concat(doc.trail || []).filter(Boolean).join(' / ') || 'Uncategorized')}</span>
+          </span>
+          ${isRich ? `<span class="kb-mini-list__type">${escapeHtml(typeLabel(doc.type))}</span>` : `<span>${escapeHtml(typeLabel(doc.type))}</span>`}
         </a>
       </li>
     `).join('');
   }
 
+  function setupHomeSearch() {
+    const form = document.getElementById('kbHomeSearchForm');
+    const input = document.getElementById('kbHomeSearchInput');
+    if (!form || !input) return;
+    form.addEventListener('submit', (event) => {
+      event.preventDefault();
+      const query = input.value.trim();
+      const params = new URLSearchParams();
+      if (query) params.set('q', query);
+      window.location.href = 'knowledge-base.html' + (params.toString() ? '?' + params.toString() : '');
+    });
+  }
   function setupSearch() {
     const input = document.getElementById('kbSearchInput');
     if (!input) return;
     input.value = state.query;
     input.addEventListener('input', () => {
       state.query = input.value || '';
+      state.limit = state.pageSize;
       applyFilters();
     });
   }
@@ -308,6 +351,35 @@
     select.value = state.sort;
     select.addEventListener('change', () => {
       state.sort = select.value || 'default';
+      state.limit = state.pageSize;
+      applyFilters();
+    });
+  }
+
+  function setupLoadMore() {
+    const button = document.getElementById('kbLoadMore');
+    if (!button) return;
+    button.addEventListener('click', () => {
+      state.limit += state.pageSize;
+      applyFilters();
+    });
+  }
+
+  function setupClearFilters() {
+    const button = document.getElementById('kbClearFilters');
+    if (!button) return;
+    button.addEventListener('click', () => {
+      state.query = '';
+      state.category = 'all';
+      state.type = defaultTypeForPage();
+      state.sort = 'default';
+      state.limit = state.pageSize;
+      const search = document.getElementById('kbSearchInput');
+      const sort = document.getElementById('kbSortSelect');
+      if (search) search.value = '';
+      if (sort) sort.value = 'default';
+      document.querySelectorAll('.kb-filter').forEach((item) => item.classList.toggle('is-active', item.dataset.category === 'all'));
+      document.querySelectorAll('.kb-chip').forEach((item) => item.classList.toggle('is-active', item.dataset.type === state.type));
       applyFilters();
     });
   }
@@ -327,13 +399,14 @@
     const params = new URLSearchParams();
     if (state.query) params.set('q', state.query);
     if (state.category !== 'all') params.set('category', state.category);
-    if (state.type !== 'all') params.set('type', state.type);
+    if (state.type !== defaultTypeForPage()) params.set('type', state.type);
     if (state.sort !== 'default') params.set('sort', state.sort);
     const next = window.location.pathname.split('/').pop() + (params.toString() ? '?' + params.toString() : '');
     window.history.replaceState(null, '', next);
   }
 
   function setupKnowledgeBase() {
+    document.body.dataset.kbMode = 'knowledge-base';
     state.docs = collectDocs();
     readUrlState();
     renderStats(state.docs);
@@ -342,6 +415,8 @@
     renderRecent(state.docs);
     setupSearch();
     setupSort();
+    setupLoadMore();
+    setupClearFilters();
     applyFilters();
   }
 
@@ -349,9 +424,11 @@
     const docs = collectDocs();
     renderStats(docs);
     renderRecent(docs);
+    setupHomeSearch();
   }
 
   function setupArticles() {
+    document.body.dataset.kbMode = 'articles';
     state.docs = collectDocs().filter((doc) => doc.type === 'markdown');
     if (!state.docs.length) state.docs = collectDocs();
     readUrlState();
@@ -361,6 +438,8 @@
     renderTypeFilters(state.docs);
     setupSearch();
     setupSort();
+    setupLoadMore();
+    setupClearFilters();
     applyFilters();
   }
 
@@ -428,7 +507,11 @@
     if (status) {
       status.hidden = false;
       status.classList.add('kb-status--error');
-      status.textContent = message;
+      status.innerHTML = `
+        <strong>Reader could not load this Markdown file.</strong>
+        <span>${escapeHtml(message)}</span>
+        <a class="kb-button" href="knowledge-base.html">Back to knowledge base</a>
+      `;
     }
   }
 

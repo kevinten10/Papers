@@ -1,36 +1,15 @@
 # Robots.txt for Kevin's Knowledge Base
-# https://paper.rxcloud.group
+# Primary domain: https://paper.rxcloud.group
 
 User-agent: *
 Allow: /
 
-# 允许所有主要页面
-Allow: /index.html
-Allow: /navigation.html
-Allow: /knowledge-base.html
-Allow: /articles.html
-Allow: /viewer.html
-
-# 允许静态资源
-Allow: /assets/
-Allow: /images/
-Allow: /static/
-
-# 允许主要内容目录
-Allow: /博客文章/
-Allow: /article/
-Allow: /Concurrent/
-Allow: /Database/
-Allow: /Distrubute/
-Allow: /Reactive/
-Allow: /WebFlux/
-Allow: /人脉/
-Allow: /持续交卷/
-
-# 不允许访问的一些目录
 Disallow: /.git/
 Disallow: /.github/
+Disallow: /.superpowers/
+Disallow: /.vercel/
 Disallow: /node_modules/
+Disallow: /test/
+Disallow: /screenshots/
 
-# Sitemap
 Sitemap: https://paper.rxcloud.group/sitemap.xml

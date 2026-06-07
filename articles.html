@@ -5,9 +5,14 @@
     <meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1"/>
     <meta name="description" content="Kevin KB Markdown article browser."/>
-    <link rel="stylesheet" href="assets/css/kb-modern.css?v=3.0.0"/>
+    <meta property="og:title" content="Kevin KB Articles"/>
+    <meta property="og:description" content="Markdown-first browsing for Kevin's technical notes."/>
+    <meta property="og:url" content="https://paper.rxcloud.group/articles.html"/>
+    <link rel="canonical" href="https://paper.rxcloud.group/articles.html"/>
+    <link rel="stylesheet" href="assets/css/kb-modern.css?v=3.4.0"/>
 </head>
 <body class="kb-modern">
+<a class="kb-skip-link" href="#main">Skip to content</a>
 <div class="kb-shell">
     <header class="kb-topbar">
         <div class="kb-topbar__inner">
@@ -28,7 +33,7 @@
         </div>
     </header>
 
-    <main class="kb-main">
+    <main class="kb-main" id="main">
         <div class="kb-container">
             <section class="kb-hero kb-hero--compact">
                 <div class="kb-kicker">Article browser</div>
@@ -60,7 +65,7 @@
                         <div class="kb-panel">
                             <div class="kb-panel__title">Search articles</div>
                             <div class="kb-search">
-                                <input id="kbSearchInput" type="search" placeholder="Search Markdown notes..." autocomplete="off"/>
+                                <input id="kbSearchInput" type="search" aria-label="Search Markdown articles" placeholder="Search Markdown notes..." autocomplete="off"/>
                             </div>
                             <div class="kb-panel__title">Format</div>
                             <div class="kb-chip-row" id="kbTypeFilters"></div>
@@ -77,19 +82,23 @@
                                 <h2>Markdown articles</h2>
                                 <div class="kb-count" id="kbResultCount">0 results</div>
                             </div>
-                            <div class="kb-actions" style="margin-top: 0;">
+                            <div class="kb-actions kb-actions--inline">
                                 <select class="kb-select" id="kbSortSelect" aria-label="Sort articles">
                                     <option value="default">Default order</option>
                                     <option value="title">Title A-Z</option>
                                     <option value="category">Category</option>
                                     <option value="readTime">Longest read</option>
                                 </select>
+                                <button class="kb-button kb-button--ghost" id="kbClearFilters" type="button" hidden>Clear filters</button>
                                 <a class="kb-button" href="knowledge-base.html">All documents</a>
                             </div>
                         </div>
                         <div class="kb-doc-list" id="kbDocList"></div>
                         <div class="kb-empty" id="kbEmpty" hidden>
                             No matching Markdown articles. Try another keyword or category.
+                        </div>
+                        <div class="kb-actions">
+                            <button class="kb-button" id="kbLoadMore" type="button" hidden>Load more</button>
                         </div>
                     </section>
 
@@ -116,8 +125,8 @@
     </footer>
 </div>
 
-<script src="knowledge-base-data.js?v=2.1.1"></script>
-<script src="assets/js/kb-modern.js?v=3.0.0"></script>
+<script src="knowledge-base-data.js?v=3.4.0"></script>
+<script src="assets/js/kb-modern.js?v=3.4.0"></script>
 <script>
 document.addEventListener('DOMContentLoaded', function () {
     KBModern.setupArticles();
