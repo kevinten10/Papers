@@ -11,7 +11,7 @@
     <meta property="og:description" content="搜索优先、内容优先的个人技术知识库。"/>
     <meta property="og:url" content="https://paper.rxcloud.group/knowledge-base.html"/>
     <link rel="canonical" href="https://paper.rxcloud.group/knowledge-base.html"/>
-    <link rel="stylesheet" href="assets/css/kb-modern.css?v=3.0.0"/>
+    <link rel="stylesheet" href="assets/css/kb-modern.css?v=3.4.0"/>
 </head>
 <body class="kb-modern">
 <a class="kb-skip-link" href="#main">Skip to content</a>
@@ -40,7 +40,7 @@
             <section class="kb-hero kb-hero--compact">
                 <div class="kb-kicker">Calm docs product</div>
                 <h1>Search, filter, and read the whole library.</h1>
-                <p>216+ technical documents across Java, data systems, architecture, engineering practice, papers, and reading notes. The interface is optimized for finding the next useful source quickly.</p>
+                <p>Generated technical documents across Java, data systems, architecture, engineering practice, papers, and reading notes. The interface is optimized for finding the next useful source quickly.</p>
                 <div class="kb-stats" aria-label="Knowledge base statistics">
                     <div class="kb-stat">
                         <span class="kb-stat__value" id="kbStatDocs">0</span>
@@ -84,7 +84,7 @@
                                 <h2>Documents</h2>
                                 <div class="kb-count" id="kbResultCount">0 results</div>
                             </div>
-                            <div class="kb-actions" style="margin-top: 0;">
+                            <div class="kb-actions kb-actions--inline">
                                 <select class="kb-select" id="kbSortSelect" aria-label="Sort documents">
                                     <option value="default">Default order</option>
                                     <option value="title">Title A-Z</option>
@@ -92,6 +92,7 @@
                                     <option value="type">Format</option>
                                     <option value="readTime">Longest read</option>
                                 </select>
+                                <button class="kb-button kb-button--ghost" id="kbClearFilters" type="button" hidden>Clear filters</button>
                                 <a class="kb-button kb-button--ghost" href="navigation.html">Open hub</a>
                             </div>
                         </div>
@@ -131,8 +132,8 @@
     </footer>
 </div>
 
-<script src="knowledge-base-data.js?v=2.1.1"></script>
-<script src="assets/js/kb-modern.js?v=3.0.0"></script>
+<script src="knowledge-base-data.js?v=3.4.0"></script>
+<script src="assets/js/kb-modern.js?v=3.4.0"></script>
 <script>
 document.addEventListener('DOMContentLoaded', function () {
     KBModern.setupKnowledgeBase();

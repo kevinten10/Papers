@@ -9,7 +9,7 @@
     <meta property="og:description" content="Markdown-first browsing for Kevin's technical notes."/>
     <meta property="og:url" content="https://paper.rxcloud.group/articles.html"/>
     <link rel="canonical" href="https://paper.rxcloud.group/articles.html"/>
-    <link rel="stylesheet" href="assets/css/kb-modern.css?v=3.0.0"/>
+    <link rel="stylesheet" href="assets/css/kb-modern.css?v=3.4.0"/>
 </head>
 <body class="kb-modern">
 <a class="kb-skip-link" href="#main">Skip to content</a>
@@ -82,13 +82,14 @@
                                 <h2>Markdown articles</h2>
                                 <div class="kb-count" id="kbResultCount">0 results</div>
                             </div>
-                            <div class="kb-actions" style="margin-top: 0;">
+                            <div class="kb-actions kb-actions--inline">
                                 <select class="kb-select" id="kbSortSelect" aria-label="Sort articles">
                                     <option value="default">Default order</option>
                                     <option value="title">Title A-Z</option>
                                     <option value="category">Category</option>
                                     <option value="readTime">Longest read</option>
                                 </select>
+                                <button class="kb-button kb-button--ghost" id="kbClearFilters" type="button" hidden>Clear filters</button>
                                 <a class="kb-button" href="knowledge-base.html">All documents</a>
                             </div>
                         </div>
@@ -124,8 +125,8 @@
     </footer>
 </div>
 
-<script src="knowledge-base-data.js?v=2.1.1"></script>
-<script src="assets/js/kb-modern.js?v=3.0.0"></script>
+<script src="knowledge-base-data.js?v=3.4.0"></script>
+<script src="assets/js/kb-modern.js?v=3.4.0"></script>
 <script>
 document.addEventListener('DOMContentLoaded', function () {
     KBModern.setupArticles();

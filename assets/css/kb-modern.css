@@ -352,6 +352,12 @@ body.kb-modern mark {
   margin-top: 24px;
 }
 
+.kb-actions--inline {
+  margin-top: 0;
+  align-items: center;
+  justify-content: flex-end;
+}
+
 .kb-button {
   display: inline-flex;
   align-items: center;
@@ -453,6 +459,10 @@ body.kb-modern mark {
   gap: 10px;
 }
 
+.kb-path-list--hub {
+  gap: 8px;
+}
+
 .kb-path-row {
   display: grid;
   grid-template-columns: 44px minmax(0, 1fr) auto;
@@ -545,6 +555,16 @@ body.kb-modern mark {
 .kb-link-list a:hover {
   border-color: var(--kb-border-strong);
   color: var(--kb-accent);
+}
+
+.kb-link-list--steps a {
+  align-items: center;
+  min-height: 58px;
+}
+
+.kb-link-list--steps span {
+  color: var(--kb-muted);
+  font-size: 14px;
 }
 
 .kb-section {
@@ -769,6 +789,10 @@ body.kb-modern mark {
   border: 1px solid var(--kb-border);
   border-radius: var(--kb-radius);
   transition: border-color 160ms ease, box-shadow 160ms ease, transform 160ms ease;
+  min-width: 0;
+}
+
+.kb-doc-card > div:first-child {
   min-width: 0;
 }
 
@@ -1083,10 +1107,49 @@ body.kb-modern mark {
   color: var(--kb-muted);
 }
 
+.kb-status strong,
+.kb-status span {
+  display: block;
+}
+
+.kb-status strong {
+  color: var(--kb-ink);
+  margin-bottom: 6px;
+}
+
+.kb-status .kb-button {
+  margin-top: 14px;
+}
+
 .kb-status--error {
   border-color: #fecaca;
   background: #fff1f2;
   color: #991b1b;
+}
+
+.kb-status--error strong {
+  color: #7f1d1d;
+}
+
+.kb-reader-content table {
+  display: block;
+  width: 100%;
+  overflow-x: auto;
+  border-collapse: collapse;
+}
+
+.kb-reader-content th,
+.kb-reader-content td {
+  border: 1px solid var(--kb-border);
+  padding: 8px 10px;
+  text-align: left;
+  vertical-align: top;
+}
+
+.kb-reader-content hr {
+  border: 0;
+  border-top: 1px solid var(--kb-border);
+  margin: 2em 0;
 }
 
 @media (max-width: 1080px) {
@@ -1132,6 +1195,11 @@ body.kb-modern mark {
   .kb-aside,
   .kb-reader-toc {
     position: static;
+  }
+
+  .kb-reader-toc {
+    max-height: 240px;
+    overflow: auto;
   }
 
   .kb-filter-list {
@@ -1219,6 +1287,11 @@ body.kb-modern mark {
     grid-template-columns: 1fr 1fr;
   }
 
+  .kb-reader-head h1 {
+    font-size: 34px;
+    line-height: 1.08;
+  }
+
   .kb-stats,
   .kb-grid--2,
   .kb-grid--3 {
@@ -1229,6 +1302,21 @@ body.kb-modern mark {
   .kb-section__head {
     align-items: flex-start;
     flex-direction: column;
+  }
+
+  .kb-actions--inline {
+    width: 100%;
+    justify-content: flex-start;
+  }
+
+  .kb-actions--inline .kb-select,
+  .kb-actions--inline .kb-button {
+    flex: 1 1 160px;
+  }
+
+  .kb-link-list a {
+    display: grid;
+    gap: 4px;
   }
 
   .kb-doc-card {

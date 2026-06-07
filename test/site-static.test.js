@@ -46,3 +46,21 @@ test('interactive pages expose keyboard and accessibility hooks', () => {
     assert.match(read('knowledge-base.html'), /aria-label="Search documents"/);
     assert.match(read('articles.html'), /aria-label="Search Markdown articles"/);
 });
+
+test('home page exposes a working search entry point', () => {
+    const html = read('index.html');
+
+    assert.match(html, /<form class="kb-home-search"[^>]*action="knowledge-base\.html"[^>]*role="search"/);
+    assert.match(html, /id="kbHomeSearchInput"[^>]*name="q"[^>]*type="search"/);
+    assert.match(read('assets/js/kb-modern.js'), /function setupHomeSearch\(\)/);
+});
+
+test('core pages use the current shared asset version', () => {
+    const expectedVersion = '3.4.0';
+
+    for (const page of corePages) {
+        const html = read(page);
+        assert.match(html, new RegExp(`assets/css/kb-modern\\.css\\?v=${expectedVersion}`));
+        assert.match(html, new RegExp(`assets/js/kb-modern\\.js\\?v=${expectedVersion}`));
+    }
+});
