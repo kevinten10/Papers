@@ -1,4 +1,4 @@
-// 知识库数据结构 - 自动生成于 2026-06-07T09:07:52.311Z
+// 知识库数据结构 - 自动生成于 2026-06-27T12:59:25.302Z
 // 使用 generate-index.js 生成，请勿手动修改
 
 var knowledgeBase = {
@@ -956,7 +956,7 @@ var knowledgeBase = {
                         "0131-八股-dw-公众号版.md": {
                             "title": "2026-01-31 - 算法面试题目整理与解题思路",
                             "description": "title: 2026-01-31 - 算法面试题目整理与解题思路",
-                            "readTime": 44,
+                            "readTime": 42,
                             "tags": [
                                 "202601"
                             ],
@@ -1057,7 +1057,7 @@ var knowledgeBase = {
                         "2026-01-22-公众号.md": {
                             "title": "2026-01-22 - AI编程与开发范式深度解析",
                             "description": "title: 2026-01-22 - AI编程与开发范式深度解析",
-                            "readTime": 21,
+                            "readTime": 20,
                             "tags": [
                                 "202601"
                             ],
@@ -1067,7 +1067,7 @@ var knowledgeBase = {
                         "2026-01-26-公众号.md": {
                             "title": "2026-01-26 - AI编程工具选型指南与行业资讯洞察",
                             "description": "title: 2026-01-26 - AI编程工具选型指南与行业资讯洞察",
-                            "readTime": 30,
+                            "readTime": 29,
                             "tags": [
                                 "202601"
                             ],
@@ -1077,7 +1077,7 @@ var knowledgeBase = {
                         "2026-01-27-公众号.md": {
                             "title": "2026-01-27 - 推荐系统原理与本地AI助手技术洞察",
                             "description": "title: 2026-01-27 - 推荐系统原理与本地AI助手技术洞察",
-                            "readTime": 15,
+                            "readTime": 14,
                             "tags": [
                                 "202601"
                             ],
@@ -1087,7 +1087,7 @@ var knowledgeBase = {
                         "2026-01-30-公众号.md": {
                             "title": "2026-01-30 - 算法学习日报",
                             "description": "title: 2026-01-30 - 算法学习日报",
-                            "readTime": 25,
+                            "readTime": 24,
                             "tags": [
                                 "202601"
                             ],
@@ -1099,7 +1099,7 @@ var knowledgeBase = {
                         "2026-02-01-公众号.md": {
                             "title": "2026-02-01 - MiniMax-M2.1与AI Agent开发技术调研",
                             "description": "title: 2026-02-01 - MiniMax-M2.1与AI Agent开发技术调研",
-                            "readTime": 18,
+                            "readTime": 17,
                             "tags": [
                                 "202602"
                             ],
@@ -1119,7 +1119,7 @@ var knowledgeBase = {
                         "2026-02-03-公众号.md": {
                             "title": "2026-02-03 - 技术架构思考：MCP与Claude Skills的定位与设计",
                             "description": "title: 2026-02-03 - 技术架构思考：MCP与Claude Skills的定位与设计",
-                            "readTime": 8,
+                            "readTime": 7,
                             "tags": [
                                 "202602"
                             ],
@@ -1153,7 +1153,7 @@ var knowledgeBase = {
                 "社媒分发rule.md": {
                     "title": "社媒分发规则 — 多平台内容发布工作流",
                     "description": "本文档定义了将 `持续交卷` 项目中的深度文章分发到多个社交媒体平台的标准化工作流。",
-                    "readTime": 19,
+                    "readTime": 18,
                     "tags": [
                         "标签1",
                         "标签2",
@@ -1267,7 +1267,7 @@ var knowledgeBase = {
                         "0131-八股-dw.md": {
                             "title": "算法题目整理",
                             "description": "> 整理时间：2026年1月",
-                            "readTime": 43,
+                            "readTime": 42,
                             "tags": [
                                 "一题目清单)",
                                 "1-子集和问题)",
@@ -1297,7 +1297,7 @@ var knowledgeBase = {
                         "0201-mm.md": {
                             "title": "MiniMax-M2.1 & AI Agent 开发技术调研",
                             "description": "> 更新日期：2025年2月3日",
-                            "readTime": 14,
+                            "readTime": 13,
                             "tags": [
                                 "cli工具开发)",
                                 "模型能力对比)",
@@ -1310,7 +1310,7 @@ var knowledgeBase = {
                         "0202-al-公众号版.md": {
                             "title": "2026-02-02 - AI网关日志收集系统设计",
                             "description": "title: 2026-02-02 - AI网关日志收集系统设计",
-                            "readTime": 26,
+                            "readTime": 25,
                             "tags": [
                                 "202602"
                             ],
@@ -1320,7 +1320,7 @@ var knowledgeBase = {
                         "0202-al.md": {
                             "title": "AI网关日志收集系统设计",
                             "description": "> 更新日期：2025年2月3日",
-                            "readTime": 45,
+                            "readTime": 43,
                             "tags": [
                                 "一核心挑战与指标)",
                                 "二系统架构)",
@@ -1340,7 +1340,7 @@ var knowledgeBase = {
                         "0202-fr-公众号版.md": {
                             "title": "2026-02-02 - AI系统设计关键问题深度解析",
                             "description": "title: 2026-02-02 - AI系统设计关键问题深度解析",
-                            "readTime": 14,
+                            "readTime": 13,
                             "tags": [
                                 "202602"
                             ],
@@ -1350,7 +1350,7 @@ var knowledgeBase = {
                         "0202-fr.md": {
                             "title": "AI系统设计关键问题",
                             "description": "首Token响应时间（Time To First Token）由四个主要阶段组成：",
-                            "readTime": 38,
+                            "readTime": 35,
                             "tags": [
                                 "202602"
                             ],
@@ -1412,7 +1412,7 @@ var knowledgeBase = {
                 "文章处理prompt.md": {
                     "title": "文章处理统一入口",
                     "description": "将待处理的文章路径替换到下方 prompt 中，直接发给 AI 即可。AI 会自动完成分级、路由、处理。",
-                    "readTime": 5,
+                    "readTime": 4,
                     "tags": [
                         "持续交卷"
                     ],
@@ -1422,7 +1422,7 @@ var knowledgeBase = {
                 "文章处理rule.md": {
                     "title": "📝 持续交卷文章处理规则",
                     "description": "本文档定义了将 `持续交卷` 项目中各模块的随笔记录转换为符合微信公众号格式的标准化处理规则。",
-                    "readTime": 25,
+                    "readTime": 23,
                     "tags": [
                         "`"
                     ],
@@ -1712,7 +1712,7 @@ var knowledgeBase = {
                         "0126-资讯.md": {
                             "title": "AI资讯 - 2025年1月22日",
                             "description": "百度文心App内测多人Agent群聊功能，可在同一个群里调用多个AI角色协作，适用于脑暴、办公、家庭等场景，聚焦任务型AI协作体验。",
-                            "readTime": 13,
+                            "readTime": 12,
                             "tags": [
                                 "202601"
                             ],
@@ -1876,7 +1876,7 @@ var knowledgeBase = {
                         "0122-AI_Native_Product.md": {
                             "title": "AI Native产品解析",
                             "description": "AI Native产品是指那些从产品设计阶段就深度整合人工智能能力的产品。与传统产品简单\"加上AI功能\"不同，AI Native产品将AI能力作为产品的核心要素，从根本上重新设计产品形态、用户体验和价值创造方式。",
-                            "readTime": 133,
+                            "readTime": 127,
                             "tags": [
                                 "202601",
                                 "AI"
@@ -1898,7 +1898,7 @@ var knowledgeBase = {
                         "0122-CLI.md": {
                             "title": "AI编程工具调研报告 (2026年1月)",
                             "description": "基于2026年1月最新市场情况，对市面上的AI编程工具进行全面调研。涵盖用户正在使用的10个工具，并补充其他主流工具的详细信息。",
-                            "readTime": 12,
+                            "readTime": 11,
                             "tags": [
                                 "202601"
                             ],
@@ -1908,7 +1908,7 @@ var knowledgeBase = {
                         "0122-VibeCoding.md": {
                             "title": "Vibe Coding 面试攻略：1.5小时从0到1完成Demo",
                             "description": "Vibe Coding是一种利用AI编程助手进行高效开发的思维模式，强调开发者对架构和规划的控制，AI负责具体实现，通过结构化prompt和增量迭代实现高质量代码。",
-                            "readTime": 15,
+                            "readTime": 14,
                             "tags": [
                                 "202601"
                             ],
@@ -1971,7 +1971,7 @@ var knowledgeBase = {
                                 "使用指南_claude.md": {
                                     "title": "AI工具使用体验与教程",
                                     "description": "本文档记录我在实际工作中使用过的AI工具,包括AI IDE、AI CLI、AI模型和网站等。这些工具在不同场景下各有优劣,我会根据搜索到的最新信息进行补充和修正。",
-                                    "readTime": 29,
+                                    "readTime": 27,
                                     "tags": [
                                         "ai-ide)",
                                         "ai-cli工具)",
@@ -1995,7 +1995,7 @@ var knowledgeBase = {
                                 "使用指南_gpt.md": {
                                     "title": "AI工具使用指南（基于个人体验的可落地手册）",
                                     "description": "> **定位**：这是一份面向“日常工作/学习场景”的 AI 工具组合使用指南，基于你的真实体验做结构化整理，并补齐：功能模块表格、操作流程示意图、案例、SWOT、场景评估与优化建议。",
-                                    "readTime": 26,
+                                    "readTime": 25,
                                     "tags": [
                                         "1-快速开始怎么选工具)",
                                         "2-工具全景功能模块总览表)",
@@ -2017,7 +2017,7 @@ var knowledgeBase = {
                                 "使用指南_openai.md": {
                                     "title": "使用指南_openai",
                                     "description": "下面是基于你提供的初稿、我查到的资料与用户实际使用反馈（含社区讨论和工具对比）整理出的 **2025–2026 AI 工具体验和评测补充版**。内容覆盖你列的工具，并补充了主流对比与其它值得关注的 AI IDE/CLI/模型等。",
-                                    "readTime": 15,
+                                    "readTime": 14,
                                     "tags": [
                                         "调研"
                                     ],
@@ -2027,7 +2027,7 @@ var knowledgeBase = {
                                 "使用指南2_gpt.md": {
                                     "title": "使用指南2_gpt",
                                     "description": "<!-- markdownlint-disable MD041 -->",
-                                    "readTime": 16,
+                                    "readTime": 15,
                                     "tags": [
                                         "调研"
                                     ],
@@ -2078,7 +2078,7 @@ var knowledgeBase = {
                                 "README.md": {
                                     "title": "AI 工具使用体验与教程",
                                     "description": "> **文档定位**：基于真实使用体验的 AI 工具选型指南与实战手册",
-                                    "readTime": 12,
+                                    "readTime": 11,
                                     "tags": [
                                         "调研"
                                     ],
@@ -2143,7 +2143,7 @@ var knowledgeBase = {
                             "CONTRIBUTING.md": {
                                 "title": "贡献指南",
                                 "description": "感谢您对 AI 工具全书项目的关注！我们欢迎所有形式的贡献，包括但不限于：",
-                                "readTime": 9,
+                                "readTime": 8,
                                 "tags": [
                                     "0128-AI工具"
                                 ],
@@ -2153,7 +2153,7 @@ var knowledgeBase = {
                             "README.md": {
                                 "title": "AI 工具全书 - 2026 深度集成与实战教学版",
                                 "description": "[![Vue 3](https://img.shields.io/badge/Vue-3.5.13-4FC08D?logo=vue.js)](https://vuejs.org/)",
-                                "readTime": 8,
+                                "readTime": 7,
                                 "tags": [
                                     "0128-AI工具"
                                 ],
@@ -2176,7 +2176,7 @@ var knowledgeBase = {
                         "0129-supabase-公众号版.md": {
                             "title": "2026-01-29 - Supabase开源BaaS平台完全指南",
                             "description": "title: 2026-01-29 - Supabase开源BaaS平台完全指南",
-                            "readTime": 32,
+                            "readTime": 31,
                             "tags": [
                                 "202601"
                             ],
@@ -2186,7 +2186,7 @@ var knowledgeBase = {
                         "0129-supabase.md": {
                             "title": "Supabase 使用指南",
                             "description": "Supabase 是一个开源的后端即服务(BaaS)平台，提供完整的 Postgres 数据库、认证、实时订阅、存储和 Edge Functions 等功能。它被称为\"开源的 Firebase 替代品\"。",
-                            "readTime": 27,
+                            "readTime": 25,
                             "tags": [
                                 "202601"
                             ],
@@ -2198,7 +2198,7 @@ var knowledgeBase = {
                         "0310-AICoding-社媒版.md": {
                             "title": "Vibe Coding 翻车补救 — 多平台发布版",
                             "description": "> 定位：独立成文的精华版，保留核心框架和金句，引导读者收藏转发。约 2500 字。",
-                            "readTime": 22,
+                            "readTime": 21,
                             "tags": [
                                 "AICoding",
                                 "VibeCoding",
@@ -2217,7 +2217,7 @@ var knowledgeBase = {
                         "0310-AICoding.md": {
                             "title": "Vibe Coding 翻车后怎么办？大型项目的补救策略与工程化实践",
                             "description": "title: Vibe Coding 翻车后怎么办？大型项目的补救策略与工程化实践",
-                            "readTime": 74,
+                            "readTime": 71,
                             "tags": [
                                 "202603",
                                 "AI"
@@ -2499,7 +2499,7 @@ var knowledgeBase = {
                     "03-OpenClaw实操指南-多Agent协作.md": {
                         "title": "用 OpenClaw 搭了一个 AI 开发团队，分享一下我的踩坑经验",
                         "description": "status: draft",
-                        "readTime": 8,
+                        "readTime": 7,
                         "tags": [
                             "0330"
                         ],
@@ -2750,7 +2750,7 @@ var knowledgeBase = {
                     "3台旧笔记本组24小时AI团队-OpenClaw多Agent协作.md": {
                         "title": "3台旧笔记本组24小时AI团队，18天产出20个项目",
                         "description": "status: draft",
-                        "readTime": 10,
+                        "readTime": 9,
                         "tags": [
                             "草稿",
                             "AI"
@@ -2971,6 +2971,18 @@ var knowledgeBase = {
         "docs": {
             "icon": "📄",
             "children": {
+                "maintenance": {
+                    "2026-06-27-ark-migration-triage.md": {
+                        "title": "2026-06-27 Ark Migration Triage",
+                        "description": "- Repository: `kevinten10/Papers`",
+                        "readTime": 5,
+                        "tags": [
+                            "maintenance"
+                        ],
+                        "path": "docs/maintenance/2026-06-27-ark-migration-triage.md",
+                        "type": "markdown"
+                    }
+                },
                 "superpowers": {
                     "specs": {
                         "2026-03-19-knowledge-graph-design.md": {
@@ -2994,7 +3006,7 @@ var knowledgeBase = {
                 "2026-03-26-openclaw-automation-draft.md": {
                     "title": "OpenClaw：个人自媒体矩阵运营助理的自动化实践",
                     "description": "title: OpenClaw：个人自媒体矩阵运营助理的自动化实践",
-                    "readTime": 22,
+                    "readTime": 21,
                     "tags": [
                         "drafts"
                     ],
@@ -3004,7 +3016,7 @@ var knowledgeBase = {
                 "2026-03-27-personal-media-matrix-automation-draft.md": {
                     "title": "从零开始搭建个人自媒体矩阵自动化系统",
                     "description": "通过 OpenClaw 和 Skill 体系，搭建一个可复制的个人自媒体矩阵自动化系统，实现 24 小时不间断跨平台内容分发。本指南手把手教你从零开始，构建属于自己的 AI 运营助手。",
-                    "readTime": 25,
+                    "readTime": 24,
                     "tags": [
                         "drafts"
                     ],
@@ -3014,7 +3026,7 @@ var knowledgeBase = {
                 "2026-03-30-ai-personalized-learning-platform-draft.md": {
                     "title": "AI驱动的个性化学习平台：重构未来教育的技术架构与实践路径",
                     "description": "本文深入探讨如何基于大型语言模型和知识图谱技术，构建能够理解学习者认知状态、动态调整教学策略、实现真正个性化教育的AI学习平台。通过详细的技术架构设计、核心算法实现、系统部署方案和商业模式分析，为教育技术从业者提供完整的实践指南。",
-                    "readTime": 154,
+                    "readTime": 149,
                     "tags": [
                         "667eea",
                         "764ba2",
@@ -3029,7 +3041,7 @@ var knowledgeBase = {
                 "2026-03-30-openclaw-claude-code-supervisor-draft.md": {
                     "title": "给 OpenClaw 配一个 Claude Code 管家：执行者与监管者的分离",
                     "description": "title: 给 OpenClaw 配一个 Claude Code 管家：执行者与监管者的分离",
-                    "readTime": 16,
+                    "readTime": 15,
                     "tags": [
                         "drafts"
                     ],
@@ -3050,7 +3062,7 @@ var knowledgeBase = {
                     "2026-03-25-cron-task-system.md": {
                         "title": "OpenClaw：个人自媒体矩阵运营助理的自动化实践",
                         "description": "status: draft",
-                        "readTime": 21,
+                        "readTime": 20,
                         "tags": [
                             "ideas"
                         ],
@@ -3060,7 +3072,7 @@ var knowledgeBase = {
                     "2026-03-27-cron-task-optimization.md": {
                         "title": "从零开始搭建个人自媒体矩阵自动化系统",
                         "description": "status: draft",
-                        "readTime": 30,
+                        "readTime": 29,
                         "tags": [
                             "ideas"
                         ],
@@ -3090,7 +3102,7 @@ var knowledgeBase = {
                     "2026-03-30-ai-personalized-learning-platform.md": {
                         "title": "AI驱动的个性化学习平台架构设计",
                         "description": "status: draft",
-                        "readTime": 30,
+                        "readTime": 29,
                         "tags": [
                             "ideas"
                         ],
@@ -3849,6 +3861,6 @@ var knowledgeBase = {
             }
         }
     },
-    "lastUpdated": "2026-06-07T09:07:52.311Z"
+    "lastUpdated": "2026-06-27T12:59:25.302Z"
 };
 window.knowledgeBase = knowledgeBase;
