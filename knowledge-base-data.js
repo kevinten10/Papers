@@ -1,4 +1,4 @@
-// 知识库数据结构 - 自动生成于 2026-06-07T09:09:18.701Z
+// 知识库数据结构 - 自动生成于 2026-06-27T13:00:56.782Z
 // 使用 generate-index.js 生成，请勿手动修改
 
 var knowledgeBase = {
@@ -2971,6 +2971,18 @@ var knowledgeBase = {
         "docs": {
             "icon": "📄",
             "children": {
+                "maintenance": {
+                    "2026-06-27-ark-migration-triage.md": {
+                        "title": "2026-06-27 Ark Migration Triage",
+                        "description": "- Repository: `kevinten10/Papers`",
+                        "readTime": 5,
+                        "tags": [
+                            "maintenance"
+                        ],
+                        "path": "docs/maintenance/2026-06-27-ark-migration-triage.md",
+                        "type": "markdown"
+                    }
+                },
                 "superpowers": {
                     "specs": {
                         "2026-03-19-knowledge-graph-design.md": {
@@ -3849,6 +3861,6 @@ var knowledgeBase = {
             }
         }
     },
-    "lastUpdated": "2026-06-07T09:09:18.701Z"
+    "lastUpdated": "2026-06-27T13:00:56.782Z"
 };
 window.knowledgeBase = knowledgeBase;
