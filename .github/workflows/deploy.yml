@@ -11,19 +11,16 @@ on:
 permissions:
   contents: write
 
-env:
-  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
-
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
 
     steps:
     - name: Checkout
-      uses: actions/checkout@v4
+      uses: actions/checkout@v7
 
     - name: Setup Node.js
-      uses: actions/setup-node@v4
+      uses: actions/setup-node@v6
       with:
         node-version: '24'
 
@@ -35,18 +32,12 @@ jobs:
       run: |
         npm test
 
-    - name: Generate knowledge base index
-      run: |
-        npm run generate-index
-
     - name: Build
-      run: |
-        # 构建步骤（如果需要的话）
-        echo "Build completed"
+      run: npm run build
 
     - name: Deploy to GitHub Pages
       if: github.ref == 'refs/heads/master'
-      uses: peaceiris/actions-gh-pages@v3
+      uses: peaceiris/actions-gh-pages@v4
       with:
         github_token: ${{ secrets.GITHUB_TOKEN }}
         publish_dir: ./
