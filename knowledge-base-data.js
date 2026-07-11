@@ -1,4 +1,4 @@
-// 知识库数据结构 - 自动生成于 2026-07-11T18:30:20.039Z
+// 知识库数据结构 - 自动生成于 2026-07-11T18:32:11.529Z
 // 使用 generate-index.js 生成，请勿手动修改
 
 var knowledgeBase = {
@@ -3871,6 +3871,6 @@ var knowledgeBase = {
             }
         }
     },
-    "lastUpdated": "2026-07-11T18:30:20.039Z"
+    "lastUpdated": "2026-07-11T18:32:11.529Z"
 };
 window.knowledgeBase = knowledgeBase;
